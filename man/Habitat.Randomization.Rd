@@ -5,7 +5,7 @@
 \title{Habitat randomization}
 \usage{
 Habitat.Randomization(raster, method = "randomization_algorithm",
-  number_maps = 1, number_neighbours = 8, parallel = F)
+  number_maps = 1, number_neighbours = 8, parallel = F, verbose = T)
 }
 \arguments{
 \item{raster}{[\code{raster(1)}]\cr Raster object of the raster package with discrete habitats}
@@ -17,6 +17,8 @@ Habitat.Randomization(raster, method = "randomization_algorithm",
 \item{number_neighbours}{[\code{numeric(1)}]\cr Number of neighbours. See raster::adjacent(direction=number_neighbours) for more details}
 
 \item{parallel}{[\code{logical(1)}]\cr If TRUE, parallel computing with the help of the foreach package is used}
+
+\item{verbose}{[\code{logical(1)}]\cr If TRUE, progress is printed}
 }
 \value{
 Raster object of the raster package with randomized habitat maps

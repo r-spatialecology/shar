@@ -4,7 +4,8 @@
 \alias{Splitting.Reconstruction}
 \title{Pattern reconstruction}
 \usage{
-Splitting.Reconstruction(pattern, max_runs, e_threshold, fitting)
+Splitting.Reconstruction(pattern, max_runs = 10000, e_threshold = 0.01,
+  fitting = F, verbose = T)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}] Multivariate ppp object of the spatstat package}
@@ -14,6 +15,8 @@ Splitting.Reconstruction(pattern, max_runs, e_threshold, fitting)
 \item{e_threshold}{[\code{numeric(1)}] Threshold for energy to reach during reconstruction}
 
 \item{fitting}{[\code{logical(1)}] If TRUE, a clustered pattern is fitted to the original pattern as starting point}
+
+\item{verbose}{[\code{logical(1)}]\cr If TRUE, progress is printed}
 }
 \value{
 ppp object of the spatstat package with reconstructed pattern

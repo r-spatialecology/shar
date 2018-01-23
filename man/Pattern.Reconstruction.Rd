@@ -6,7 +6,7 @@
 \usage{
 Pattern.Reconstruction(pattern, method = "only_spatial",
   number_reconstructions = 1, max_runs = 10000, e_threshold = 0.01,
-  fitting = F, parallel = F)
+  fitting = F, parallel = F, verbose = T)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}] ppp object of the spatstat package}
@@ -22,6 +22,8 @@ Pattern.Reconstruction(pattern, method = "only_spatial",
 \item{fitting}{[\code{logical(1)}] If TRUE, a clustered pattern is fitted to the original pattern as starting point}
 
 \item{parallel}{[\code{logical(1)}]\cr If TRUE, parallel computing with the help of the foreach package is used}
+
+\item{verbose}{[\code{logical(1)}]\cr If TRUE, progress is printed}
 }
 \value{
 List containing reconstructed patterns and observed pattern

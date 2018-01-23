@@ -4,11 +4,11 @@
 \alias{Create.Simulation.Pattern}
 \title{Create simulation pattern}
 \usage{
-Create.Simulation.Pattern(habitats, number_points = 100, alpha = 0.3,
+Create.Simulation.Pattern(raster, number_points = 100, alpha = 0.3,
   complex = F)
 }
 \arguments{
-\item{habitats}{[\code{raster(1)}]\cr Raster object of the raster package with habitats}
+\item{raster}{[\code{raster(1)}]\cr Raster object of the raster package with habitats}
 
 \item{number_points}{[\code{numeric(1)}]\cr Number of points for each species (alpha=0)}
 

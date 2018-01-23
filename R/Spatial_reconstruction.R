@@ -5,11 +5,12 @@
 #' @param max_runs [\code{numeric(1)}] number of maximum iterations
 #' @param e_threshold [\code{numeric(1)}] Threshold for energy to reach during reconstruction
 #' @param fitting [\code{logical(1)}] If TRUE, a clustered pattern is fitted to the original pattern as starting point
+#' @param verbose [\code{logical(1)}]\cr If TRUE, progress is printed
 #'
 #' @return ppp object of the spatstat package with reconstructed pattern
 
 #' @export
-Spatial.Reconstruction <- function(pattern, max_runs, e_threshold, fitting){
+Spatial.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fitting=F, verbose=T){
   pattern <- spatstat::unmark(pattern) # only spatial points
 
   if(fitting==T){
@@ -50,7 +51,8 @@ Spatial.Reconstruction <- function(pattern, max_runs, e_threshold, fitting){
 
   e0 <- e0_pcf + e0_gest # total energy
 
-  pb <- utils::txtProgressBar(max=max_runs, style=3)
+  if(verbose==T){pb <- utils::txtProgressBar(max=max_runs, style=3)}
+
   for(i in 1:max_runs){ # pattern reconstruction algorithm
     relocated <- simulated # data for relocation
 
@@ -79,13 +81,15 @@ Spatial.Reconstruction <- function(pattern, max_runs, e_threshold, fitting){
       gest_simulated <- gest_relocated # keep gest_relocated
     }
 
-    utils::setTxtProgressBar(pb, i)
+    if(verbose==T){utils::setTxtProgressBar(pb, i)}
     if(e0<=e_threshold){break} # exit loop
   }
 
-  close(pb)
-  print(paste0("Remaining energy only spatial reconstruction: ", round(e0, nchar(e_threshold)-2)))
-  cat("\n")
+  if(verbose==T){
+    close(pb)
+    print(paste0("Remaining energy only spatial reconstruction: ", round(e0, nchar(e_threshold)-2)))
+    cat("\n")
+  }
 
   return(simulated) # return results
 }
