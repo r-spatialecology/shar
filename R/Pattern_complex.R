@@ -22,8 +22,8 @@ Pattern.Complex <- function(owin){
   clustered_df <- data.frame(Cluster=numeric(), Point=numeric(), x=numeric(), y=numeric())
   for(i in 1:nrow(regular_grid)){
     for(j in 1:sample(5:10,1)){
-      x_j <- regular_grid$x[i] + runif(1, -scale_x, scale_x)
-      y_j <- regular_grid$y[i] + runif(1, -scale_y, scale_y)
+      x_j <- regular_grid$x[i] + stats::runif(1, -scale_x, scale_x)
+      y_j <- regular_grid$y[i] + stats::runif(1, -scale_y, scale_y)
       clustered_df[nrow(clustered_df)+1,] <- cbind(i, j, x_j, y_j)
     }
   }

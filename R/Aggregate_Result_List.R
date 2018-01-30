@@ -29,7 +29,7 @@ Aggregate.Result.List <- function(result_list, id, complex=F){
 
   data_long_aggregated <- plyr::ddply(data_long, c(id, "Measure", "Type"),
                                       plyr::summarise, Mean=mean(Percentage, na.rm=T),
-                                      SE = sd(Percentage, na.rm=T)/sqrt(length(Percentage)),
+                                      SE = stats::sd(Percentage, na.rm=T)/sqrt(length(Percentage)),
                                       HI = stats::quantile(Percentage, probs=0.95)[[1]],
                                       LO = stats::quantile(Percentage, probs=0.05)[[1]])
   data_long_aggregated$CI <- data_long_aggregated$SE * 1.96

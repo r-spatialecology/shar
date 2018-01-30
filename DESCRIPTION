@@ -10,9 +10,17 @@ Description:
 License: GNU GENERAL PUBLIC LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: 
+Imports:
+  classInt,
+  doSNOW,
   ggplot2, 
-  raster, 
+  foreach,
+  maptools,
+  parallel,
+  plyr,
+  utils,
+  raster,
+  reshape2,
   spatstat, 
   stats
 RoxygenNote: 6.0.1.9000

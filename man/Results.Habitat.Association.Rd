@@ -15,6 +15,8 @@ Results.Habitat.Association(pattern, raster, method, threshold = c(0.025,
 \item{method}{[\code{string(1)}]\cr Form of input data. Either "random_pattern " or "random_raster"}
 
 \item{threshold}{[\code{numeric(2)}]\cr Threshold for significance. See ?quantile() for more details}
+
+\item{only_spatial}{[\code{logical(1)}]\cr Boolean if pattern contains only one species}
 }
 \value{
 List or data frame with results of species-habitat association

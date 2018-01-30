@@ -96,7 +96,7 @@ Create.Simulation.Pattern <- function(raster, number_points=100, alpha=0.3, comp
     spatstat::marks(species_1) <- marks_1
 
     # Species 2 - Positive associations habitat 2
-    species_2_a <- SHAR::Complex.Pattern(owin=owin_habitats)
+    species_2_a <- SHAR::Pattern.Complex(owin=owin_habitats)
 
     poly_habitat_2 <- raster::rasterToPolygons(raster, fun=function(x){x==2}, dissolve=T)
     owin_habitat_2 <- maptools::as.owin.SpatialPolygons(poly_habitat_2)
@@ -107,7 +107,7 @@ Create.Simulation.Pattern <- function(raster, number_points=100, alpha=0.3, comp
     spatstat::marks(species_2) <- marks_2
 
     # Species 3 - Negative associations habitat 3
-    species_3_a <- SHAR::Complex.Pattern(owin=owin_habitats)
+    species_3_a <- SHAR::Pattern.Complex(owin=owin_habitats)
 
     poly_habitat_3 <- raster::rasterToPolygons(raster, fun=function(x){x==3}, dissolve=T)
     owin_habitat_3 <- maptools::as.owin.SpatialPolygons(poly_habitat_3)

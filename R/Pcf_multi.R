@@ -2,8 +2,8 @@
 #'
 #' The multivariate pair-correlation function pcf(r) to all points belonging to a different species than the observed point
 #' @param pattern [\code{ppp(1)}]\cr ppp object of the spatstat packages containing multivariate point pattern
-#' @param r.max [\code{numeric(1)}] Maximum distance r of multivariate G function
-#' @param r.length [\code{numeric(1)}] Number of evaluated distances r
+#' @param r_max [\code{numeric(1)}] Maximum distance r of multivariate G function
+#' @param r_length [\code{numeric(1)}] Number of evaluated distances r
 #'
 #' @return Data frame containing r and the multivaria pcf function for all species separately and the overall mean
 

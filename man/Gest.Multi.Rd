@@ -9,9 +9,9 @@ Gest.Multi(pattern, r_max, r_length = 515)
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat packages containing multivariate point pattern}
 
-\item{r.max}{[\code{numeric(1)}] Maximum distance r of multivariate G function}
+\item{r_max}{[\code{numeric(1)}]\cr Maximum distance r of multivariate G function}
 
-\item{r.length}{[\code{numeric(1)}] Number of evaluated distances r}
+\item{r_length}{[\code{numeric(1)}]\cr Number of evaluated distances r}
 }
 \value{
 Data frame containing r and the multivaria G function for all species separately and the overall mean

@@ -5,7 +5,7 @@
 #' @param raster [\code{raster(1)}]\cr Raster object of the raster package. If method="random_raster, list with simulated habitats
 #' @param method [\code{string(1)}]\cr Form of input data. Either "random_pattern " or "random_raster"
 #' @param threshold [\code{numeric(2)}]\cr Threshold for significance. See ?quantile() for more details
-#'
+#' @param only_spatial [\code{logical(1)}]\cr Boolean if pattern contains only one species
 #' @return List or data frame with results of species-habitat association
 
 #' @export
