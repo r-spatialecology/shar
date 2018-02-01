@@ -4,7 +4,7 @@
 \alias{Plot.Reconstructed.Pattern}
 \title{Plot list of reconstructed patterns}
 \usage{
-Plot.Reconstructed.Pattern(pattern, only_spatial = F)
+Plot.Reconstructed.Pattern(pattern, only_spatial = T)
 }
 \arguments{
 \item{pattern}{[\code{list(1)}] List with reconstructed and observed point pattern created with SHAR::Pattern.Reconstruction()}

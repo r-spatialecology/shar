@@ -8,8 +8,8 @@
 #' @return fv object of the spatstat package
 
 #' @export
-Pcf.Fast <- function(pattern, correction="good", method="d", ...){
-  kest_pattern <- spatstat::Kest(pattern, correction=correction, ...)
-  pcf_pattern <- spatstat::pcf.fv(kest_pattern, method=method, spar=0.5, ...)
+Pcf.Fast <- function(pattern, correction="good", method="c", spar=0.25){
+  kest_pattern <- spatstat::Kest(X=pattern, correction=correction)
+  pcf_pattern <- spatstat::pcf.fv(X=kest_pattern, method=method, spar=spar)
   return(pcf_pattern)
 }

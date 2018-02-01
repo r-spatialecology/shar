@@ -4,7 +4,7 @@
 \alias{Pcf.Fast}
 \title{pcf-function}
 \usage{
-Pcf.Fast(pattern, correction = "good", method = "d", ...)
+Pcf.Fast(pattern, correction = "good", method = "c", spar = 0.25)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat packages}
