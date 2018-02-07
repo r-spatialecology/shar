@@ -1,12 +1,12 @@
 #' Create simulation pattern
 #'
 #' Algorithm to create simulation pattern with six species with different species-habitat associations.
-#' Species 1: No associations (Poisson process)
-#' Species 2: Positive associations habitat 2 (Poisson process)
-#' Species 3: Positive associations habitat 3 (Thomas process)
-#' Species 4: Negative associations habitat 3 (Poisson process)
-#' Species 5: Negative associations habitat 5 (Thomas process)
-#' Species 6: No associations (Thomas process)
+#' \cr Species 1: No associations (Poisson process)
+#' \cr Species 2: Positive associations habitat 2 (Poisson process)
+#' \cr Species 3: Positive associations habitat 3 (Thomas process)
+#' \cr Species 4: Negative associations habitat 3 (Poisson process)
+#' \cr Species 5: Negative associations habitat 5 (Thomas process)
+#' \cr Species 6: No associations (Thomas process)
 #' @param raster [\code{raster(1)}]\cr Raster object of the raster package with habitats
 #' @param number_points [\code{numeric(1)}]\cr Number of points for each species (alpha=0)
 #' @param alpha [\code{numeric(1)}]\cr Strength of species-habitat association

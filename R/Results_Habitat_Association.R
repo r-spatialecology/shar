@@ -33,7 +33,7 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
 
       habitat_counts_randomized <- habitat_counts %>%
         dplyr::filter(Type!="Observed") %>%
-        group_by(Habitat) %>%
+        dplyr::group_by(Habitat) %>%
         dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
                          Hi=stats::quantile(Count,probs=threshold[[2]]))
 
@@ -42,10 +42,11 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
         dplyr::select(-Type)
 
       result_list <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(TRUE ~ "N.S.",
-                                                           Count<Lo ~ "Negative",
-                                                           Count>Hi ~ "Positive"))) %>%
-        tibble::as.tibble()
+        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
+                                                           Count>Hi ~ "Positive",
+                                                           Count>Lo & Count<Hi ~ "N.S."))) %>%
+        tibble::as.tibble() %>%
+        dplyr::mutate(Habitat=as.factor(Habitat))
     }
 
     else{
@@ -67,7 +68,7 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
 
         habitat_counts_randomized <- habitat_counts %>%
           dplyr::filter(Type!="Observed") %>%
-          group_by(Habitat) %>%
+          dplyr::group_by(Habitat) %>%
           dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
                            Hi=stats::quantile(Count,probs=threshold[[2]]))
 
@@ -76,10 +77,11 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
           dplyr::select(-Type)
 
         result_list[[paste(species_list[[i]])]] <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
-          dplyr::mutate(Significance=factor(dplyr::case_when(TRUE ~ "N.S.",
-                                                             Count<Lo ~ "Negative",
-                                                             Count>Hi ~ "Positive"))) %>%
-          tibble::as.tibble()
+          dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
+                                                             Count>Hi ~ "Positive",
+                                                             Count>Lo & Count<Hi ~ "N.S."))) %>%
+          tibble::as.tibble() %>%
+          dplyr::mutate(Habitat=as.factor(Habitat))
       }
     }
   }
@@ -101,7 +103,7 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
 
       habitat_counts_randomized <- habitat_counts %>%
         dplyr::filter(Type!="Observed") %>%
-        group_by(Habitat) %>%
+        dplyr::group_by(Habitat) %>%
         dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
                          Hi=stats::quantile(Count,probs=threshold[[2]]))
 
@@ -110,10 +112,11 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
         dplyr::select(-Type)
 
       result_list <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(TRUE ~ "N.S.",
-                                                           Count<Lo ~ "Negative",
-                                                           Count>Hi ~ "Positive"))) %>%
-        tibble::as.tibble()
+        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
+                                                           Count>Hi ~ "Positive",
+                                                           Count>Lo & Count<Hi ~ "N.S."))) %>%
+        tibble::as.tibble() %>%
+        dplyr::mutate(Habitat=as.factor(Habitat))
     }
 
     else{

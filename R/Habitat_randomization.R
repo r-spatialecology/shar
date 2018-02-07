@@ -14,6 +14,8 @@
 #' @return Raster object of the raster package with randomized habitat maps
 
 #' @importFrom foreach %dopar%
+#' @importFrom magrittr %>%
+
 #' @export
 Habitat.Randomization <- function(raster, method='randomization_algorithm', number_maps=1, number_neighbours=8,
                                   parallel=F, verbose=T){
