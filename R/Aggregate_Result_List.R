@@ -9,30 +9,37 @@
 
 #' @export
 Aggregate.Result.List <- function(result_list, id, complex=F){
-  data_long <- reshape2::melt(result_list, id=id, value.name="Percentage", variable.name="Measure")
-  names(data_long)[4] <- "Species"
-
   if(complex==F){
-    data_long$Type[data_long$Species=="Species_1"] <- "Poisson process (neutral)"
-    data_long$Type[data_long$Species=="Species_2"] <- "Poisson process (positive)"
-    data_long$Type[data_long$Species=="Species_3"] <- "Thomas process (positive)"
-    data_long$Type[data_long$Species=="Species_4"] <- "Poisson process (negative)"
-    data_long$Type[data_long$Species=="Species_5"] <- "Thomas process (negative)"
-    data_long$Type[data_long$Species=="Species_6"] <- "Thomas process (neutral)"
-  }
+    result_list_aggregated <- reshape2::melt(result_list, id=id,
+                                value.name="Percentage", variable.name="Measure") %>%
+      setNames(c(id, "Measure", "Percentage", "Species")) %>%
+      dplyr::mutate(Type=factor(dplyr::case_when(Species=="Species_1" ~ "Poisson process (neutral)",
+                                          Species=="Species_2" ~ "Poisson process (positive)",
+                                          Species=="Species_3" ~ "Thomas process (positive)",
+                                          Species=="Species_4" ~ "Poisson process (negative)",
+                                          Species=="Species_5" ~ "Thomas process (negative)",
+                                          Species=="Species_6" ~ "Thomas process (neutral)"))) %>%
+      dplyr::group_by(Association, Measure, Type) %>%
+      dplyr::summarise(Mean=mean(Percentage, na.rm=T),
+                       SE = stats::sd(Percentage, na.rm=T)/sqrt(length(Percentage)),
+                       HI = stats::quantile(Percentage, probs=0.95)[[1]],
+                       LO = stats::quantile(Percentage, probs=0.05)[[1]],
+                       CI = SE * 1.96)
+    }
 
   else{
-    data_long$Type[data_long$Species=="Species_1"] <- "Neutral"
-    data_long$Type[data_long$Species=="Species_2"] <- "Positive association"
-    data_long$Type[data_long$Species=="Species_3"] <- "Negative association"
+    result_list_aggregated <- reshape2::melt(result_list, id=id,
+                                             value.name="Percentage", variable.name="Measure") %>%
+      setNames(c(id, "Measure", "Percentage", "Species")) %>%
+      dplyr::mutate(Type=factor(dplyr::case_when(Species=="Species_1" ~ "Neutral",
+                                                 Species=="Species_2" ~ "Positive associations",
+                                                 Species=="Species_3" ~ "Negative associations"))) %>%
+      dplyr::group_by(Association, Measure, Type) %>%
+      dplyr::summarise(Mean=mean(Percentage, na.rm=T),
+                       SE = stats::sd(Percentage, na.rm=T)/sqrt(length(Percentage)),
+                       HI = stats::quantile(Percentage, probs=0.95)[[1]],
+                       LO = stats::quantile(Percentage, probs=0.05)[[1]],
+                       CI = SE * 1.96)
   }
-
-  data_long_aggregated <- plyr::ddply(data_long, c(id, "Measure", "Type"),
-                                      plyr::summarise, Mean=mean(Percentage, na.rm=T),
-                                      SE = stats::sd(Percentage, na.rm=T)/sqrt(length(Percentage)),
-                                      HI = stats::quantile(Percentage, probs=0.95)[[1]],
-                                      LO = stats::quantile(Percentage, probs=0.05)[[1]])
-  data_long_aggregated$CI <- data_long_aggregated$SE * 1.96
-
-  return(data_long_aggregated)
+  return(result_list_aggregated)
 }

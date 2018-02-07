@@ -4,7 +4,7 @@
 \alias{Pcf.Fast}
 \title{pcf-function}
 \usage{
-Pcf.Fast(pattern, correction = "good", method = "c", spar = 0.25)
+Pcf.Fast(pattern, correction = "good", method = "c", spar = 0.35)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat packages}
@@ -13,7 +13,7 @@ Pcf.Fast(pattern, correction = "good", method = "c", spar = 0.25)
 
 \item{method}{[\code{character(1)}]\cr See spatstat::pcf.fv() for mor details}
 
-\item{...}{[\code{various(1)}]\cr Parameters given to spatstat::Kest() or  spatstat::pcf.fv()}
+\item{spar}{[\code{numeric(1)}]\cr Smooting of spline function (see ?stats::smooth.spline() for more details)}
 }
 \value{
 fv object of the spatstat package

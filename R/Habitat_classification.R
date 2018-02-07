@@ -8,9 +8,13 @@
 
 #' @export
 Habitat.Classification <- function(raster, classes=5, style='fisher'){
-  values <- stats::na.omit(raster::getValues(raster))
-  breaks <- classInt::classIntervals(values, n=classes, style=style)
+
+  breaks <- raster %>%
+    raster::getValues() %>%
+    na.omit() %>%
+    classInt::classIntervals(n=classes, style=style)
 
   classification <-  raster::cut(raster, breaks=breaks$brks, include.lowest=T)
+
   return(classification)
 }

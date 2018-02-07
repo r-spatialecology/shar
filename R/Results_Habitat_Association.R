@@ -14,147 +14,111 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
   result_list <- list()
 
   if(method=="random_raster"){
+
+    foo <- function(raster, points){
+      raster %>%
+        raster::extract(y=points) %>%
+        factor(levels=1:5) %>%
+        table()
+    }
+
     if(only_spatial==T){
-      points<- sp::SpatialPoints(spatstat::coords(pattern))
-      df_counts <- data.frame() # create empty dataframe
+      points <- pattern %>%
+        spatstat::coords() %>%
+        sp::SpatialPoints()
 
-      for(j in 1:length(raster)){ # loop for habitat maps
-        e <- factor(raster::extract(raster[[j]], points, factor=T), levels=raster::unique(raster[[j]]))
-        df_counts <- rbind(df_counts,  table(e)) # count trees within each habitat
-      }
+      habitat_counts <- sapply(raster, FUN=foo, points=points) %>%
+        reshape2::melt(varnames=c("Habitat", "Type"), value.name="Count") %>%
+        tibble::as.tibble()
 
-      names(df_counts)[1:5] <- c("Habitat_1", "Habitat_2", "Habitat_3", "Habitat_4", "Habitat_5") # rename df
-      df_counts$Type <- c(rep("Randomized", length(raster)-1), "Observed") # assign type to values
+      habitat_counts_randomized <- habitat_counts %>%
+        dplyr::filter(Type!="Observed") %>%
+        group_by(Habitat) %>%
+        dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
+                         Hi=stats::quantile(Count,probs=threshold[[2]]))
 
-      df_counts_long <- reshape2::melt(df_counts, id="Type", variable.name="Habitat", value.name="Count")
-      df_counts_long$Type <- as.factor(df_counts_long$Type) # Type as factor
-      df_counts_long$Habitat <- as.factor(df_counts_long$Habitat) # Habitat as factor
+      habitat_counts_observed <- habitat_counts %>%
+        dplyr::filter(Type=="Observed") %>%
+        dplyr::select(-Type)
 
-      df_observed <- df_counts_long[df_counts_long$Type=="Observed",2:3]
-      df_randomized <- df_counts_long[df_counts_long$Type=="Randomized",2:3]
-
-      randomized_aggregated <- plyr::ddply(df_randomized, "Habitat",
-                                             plyr::here(plyr::summarise),
-                                             Lo=stats::quantile(Count, probs=threshold[[1]]),
-                                             Hi=stats::quantile(Count, probs=threshold[[2]]))
-
-      df_total <- merge(df_observed, randomized_aggregated)
-      df_total$Significance <- "N.S."
-      df_total$Significance[df_total$Count < df_total$Lo] <- "Negative"
-      df_total$Significance[df_total$Count > df_total$Hi] <- "Positive"
-
-      result_list <- df_total
+      result_list <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
+        dplyr::mutate(Significance=factor(dplyr::case_when(TRUE ~ "N.S.",
+                                                           Count<Lo ~ "Negative",
+                                                           Count>Hi ~ "Positive"))) %>%
+        tibble::as.tibble()
     }
 
     else{
-      points <- sp::SpatialPointsDataFrame(spatstat::coords(pattern), data=data.frame(pattern$marks$Species))
+      points <- pattern %>%
+        spatstat::coords() %>%
+        sp::SpatialPointsDataFrame(data=data.frame(pattern$marks$Species))
       names(points) <- "Species"
-      species_list <- unique(points$Species, drop=T)
+
+      species_list <- points$Species %>%
+        unique(drop=T)
 
       for(i in 1:length(species_list)){
-        points_spec <- subset(points, Species==species_list[[i]])
-        df_counts <- data.frame() # create empty dataframe
+        points_spec <- points %>%
+          subset(Species==species_list[[i]])
 
-        for(j in 1:length(raster)){ # loop for habitat maps
-          e <- factor(raster::extract(raster[[j]], points_spec, factor=T), levels=raster::unique(raster[[j]]))
-          df_counts <- rbind(df_counts,  table(e)) # count trees within each habitat
-        }
+        habitat_counts <- sapply(raster, FUN=foo, points=points_spec) %>%
+          reshape2::melt(varnames=c("Habitat", "Type"), value.name="Count") %>%
+          tibble::as.tibble()
 
-        names(df_counts)[1:5] <- c("Habitat_1", "Habitat_2", "Habitat_3", "Habitat_4", "Habitat_5") # rename df
-        df_counts$Type <- c(rep("Randomized", length(raster)-1), "Observed") # assign type to values
+        habitat_counts_randomized <- habitat_counts %>%
+          dplyr::filter(Type!="Observed") %>%
+          group_by(Habitat) %>%
+          dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
+                           Hi=stats::quantile(Count,probs=threshold[[2]]))
 
-        df_counts_long <- reshape2::melt(df_counts, id="Type", variable.name="Habitat", value.name="Count")
-        df_counts_long$Type <- as.factor(df_counts_long$Type) # Type as factor
-        df_counts_long$Habitat <- as.factor(df_counts_long$Habitat) # Habitat as factor
+        habitat_counts_observed <- habitat_counts %>%
+          dplyr::filter(Type=="Observed") %>%
+          dplyr::select(-Type)
 
-        df_observed <- df_counts_long[df_counts_long$Type=="Observed",2:3]
-        df_randomized <- df_counts_long[df_counts_long$Type=="Randomized",2:3]
-
-        randomized_aggregated <- plyr::ddply(df_randomized, "Habitat",
-                                             plyr::here(plyr::summarise),
-                                             Lo=stats::quantile(Count, probs=threshold[[1]]),
-                                             Hi=stats::quantile(Count, probs=threshold[[2]]))
-
-        df_total <- merge(df_observed, randomized_aggregated)
-        df_total$Significance <- "N.S."
-        df_total$Significance[df_total$Count < df_total$Lo] <- "Negative"
-        df_total$Significance[df_total$Count > df_total$Hi] <- "Positive"
-
-        result_list[[paste(species_list[[i]])]] <- df_total
+        result_list[[paste(species_list[[i]])]] <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
+          dplyr::mutate(Significance=factor(dplyr::case_when(TRUE ~ "N.S.",
+                                                             Count<Lo ~ "Negative",
+                                                             Count>Hi ~ "Positive"))) %>%
+          tibble::as.tibble()
       }
     }
   }
 
   else if(method=="random_pattern"){
+    foo <- function(points) {
+      points %>%
+        spatstat::coords() %>%
+        sp::SpatialPoints() %>%
+        raster::extract(raster, ., factor=T) %>%
+        factor(levels=1:5) %>%
+        table()
+    }
+
     if(only_spatial==T){
-      df_counts <- data.frame()
-      for(i in 1:length(pattern)){
-        points <- sp::SpatialPoints(spatstat::coords(pattern[[i]]))
-        e <- factor(raster::extract(raster, points, factor=T), levels=raster::unique(raster))
-        df_counts <- rbind(df_counts,  table(e)) # count trees within each habitat
-      }
+      habitat_counts <- sapply(pattern, FUN=foo) %>%
+        reshape2::melt(varnames=c("Habitat", "Type"), value.name="Count") %>%
+        tibble::as.tibble()
 
-      names(df_counts)[1:5] <- c("Habitat_1", "Habitat_2", "Habitat_3", "Habitat_4", "Habitat_5") # rename df
-      df_counts$Type <- c(rep("Randomized", length(pattern)-1), "Observed") # assign type to values
+      habitat_counts_randomized <- habitat_counts %>%
+        dplyr::filter(Type!="Observed") %>%
+        group_by(Habitat) %>%
+        dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
+                         Hi=stats::quantile(Count,probs=threshold[[2]]))
 
-      df_counts_long <- reshape2::melt(df_counts, id="Type", variable.name="Habitat", value.name="Count")
-      df_counts_long$Type <- as.factor(df_counts_long$Type) # Type as factor
-      df_counts_long$Habitat <- as.factor(df_counts_long$Habitat) # Habitat as factor
+      habitat_counts_observed <- habitat_counts %>%
+        dplyr::filter(Type=="Observed") %>%
+        dplyr::select(-Type)
 
-      df_observed <- df_counts_long[df_counts_long$Type=="Observed",2:3]
-      df_randomized <- df_counts_long[df_counts_long$Type=="Randomized",2:3]
-
-      randomized_aggregated <- plyr::ddply(df_randomized, "Habitat",
-                                           plyr::here(plyr::summarise),
-                                           Lo=stats::quantile(Count, probs=threshold[[1]]),
-                                           Hi=stats::quantile(Count, probs=threshold[[2]]))
-
-      df_total <- merge(df_observed, randomized_aggregated)
-      df_total$Significance <- "N.S."
-      df_total$Significance[df_total$Count < df_total$Lo] <- "Negative"
-      df_total$Significance[df_total$Count > df_total$Hi] <- "Positive"
-
-      result_list <- df_total
+      result_list <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
+        dplyr::mutate(Significance=factor(dplyr::case_when(TRUE ~ "N.S.",
+                                                           Count<Lo ~ "Negative",
+                                                           Count>Hi ~ "Positive"))) %>%
+        tibble::as.tibble()
     }
 
     else{
-      species_list <- levels(pattern[[length(pattern)]]$marks$Species)
-
-      for(i in 1:length(species_list)){
-        df_counts <- data.frame()
-
-        for(j in 1:length(pattern)){
-          if(length(names(pattern[[j]]$marks))>0){pattern[[j]] <- spatstat::subset.ppp(pattern[[j]], select=Species)}
-
-          pattern_species <- spatstat::subset.ppp(pattern[[j]], marks==species_list[[i]])
-          points_species <- sp::SpatialPoints(spatstat::coords(pattern_species))
-
-          e <- factor(raster::extract(raster, points_species, factor=T), levels=raster::unique(raster))
-          df_counts <- rbind(df_counts,  table(e)) # count trees within each habitat
-        }
-
-        names(df_counts)[1:5] <- c("Habitat_1", "Habitat_2", "Habitat_3", "Habitat_4", "Habitat_5") # rename df
-        df_counts$Type <- c(rep("Randomized", length(pattern)-1), "Observed") # assign type to values
-
-        df_counts_long <- reshape2::melt(df_counts, id="Type", variable.name="Habitat", value.name="Count")
-        df_counts_long$Type <- as.factor(df_counts_long$Type) # Type as factor
-        df_counts_long$Habitat <- as.factor(df_counts_long$Habitat) # Habitat as factor
-
-        df_observed <- df_counts_long[df_counts_long$Type=="Observed",2:3]
-        df_randomized <- df_counts_long[df_counts_long$Type=="Randomized",2:3]
-
-        randomized_aggregated <- plyr::ddply(df_randomized, "Habitat",
-                                             plyr::here(plyr::summarise),
-                                             Lo=stats::quantile(Count, probs=threshold[[1]]),
-                                             Hi=stats::quantile(Count, probs=threshold[[2]]))
-
-        df_total <- merge(df_observed, randomized_aggregated)
-        df_total$Significance <- "N.S."
-        df_total$Significance[df_total$Count < df_total$Lo] <- "Negative"
-        df_total$Significance[df_total$Count > df_total$Hi] <- "Positive"
-
-        result_list[[paste(species_list[[i]])]] <- df_total
-      }
+      print("Method 'random_pattern' not implemented for multiple species yet")
+      result_list <- NA
     }
   }
 

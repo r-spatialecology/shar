@@ -10,7 +10,7 @@
 #' @references Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001).
 #' Habitat associations of trees and shrubs in a 50-ha neotropical forest plot.
 #' Journal of Ecology, 89(6), 947–959.
-
+#'
 #' @return Raster object of the raster package with randomized habitat maps
 
 #' @importFrom foreach %dopar%

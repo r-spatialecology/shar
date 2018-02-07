@@ -16,16 +16,16 @@ Labeling.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, f
                                                   e_threshold=e_threshold,
                                                   fitting=fitting, verbose=verbose)
 
-  pattern <- spatstat::subset.ppp(pattern, select=Species) # get data with only species as marks
+  pattern <- Select.Species(pattern) # get data with only species as marks
 
   species <- rep(levels(pattern$marks), spatstat::summary.ppp(pattern)$marks[[1]]) # create marks
   spatstat::marks(simulated) <- factor(species) # assign marks to data
 
-  pcfmulti_observed <- SHAR::Pcf.Multi(pattern, r_max=15, r_length=515) # iSAR observed data
-  pcfmulti_simulated <- SHAR::Pcf.Multi(simulated, r_max=15, r_length=515)  # iSAR simulated data
+  pcfmulti_observed <- SHAR::Pcf.Multi(pattern) # iSAR observed data
+  pcfmulti_simulated <- SHAR::Pcf.Multi(simulated)  # iSAR simulated data
 
-  gmulti_observed <- SHAR::Gest.Multi(pattern, r_max=30, r_length=515) # Gmulti(r) observed data
-  gmulti_simulated <- SHAR::Gest.Multi(simulated, r_max=30, r_length=515) # Gmulti(r) simulated data
+  gmulti_observed <- SHAR::Gest.Multi(pattern) # Gmulti(r) observed data
+  gmulti_simulated <- SHAR::Gest.Multi(simulated) # Gmulti(r) simulated data
 
   e0_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_simulated$Mean), na.rm=T) # energy iSAR
   e0_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_simulated$Mean), na.rm=T) # energy Gmulti
@@ -45,8 +45,8 @@ Labeling.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, f
     spatstat::marks(relocated[relocated$marks==sample_species[1]][point1]) <- sample_species[2] # swap species
     spatstat::marks(relocated[relocated$marks==sample_species[2]][point2]) <- sample_species[1] # swap species
 
-    pcfmulti_relocated <- SHAR::Pcf.Multi(relocated, r_max=15, r_length=515) # iSAR after relocation
-    gmulti_relocated <- SHAR::Gest.Multi(relocated, r_max=30, r_length=515) # Gmulti(r) after relocation
+    pcfmulti_relocated <- SHAR::Pcf.Multi(relocated) # iSAR after relocation
+    gmulti_relocated <- SHAR::Gest.Multi(relocated) # Gmulti(r) after relocation
 
     e_relocated_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_relocated$Mean), na.rm=T) # energy iSAR after relocation
     e_relocated_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_relocated$Mean), na.rm=T) # energy Gmulti(r) after relocation

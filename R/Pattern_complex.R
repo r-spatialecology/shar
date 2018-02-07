@@ -10,8 +10,8 @@ Pattern.Complex <- function(owin){
 
   s <- sample(x=seq(from=floor(owin$xrange[2]/8), to=floor(owin$xrange[2]/4), by=1), size=1) # Program not fixed!
 
-  x <- seq(owin$xrange[1], owin$xrange[2], s)
-  y <- seq(owin$yrange[1], owin$yrange[2], s)
+  x <- seq(from=owin$xrange[1], to=owin$xrange[2], by=s)
+  y <- seq(from=owin$yrange[1], to=owin$yrange[2], by=s)
 
   regular_grid <- expand.grid(x=x,y=y)
   regular_grid$id <- 1:nrow(regular_grid)
@@ -29,11 +29,9 @@ Pattern.Complex <- function(owin){
   }
 
   regular <- spatstat::ppp(x=regular_grid$x, y=regular_grid$y, window=owin)
-  spatstat::marks(regular) <- "Regular"
 
   clustered_df<- clustered_df[spatstat::inside.owin(clustered_df$x, clustered_df$y, w=owin),]
   clustered <- spatstat::ppp(x=clustered_df$x, y=clustered_df$y, window=owin)
-  spatstat::marks(clustered) <- "Clustered"
 
   complex <- spatstat::superimpose(regular, clustered, W=owin)
 

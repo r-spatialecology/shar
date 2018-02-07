@@ -7,21 +7,28 @@ Authors@R: person("Maximilian", "Hesselbarth", email = "maximilian.hesselbarth@u
 Description: 
   The package contains functions to analyse species habitat associations based on Plotkin et al. (2000) and Harms et al. (2001).
   Therefore, information about the location of all individuals and about environmental data is needed.
-License: GNU GENERAL PUBLIC LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
   classInt,
+  cli,
   doSNOW,
+  dplyr,
   ggplot2, 
   foreach,
+  magrittr,
   maptools,
   parallel,
   plyr,
   utils,
   raster,
   reshape2,
+  rgeos,
+  sp,
   spatstat, 
-  stats
+  stats,
+  tibble,
+  tidyr
 RoxygenNote: 6.0.1.9000
 

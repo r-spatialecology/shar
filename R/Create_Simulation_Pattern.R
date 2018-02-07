@@ -16,9 +16,14 @@
 #' @export
 Create.Simulation.Pattern <- function(raster, number_points=100, alpha=0.3, complex=F){
 
-  inside<- raster::rasterToPolygons(raster, fun=function(x){!is.na(x)}, na.rm=T, dissolve=T)
-  inside <- maptools::unionSpatialPolygons(inside, IDs=rep(1, times=length(inside)))
-  owin_habitats <- maptools::as.owin.SpatialPolygons(inside)
+  # inside<- raster::rasterToPolygons(raster, fun=function(x){!is.na(x)}, na.rm=T, dissolve=T)
+  # inside <- maptools::unionSpatialPolygons(inside, IDs=rep(1, times=length(inside)))
+  # owin_habitats <- maptools::as.owin.SpatialPolygons(inside)
+
+  owin_habitats <- raster %>%
+    raster::rasterToPolygons(fun=function(x) !is.na(x), na.rm=T, dissolve=T) %>%
+    maptools::unionSpatialPolygons(ID=rep(1, times=length(.))) %>%
+    maptools::as.owin.SpatialPolygons()
 
   m_pos <- alpha
   m_neg <- 1-alpha
@@ -35,30 +40,33 @@ Create.Simulation.Pattern <- function(raster, number_points=100, alpha=0.3, comp
     # Species 2: Positive associations habitat 2 (Poisson process)
     species_2a <- spatstat::rpoispp(lambda=lambda, nsim=1, drop=T, win=owin_habitats)
 
-    poly_habitat_2 <- raster::rasterToPolygons(raster, fun=function(x){x==2}, dissolve=T)
-    owin_habitat_2 <- maptools::as.owin.SpatialPolygons(poly_habitat_2)
-    species_2b <- spatstat::runifpoint(n=floor(species_2a$n*m_pos), win=owin_habitat_2)
+    species_2 <- raster %>%
+      raster::rasterToPolygons(fun=function(x){x==2}, dissolve=T) %>%
+      maptools::as.owin.SpatialPolygons() %>%
+      spatstat::runifpoint(n=floor(species_2a$n*m_pos), win=.) %>%
+      spatstat::superimpose.ppp(species_2a, W=owin_habitats)
 
-    species_2 <- spatstat::superimpose(species_2a, species_2b, W=owin_habitats)
     marks_2 <- data.frame(Species=rep("Species_2", species_2$n), Code=rep(2, species_2$n))
     spatstat::marks(species_2) <- marks_2
 
     # Species 3: Positive associations habitat 3 (Thomas process)
     species_3a <- spatstat::rThomas(kappa=lambda/5, scale=scale, mu=5, win=owin_habitats)
 
-    poly_habitat_3<- raster::rasterToPolygons(raster, fun=function(x){x==3}, dissolve=T)
-    owin_habitat_3 <- maptools::as.owin.SpatialPolygons(poly_habitat_3)
-    species_3b <- spatstat::runifpoint(n=floor(species_3a$n*m_pos), win=owin_habitat_3)
+    species_3 <- raster %>%
+      raster::rasterToPolygons(fun=function(x){x==3}, dissolve=T) %>%
+      maptools::as.owin.SpatialPolygons() %>%
+      spatstat::runifpoint(n=floor(species_3a$n*m_pos), win=.) %>%
+      spatstat::superimpose(species_3a, W=owin_habitats)
 
-    species_3 <- spatstat::superimpose(species_3a, species_3b, W=owin_habitats)
     marks_3 <- data.frame(Species=rep("Species_3", species_3$n), Code=rep(3, species_3$n))
     spatstat::marks(species_3) <- marks_3
 
     # Species 4: Negative associations habitat 4 (Poisson process)
     species_4a <- spatstat::rpoispp(lambda=lambda, nsim=1, drop=T, win=owin_habitats)
 
-    poly_habitat_4 <- raster::rasterToPolygons(raster, fun=function(x){x==4}, dissolve=T)
-    owin_habitat_4 <- maptools::as.owin.SpatialPolygons(poly_habitat_4)
+    owin_habitat_4 <- raster %>%
+      raster::rasterToPolygons(fun=function(x){x==4}, dissolve=T) %>%
+      maptools::as.owin.SpatialPolygons()
 
     species_4b <- species_4a[!spatstat::inside.owin(x=species_4a, w=owin_habitat_4)]
     species_4c <- spatstat::rthin(species_4a[spatstat::inside.owin(x=species_4a, w=owin_habitat_4)], m_neg)
@@ -70,8 +78,9 @@ Create.Simulation.Pattern <- function(raster, number_points=100, alpha=0.3, comp
     # Species 5: Negative associations habitat 5 (Thomas process)
     species_5a <- spatstat::rThomas(kappa=lambda/5, scale=scale, mu=5, win=owin_habitats)
 
-    poly_habitat_5 <- raster::rasterToPolygons(raster, fun=function(x){x==5}, dissolve=T)
-    owin_habitat_5 <- maptools::as.owin.SpatialPolygons(poly_habitat_5)
+    owin_habitat_5 <- raster %>%
+      raster::rasterToPolygons(fun=function(x){x==5}, dissolve=T) %>%
+      maptools::as.owin.SpatialPolygons()
 
     species_5b <- species_5a[!spatstat::inside.owin(x=species_5a, w=owin_habitat_5)]
     species_5c <- spatstat::rthin(species_5a[spatstat::inside.owin(x=species_5a, w=owin_habitat_5)], m_neg)
@@ -98,19 +107,21 @@ Create.Simulation.Pattern <- function(raster, number_points=100, alpha=0.3, comp
     # Species 2 - Positive associations habitat 2
     species_2_a <- SHAR::Pattern.Complex(owin=owin_habitats)
 
-    poly_habitat_2 <- raster::rasterToPolygons(raster, fun=function(x){x==2}, dissolve=T)
-    owin_habitat_2 <- maptools::as.owin.SpatialPolygons(poly_habitat_2)
-    species_2_b <- spatstat::runifpoint(n=floor(species_2_a$n*m_pos), win=owin_habitat_2)
+    species_2 <- raster %>%
+      raster::rasterToPolygons(fun=function(x){x==2}, dissolve=T) %>%
+      maptools::as.owin.SpatialPolygons() %>%
+      spatstat::runifpoint(n=floor(species_2_a$n*m_pos), win=.) %>%
+      spatstat::superimpose(species_2_a, W=owin_habitats)
 
-    species_2 <- spatstat::superimpose(species_2_a, species_2_b, W=owin_habitats)
     marks_2 <- data.frame(Species=rep("Species_2", species_2$n), Code=rep(2, species_2$n))
     spatstat::marks(species_2) <- marks_2
 
     # Species 3 - Negative associations habitat 3
     species_3_a <- SHAR::Pattern.Complex(owin=owin_habitats)
 
-    poly_habitat_3 <- raster::rasterToPolygons(raster, fun=function(x){x==3}, dissolve=T)
-    owin_habitat_3 <- maptools::as.owin.SpatialPolygons(poly_habitat_3)
+    owin_habitat_3 <- raster %>%
+      raster::rasterToPolygons(fun=function(x){x==3}, dissolve=3) %>%
+      maptools::as.owin.SpatialPolygons()
 
     species_3_b <- species_3_a[!spatstat::inside.owin(x=species_3_a, w=owin_habitat_3)]
     species_3_c <- spatstat::rthin(species_3_a[spatstat::inside.owin(x=species_3_a, w=owin_habitat_3)], m_neg)

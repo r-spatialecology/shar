@@ -4,14 +4,10 @@
 \alias{Pcf.Multi}
 \title{Multivariate pcf-function}
 \usage{
-Pcf.Multi(pattern, r_max, r_length = 515)
+Pcf.Multi(pattern)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat packages containing multivariate point pattern}
-
-\item{r_max}{[\code{numeric(1)}] Maximum distance r of multivariate G function}
-
-\item{r_length}{[\code{numeric(1)}] Number of evaluated distances r}
 }
 \value{
 Data frame containing r and the multivaria pcf function for all species separately and the overall mean

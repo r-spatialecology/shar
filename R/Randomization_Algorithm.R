@@ -19,8 +19,12 @@ Randomization.Algorithm <- function(raster, number_neighbours=8){
   for(i in 1:length(habitats)){ # loop for habitats
     k <- 0 # counter since last jump
 
-    r <- round(runif(n=1, min=1, max=length(raster::Which(random.neighbour==0, cells=T))),0) # random number
-    cell <- raster::Which(random.neighbour==0, cells=T)[r] # random cell without habitat
+    cell <- raster::Which(random.neighbour==0, cells=T) %>%
+      length() %>%
+      runif(n=1, min=1, max=.) %>%
+      round(0)
+
+    #cell <- raster::Which(random.neighbour==0, cells=T)[r] # random cell without habitat
     random.neighbour[cell] <- as.numeric(names(habitats)[i]) # assign habitat to cell
 
     for(j in 2:habitats[[i]]){ # loop for number of patches habitat
