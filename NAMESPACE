@@ -3,6 +3,7 @@
 export(Aggregate.Result.List)
 export(Calculate.Energy)
 export(Create.Simulation.Pattern)
+export(Create.Simulation.Species)
 export(Gest.Multi)
 export(Habitat.Classification)
 export(Habitat.Randomization)
