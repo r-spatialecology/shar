@@ -11,7 +11,7 @@ Habitat.Classification(raster, classes = 5, style = "fisher")
 
 \item{classes}{[\code{numeric(1)}]\cr Number of classes}
 
-\item{method}{[\code{string(1)}]\cr Style of breaks (see classInt::classInvervals() for more details)}
+\item{style}{[\code{string(1)}]\cr Style of breaks (see classInt::classInvervals() for more details)}
 }
 \value{
 Raster object of the raster package with classified habitats

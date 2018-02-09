@@ -14,11 +14,10 @@ Spatial.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fi
   pattern <- spatstat::unmark(pattern) # only spatial points
 
   if(fitting==T){
-    fit_mat <- spatstat::kppm(pattern, clusters="MatClust", statistic="pcf")
-    simulated <- spatstat::rMatClust(kappa=fit_mat$par[[1]],
-                                     scale=fit_mat$par[[2]],
-                                     mu=fit_mat$mu,
-                                     win=pattern$window) # create simulation data
+    simulated <- pattern %>%
+      spatstat::unmark() %>%
+      spatstat::kppm(cluster="Thomas", statistic="pcf") %>%
+      spatstat::simulate.kppm(window=pattern$window, drop=T, verbose=F)
 
     if(simulated$n != pattern$n){
       dif <- abs(pattern$n -simulated$n)
@@ -34,7 +33,7 @@ Spatial.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fi
   }
   else{simulated <- spatstat::runifpoint(n=pattern$n, win=pattern$window)} # create simulation data
 
-  if(pattern$n>=500){ # indirect computation
+  if(pattern$n>=1000){ # indirect computation
     pcf_observed <- SHAR::Pcf.Fast(pattern)
     pcf_simulated <- SHAR::Pcf.Fast(simulated)
   }
@@ -61,7 +60,7 @@ Spatial.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fi
     point <- spatstat::runifpoint(n=1, win=relocated$window) # create random coordinates
     relocated <- spatstat::superimpose(relocated_temp, point) # add point to pattern
 
-    if(relocated$n>=500){ # indirect computation of summary functions
+    if(relocated$n>=1000){ # indirect computation of summary functions
       k_relocated <- spatstat::Kest(relocated, correction="good") # K(r) after relocation
       pcf_relocated <- spatstat::pcf.fv(k_relocated, spar=0.5, method="d") # g(r) after relocation
     }

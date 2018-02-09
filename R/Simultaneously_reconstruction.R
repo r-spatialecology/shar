@@ -12,17 +12,16 @@
 #' @export
 Simultaneously.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fitting=F, verbose=T){
 
-  pattern <- spatstat::subset.ppp(pattern, select=Species) # data to reconstruct
+  pattern <- Select.Species(pattern) # data to reconstruct
 
   if(fitting==T){
-    fit_mat <- spatstat::kppm(spatstat::unmark(pattern), clusters="MatClust", statistic="pcf")
-    simulated <- spatstat::rMatClust(kappa=fit_mat$par[[1]],
-                                     scale=fit_mat$par[[2]],
-                                     mu=fit_mat$mu,
-                                     win=pattern$window) # create simulation data
+    simulated <- pattern %>%
+      spatstat::unmark() %>%
+      spatstat::kppm(cluster="Thomas", statistic="pcf") %>%
+      spatstat::simulate.kppm(window=pattern$window, drop=T, verbose=F)
 
     if(simulated$n != pattern$n){
-      dif <- abs(pattern$n -simulated$n)
+      dif <- abs(pattern$n - simulated$n)
       if(simulated$n < pattern$n){
         p <- spatstat::runifpoint(n=dif, win=pattern$window)
         simulated <- spatstat::superimpose(simulated, p)
@@ -38,7 +37,7 @@ Simultaneously.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0
   species <- rep(levels(pattern$marks), spatstat::summary.ppp(pattern)$marks[[1]]) # get marks
   spatstat::marks(simulated) <- factor(species) # assign marks to simulated pattern
 
-  if(pattern$n>=500){ # indirect computation
+  if(pattern$n>=1000){ # indirect computation
     pcf_observed <- SHAR::Pcf.Fast(pattern)
     pcf_simulated <- SHAR::Pcf.Fast(simulated)
   }
@@ -51,11 +50,11 @@ Simultaneously.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0
   gest_observed <- spatstat::Gest(pattern, correction="best") # G(r) observed data
   gest_simulated <- spatstat::Gest(simulated, correction="best") # g(r) simulated pattern
 
-  pcfmulti_observed <- SHAR::Pcf.Multi(pattern, r_max=15, r_length=515) # iSAR observed data
-  pcfmulti_simulated <- SHAR::Pcf.Multi(simulated, r_max=15, r_length=515) # iSAR simulated data
+  pcfmulti_observed <- SHAR::Pcf.Multi(pattern) # iSAR observed data
+  pcfmulti_simulated <- SHAR::Pcf.Multi(simulated) # iSAR simulated data
 
-  gmulti_observed <- SHAR::Gest.Multi(pattern, r_max=30, r_length=515) # Gmulti(r) observed data
-  gmulti_simulated <- SHAR::Gest.Multi(simulated, r_max=30, r_length=515) # Gmulti(r) simulated data
+  gmulti_observed <- SHAR::Gest.Multi(pattern) # Gmulti(r) observed data
+  gmulti_simulated <- SHAR::Gest.Multi(simulated) # Gmulti(r) simulated data
 
   e0_pcf <- mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm=T) # energy g(r)
   e0_gest <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm=T) # energy G(r)
@@ -75,15 +74,15 @@ Simultaneously.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0
     spatstat::marks(point) <- spatstat::marks(relocated[rp]) # assign marks
     relocated <- spatstat::superimpose(relocated_temp, point) # add point to pattern
 
-    if(relocated$n>=500){ # indirect computation
+    if(relocated$n>=1000){ # indirect computation
       k_relocated <- spatstat::Kest(relocated, correction="good") # K(r) after relocation
       pcf_relocated <- spatstat::pcf.fv(k_relocated, spar=0.5, method="d") # g(r) after relocation
     }
     else{pcf_relocated <- spatstat::pcf(relocated, correction="best", divisor="d")} # g(r) after relocation
 
     gest_relocated <- spatstat::Gest(relocated, correction="best") # G(r) after relocation
-    pcfmulti_relocated <- SHAR::Pcf.Multi(relocated, r_max=15, r_length=515) # iSAR after relocation
-    gmulti_relocated <- SHAR::Gest.Multi(relocated, r_max=30, r_length=515) # Gmulti(r) simulated data
+    pcfmulti_relocated <- SHAR::Pcf.Multi(relocated) # iSAR after relocation
+    gmulti_relocated <- SHAR::Gest.Multi(relocated) # Gmulti(r) simulated data
 
     e_relocated_pcf <- mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm=T) # energy g(r) after relocation
     e_relocated_gest <- mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm=T) # energy G(r) after relocation
