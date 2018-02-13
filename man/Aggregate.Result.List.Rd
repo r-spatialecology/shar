@@ -4,7 +4,7 @@
 \alias{Aggregate.Result.List}
 \title{Aggregate result list}
 \usage{
-Aggregate.Result.List(result_list, id, complex = F)
+Aggregate.Result.List(result_list, id, neutral = F)
 }
 \arguments{
 \item{result_list}{[\code{list(1)}]\cr Result list create with Result.Habitat.Association()}

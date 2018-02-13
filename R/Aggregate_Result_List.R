@@ -8,21 +8,36 @@
 #' @return Long data frame with aggregated results
 
 #' @export
-Aggregate.Result.List <- function(result_list, id,  complex=F){
+Aggregate.Result.List <- function(result_list, id,  neutral=F){
 
-  result_list_aggregated <- result_list %>%
-    dplyr::group_by(Alpha, Species) %>%
-    dplyr::summarise(Correct_mean=mean(Correct),
-                     Correct_hi = mean(Correct) + (stats::sd(Correct, na.rm=T)/sqrt(length(Correct))),
-                     Correct_lo = mean(Correct) - (stats::sd(Correct, na.rm=T)/sqrt(length(Correct))),
-                     False_mean=mean(False),
-                     False_hi = mean(False) + (stats::sd(False, na.rm=T)/sqrt(length(False))),
-                     False_lo = mean(False) - (stats::sd(False, na.rm=T)/sqrt(length(False)))) %>%
-    dplyr::mutate(Species_type=factor(dplyr::case_when(Species==1 ~ "Poisson process (positive)",
-                                                Species==2 ~ "Thomas process (positive)",
-                                                Species==3 ~ "Poisson procces (negative)",
-                                                Species==4 ~ "Thomas process (negative)")))
-#
+  if(neutral==F){
+    result_list_aggregated <- result_list %>%
+      dplyr::group_by(Alpha, Species) %>%
+      dplyr::summarise(Correct_mean=mean(Correct),
+                       Correct_hi = mean(Correct) + (stats::sd(Correct, na.rm=T)/sqrt(length(Correct))),
+                       Correct_lo = mean(Correct) - (stats::sd(Correct, na.rm=T)/sqrt(length(Correct))),
+                       False_mean=mean(False),
+                       False_hi = mean(False) + (stats::sd(False, na.rm=T)/sqrt(length(False))),
+                       False_lo = mean(False) - (stats::sd(False, na.rm=T)/sqrt(length(False)))) %>%
+      dplyr::mutate(Species_type=factor(dplyr::case_when(Species==1 ~ "Poisson process (positive)",
+                                                  Species==2 ~ "Thomas process (positive)",
+                                                  Species==3 ~ "Poisson procces (negative)",
+                                                  Species==4 ~ "Thomas process (negative)")))
+    }
+
+  else{
+    result_list_aggregated <- result_list %>%
+      dplyr::group_by(Alpha, Species) %>%
+      dplyr::summarise(Correct_mean=mean(Correct),
+                       Correct_hi = mean(Correct) + (stats::sd(Correct, na.rm=T)/sqrt(length(Correct))),
+                       Correct_lo = mean(Correct) - (stats::sd(Correct, na.rm=T)/sqrt(length(Correct))),
+                       False_mean=mean(False),
+                       False_hi = mean(False) + (stats::sd(False, na.rm=T)/sqrt(length(False))),
+                       False_lo = mean(False) - (stats::sd(False, na.rm=T)/sqrt(length(False)))) %>%
+      dplyr::mutate(Species_type=factor(dplyr::case_when(Species==1 ~ "Poisson process",
+                                                         Species==2 ~ "Thomas process")))
+    }
+
 #   else{
 #     result_list_aggregated <- reshape2::melt(result_list, id=id,
 #                                              value.name="Percentage", variable.name="Measure") %>%
@@ -37,5 +52,6 @@ Aggregate.Result.List <- function(result_list, id,  complex=F){
 #                        LO = stats::quantile(Percentage, probs=0.05)[[1]],
 #                        CI = SE * 1.96)
 #   }
+
   return(result_list_aggregated)
 }
