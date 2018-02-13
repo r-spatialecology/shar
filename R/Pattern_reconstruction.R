@@ -12,6 +12,7 @@
 #'
 #' @return List containing reconstructed patterns and observed pattern
 
+#' @importFrom doRNG %dorng%
 #' @importFrom foreach %dopar%
 #' @importFrom magrittr %>%
 
@@ -38,28 +39,28 @@ Pattern.Reconstruction <- function(pattern, method="only_spatial",
     doSNOW::registerDoSNOW(cl)
 
     if(method=="only_spatial"){
-      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dopar%{
+      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dorng%{
         SHAR::Spatial.Reconstruction(pattern=pattern, max_runs=max_runs,
                                e_threshold=e_threshold, fitting=fitting, verbose=F)
       }
     }
 
     else if(method=="splitting_species"){
-      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dopar%{
+      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dorng%{
         SHAR::Splitting.Reconstruction(pattern=pattern, max_runs=max_runs,
                                e_threshold=e_threshold, fitting=fitting, verbose=F)
       }
     }
 
     else if(method=="random_labeling"){
-      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dopar%{
+      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dorng%{
        SHAR:: Labeling.Reconstruction(pattern=pattern, max_runs=max_runs,
                                e_threshold=e_threshold, fitting=fitting, verbose=F)
       }
     }
 
     else if(method=="simultaneously"){
-      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dopar%{
+      result <- foreach::foreach(i=1:number_reconstructions, .options.snow=opts)%dorng%{
         SHAR::Simultaneously.Reconstruction(pattern=pattern, max_runs=max_runs,
                                e_threshold=e_threshold, fitting=fitting, verbose=F)
       }

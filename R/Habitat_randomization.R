@@ -13,6 +13,7 @@
 #'
 #' @return Raster object of the raster package with randomized habitat maps
 
+#' @importFrom doRNG %dorng%
 #' @importFrom foreach %dopar%
 #' @importFrom magrittr %>%
 
@@ -42,7 +43,7 @@ Habitat.Randomization <- function(raster, method='randomization_algorithm', numb
       }
       else{opts<-list()}
 
-      result <- foreach::foreach(i=1:number_maps, .options.snow=opts)%dopar%{
+      result <- foreach::foreach(i=1:number_maps, .options.snow=opts)%dorng%{
         SHAR::Randomization.Algorithm(raster=raster, number_neighbours=number_neighbours)
       }
       if(verbose==T){close(pb)}
