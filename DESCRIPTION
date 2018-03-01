@@ -2,7 +2,7 @@ Package: SHAR
 Type: Package
 Title: Functions to analyse species-habitat associations
 Version: 1.0.1
-Authors@R: person("Maximilian", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
+Authors@R: person("Maximilian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
   role = c("aut", "cre"))
 Description: 
   The package contains functions to analyse species habitat associations based on Plotkin et al. (2000) and Harms et al. (2001).

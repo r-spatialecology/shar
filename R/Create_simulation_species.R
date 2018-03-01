@@ -4,16 +4,17 @@
 #' @param raster [\code{raster(1)}]\cr Raster object of the raster package with habitats
 #' @param type [\code{string(1)}]\cr 'positive' or 'negative' associations
 #' @param process [\code{string(1)}]\cr Process type to chose. Either 'Poisson' or 'Thomas'
+#' @param habitat [\code{numeric(1)}]\cr Habitat to which species is associated
 #' @param number_points [\code{numeric(1)}]\cr Number of points for each species (alpha=0)
 #' @param alpha [\code{numeric(1)}]\cr Strength of species-habitat association
 #' @param species_code [\code{numeric{1}}]\cr Species code to number species
-#' @param verbose [\code{logic(1)}]\cr Print advanced error message
+#' @param verbose [\code{logical(1)}]\cr Print advanced error message
 #'
 #' @return ppp object of the spatstat package with simulated species
 
 #' @export
 Create.Simulation.Species <- function(raster, type, process, habitat, number_points=100, alpha=0.3,
-                                      species_code=0, verbose=T, neutral=F){
+                                      species_code=0, verbose=T){
 
   owin_overall <- raster %>%
     raster::rasterToPolygons(fun=function(x) !is.na(x), na.rm=T, dissolve=T) %>%
@@ -36,8 +37,8 @@ Create.Simulation.Species <- function(raster, type, process, habitat, number_poi
         spatstat::superimpose.ppp(pattern_a, W=owin_overall)
 
       marks_pattern <- data.frame(Species=rep(paste0("Poisson_positive_", habitat), pattern$n),
-                                    Species_code=species_code,
-                                    Habitat=rep(habitat, pattern$n))
+                                      Species_code=species_code,
+                                      Habitat=rep(habitat, pattern$n))
       spatstat::marks(pattern) <- marks_pattern
     }
 
@@ -51,13 +52,13 @@ Create.Simulation.Species <- function(raster, type, process, habitat, number_poi
         spatstat::superimpose(pattern_a, W=owin_overall)
 
       marks_pattern <- data.frame(Species=rep(paste0("Thomas_positive_", habitat), pattern$n),
-                                    Species_code=species_code,
-                                    Habitat=rep(habitat, pattern$n))
+                                      Species_code=species_code,
+                                      Habitat=rep(habitat, pattern$n))
       spatstat::marks(pattern) <- marks_pattern
     }
 
     else{
-      if(verbose==T){print("Please select either 'Poisson' or 'Thomas' as process")}
+      if(verbose==T){print("Please select either 'Poisson', 'Thomas' as process")}
       pattern <- NULL
     }
   }
@@ -78,10 +79,9 @@ Create.Simulation.Species <- function(raster, type, process, habitat, number_poi
       pattern <- spatstat::superimpose(pattern_b, pattern_c, W=owin_overall)
 
       marks_pattern <- data.frame(Species=rep(paste0("Poisson_negative_", habitat), pattern$n),
-                                    Species_code=species_code,
-                                    Habitat=rep(habitat, pattern$n))
+                                  Species_code=species_code,
+                                  Habitat=rep(habitat, pattern$n))
       spatstat::marks(pattern) <- marks_pattern
-
     }
 
     else if(process=="Thomas"){
@@ -97,13 +97,13 @@ Create.Simulation.Species <- function(raster, type, process, habitat, number_poi
       pattern <- spatstat::superimpose(pattern_b, pattern_c, W=owin_overall)
 
       marks_pattern <- data.frame(Species=rep(paste0("Thomas_negative_", habitat), pattern$n),
-                                    Species_code=species_code,
-                                    Habitat=rep(habitat, pattern$n))
+                                  Species_code=species_code,
+                                  Habitat=rep(habitat, pattern$n))
       spatstat::marks(pattern) <- marks_pattern
     }
 
     else{
-      if(verbose==T){print("Please select either 'Poisson' or 'Thomas' as process")}
+      if(verbose==T){print("Please select either 'Poisson', 'Thomas' or 'Complex' as process")}
       pattern <- NULL
     }
   }
@@ -124,7 +124,7 @@ Create.Simulation.Species <- function(raster, type, process, habitat, number_poi
     }
 
     else{
-      if(verbose==T){print("Please select either 'Poisson' or 'Thomas' as process")}
+      if(verbose==T){print("Please select either 'Poisson', 'Thomas' or 'Complex' as process")}
       pattern <- NULL
     }
   }
@@ -133,5 +133,6 @@ Create.Simulation.Species <- function(raster, type, process, habitat, number_poi
     if(verbose==T){print("Please select either 'positive', 'negative' or 'neutral' as type")}
     pattern <- NULL
   }
+
   return(pattern)
 }

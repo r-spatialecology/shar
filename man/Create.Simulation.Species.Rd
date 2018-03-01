@@ -5,7 +5,7 @@
 \title{Create simulation species}
 \usage{
 Create.Simulation.Species(raster, type, process, habitat, number_points = 100,
-  alpha = 0.3, species_code = 0, verbose = T, neutral = F)
+  alpha = 0.3, species_code = 0, verbose = T)
 }
 \arguments{
 \item{raster}{[\code{raster(1)}]\cr Raster object of the raster package with habitats}
@@ -14,13 +14,15 @@ Create.Simulation.Species(raster, type, process, habitat, number_points = 100,
 
 \item{process}{[\code{string(1)}]\cr Process type to chose. Either 'Poisson' or 'Thomas'}
 
+\item{habitat}{[\code{numeric(1)}]\cr Habitat to which species is associated}
+
 \item{number_points}{[\code{numeric(1)}]\cr Number of points for each species (alpha=0)}
 
 \item{alpha}{[\code{numeric(1)}]\cr Strength of species-habitat association}
 
 \item{species_code}{[\code{numeric{1}}]\cr Species code to number species}
 
-\item{verbose}{[\code{logic(1)}]\cr Print advanced error message}
+\item{verbose}{[\code{logical(1)}]\cr Print advanced error message}
 }
 \value{
 ppp object of the spatstat package with simulated species

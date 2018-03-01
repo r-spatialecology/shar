@@ -8,13 +8,13 @@ Spatial.Reconstruction(pattern, max_runs = 10000, e_threshold = 0.01,
   fitting = F, verbose = T)
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}] Multivariate ppp object of the spatstat package}
+\item{pattern}{[\code{ppp(1)}]\cr Multivariate ppp object of the spatstat package}
 
-\item{max_runs}{[\code{numeric(1)}] number of maximum iterations}
+\item{max_runs}{[\code{numeric(1)}]\cr number of maximum iterations}
 
-\item{e_threshold}{[\code{numeric(1)}] Threshold for energy to reach during reconstruction}
+\item{e_threshold}{[\code{numeric(1)}]\cr Threshold for energy to reach during reconstruction}
 
-\item{fitting}{[\code{logical(1)}] If TRUE, a clustered pattern is fitted to the original pattern as starting point}
+\item{fitting}{[\code{logical(1)}]\cr If TRUE, a clustered pattern is fitted to the original pattern as starting point}
 
 \item{verbose}{[\code{logical(1)}]\cr If TRUE, progress is printed}
 }

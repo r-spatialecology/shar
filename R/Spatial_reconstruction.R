@@ -1,10 +1,10 @@
 #' Spatial reconstruction
 #'
 #' Univariate pattern reconstruction of only the spatial structure
-#' @param pattern [\code{ppp(1)}] Multivariate ppp object of the spatstat package
-#' @param max_runs [\code{numeric(1)}] number of maximum iterations
-#' @param e_threshold [\code{numeric(1)}] Threshold for energy to reach during reconstruction
-#' @param fitting [\code{logical(1)}] If TRUE, a clustered pattern is fitted to the original pattern as starting point
+#' @param pattern [\code{ppp(1)}]\cr Multivariate ppp object of the spatstat package
+#' @param max_runs [\code{numeric(1)}]\cr number of maximum iterations
+#' @param e_threshold [\code{numeric(1)}]\cr Threshold for energy to reach during reconstruction
+#' @param fitting [\code{logical(1)}]\cr If TRUE, a clustered pattern is fitted to the original pattern as starting point
 #' @param verbose [\code{logical(1)}]\cr If TRUE, progress is printed
 #'
 #' @return ppp object of the spatstat package with reconstructed pattern
