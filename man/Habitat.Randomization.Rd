@@ -5,7 +5,7 @@
 \title{Habitat randomization}
 \usage{
 Habitat.Randomization(raster, method = "randomization_algorithm",
-  number_maps = 1, number_neighbours = 8, parallel = F, verbose = T)
+  number_maps = 1, number_neighbours = 8)
 }
 \arguments{
 \item{raster}{[\code{raster(1)}]\cr Raster object of the raster package with discrete habitats}
