@@ -22,7 +22,7 @@ Pattern.Reconstruction <- function(pattern, method="only_spatial",
                                    fitting=F, verbose=F){
 
   doFuture::registerDoFuture()
-  future::plan(multisession)
+  future::plan(future::multisession)
 
   if(method=="only_spatial"){
     result <- foreach::foreach(i=1:number_reconstructions)%dorng%{

@@ -36,7 +36,7 @@ Habitat.Randomization <- function(raster, method='randomization_algorithm', numb
 
   else if(method=="randomization_algorithm"){
     doFuture::registerDoFuture()
-    future::plan(multisession)
+    future::plan(future::multisession)
 
     result <- foreach::foreach(i=1:number_maps)%dorng%{
       SHAR::Randomization.Algorithm(raster=raster, number_neighbours=number_neighbours)

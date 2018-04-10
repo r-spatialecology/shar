@@ -13,10 +13,12 @@ LazyData: true
 Imports:
   classInt,
   cli,
+  doFuture,
   doRNG,
   doSNOW,
   dplyr,
-  ggplot2, 
+  ggplot2,
+  future,
   foreach,
   magrittr,
   maptools,
