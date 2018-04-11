@@ -37,8 +37,8 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
 
       result_list <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized,
                                       by = "Habitat") %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
-                                                           Count>Hi ~ "Positive",
+        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
+                                                           Count>Hi ~ "positive",
                                                            Count>=Lo & Count<=Hi ~ "N.S.")))
     }
 
@@ -72,8 +72,8 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
 
         result_list[[paste(species_list[[i]])]] <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized,
                                                                     by = "Habitat") %>%
-          dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
-                                                             Count>Hi ~ "Positive",
+          dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
+                                                             Count>Hi ~ "positive",
                                                              Count>=Lo & Count<=Hi ~ "N.S.")))
       }
     }
@@ -98,8 +98,8 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
         dplyr::select(-Type)
 
       result_list <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized, by = "Habitat") %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
-                                                           Count>Hi ~ "Positive",
+        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
+                                                           Count>Hi ~ "positive",
                                                            Count>=Lo & Count<=Hi ~ "N.S.")))
     }
 
