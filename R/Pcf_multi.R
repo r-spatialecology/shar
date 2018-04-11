@@ -14,7 +14,7 @@ Pcf.Multi <- function(pattern){
     levels()
 
   r_max <- spatstat::rmax.rule(fun="K", W=pattern$window, lambda=spatstat::intensity(pattern))
-  r <- seq(from=0, to=r_max, length=513) # create r-values for Gmulti
+  r <- seq(from=0, to=r_max, length=515) # create r-values for Gmulti
 
   result <- tibble::tibble(r=r)
 
@@ -29,7 +29,7 @@ Pcf.Multi <- function(pattern){
   }
 
   names(result)[-1] <- species
-  result$Mean <- rowMeans(result)
+  result$Mean <- rowMeans(result[,-1])
 
   return(result) # return dataframe as result
 }

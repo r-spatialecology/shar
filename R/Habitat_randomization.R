@@ -5,17 +5,11 @@
 #' @param method [\code{string(1)}]\cr String choosing the method. Either "Torus_translation" or "Randomization_algorithm"
 #' @param number_maps [\code{numeric(1)}]\cr Number of created habitat maps for method="Randomization_algorithm"
 #' @param number_neighbours [\code{numeric(1)}]\cr Number of neighbours. See raster::adjacent(direction=number_neighbours) for more details
-#' @param parallel [\code{logical(1)}]\cr If TRUE, parallel computing with the help of the foreach package is used
-#' @param verbose [\code{logical(1)}]\cr If TRUE, progress is printed
 #' @references Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001).
 #' Habitat associations of trees and shrubs in a 50-ha neotropical forest plot.
-#' Journal of Ecology, 89(6), 947–959.
+#' Journal of Ecology, 89(6), 947-959.
 #'
 #' @return Raster object of the raster package with randomized habitat maps
-
-#' @importFrom doRNG %dorng%
-#' @importFrom foreach %dopar%
-#' @importFrom magrittr %>%
 
 #' @export
 Habitat.Randomization <- function(raster, method='randomization_algorithm', number_maps=1, number_neighbours=8){
@@ -38,7 +32,7 @@ Habitat.Randomization <- function(raster, method='randomization_algorithm', numb
     doFuture::registerDoFuture()
     future::plan(future::multisession)
 
-    result <- foreach::foreach(i=1:number_maps)%dorng%{
+    result <- foreach::foreach(i=1:number_maps) %dopar% {
       SHAR::Randomization.Algorithm(raster=raster, number_neighbours=number_neighbours)
     }
   }

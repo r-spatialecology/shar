@@ -7,48 +7,42 @@
 #' @param max_runs [\code{numeric(1)}] Number of maximum iterations
 #' @param e_threshold [\code{numeric(1)}] Threshold for energy to reach during reconstruction
 #' @param fitting [\code{logical(1)}] If TRUE, a clustered pattern is fitted to the original pattern as starting point
-#' @param parallel [\code{logical(1)}]\cr If TRUE, parallel computing with the help of the foreach package is used
-#' @param verbose [\code{logical(1)}]\cr If TRUE, progress is printed
 #'
 #' @return List containing reconstructed patterns and observed pattern
-
-#' @importFrom doRNG %dorng%
-#' @importFrom foreach %dopar%
-#' @importFrom magrittr %>%
 
 #' @export
 Pattern.Reconstruction <- function(pattern, method="only_spatial",
                                    number_reconstructions=1, max_runs=10000, e_threshold=0.01,
-                                   fitting=F, verbose=F){
+                                   fitting=F){
 
   doFuture::registerDoFuture()
   future::plan(future::multisession)
 
   if(method=="only_spatial"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dorng%{
+    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
       SHAR::Spatial.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                   e_threshold=e_threshold, fitting=fitting, verbose=verbose)
+                                   e_threshold=e_threshold, fitting=fitting)
     }
   }
 
   else if(method=="splitting_species"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dorng%{
+    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
       SHAR::Splitting.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                     e_threshold=e_threshold, fitting=fitting, verbose=verbose)
+                                     e_threshold=e_threshold, fitting=fitting)
     }
   }
 
   else if(method=="random_labeling"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dorng%{
+    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
       SHAR:: Labeling.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                     e_threshold=e_threshold, fitting=fitting, verbose=verbose)
+                                     e_threshold=e_threshold, fitting=fitting)
     }
   }
 
   else if(method=="simultaneously"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dorng%{
+    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
       SHAR::Simultaneously.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                          e_threshold=e_threshold, fitting=fitting, verbose=verbose)
+                                          e_threshold=e_threshold, fitting=fitting)
     }
   }
 

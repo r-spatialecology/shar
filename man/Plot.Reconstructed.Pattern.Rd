@@ -4,12 +4,14 @@
 \alias{Plot.Reconstructed.Pattern}
 \title{Plot list of reconstructed patterns}
 \usage{
-Plot.Reconstructed.Pattern(pattern, only_spatial = T)
+Plot.Reconstructed.Pattern(pattern, only_spatial = T, title = NULL)
 }
 \arguments{
 \item{pattern}{[\code{list(1)}] List with reconstructed and observed point pattern created with SHAR::Pattern.Reconstruction()}
 
 \item{only_spatial}{[\code{logical(1)}] TRUE for univariate point pattern}
+
+\item{title}{[\code{string(1)}] Title of plot}
 }
 \value{
 ggplot object of the ggplot2 package
