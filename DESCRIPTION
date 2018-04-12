@@ -12,14 +12,11 @@ Encoding: UTF-8
 LazyData: true
 Imports:
   classInt,
-  doFuture,
   dplyr,
   future,
-  foreach,
   ggplot2,
   magrittr,
   maptools,
-  parallel,
   purrr,
   raster,
   sp,

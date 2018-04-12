@@ -29,12 +29,13 @@ Habitat.Randomization <- function(raster, method='randomization_algorithm', numb
   }
 
   else if(method=="randomization_algorithm"){
-    doFuture::registerDoFuture()
-    future::plan(future::multisession)
 
-    result <- foreach::foreach(i=1:number_maps) %dopar% {
-      SHAR::Randomization.Algorithm(raster=raster, number_neighbours=number_neighbours)
-    }
+    future::plan(future::multiprocess)
+
+    result <- 1:number_maps %>%
+      purrr::map(~ future::future({SHAR::Randomization.Algorithm(raster=raster,
+                                                                 number_neighbours=number_neighbours)})) %>%
+      future::values()
   }
 
   else{

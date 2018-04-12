@@ -15,35 +15,31 @@ Pattern.Reconstruction <- function(pattern, method="only_spatial",
                                    number_reconstructions=1, max_runs=10000, e_threshold=0.01,
                                    fitting=F){
 
-  doFuture::registerDoFuture()
-  future::plan(future::multisession)
+  future::plan(future::multiprocess)
 
   if(method=="only_spatial"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
-      SHAR::Spatial.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                   e_threshold=e_threshold, fitting=fitting)
-    }
+    result <- 1:number_reconstructions %>%
+      purrr::map(~ future::future({SHAR::Spatial.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                                                e_threshold=e_threshold, fitting=fitting)})) %>%
+      future::values()
   }
 
   else if(method=="splitting_species"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
-      SHAR::Splitting.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                     e_threshold=e_threshold, fitting=fitting)
-    }
+    purrr::map(~ future::future({SHAR::Splitting.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                                                e_threshold=e_threshold, fitting=fitting)})) %>%
+      future::values()
   }
 
   else if(method=="random_labeling"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
-      SHAR:: Labeling.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                     e_threshold=e_threshold, fitting=fitting)
-    }
+    purrr::map(~ future::future({SHAR::Labeling.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                                               e_threshold=e_threshold, fitting=fitting)})) %>%
+      future::values()
   }
 
   else if(method=="simultaneously"){
-    result <- foreach::foreach(i=1:number_reconstructions)%dopar%{
-      SHAR::Simultaneously.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                          e_threshold=e_threshold, fitting=fitting)
-    }
+    purrr::map(~ future::future({SHAR::Simultaneously.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                                                     e_threshold=e_threshold, fitting=fitting)})) %>%
+      future::values()
   }
 
   else{
