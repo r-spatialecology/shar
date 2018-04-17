@@ -19,27 +19,34 @@ Pattern.Reconstruction <- function(pattern, method="only_spatial",
 
   if(method=="only_spatial"){
     result <- 1:number_reconstructions %>%
-      purrr::map(~ future::future({SHAR::Spatial.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                                                e_threshold=e_threshold, fitting=fitting)})) %>%
-      future::values()
+      furrr::future_map(function(x){
+        SHAR::Spatial.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                     e_threshold=e_threshold, fitting=fitting)
+      })
   }
 
   else if(method=="splitting_species"){
-    purrr::map(~ future::future({SHAR::Splitting.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                                                e_threshold=e_threshold, fitting=fitting)})) %>%
-      future::values()
+    result <- 1:number_reconstructions %>%
+      furrr::future_map(function(x){
+        SHAR::Splitting.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                       e_threshold=e_threshold, fitting=fitting)
+      })
   }
 
   else if(method=="random_labeling"){
-    purrr::map(~ future::future({SHAR::Labeling.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                                               e_threshold=e_threshold, fitting=fitting)})) %>%
-      future::values()
+    result <- 1:number_reconstructions %>%
+      furrr::future_map(function(x){
+        SHAR::Labeling.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                      e_threshold=e_threshold, fitting=fitting)
+      })
   }
 
   else if(method=="simultaneously"){
-    purrr::map(~ future::future({SHAR::Simultaneously.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                                                     e_threshold=e_threshold, fitting=fitting)})) %>%
-      future::values()
+    result <- 1:number_reconstructions %>%
+      furrr::future_map(function(x){
+        SHAR::Simultaneously.Reconstruction(pattern=pattern, max_runs=max_runs,
+                                            e_threshold=e_threshold, fitting=fitting)
+      })
   }
 
   else{

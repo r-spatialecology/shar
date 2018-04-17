@@ -14,6 +14,7 @@ Imports:
   classInt,
   dplyr,
   future,
+  furrr, 
   ggplot2,
   magrittr,
   maptools,

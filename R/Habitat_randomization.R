@@ -33,9 +33,10 @@ Habitat.Randomization <- function(raster, method='randomization_algorithm', numb
     future::plan(future::multiprocess)
 
     result <- 1:number_maps %>%
-      purrr::map(~ future::future({SHAR::Randomization.Algorithm(raster=raster,
-                                                                 number_neighbours=number_neighbours)})) %>%
-      future::values()
+      furrr::future_map(function(x){
+        SHAR::Randomization.Algorithm(raster = raster,
+                                      number_neighbours = number_neighbours)
+        })
   }
 
   else{
