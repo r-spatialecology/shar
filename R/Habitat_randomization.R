@@ -30,7 +30,7 @@ Habitat.Randomization <- function(raster, method='randomization_algorithm', numb
 
   else if(method=="randomization_algorithm"){
 
-    future::plan(future::multiprocess)
+    # future::plan(future::multiprocess)
 
     result <- 1:number_maps %>%
       furrr::future_map(function(x){

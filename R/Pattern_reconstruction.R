@@ -15,7 +15,7 @@ Pattern.Reconstruction <- function(pattern, method="only_spatial",
                                    number_reconstructions=1, max_runs=10000, e_threshold=0.01,
                                    fitting=F){
 
-  future::plan(future::multiprocess)
+  # future::plan(future::multiprocess)
 
   if(method=="only_spatial"){
     result <- 1:number_reconstructions %>%
