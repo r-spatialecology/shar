@@ -4,7 +4,7 @@ Title: Functions to analyse species-habitat associations
 Version: 1.0.1
 Authors@R: person("Maximilian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
   role = c("aut", "cre"))
-Description: 
+Description:
   The package contains functions to analyse species habitat associations based on Plotkin et al. (2000) and Harms et al. (2001).
   Therefore, information about the location of all individuals and about environmental data is needed.
 License: GPL-3
@@ -25,4 +25,6 @@ Imports:
   tibble, 
   tidyr
 RoxygenNote: 6.0.1.9000
-
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
