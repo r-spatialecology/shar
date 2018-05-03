@@ -1,6 +1,6 @@
-#' Plot list of reconstructed patterns
+#' Plot list of randomized patterns
 #'
-#' Function to plot all reconstructed patterns created of the pattern list with reconstructed patterns
+#' Function to plot all randomized patterns created with either pattern reconstruction of the Gamma test
 #' @param pattern [\code{list(1)}] List with reconstructed and observed point pattern created with SHAR::Pattern.Reconstruction()
 #' @param only_spatial [\code{logical(1)}] TRUE for univariate point pattern
 #' @param title [\code{string(1)}] Title of plot
@@ -9,7 +9,7 @@
 #' @return ggplot object of the ggplot2 package
 
 #' @export
-Plot.Reconstructed.Pattern <- function(pattern, only_spatial=T, title=NULL){
+Plot.Randomized.Pattern <- function(pattern, only_spatial=T, title=NULL){
 
   if(only_spatial==T){
     if(pattern[[length(pattern)]]$n>=1000){result <- purrr::map(pattern, SHAR::Pcf.Fast)}
