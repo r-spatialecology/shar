@@ -11,7 +11,7 @@ Aggregate.Result.List(result_list, id, neutral = F)
 
 \item{id}{[\code{string(1)}]\cr Name of the ID-variable}
 
-\item{complex}{[\code{logical(1)}] \cr TRUE if result_list is based on complex simulation pattern}
+\item{neutral}{[\code{logical(1)}] \cr TRUE if result_list is based on neutral species}
 }
 \value{
 Long data frame with aggregated results

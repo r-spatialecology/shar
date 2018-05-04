@@ -5,7 +5,6 @@
 #' @param y_shift [\code{numeric(1)}] Shift in y direction
 #' @return ppp object of the spatstat package
 
-#' @export
 # Torus.Translation.Pattern <- function(pattern, x_shift=0, y_shift=0){
 #   xoff <- min(pattern$window$xrange)
 #   yoff <- min(pattern$window$yrange)

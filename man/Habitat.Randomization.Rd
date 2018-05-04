@@ -5,7 +5,7 @@
 \title{Habitat randomization}
 \usage{
 Habitat.Randomization(raster, method = "randomization_algorithm",
-  number_maps = 1, number_neighbours = 8, parallel = F, verbose = T)
+  number_maps = 1, number_neighbours = 8)
 }
 \arguments{
 \item{raster}{[\code{raster(1)}]\cr Raster object of the raster package with discrete habitats}
@@ -15,10 +15,6 @@ Habitat.Randomization(raster, method = "randomization_algorithm",
 \item{number_maps}{[\code{numeric(1)}]\cr Number of created habitat maps for method="Randomization_algorithm"}
 
 \item{number_neighbours}{[\code{numeric(1)}]\cr Number of neighbours. See raster::adjacent(direction=number_neighbours) for more details}
-
-\item{parallel}{[\code{logical(1)}]\cr If TRUE, parallel computing with the help of the foreach package is used}
-
-\item{verbose}{[\code{logical(1)}]\cr If TRUE, progress is printed}
 }
 \value{
 Raster object of the raster package with randomized habitat maps
@@ -29,5 +25,5 @@ Randomization of habitat maps using methods proposed by Harms et al. (2001)
 \references{
 Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001).
 Habitat associations of trees and shrubs in a 50-ha neotropical forest plot.
-Journal of Ecology, 89(6), 947–959.
+Journal of Ecology, 89(6), 947-959.
 }

@@ -4,14 +4,12 @@
 \alias{Mean.Energy}
 \title{Mean energy of the reconstruction}
 \usage{
-Mean.Energy(pattern, only_spatial = T, verbose = T)
+Mean.Energy(pattern, only_spatial = T)
 }
 \arguments{
 \item{pattern}{[\code{list(1)}] List with reconstructed and observed point pattern created with SHAR::Pattern.Reconstruction()}
 
 \item{only_spatial}{[\code{logical(1)}] TRUE for univariate point pattern}
-
-\item{verbose}{[\code{logical(1)}] TRUE if results should be printed on console}
 }
 \value{
 Numeric with mean energy of the reconstruction

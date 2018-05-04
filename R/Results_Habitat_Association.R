@@ -15,21 +15,15 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
 
   if(method=="random_raster"){
 
-    foo <- function(raster, points){
-      raster %>%
-        raster::extract(y=points) %>%
-        factor(levels=1:5) %>%
-        table()
-    }
-
     if(only_spatial==T){
       points <- pattern %>%
         spatstat::coords() %>%
         sp::SpatialPoints()
 
-      habitat_counts <- sapply(raster, FUN=foo, points=points) %>%
-        reshape2::melt(varnames=c("Habitat", "Type"), value.name="Count") %>%
-        tibble::as.tibble()
+      habitat_counts <- purrr::map_dfr(raster, .id = 'Type',
+                                       function(x) SHAR::Extract.Points(raster=x,
+                                                                        points=points,
+                                                                        method=method))
 
       habitat_counts_randomized <- habitat_counts %>%
         dplyr::filter(Type!="Observed") %>%
@@ -41,12 +35,11 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
         dplyr::filter(Type=="Observed") %>%
         dplyr::select(-Type)
 
-      result_list <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
-                                                           Count>Hi ~ "Positive",
-                                                           Count>=Lo & Count<=Hi ~ "N.S."))) %>%
-        tibble::as.tibble() %>%
-        dplyr::mutate(Habitat=as.factor(Habitat))
+      result_list <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized,
+                                      by = "Habitat") %>%
+        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
+                                                           Count>Hi ~ "positive",
+                                                           Count>=Lo & Count<=Hi ~ "N.S.")))
     }
 
     else{
@@ -62,9 +55,10 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
         points_spec <- points %>%
           subset(Species==species_list[[i]])
 
-        habitat_counts <- sapply(raster, FUN=foo, points=points_spec) %>%
-          reshape2::melt(varnames=c("Habitat", "Type"), value.name="Count") %>%
-          tibble::as.tibble()
+        habitat_counts <- purrr::map_dfr(raster, .id = 'Type',
+                                         function(x) SHAR::Extract.Points(raster=x,
+                                                                    points=points_spec,
+                                                                    method=method))
 
         habitat_counts_randomized <- habitat_counts %>%
           dplyr::filter(Type!="Observed") %>%
@@ -76,30 +70,22 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
           dplyr::filter(Type=="Observed") %>%
           dplyr::select(-Type)
 
-        result_list[[paste(species_list[[i]])]] <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
-          dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
-                                                             Count>Hi ~ "Positive",
-                                                             Count>=Lo & Count<=Hi ~ "N.S."))) %>%
-          tibble::as.tibble() %>%
-          dplyr::mutate(Habitat=as.factor(Habitat))
+        result_list[[paste(species_list[[i]])]] <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized,
+                                                                    by = "Habitat") %>%
+          dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
+                                                             Count>Hi ~ "positive",
+                                                             Count>=Lo & Count<=Hi ~ "N.S.")))
       }
     }
   }
 
   else if(method=="random_pattern"){
-    foo <- function(points) {
-      points %>%
-        spatstat::coords() %>%
-        sp::SpatialPoints() %>%
-        raster::extract(raster, ., factor=T) %>%
-        factor(levels=1:5) %>%
-        table()
-    }
 
     if(only_spatial==T){
-      habitat_counts <- sapply(pattern, FUN=foo) %>%
-        reshape2::melt(varnames=c("Habitat", "Type"), value.name="Count") %>%
-        tibble::as.tibble()
+      habitat_counts <- purrr::map_dfr(pattern, .id = 'Type',
+                                       function(x) SHAR::Extract.Points(raster=raster,
+                                                                        points=x,
+                                                                        method=method))
 
       habitat_counts_randomized <- habitat_counts %>%
         dplyr::filter(Type!="Observed") %>%
@@ -111,12 +97,10 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
         dplyr::filter(Type=="Observed") %>%
         dplyr::select(-Type)
 
-      result_list <- merge(habitat_counts_observed, habitat_counts_randomized) %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "Negative",
-                                                           Count>Hi ~ "Positive",
-                                                           Count>=Lo & Count<=Hi ~ "N.S."))) %>%
-        tibble::as.tibble() %>%
-        dplyr::mutate(Habitat=as.factor(Habitat))
+      result_list <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized, by = "Habitat") %>%
+        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
+                                                           Count>Hi ~ "positive",
+                                                           Count>=Lo & Count<=Hi ~ "N.S.")))
     }
 
     else{
