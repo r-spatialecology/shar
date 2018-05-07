@@ -11,30 +11,32 @@
 #' @export
 reconstruct_labeling <- function(pattern, max_runs = 10000, e_threshold = 0.01, fitting = FALSE){
 
+  # spatial reconstruction
   simulated <- SHAR::reconstruct_spatial(pattern = pattern, max_runs = max_runs,
                                          e_threshold = e_threshold,
                                          fitting = fitting)
 
-  pattern <- Select.Species(pattern) # get data with only species as marks
+  pattern <- select_species(pattern) # get data with only species as marks
 
   species <- rep(levels(pattern$marks), spatstat::summary.ppp(pattern)$marks[[1]]) # create marks
   spatstat::marks(simulated) <- factor(species) # assign marks to data
 
-  pcfmulti_observed <- SHAR::estimate_pcf_multi(pattern) # iSAR observed data
-  pcfmulti_simulated <- SHAR::estimate_pcf_multi(simulated)  # iSAR simulated data
+  pcfmulti_observed <- SHAR::estimate_pcf_multi(pattern) # pcf_multi observed data
+  pcfmulti_simulated <- SHAR::estimate_pcf_multi(simulated)  # pcf_multi simulated data
 
   gmulti_observed <- SHAR::estimate_gest_multi(pattern) # Gmulti(r) observed data
   gmulti_simulated <- SHAR::estimate_gest_multi(simulated) # Gmulti(r) simulated data
 
-  e0_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_simulated$Mean), na.rm = TRUE) # energy iSAR
+  e0_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_simulated$Mean), na.rm = TRUE) # energy pcf_multi
   e0_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_simulated$Mean), na.rm = TRUE) # energy Gmulti
 
+  # Add weights
   e0_spec <- e0_pcfmulti + e0_gmulti # overall energy
 
   for(i in 1:max_runs){ # mark reconstruction
     relocated <- simulated # create relocated data
 
-    sample_species <- sample(unique(species), size = 2)
+    sample_species <- sample(unique(species), size = 2) # sample two species (needed because 90 % beech)
 
     point1 <- sample(size=1, 1:relocated[relocated$marks == sample_species[1]]$n) # random point 1
     point2 <- sample(size=1, 1:relocated[relocated$marks == sample_species[2]]$n) # random point 2 (datset without spec1)
@@ -42,12 +44,13 @@ reconstruct_labeling <- function(pattern, max_runs = 10000, e_threshold = 0.01, 
     spatstat::marks(relocated[relocated$marks == sample_species[1]][point1]) <- sample_species[2] # swap species
     spatstat::marks(relocated[relocated$marks == sample_species[2]][point2]) <- sample_species[1] # swap species
 
-    pcfmulti_relocated <- SHAR::estimate_pcf_multi(relocated) # iSAR after relocation
+    pcfmulti_relocated <- SHAR::estimate_pcf_multi(relocated) # pcf_multi after relocation
     gmulti_relocated <- SHAR::estimate_gest_multi(relocated) # Gmulti(r) after relocation
 
-    e_relocated_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_relocated$Mean), na.rm = TRUE) # energy iSAR after relocation
+    e_relocated_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_relocated$Mean), na.rm = TRUE) # energy pcf_multi after relocation
     e_relocated_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_relocated$Mean), na.rm = TRUE) # energy Gmulti(r) after relocation
 
+    # Add weights
     e_relocated_spec <- e_relocated_pcfmulti + e_relocated_gmulti # overall energy after relocation
 
     if(e_relocated_spec < e0_spec){ # lower energy after relocation

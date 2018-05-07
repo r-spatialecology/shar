@@ -54,8 +54,8 @@ reconstruct_pattern <- function(pattern, method = 'only_spatial',
     result <- list('NA')
   }
 
-  if(method=='only_spatial'){result[[length(result)+1]] <- spatstat::unmark(pattern)}
-  else{result[[length(result)+1]] <- pattern}
+  if(method == 'only_spatial'){result[[length(result) + 1]] <- spatstat::unmark(pattern)}
+  else{result[[length(result) + 1]] <- pattern}
   names(result) <-  c(rep(paste0('Randomized_', 1:(length(result)-1))), 'Observed')
   return(result)
 }

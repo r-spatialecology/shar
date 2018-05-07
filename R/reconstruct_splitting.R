@@ -20,6 +20,7 @@ reconstruct_splitting <- function(pattern, max_runs = 10000, e_threshold = 0.01,
   for(i in 1:n_spec){ # loop for each species
     pattern_species <- pattern[pattern$marks == names_spec[i]] # dataset with current, single species
 
+    # spatial reconstruction
     reconstructed_species <- SHAR::reconstruct_spatial(pattern = pattern_species,
                                                        max_runs = max_runs,
                                                        e_threshold = e_threshold,

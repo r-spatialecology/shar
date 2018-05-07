@@ -11,7 +11,7 @@
 #' @export
 estimate_pcf_fast <- function(pattern, correction = 'good', method = 'c', spar = 0.35){
   result <- pattern %>%
-    spatstat::Kest(correction = correction) %>%
-    spatstat::pcf.fv(method = method, spar = spar)
+    spatstat::Kest(correction = correction) %>% # estimate K-fct
+    spatstat::pcf.fv(method = method, spar = spar) # estimate pcf from K-fct
   return(result)
 }
