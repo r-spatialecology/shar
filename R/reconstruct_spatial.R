@@ -33,8 +33,8 @@ reconstruct_spatial <- function(pattern, max_runs = 10000, e_threshold = 0.01, f
   else{simulated <- spatstat::runifpoint(n = pattern$n, win = pattern$window)} # create simulation data
 
   if(pattern$n >= 1000){ # indirect computation
-    pcf_observed <- SHAR::Pcf.Fast(pattern)
-    pcf_simulated <- SHAR::Pcf.Fast(simulated)
+    pcf_observed <- SHAR::estimate_pcf_fast(pattern)
+    pcf_simulated <- SHAR::estimate_pcf_fast(simulated)
   }
   else{ # direct computation summary functions
     pcf_observed <- spatstat::pcf(pattern, correction = 'best', divisor = 'd') # g(r) observed data

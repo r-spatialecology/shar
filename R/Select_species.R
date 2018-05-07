@@ -4,7 +4,7 @@
 #' @param pattern [\code{ppp(1)}]\cr ppp object of the spatstat packages containing multivariate point pattern
 
 #' @export
-Select.Species <- function(pattern) {
+select_species <- function(pattern) {
   result <- tryCatch(
     {
       spatstat::subset.ppp(pattern, select=Species)
