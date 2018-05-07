@@ -9,21 +9,21 @@
 #' @return ppp object of the spatstat package with reconstructed pattern
 
 #' @export
-Splitting.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fitting=F){
+reconstruct_splitting <- function(pattern, max_runs = 10000, e_threshold = 0.01, fitting = FALSE){
 
-  pattern <- spatstat::subset.ppp(pattern, select=Species, drop=T) # only species as mark
+  pattern <- spatstat::subset.ppp(pattern, select = Species, drop = TRUE) # only species as mark
   n_spec <- length(levels(pattern$marks)) # number of species
   names_spec <- levels(pattern$marks) # names of species
 
-  simulated_final <- spatstat::ppp(window=pattern$window, marks=factor()) # create pattern for overall data
+  simulated_final <- spatstat::ppp(window = pattern$window, marks = factor()) # create pattern for overall data
 
   for(i in 1:n_spec){ # loop for each species
-    pattern_species <- pattern[pattern$marks==names_spec[i]] # dataset with current, single species
+    pattern_species <- pattern[pattern$marks == names_spec[i]] # dataset with current, single species
 
-    reconstructed_species <- SHAR::Spatial.Reconstruction(pattern=pattern_species,
-                                                         max_runs=max_runs,
-                                                         e_threshold=e_threshold,
-                                                         fitting=fitting)
+    reconstructed_species <- SHAR::reconstruct_spatial(pattern = pattern_species,
+                                                       max_runs = max_runs,
+                                                       e_threshold = e_threshold,
+                                                       fitting = fitting)
 
 
     spatstat::marks(reconstructed_species) <- factor(names_spec[i]) # assign marks to reconstruced data

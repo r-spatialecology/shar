@@ -9,45 +9,46 @@
 #' @return ppp object of the spatstat package with reconstructed pattern
 
 #' @export
-Simultaneously.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fitting=F){
+reconstruct_simultaneously <- function(pattern, max_runs = 10000, e_threshold = 0.01, fitting = FALSE){
 
   pattern <- Select.Species(pattern) # data to reconstruct
 
-  if(fitting==T){
+  if(fitting == TRUE){
     simulated <- pattern %>%
       spatstat::unmark() %>%
-      spatstat::kppm(cluster="Thomas", statistic="pcf") %>%
-      spatstat::simulate.kppm(window=pattern$window, drop=T, verbose=F)
+      spatstat::kppm(cluster='Thomas', statistic = 'pcf') %>%
+      spatstat::simulate.kppm(window = pattern$window, drop = TRUE, verbose = FALSE)
 
     if(simulated$n != pattern$n){
       dif <- abs(pattern$n - simulated$n)
       if(simulated$n < pattern$n){
-        p <- spatstat::runifpoint(n=dif, win=pattern$window)
+        p <- spatstat::runifpoint(n = dif, win = pattern$window)
         simulated <- spatstat::superimpose(simulated, p)
       }
       else{
-        r <- sample(1:max(simulated$n), size=dif, replace=F)
+        r <- sample(1:max(simulated$n), size = dif, replace = FALSE)
         simulated <- simulated[-r]
       }
     }
   }
-  else{simulated <- spatstat::runifpoint(n=spatstat::unmark(pattern)$n, win=spatstat::unmark(pattern)$window)} # create simulation data
+  else{simulated <- spatstat::runifpoint(n = spatstat::unmark(pattern)$n,
+                                         win = spatstat::unmark(pattern)$window)} # create simulation data
 
   species <- rep(levels(pattern$marks), spatstat::summary.ppp(pattern)$marks[[1]]) # get marks
   spatstat::marks(simulated) <- factor(species) # assign marks to simulated pattern
 
-  if(pattern$n>=1000){ # indirect computation
+  if(pattern$n >= 1000){ # indirect computation
     pcf_observed <- SHAR::Pcf.Fast(pattern)
     pcf_simulated <- SHAR::Pcf.Fast(simulated)
   }
 
   else{ # direct computation
-    pcf_observed <- spatstat::pcf(pattern, correction="best", divisor="d") # g(r) observed data
-    pcf_simulated <- spatstat::pcf(simulated, correction="best", divisor="d") # g(r) simulated data
+    pcf_observed <- spatstat::pcf(pattern, correction = 'best', divisor = 'd') # g(r) observed data
+    pcf_simulated <- spatstat::pcf(simulated, correction = 'best', divisor = 'd') # g(r) simulated data
   }
 
-  gest_observed <- spatstat::Gest(pattern, correction="best") # G(r) observed data
-  gest_simulated <- spatstat::Gest(simulated, correction="best") # g(r) simulated pattern
+  gest_observed <- spatstat::Gest(pattern, correction = 'best') # G(r) observed data
+  gest_simulated <- spatstat::Gest(simulated, correction = 'best') # g(r) simulated pattern
 
   pcfmulti_observed <- SHAR::Pcf.Multi(pattern) # iSAR observed data
   pcfmulti_simulated <- SHAR::Pcf.Multi(simulated) # iSAR simulated data
@@ -55,10 +56,10 @@ Simultaneously.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0
   gmulti_observed <- SHAR::Gest.Multi(pattern) # Gmulti(r) observed data
   gmulti_simulated <- SHAR::Gest.Multi(simulated) # Gmulti(r) simulated data
 
-  e0_pcf <- mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm=T) # energy g(r)
-  e0_gest <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm=T) # energy G(r)
-  e0_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_simulated$Mean), na.rm=T) # energy isar
-  e0_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_simulated$Mean), na.rm=T) # energy Gmulti
+  e0_pcf <- mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE) # energy g(r)
+  e0_gest <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) # energy G(r)
+  e0_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_simulated$Mean), na.rm = TRUE) # energy isar
+  e0_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_simulated$Mean), na.rm = TRUE) # energy Gmulti
 
   e0 <- e0_pcf + e0_gest + e0_pcfmulti + e0_gmulti # overall energy
 
@@ -67,24 +68,24 @@ Simultaneously.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0
 
     rp <- sample(size=1, 1:relocated$n) # random point of pattern
     relocated_temp <- relocated[-rp] # remove point from pattern
-    point <- spatstat::runifpoint(n=1, win=relocated$window) # create random coordinates
+    point <- spatstat::runifpoint(n = 1, win = relocated$window) # create random coordinates
     spatstat::marks(point) <- spatstat::marks(relocated[rp]) # assign marks
     relocated <- spatstat::superimpose(relocated_temp, point) # add point to pattern
 
-    if(relocated$n>=1000){ # indirect computation
-      k_relocated <- spatstat::Kest(relocated, correction="good") # K(r) after relocation
-      pcf_relocated <- spatstat::pcf.fv(k_relocated, spar=0.5, method="d") # g(r) after relocation
+    if(relocated$n >= 1000){ # indirect computation
+      k_relocated <- spatstat::Kest(relocated, correction = 'good') # K(r) after relocation
+      pcf_relocated <- spatstat::pcf.fv(k_relocated, spar = 0.5, method = 'd') # g(r) after relocation
     }
-    else{pcf_relocated <- spatstat::pcf(relocated, correction="best", divisor="d")} # g(r) after relocation
+    else{pcf_relocated <- spatstat::pcf(relocated, correction = 'best', divisor = 'd')} # g(r) after relocation
 
-    gest_relocated <- spatstat::Gest(relocated, correction="best") # G(r) after relocation
+    gest_relocated <- spatstat::Gest(relocated, correction = 'best') # G(r) after relocation
     pcfmulti_relocated <- SHAR::Pcf.Multi(relocated) # iSAR after relocation
     gmulti_relocated <- SHAR::Gest.Multi(relocated) # Gmulti(r) simulated data
 
-    e_relocated_pcf <- mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm=T) # energy g(r) after relocation
-    e_relocated_gest <- mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm=T) # energy G(r) after relocation
-    e_relocated_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_relocated$Mean), na.rm=T) # energy iSAR after relocation
-    e_relocated_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_relocated$Mean), na.rm=T) # energy Gmulti
+    e_relocated_pcf <- mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE) # energy g(r) after relocation
+    e_relocated_gest <- mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) # energy G(r) after relocation
+    e_relocated_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_relocated$Mean), na.rm = TRUE) # energy iSAR after relocation
+    e_relocated_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_relocated$Mean), na.rm = TRUE) # energy Gmulti
 
     e_relocated <- e_relocated_pcf + e_relocated_gest + e_relocated_pcfmulti + e_relocated_gmulti # total energy after relocation
 

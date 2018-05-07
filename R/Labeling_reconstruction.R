@@ -9,11 +9,11 @@
 #' @return ppp object of the spatstat package with reconstructed pattern
 
 #' @export
-Labeling.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, fitting=F){
+reconstruct_labeling <- function(pattern, max_runs = 10000, e_threshold = 0.01, fitting = FALSE){
 
-  simulated <- SHAR::Spatial.Reconstruction(pattern=pattern, max_runs=max_runs,
-                                                  e_threshold=e_threshold,
-                                                  fitting=fitting)
+  simulated <- SHAR::reconstruct_spatial(pattern = pattern, max_runs = max_runs,
+                                         e_threshold = e_threshold,
+                                         fitting = fitting)
 
   pattern <- Select.Species(pattern) # get data with only species as marks
 
@@ -26,27 +26,27 @@ Labeling.Reconstruction <- function(pattern, max_runs=10000, e_threshold=0.01, f
   gmulti_observed <- SHAR::Gest.Multi(pattern) # Gmulti(r) observed data
   gmulti_simulated <- SHAR::Gest.Multi(simulated) # Gmulti(r) simulated data
 
-  e0_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_simulated$Mean), na.rm=T) # energy iSAR
-  e0_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_simulated$Mean), na.rm=T) # energy Gmulti
+  e0_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_simulated$Mean), na.rm = TRUE) # energy iSAR
+  e0_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_simulated$Mean), na.rm = TRUE) # energy Gmulti
 
   e0_spec <- e0_pcfmulti + e0_gmulti # overall energy
 
   for(i in 1:max_runs){ # mark reconstruction
     relocated <- simulated # create relocated data
 
-    sample_species <- sample(unique(species), size=2)
+    sample_species <- sample(unique(species), size = 2)
 
-    point1 <- sample(size=1, 1:relocated[relocated$marks==sample_species[1]]$n) # random point 1
-    point2 <- sample(size=1, 1:relocated[relocated$marks==sample_species[2]]$n) # random point 2 (datset without spec1)
+    point1 <- sample(size=1, 1:relocated[relocated$marks == sample_species[1]]$n) # random point 1
+    point2 <- sample(size=1, 1:relocated[relocated$marks == sample_species[2]]$n) # random point 2 (datset without spec1)
 
-    spatstat::marks(relocated[relocated$marks==sample_species[1]][point1]) <- sample_species[2] # swap species
-    spatstat::marks(relocated[relocated$marks==sample_species[2]][point2]) <- sample_species[1] # swap species
+    spatstat::marks(relocated[relocated$marks == sample_species[1]][point1]) <- sample_species[2] # swap species
+    spatstat::marks(relocated[relocated$marks == sample_species[2]][point2]) <- sample_species[1] # swap species
 
     pcfmulti_relocated <- SHAR::Pcf.Multi(relocated) # iSAR after relocation
     gmulti_relocated <- SHAR::Gest.Multi(relocated) # Gmulti(r) after relocation
 
-    e_relocated_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_relocated$Mean), na.rm=T) # energy iSAR after relocation
-    e_relocated_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_relocated$Mean), na.rm=T) # energy Gmulti(r) after relocation
+    e_relocated_pcfmulti <- mean(abs(pcfmulti_observed$Mean - pcfmulti_relocated$Mean), na.rm = TRUE) # energy iSAR after relocation
+    e_relocated_gmulti <- mean(abs(gmulti_observed$Mean - gmulti_relocated$Mean), na.rm = TRUE) # energy Gmulti(r) after relocation
 
     e_relocated_spec <- e_relocated_pcfmulti + e_relocated_gmulti # overall energy after relocation
 
