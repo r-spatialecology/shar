@@ -7,7 +7,7 @@
 #' @return List containing reconstructed patterns and observed pattern
 
 #' @export
-Gamma.Test <- function(input, process='poisson', number_pattern=199){
+fit_point_process <- function(input, process = 'poisson', number_pattern = 199){
 
   pattern <- input %>%
     spatstat::unmark()
@@ -15,24 +15,25 @@ Gamma.Test <- function(input, process='poisson', number_pattern=199){
   if(process == 'poisson'){
     pattern_random <- pattern %>%
       spatstat::ppm() %>%
-      spatstat::simulate.ppm(nsim=number_pattern, progress=F)
+      spatstat::simulate.ppm(nsim = number_pattern, progress = F)
   }
 
   else if(process == 'cluster'){
     pattern_random <- pattern %>%
       spatstat::kppm(cluster = 'Thomas', statistic = 'pcf') %>%
-      spatstat::simulate.kppm(nsim=number_pattern, verbose=F)
+      spatstat::simulate.kppm(nsim = number_pattern, verbose = FALSE)
   }
 
   else if(process == 'softcore'){
-    pattern_random <- pattern %>%
-      spatstat::Strauss() %>%
-      spatstat::rStrauss(nsim = number_pattern)
+    # pattern_random <- pattern %>%
+    #   spatstat::Strauss() %>%
+    #   spatstat::rStrauss(nsim = number_pattern)
+    print('Not implemented yet')
   }
 
   else{stop('Please select either "poisson", "cluster" or "softcore" as process')}
 
-  pattern_random[[length(pattern_random)+1]] <- pattern
+  pattern_random[[length(pattern_random) + 1]] <- pattern
   names(pattern_random)[[length(pattern_random)]] <- "Observed"
 
   return(pattern_random)
