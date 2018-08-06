@@ -9,19 +9,20 @@
 #' @return List or data frame with results of species-habitat association
 
 #' @export
-Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.025, 0.975), only_spatial=F){
+results_habitat_association <- function(pattern, raster, method, threshold=c(0.025, 0.975), only_spatial=F){
 
   result_list <- list()
 
   if(method=="random_raster"){
 
     if(only_spatial==T){
-      points <- pattern %>%
+
+       points <- pattern %>%
         spatstat::coords() %>%
         sp::SpatialPoints()
 
       habitat_counts <- purrr::map_dfr(raster, .id = 'Type',
-                                       function(x) SHAR::Extract.Points(raster=x,
+                                       function(x) SHAR::extract_points(raster=x,
                                                                         points=points,
                                                                         method=method))
 
@@ -43,6 +44,7 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
     }
 
     else{
+
       points <- pattern %>%
         spatstat::coords() %>%
         sp::SpatialPointsDataFrame(data=data.frame(pattern$marks$Species))
@@ -56,7 +58,7 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
           subset(Species==species_list[[i]])
 
         habitat_counts <- purrr::map_dfr(raster, .id = 'Type',
-                                         function(x) SHAR::Extract.Points(raster=x,
+                                         function(x) SHAR::extract_points(raster=x,
                                                                     points=points_spec,
                                                                     method=method))
 
@@ -83,7 +85,7 @@ Results.Habitat.Association <- function(pattern, raster, method, threshold=c(0.0
 
     if(only_spatial==T){
       habitat_counts <- purrr::map_dfr(pattern, .id = 'Type',
-                                       function(x) SHAR::Extract.Points(raster=raster,
+                                       function(x) SHAR::extract_points(raster=raster,
                                                                         points=x,
                                                                         method=method))
 

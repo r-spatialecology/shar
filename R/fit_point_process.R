@@ -12,28 +12,49 @@ fit_point_process <- function(input, process = 'poisson', number_pattern = 199){
   pattern <- input %>%
     spatstat::unmark()
 
-  if(process == 'poisson'){
-    pattern_random <- pattern %>%
-      spatstat::ppm() %>%
-      spatstat::simulate.ppm(nsim = number_pattern, progress = F)
+  pattern_random <- vector("list", length = number_pattern + 1)
 
-    while(pattern_random$n == 0) {
-      pattern_random <- pattern %>%
-        spatstat::ppm() %>%
-        spatstat::simulate.ppm(nsim = number_pattern, progress = F)
+  names(pattern_random) <- c(paste0("Simulation_", 1:number_pattern), "Observed")
+
+  if(process == 'poisson'){
+
+    point_process <- spatstat::ppm(pattern)
+
+    for(i in 1:number_pattern) {
+
+      sim_pattern <- spatstat::simulate.ppm(object = point_process,
+                                            nsim = 1,
+                                            drop = TRUE, progress = FALSE)
+
+      while(sim_pattern$n == 0) {
+
+        sim_pattern <- spatstat::simulate.ppm(object = point_process,
+                                              nsim = 1,
+                                              drop = TRUE, progress = FALSE)
+      }
+
+      pattern_random[[i]] <- sim_pattern
     }
   }
 
   else if(process == 'cluster'){
-    pattern_random <- pattern %>%
-      spatstat::kppm(cluster = 'Thomas', statistic = 'pcf') %>%
-      spatstat::simulate.kppm(nsim = number_pattern, verbose = FALSE)
 
-    while(pattern_random$n == 0) {
-      pattern_random <- pattern %>%
-        spatstat::kppm(cluster = 'Thomas', statistic = 'pcf') %>%
-        spatstat::simulate.kppm(nsim = number_pattern, verbose = FALSE)
+    point_process <-spatstat::kppm(X = pattern,
+                                   cluster = 'Thomas', statistic = 'pcf')
+
+    for(i in 1:number_pattern) {
+
+      sim_pattern <- spatstat::simulate.kppm(object = point_process,
+                                             nsim = 1,
+                                             drop = TRUE, verbose = FALSE)
+      while(sim_pattern$n == 0) {
+        sim_pattern <- spatstat::simulate.kppm(object = point_process,
+                                               nsim = 1,
+                                               drop = TRUE, verbose = FALSE)
       }
+
+      pattern_random[[i]] <- sim_pattern
+    }
   }
 
   else if(process == 'softcore'){
@@ -45,8 +66,7 @@ fit_point_process <- function(input, process = 'poisson', number_pattern = 199){
 
   else{stop('Please select either "poisson", "cluster" or "softcore" as process')}
 
-  pattern_random[[length(pattern_random) + 1]] <- pattern
-  names(pattern_random)[[length(pattern_random)]] <- "Observed"
+  pattern_random[[number_pattern + 1]] <- pattern
 
   return(pattern_random)
 }
