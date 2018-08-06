@@ -16,12 +16,24 @@ fit_point_process <- function(input, process = 'poisson', number_pattern = 199){
     pattern_random <- pattern %>%
       spatstat::ppm() %>%
       spatstat::simulate.ppm(nsim = number_pattern, progress = F)
+
+    while(pattern_random$n == 0) {
+      pattern_random <- pattern %>%
+        spatstat::ppm() %>%
+        spatstat::simulate.ppm(nsim = number_pattern, progress = F)
+    }
   }
 
   else if(process == 'cluster'){
     pattern_random <- pattern %>%
       spatstat::kppm(cluster = 'Thomas', statistic = 'pcf') %>%
       spatstat::simulate.kppm(nsim = number_pattern, verbose = FALSE)
+
+    while(pattern_random$n == 0) {
+      pattern_random <- pattern %>%
+        spatstat::kppm(cluster = 'Thomas', statistic = 'pcf') %>%
+        spatstat::simulate.kppm(nsim = number_pattern, verbose = FALSE)
+      }
   }
 
   else if(process == 'softcore'){

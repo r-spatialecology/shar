@@ -8,7 +8,7 @@
 #' @return Long data frame with aggregated results
 
 #' @export
-Aggregate.Result.List <- function(result_list, id,  neutral=F){
+aggregate_result_list <- function(result_list, id,  neutral=F){
 
   if(neutral==F){
     result_list_aggregated <- result_list %>%

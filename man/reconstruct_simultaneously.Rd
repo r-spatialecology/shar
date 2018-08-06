@@ -4,8 +4,8 @@
 \alias{reconstruct_simultaneously}
 \title{Pattern reconstruction}
 \usage{
-reconstruct_simultaneously(pattern, max_runs = 10000, e_threshold = 0.01,
-  fitting = FALSE)
+reconstruct_simultaneously(pattern, max_runs = 10000,
+  e_threshold = 0.01, fitting = FALSE)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}] Multivariate ppp object of the spatstat package}

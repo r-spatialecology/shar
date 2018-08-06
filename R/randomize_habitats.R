@@ -34,7 +34,7 @@ Habitat.Randomization <- function(raster, method='randomization_algorithm', numb
 
     result <- 1:number_maps %>%
       furrr::future_map(function(x){
-        SHAR::Randomization.Algorithm(raster = raster,
+        SHAR::randomization_algorithm(raster = raster,
                                       number_neighbours = number_neighbours)
         })
   }

@@ -7,7 +7,7 @@
 #' @return Table with counts in each habitat
 
 #' @export
-Extract.Points <- function(raster, points, method){
+extract_points <- function(raster, points, method){
   if(method == 'random_raster'){
     raster %>%
       raster::extract(y=points) %>%
