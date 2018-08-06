@@ -12,7 +12,7 @@
 #' @return Raster object of the raster package with randomized habitat maps
 
 #' @export
-Habitat.Randomization <- function(raster, method='randomization_algorithm', number_maps=1, number_neighbours=8){
+randomize_habitats <- function(raster, method='randomization_algorithm', number_maps=1, number_neighbours=8){
 
   if(method=="torus_translation"){
     result <- list()
