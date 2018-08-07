@@ -7,7 +7,7 @@
 #' @return Raster of the raster package with randomized habitats
 
 #' @export
-Randomization.Algorithm <- function(raster, number_neighbours=8){
+randomization_algorithm <- function(raster, number_neighbours=8){
   if(raster::nlayers(raster)==2){raster <- raster[[2]]} # original raster habitats
 
   n.cells.plot <- length(raster::Which(!is.na(raster), cells=T)) # all cells within plot
