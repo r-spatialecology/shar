@@ -12,28 +12,26 @@
 #' @return Raster object of the raster package with randomized habitat maps
 
 #' @export
-randomize_habitats <- function(raster, method='randomization_algorithm', number_maps=1, number_neighbours=8){
+randomize_habitats <- function(raster, method = 'randomization_algorithm', number_maps = 1, number_neighbours = 8){
 
-  if(method=="torus_translation"){
+  if(method == "torus_translation"){
     result <- list()
 
-    steps_x <- seq(from=0, to=raster::nrow(raster), by=1) # All steps in x-direction
-    steps_y <- seq(from=0, to=raster::ncol(raster), by=1) # All steps in y-direction
+    steps_x <- seq(from = 0, to=raster::nrow(raster), by = 1) # All steps in x-direction
+    steps_y <- seq(from = 0, to=raster::ncol(raster), by = 1) # All steps in y-direction
 
-    steps_xy <- expand.grid(x=steps_x, y=steps_y) # Grid with all possible x-y combinations
-    steps_xy <- steps_xy[-c(1, length(steps_x), max(steps_x)*length(steps_y)+1, length(steps_x)*length(steps_y)),] # Remove combinations identical to original raster
+    steps_xy <- expand.grid(x = steps_x, y = steps_y) # Grid with all possible x-y combinations
+    steps_xy <- steps_xy[-c(1, length(steps_x), max(steps_x) * length(steps_y) + 1, length(steps_x)*length(steps_y)),] # Remove combinations identical to original raster
 
     for(i in 1:nrow(steps_xy)){
-      result[[length(result)+1]] <- SHAR::Torus.Translation(raster=raster,x_shift=steps_xy[i,1], y_shift=steps_xy[i,2])
+      result[[length(result)+1]] <- SHAR::translate_raster(raster = raster, x_shift = steps_xy[i,1], y_shift = steps_xy[i,2])
     }
   }
 
   else if(method=="randomization_algorithm"){
 
-    # future::plan(future::multiprocess)
-
     result <- 1:number_maps %>%
-      furrr::future_map(function(x){
+      purrr::map(function(x){
         SHAR::randomization_algorithm(raster = raster,
                                       number_neighbours = number_neighbours)
         })

@@ -15,11 +15,9 @@ reconstruct_pattern <- function(pattern, method = 'only_spatial',
                                 number_reconstructions = 1, max_runs = 10000, e_threshold = 0.01,
                                 fitting = FALSE){
 
-  # future::plan(future::multiprocess)
-
   if(method == 'only_spatial'){
     result <- 1:number_reconstructions %>%
-      furrr::future_map(function(x){
+      purrr::map(function(x){
         SHAR::reconstruct_spatial(pattern = pattern, max_runs = max_runs,
                                      e_threshold = e_threshold, fitting = fitting)
       })
@@ -27,7 +25,7 @@ reconstruct_pattern <- function(pattern, method = 'only_spatial',
 
   else if(method == 'splitting_species'){
     result <- 1:number_reconstructions %>%
-      furrr::future_map(function(x){
+      purrr::map(function(x){
         SHAR::reconstruct_splitting(pattern = pattern, max_runs = max_runs,
                                        e_threshold = e_threshold, fitting = fitting)
       })
@@ -35,7 +33,7 @@ reconstruct_pattern <- function(pattern, method = 'only_spatial',
 
   else if(method == 'random_labeling'){
     result <- 1:number_reconstructions %>%
-      furrr::future_map(function(x){
+      purrr::map(function(x){
         SHAR::reconstruct_labeling(pattern = pattern, max_runs = max_runs,
                                    e_threshold = e_threshold, fitting = fitting)
       })
@@ -43,7 +41,7 @@ reconstruct_pattern <- function(pattern, method = 'only_spatial',
 
   else if(method == 'simultaneously'){
     result <- 1:number_reconstructions %>%
-      furrr::future_map(function(x){
+      purrr::map(function(x){
         SHAR::reconstruct_simultaneously(pattern = pattern, max_runs = max_runs,
                                          e_threshold = e_threshold, fitting = fitting)
       })

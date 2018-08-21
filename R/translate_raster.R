@@ -8,7 +8,7 @@
 #' @return Raster object of the raster package
 
 #' @export
-Torus.Translation <- function(raster, x_shift=0, y_shift=0){
+translate_raster <- function(raster, x_shift=0, y_shift=0){
 
   matrix_raster <- raster::as.matrix(raster)
 
