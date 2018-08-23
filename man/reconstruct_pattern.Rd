@@ -2,28 +2,25 @@
 % Please edit documentation in R/reconstruct_pattern.R
 \name{reconstruct_pattern}
 \alias{reconstruct_pattern}
-\title{Pattern reconstruction}
+\title{Spatial reconstruction}
 \usage{
-reconstruct_pattern(pattern, method = "only_spatial",
-  number_reconstructions = 1, max_runs = 10000, e_threshold = 0.01,
-  fitting = FALSE)
+reconstruct_pattern(pattern, number_reconstructions = 1,
+  max_runs = 10000, e_threshold = 0.01, fitting = FALSE)
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}] ppp object of the spatstat package}
-
-\item{method}{[\code{string(1)}] Method used for the reconstruction. Either "only_spatial", "splitting_species", "random_labelling" or "simultaneously"}
+\item{pattern}{[\code{ppp(1)}]\cr Multivariate ppp object of the spatstat package}
 
 \item{number_reconstructions}{[\code{numeric(1)}] Number of reconstructed patterns}
 
-\item{max_runs}{[\code{numeric(1)}] Number of maximum iterations}
+\item{max_runs}{[\code{numeric(1)}]\cr number of maximum iterations}
 
-\item{e_threshold}{[\code{numeric(1)}] Threshold for energy to reach during reconstruction}
+\item{e_threshold}{[\code{numeric(1)}]\cr Threshold for energy to reach during reconstruction}
 
-\item{fitting}{[\code{logical(1)}] If TRUE, a clustered pattern is fitted to the original pattern as starting point}
+\item{fitting}{[\code{logical(1)}]\cr If TRUE, a clustered pattern is fitted to the original pattern as starting point}
 }
 \value{
-List containing reconstructed patterns and observed pattern
+ppp object of the spatstat package with reconstructed pattern
 }
 \description{
-Pattern reconstruction using simulated annealing
+Univariate pattern reconstruction of only the spatial structure
 }

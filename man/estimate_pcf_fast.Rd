@@ -4,8 +4,7 @@
 \alias{estimate_pcf_fast}
 \title{pcf-function}
 \usage{
-estimate_pcf_fast(pattern, correction = "good", method = "c",
-  spar = 0.35)
+estimate_pcf_fast(pattern, ...)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat packages}

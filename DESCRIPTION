@@ -13,9 +13,8 @@ LazyData: true
 Imports:
   classInt,
   dplyr,
-  future,
-  furrr, 
   ggplot2,
+  mobsim,
   magrittr,
   maptools,
   purrr,
