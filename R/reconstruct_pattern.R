@@ -23,7 +23,7 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
 
     if(fitting == T){ # Fit a Thomas process to the data
 
-      fitted_process <- kppm(pattern)
+      fitted_process <- spatstat::kppm(pattern)
 
       window_pattern <- pattern$window$xrange
 
@@ -34,10 +34,10 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
                                              sigma = fitted_process$modelpar[["sigma"]],
                                              cluster_points = fitted_process$modelpar[["mu"]])
 
-      simulated <- ppp(x = mobsim$census$x,
-                       y = mobsim$census$y,
-                       window = owin(xrange = pattern$window$xrange,
-                                     yrange = pattern$window$yrange))
+      simulated <- spatstat::ppp(x = mobsim$census$x,
+                                 y = mobsim$census$y,
+                                 window = spatstat::owin(xrange = pattern$window$xrange,
+                                                         yrange = pattern$window$yrange))
     }
 
     else{simulated <- spatstat::runifpoint(n = pattern$n, win = pattern$window)} # create simulation data
