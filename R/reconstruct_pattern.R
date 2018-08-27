@@ -16,6 +16,9 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
+  xrange <- pattern$window$xrange
+  yrange <- pattern$window$yrange
+
   result <- purrr::map(1:number_reconstructions, function(current_pattern){
 
     if(fitting == TRUE){ # Fit a Thomas process to the data
@@ -24,8 +27,8 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
 
       mobsim <- mobsim::sim_thomas_community(s_pool = 1,
                                              n_sim = pattern$n,
-                                             xrange = pattern$window$xrange,
-                                             yrange = pattern$window$yrange,
+                                             xrange = xrange,
+                                             yrange = yrange,
                                              sigma = fitted_process$modelpar[["sigma"]],
                                              cluster_points = fitted_process$modelpar[["mu"]])
 
@@ -52,8 +55,8 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
 
       rp <- sample(x = 1:relocated$n , size = 1) # random point of pattern
 
-      relocated$x[rp] <- runif(n = 1, min = x_range[1], max = x_range[2])
-      relocated$y[rp] <- runif(n = 1, min = y_range[1], max = y_range[2])
+      relocated$x[rp] <- runif(n = 1, min = xrange[1], max = xrange[2])
+      relocated$y[rp] <- runif(n = 1, min = yrange[1], max = yrange[2])
 
       pcf_relocated <- SHAR::estimate_pcf_fast(relocated,
                                                correction = "best",
