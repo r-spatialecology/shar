@@ -12,25 +12,20 @@
 #' @export
 reconstruct_pattern <- function(pattern, number_reconstructions = 1,
                                 max_runs = 10000, e_threshold = 0.01,
-                                fitting = FALSE){
+                                fitting = FALSE, verbose = FALSE){
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
-  x_range <- pattern$window$xrange
-  y_range <- pattern$window$yrange
-
   result <- purrr::map(1:number_reconstructions, function(current_pattern){
 
-    if(fitting == T){ # Fit a Thomas process to the data
+    if(fitting == TRUE){ # Fit a Thomas process to the data
 
       fitted_process <- spatstat::kppm(pattern)
 
-      window_pattern <- pattern$window$xrange
-
       mobsim <- mobsim::sim_thomas_community(s_pool = 1,
                                              n_sim = pattern$n,
-                                             xrange = c(0, 1),
-                                             yrange = c(0, 1),
+                                             xrange = pattern$window$xrange,
+                                             yrange = pattern$window$yrange,
                                              sigma = fitted_process$modelpar[["sigma"]],
                                              cluster_points = fitted_process$modelpar[["mu"]])
 
@@ -38,12 +33,16 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
                                  y = mobsim$census$y,
                                  window = spatstat::owin(xrange = pattern$window$xrange,
                                                          yrange = pattern$window$yrange))
-    }
 
-    else{simulated <- spatstat::runifpoint(n = pattern$n, win = pattern$window)} # create simulation data
+    } else {simulated <- spatstat::runifpoint(n = pattern$n, win = pattern$window)} # create simulation data
 
-    pcf_observed <- SHAR::estimate_pcf_fast(pattern, correction = "none")
-    pcf_simulated <- SHAR::estimate_pcf_fast(simulated, correction = "none")
+    pcf_observed <- SHAR::estimate_pcf_fast(pattern,
+                                            correction = "best",
+                                            method = "c",
+                                            spar = 0.5)
+    pcf_simulated <- SHAR::estimate_pcf_fast(simulated, correction = "best",
+                                             method = "c",
+                                             spar = 0.5)
 
     e0_pcf <- mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE) # energy g(r)
 
@@ -56,7 +55,10 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
       relocated$x[rp] <- runif(n = 1, min = x_range[1], max = x_range[2])
       relocated$y[rp] <- runif(n = 1, min = y_range[1], max = y_range[2])
 
-      pcf_relocated <- SHAR::estimate_pcf_fast(relocated, correction = "none")
+      pcf_relocated <- SHAR::estimate_pcf_fast(relocated,
+                                               correction = "best",
+                                               method = "c",
+                                               spar = 0.5)
 
       e_relocated_pcf <- mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE) # energy after relocation
 
@@ -66,6 +68,12 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
         e0_pcf <- e_relocated_pcf # keep e_relocated as e0
       }
 
+      if(verbose == TRUE) {
+        cat(paste0("\rnumber_reconstructions: ", current_pattern, "/", number_reconstructions,
+                   " || max_runs: ", i, "/", max_runs,
+                   " || e0_pcf = ", round(e0_pcf, 5)))
+      }
+
       if(e0_pcf <= e_threshold){break} # exit loop
     }
 
@@ -73,8 +81,7 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
   })
 
   result[[length(result) + 1]] <- pattern
-  names(result) <-  c(rep(paste0('Randomized_', 1:(length(result)-1))),
-                      'Observed')
+  names(result) <-  c(rep(paste0('Randomized_', 1:(length(result)-1))), 'Observed')
 
   return(result)
 }

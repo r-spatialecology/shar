@@ -9,11 +9,7 @@ estimate_pcf_fast(pattern, ...)
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat packages}
 
-\item{correction}{[\code{string(1)}]\cr Edge correction (see ?spatstat::Kest() for more details)}
-
-\item{method}{[\code{character(1)}]\cr See spatstat::pcf.fv() for mor details}
-
-\item{spar}{[\code{numeric(1)}]\cr Smooting of spline function (see ?stats::smooth.spline() for more details)}
+\item{...}{options passed to for Kest() and pcf.fv()}
 }
 \value{
 fv object of the spatstat package

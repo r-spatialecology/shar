@@ -5,7 +5,8 @@
 \title{Spatial reconstruction}
 \usage{
 reconstruct_pattern(pattern, number_reconstructions = 1,
-  max_runs = 10000, e_threshold = 0.01, fitting = FALSE)
+  max_runs = 10000, e_threshold = 0.01, fitting = FALSE,
+  verbose = FALSE)
 }
 \arguments{
 \item{pattern}{[\code{ppp(1)}]\cr Multivariate ppp object of the spatstat package}
