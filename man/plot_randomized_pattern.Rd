@@ -2,20 +2,36 @@
 % Please edit documentation in R/plot_randomized_pattern.R
 \name{plot_randomized_pattern}
 \alias{plot_randomized_pattern}
-\title{Plot list of randomized patterns}
+\title{plot_randomized_pattern}
 \usage{
-plot_randomized_pattern(pattern, only_spatial = TRUE, title = NULL)
+plot_randomized_pattern(pattern, comp_fast = FALSE, base_size = 15,
+  size = 0.5)
 }
 \arguments{
-\item{pattern}{[\code{list(1)}] List with reconstructed and observed point pattern created with SHAR::Pattern.Reconstruction()}
+\item{pattern}{List with reconstructed patterns}
 
-\item{only_spatial}{[\code{logical(1)}] TRUE for univariate point pattern}
+\item{comp_fast}{Logical if summary functions should be estimated in an computational
+fast way (but without edge correction)}
 
-\item{title}{[\code{string(1)}] Title of plot}
+\item{base_size}{base font size}
+
+\item{size}{Line size}
 }
 \value{
-ggplot object of the ggplot2 package
+ggplot
 }
 \description{
-Function to plot all randomized patterns created with either pattern reconstruction of the Gamma test
+Plot randomized pattern
+}
+\details{
+Plot the summary functions of the observed pattern and the reconstructed patterns
+as "simulation envelopes".
+}
+\examples{
+\dontrun{
+pattern_random <- spatstat::runifpoint(n = 50)
+pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+plot_randomized_pattern(pattern_recon)
+}
+
 }

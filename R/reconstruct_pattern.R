@@ -1,25 +1,52 @@
-#' Spatial reconstruction
+#' reconstruct_pattern
 #'
-#' Univariate pattern reconstruction of only the spatial structure
-#' @param pattern [\code{ppp(1)}]\cr Multivariate ppp object of the spatstat package
-#' @param max_runs [\code{numeric(1)}]\cr number of maximum iterations
-#' @param e_threshold [\code{numeric(1)}]\cr Threshold for energy to reach during reconstruction
-#' @param fitting [\code{logical(1)}]\cr If TRUE, a clustered pattern is fitted to the original pattern as starting point
-#' @param number_reconstructions [\code{numeric(1)}] Number of reconstructed patterns
+#' @description Pattern reconstruction
 #'
-#' @return ppp object of the spatstat package with reconstructed pattern
-
+#' @param pattern List with reconstructed patterns
+#' @param comp_fast Logical if summary functions should be estimated in an computational
+#' fast way (but without edge correction)
+#' @param n_random Number of randomized RasterLayers
+#' @param verbose Print progress report
+#' @param max_runs Maximum number of iterations of e_threshold is not reached
+#' @param e_threshold Minimum energy to stop reconstruction
+#' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process
+#'
+#' @details
+#' Pattern reconstruction
+#'
+#' @seealso
+#' \code{\link{calculate_mean_energy}} \cr
+#' \code{\link{plot_randomized_pattern}}
+#'
+#' @return list
+#'
+#' @examples
+#' \dontrun{
+#' pattern_random <- spatstat::runifpoint(n = 50)
+#' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+#' }
+#'
+#' @aliases reconstruct_pattern
+#' @rdname reconstruct_pattern
+#'
+#' @references
+#' Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
+#' patterns. Computational Statistics and Data Analysis, 51(2), 859–871.
+#'
+#' Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
+#' in ecology. Boca Raton: Chapman and Hall/CRC Press.
+#'
 #' @export
-reconstruct_pattern <- function(pattern, number_reconstructions = 1,
+reconstruct_pattern <- function(pattern, n_random = 19,
                                 max_runs = 10000, e_threshold = 0.01,
-                                fitting = FALSE, verbose = FALSE){
+                                fitting = FALSE, verbose = FALSE, comp_fast = FALSE){
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
   xrange <- pattern$window$xrange
   yrange <- pattern$window$yrange
 
-  result <- purrr::map(1:number_reconstructions, function(current_pattern){
+  result <- lapply(1:n_random, function(current_pattern){
 
     if(fitting == TRUE){ # Fit a Thomas process to the data
 
@@ -39,15 +66,25 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
 
     } else {simulated <- spatstat::runifpoint(n = pattern$n, win = pattern$window)} # create simulation data
 
+
+    gest_observed <- spatstat::Gest(pattern, correction = "none")
+
+    gest_simulated <- spatstat::Gest(simulated, correction = "none")
+
     pcf_observed <- SHAR::estimate_pcf_fast(pattern,
-                                            correction = "best",
+                                            correction = "none",
                                             method = "c",
                                             spar = 0.5)
-    pcf_simulated <- SHAR::estimate_pcf_fast(simulated, correction = "best",
+
+    pcf_simulated <- SHAR::estimate_pcf_fast(simulated,
+                                             correction = "none",
                                              method = "c",
                                              spar = 0.5)
 
-    e0_pcf <- mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE) # energy g(r)
+    # energy before reconstruction
+    e0 <-  mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
+      mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
+
 
     for(i in 1:max_runs){ # pattern reconstruction algorithm
 
@@ -58,33 +95,38 @@ reconstruct_pattern <- function(pattern, number_reconstructions = 1,
       relocated$x[rp] <- runif(n = 1, min = xrange[1], max = xrange[2])
       relocated$y[rp] <- runif(n = 1, min = yrange[1], max = yrange[2])
 
+
+      gest_relocated <- spatstat::Gest(relocated, correction = "none")
+
       pcf_relocated <- SHAR::estimate_pcf_fast(relocated,
-                                               correction = "best",
+                                               correction = "none",
                                                method = "c",
                                                spar = 0.5)
 
-      e_relocated_pcf <- mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE) # energy after relocation
+      # energy after relocation
+      e_relocated <-  mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) +
+        mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE)
 
-      if(e_relocated_pcf < e0_pcf){ # lower energy after relocation
+      if(e_relocated < e0){ # lower energy after relocation
 
         simulated <- relocated # keep relocated pattern
-        e0_pcf <- e_relocated_pcf # keep e_relocated as e0
+        e0 <- e_relocated # keep e_relocated as e0
       }
 
       if(verbose == TRUE) {
-        cat(paste0("\rnumber_reconstructions: ", current_pattern, "/", number_reconstructions,
+        cat(paste0("\rProgress: n_random: ", current_pattern, "/", n_random,
                    " || max_runs: ", i, "/", max_runs,
-                   " || e0_pcf = ", round(e0_pcf, 5)))
+                   " || e0 = ", round(e0, 5)))
       }
 
-      if(e0_pcf <= e_threshold){break} # exit loop
+      if(e0 <= e_threshold){break} # exit loop
     }
 
     return(simulated)
   })
 
   result[[length(result) + 1]] <- pattern
-  names(result) <-  c(rep(paste0('Randomized_', 1:(length(result)-1))), 'Observed')
+  names(result) <-  c(rep(paste0("randomized_", 1:(length(result)-1))), "observed")
 
   return(result)
 }

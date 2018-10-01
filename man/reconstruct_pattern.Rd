@@ -2,26 +2,52 @@
 % Please edit documentation in R/reconstruct_pattern.R
 \name{reconstruct_pattern}
 \alias{reconstruct_pattern}
-\title{Spatial reconstruction}
+\title{reconstruct_pattern}
 \usage{
-reconstruct_pattern(pattern, number_reconstructions = 1,
-  max_runs = 10000, e_threshold = 0.01, fitting = FALSE,
-  verbose = FALSE)
+reconstruct_pattern(pattern, n_random = 19, max_runs = 10000,
+  e_threshold = 0.01, fitting = FALSE, verbose = FALSE,
+  comp_fast = FALSE)
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}]\cr Multivariate ppp object of the spatstat package}
+\item{pattern}{List with reconstructed patterns}
 
-\item{number_reconstructions}{[\code{numeric(1)}] Number of reconstructed patterns}
+\item{n_random}{Number of randomized RasterLayers}
 
-\item{max_runs}{[\code{numeric(1)}]\cr number of maximum iterations}
+\item{max_runs}{Maximum number of iterations of e_threshold is not reached}
 
-\item{e_threshold}{[\code{numeric(1)}]\cr Threshold for energy to reach during reconstruction}
+\item{e_threshold}{Minimum energy to stop reconstruction}
 
-\item{fitting}{[\code{logical(1)}]\cr If TRUE, a clustered pattern is fitted to the original pattern as starting point}
+\item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process}
+
+\item{verbose}{Print progress report}
+
+\item{comp_fast}{Logical if summary functions should be estimated in an computational
+fast way (but without edge correction)}
 }
 \value{
-ppp object of the spatstat package with reconstructed pattern
+list
 }
 \description{
-Univariate pattern reconstruction of only the spatial structure
+Pattern reconstruction
+}
+\details{
+Pattern reconstruction
+}
+\examples{
+\dontrun{
+pattern_random <- spatstat::runifpoint(n = 50)
+pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+}
+
+}
+\references{
+Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
+patterns. Computational Statistics and Data Analysis, 51(2), 859–871.
+
+Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
+in ecology. Boca Raton: Chapman and Hall/CRC Press.
+}
+\seealso{
+\code{\link{calculate_mean_energy}} \cr
+\code{\link{plot_randomized_pattern}}
 }

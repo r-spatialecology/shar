@@ -1,62 +1,102 @@
-#' Plot list of randomized patterns
+#' plot_randomized_pattern
 #'
-#' Function to plot all randomized patterns created with either pattern reconstruction of the Gamma test
-#' @param pattern [\code{list(1)}] List with reconstructed and observed point pattern created with SHAR::Pattern.Reconstruction()
-#' @param only_spatial [\code{logical(1)}] TRUE for univariate point pattern
-#' @param title [\code{string(1)}] Title of plot
-
+#' @description Plot randomized pattern
 #'
-#' @return ggplot object of the ggplot2 package
-
+#' @param pattern List with reconstructed patterns
+#' @param comp_fast Logical if summary functions should be estimated in an computational
+#' fast way (but without edge correction)
+#' @param base_size base font size
+#' @param size Line size
+#'
+#' @details
+#' Plot the summary functions of the observed pattern and the reconstructed patterns
+#' as "simulation envelopes".
+#'
+#' @return ggplot
+#'
+#' @examples
+#' \dontrun{
+#' pattern_random <- spatstat::runifpoint(n = 50)
+#' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+#' plot_randomized_pattern(pattern_recon)
+#' }
+#'
+#' @aliases plot_randomized_pattern
+#' @rdname plot_randomized_pattern
+#'
 #' @export
-plot_randomized_pattern <- function(pattern, only_spatial = TRUE, title = NULL){
+plot_randomized_pattern <- function(pattern, comp_fast = FALSE,
+                                    base_size = 15, size = 0.5){
 
-  if(only_spatial == TRUE){
-    if(pattern[[length(pattern)]]$n >= 1000){result <- purrr::map(pattern, SHAR::estimate_pcf_fast)}
-    else{result <- purrr::map(pattern, spatstat::pcf, divisor = 'd', correction = 'Ripley')}
-  }
+  name_unit <- spatstat::unitname(pattern$observed)[[1]]
 
-  else{
-    result <- pattern %>%
-      purrr::map(function(x) {SHAR::estimate_pcf_multi(x) %>%
-          dplyr::mutate(theo = 1) %>%
-          dplyr::select(r, theo, Mean)})
-  }
+  result_list <- lapply(pattern, function(current_pattern){
 
-  # result_aggregated <- result %>%
-  #   reshape2::melt(id.vars=c("r"), value.name="g", variable.name="Type") %>%
-  #   tibble::as.tibble() %>%
-  #   dplyr::filter(Type!="theo") %>%
-  #   dplyr::mutate(Type=dplyr::case_when(L1=="Observed" ~ "Observed",
-  #                                           TRUE ~ "Randomized")) %>%
-  #   dplyr::select(-L1) %>%
-  #   dplyr::group_by(Type, r) %>%
-  #   dplyr::summarise(Lo=stats::quantile(g,probs=0.025),
-  #                    Hi=stats::quantile(g,probs=0.975),
-  #                    gr=mean(g))
-
-  result_aggregated <- result %>%
-    purrr::map_dfr(tibble::as.tibble, .id = 'Type') %>%
-    setNames(c('Type', 'r', 'theo', 'pcf')) %>%
-    dplyr::mutate(Type=dplyr::case_when(Type == "Observed" ~ "Observed",
-                                        TRUE ~ "Randomized")) %>%
-    dplyr::group_by(Type, r) %>%
-    dplyr::summarise(lo=stats::quantile(pcf, probs = 0.025),
-                     hi=stats::quantile(pcf, probs = 0.975),
-                     gr=mean(pcf))
+    gest_result <- spatstat::Gest(current_pattern)
 
 
-  plot_pcf <- ggplot2::ggplot() +
-    ggplot2::geom_ribbon(data = dplyr::filter(result_aggregated, Type == "Randomized"),
-                         ggplot2::aes(x = r, ymin = lo, ymax = hi), fill = "grey") +
-    ggplot2::geom_line(data = dplyr::filter(result_aggregated, Type == "Observed"),
-                       ggplot2::aes(x = r, y = gr), col = "black", size = 1) +
-    ggplot2::geom_hline(yintercept = 1, linetype = 2) +
-    ggplot2::labs(x = "r [m]", y = "g(r)", title = title) +
-    ggplot2::theme_bw(base_size = 15)
+    if(isTRUE(comp_fast)) {
+      gest_result <- spatstat::Gest(current_pattern, correction = "none")
 
-  # calculate mean energy
+      pcf_result <- SHAR::estimate_pcf_fast(current_pattern,
+                                            correction = "none",
+                                            method = "c",
+                                            spar = 0.5)
+    }
 
-  return(plot_pcf)
+    else{
+      gest_result <- spatstat::Gest(current_pattern, correction = "han")
+
+      pcf_result <- spatstat::pcf(current_pattern, divisor = "d", correction = "best")
+    }
+
+    gest_df <- as.data.frame(gest_result)
+    names(gest_df)[3] <- "x_r"
+    gest_df$summary_function <- "Nearest Neighbour Distance Function G(r)"
+
+    pcf_df <- as.data.frame(pcf_result)
+    names(pcf_df)[3] <- "x_r"
+    pcf_df$summary_function <- "Pair Correlation Function g(r)"
+
+    result <- dplyr::bind_rows(gest_df, pcf_df)
+
+    return(result)
+  })
+
+  names(result_list) <- names(pattern)
+
+  result_df <- dplyr::bind_rows(result_list, .id = "pattern")
+
+  result_df <- dplyr::mutate(result_df, type = dplyr::case_when(pattern == "observed" ~ "observed",
+                                                                TRUE ~ "randomized"))
+
+  result_df_grouped <- dplyr::group_by(result_df, summary_function, r, type)
+
+  result_df_summarised <- dplyr::summarise(result_df_grouped,
+                                           lo = stats::quantile(x_r, probs = 0.025),
+                                           hi = stats::quantile(x_r, probs = 0.975),
+                                           x_r = mean(x_r),
+                                           theo = mean(theo))
+
+  plot <-  ggplot2::ggplot() +
+    ggplot2::geom_ribbon(data = dplyr::filter(result_df_summarised, type == "randomized"),
+                         ggplot2::aes(x = r, ymin = lo, ymax = hi, fill = "pattern reconstruction"),
+                         size = size) +
+    ggplot2::geom_line(data = dplyr::filter(result_df_summarised, type == "observed"),
+                       ggplot2::aes(x = r, y = theo, col = "CSR"),
+                       linetype = 2, size = size) +
+    ggplot2::geom_line(data = dplyr::filter(result_df_summarised, type == "observed"),
+                       ggplot2::aes(x = r, y = x_r, col = "observed"),
+                       size = size) +
+    ggplot2::facet_wrap(. ~ summary_function, scales = "free") +
+    ggplot2::scale_fill_manual(values = c("pattern reconstruction" = "gray"),
+                               name = "") +
+    ggplot2::scale_color_manual(values = c("CSR" = "red",
+                                           "observed" = "black"),
+                                name = "") +
+    ggplot2::labs(x = paste0("r [",name_unit, "]"), y = "f(r)") +
+    ggplot2::theme_bw(base_size = base_size)
+
+  return(plot)
 }
 

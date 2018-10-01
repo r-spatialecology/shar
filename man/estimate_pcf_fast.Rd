@@ -2,18 +2,32 @@
 % Please edit documentation in R/estimate_pcf_fast.R
 \name{estimate_pcf_fast}
 \alias{estimate_pcf_fast}
-\title{pcf-function}
+\title{estimate_pcf_fast}
 \usage{
 estimate_pcf_fast(pattern, ...)
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat packages}
+\item{pattern}{Point pattern}
 
-\item{...}{options passed to for Kest() and pcf.fv()}
+\item{...}{Arguments passed to \code{\link{Kest}} and \code{\link{pcf.fv}}}
 }
 \value{
-fv object of the spatstat package
+fv.object
 }
 \description{
-Computational fast method to calculate the pair correlation function using Ripleys K-Function
+Fast estimation of the pair correlation function
+}
+\details{
+Classifies a RasterLayer with continious values into n discrete classes
+}
+\examples{
+\dontrun{
+pattern_random <- spatstat::runifpoint(n = 50)
+pcf_pattern_random <- estimate_pcf_fast(pattern_random)
+}
+
+}
+\seealso{
+\code{\link{Kest}} \cr
+\code{\link{pcf.fv}}
 }

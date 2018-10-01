@@ -2,25 +2,42 @@
 % Please edit documentation in R/results_habitat_association.R
 \name{results_habitat_association}
 \alias{results_habitat_association}
-\title{Results habitat association}
+\title{results_habitat_association}
 \usage{
-results_habitat_association(pattern, raster, method, threshold = c(0.025,
-  0.975), only_spatial = F)
+results_habitat_association(pattern, raster, threshold = c(0.025, 0.975))
 }
 \arguments{
-\item{pattern}{[\code{ppp(1)}]\cr ppp object of the spatstat package. If method="random_pattern", list with simulated patterns}
+\item{pattern}{Point pattern or list with reconstructed patterns}
 
-\item{raster}{[\code{raster(1)}]\cr Raster object of the raster package. If method="random_raster, list with simulated habitats}
+\item{raster}{RasterLayer or list of RasterLayers}
 
-\item{method}{[\code{string(1)}]\cr Form of input data. Either "random_pattern " or "random_raster"}
-
-\item{threshold}{[\code{numeric(2)}]\cr Threshold for significance. See ?quantile() for more details}
-
-\item{only_spatial}{[\code{logical(1)}]\cr Boolean if pattern contains only one species}
+\item{threshold}{Significance thresholds}
 }
 \value{
-List or data frame with results of species-habitat association
+list
 }
 \description{
-Results of the species-habitat association test using the simulated vs. the observed data
+Results habitat association
+}
+\details{
+Results of habitat association tests
+}
+\examples{
+\dontrun{
+pattern_random <- spatstat::runifpoint(n = 50)
+pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+}
+
+}
+\references{
+Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
+of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+
+Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000).
+Species-area curves, spatial aggregation, and habitat specialization in tropical forests.
+Journal of Theoretical Biology, 207(1), 81–99.
+}
+\seealso{
+\code{\link{calculate_mean_energy}} \cr
+\code{\link{plot_randomized_pattern}}
 }

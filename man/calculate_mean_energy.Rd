@@ -2,18 +2,41 @@
 % Please edit documentation in R/calculate_mean_energy.R
 \name{calculate_mean_energy}
 \alias{calculate_mean_energy}
-\title{Mean energy of the reconstruction}
+\title{calculate_mean_energy}
 \usage{
-calculate_mean_energy(pattern, only_spatial = TRUE)
+calculate_mean_energy(pattern, comp_fast = FALSE)
 }
 \arguments{
-\item{pattern}{[\code{list(1)}] List with reconstructed and observed point pattern created with SHAR::Pattern.Reconstruction()}
+\item{pattern}{List with reconstructed patterns}
 
-\item{only_spatial}{[\code{logical(1)}] TRUE for univariate point pattern}
+\item{comp_fast}{Logical if summary functions should be estimated in an computational
+fast way (but without edge correction)}
 }
 \value{
-Numeric with mean energy of the reconstruction
+numeric
 }
 \description{
-Function to plot all reconstructed patterns created of the pattern list with reconstructed patterns
+Calculate mean energy
+}
+\details{
+Calculate the mean energy between the observed pattern and all reconstructed patterns.
+}
+\examples{
+\dontrun{
+pattern_random <- spatstat::runifpoint(n = 50)
+pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+calculate_mean_energy(pattern_recon)
+}
+
+}
+\references{
+Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
+patterns. Computational Statistics and Data Analysis, 51(2), 859–871.
+
+Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
+in ecology. Boca Raton: Chapman and Hall/CRC Press.
+}
+\seealso{
+\code{\link{plot_randomized_pattern}} \cr
+\code{\link{reconstruct_pattern}}
 }

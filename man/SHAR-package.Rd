@@ -9,6 +9,11 @@
 \emph{SHAR} provides ,,,
 }
 \author{
-\strong{Maintainer}: Maximilian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de}
+\strong{Maintainer}: Maximillian H.K. Hesselbarth \email{maximilian.hesselbarth@uni-goettingen.de} (0000-0003-1125-9918)
+
+Authors:
+\itemize{
+  \item Marco Sciaini \email{sciaini.marco@gmail.com} (0000-0002-3042-5435)
+}
 
 }

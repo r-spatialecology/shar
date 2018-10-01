@@ -2,20 +2,28 @@
 % Please edit documentation in R/extract_points.R
 \name{extract_points}
 \alias{extract_points}
-\title{Extract points within habitat}
+\title{extract_points}
 \usage{
-extract_points(raster, points, method)
+extract_points(raster, pattern)
 }
 \arguments{
-\item{raster}{[\code{raster(1)}]\cr Raster object of the raster package.}
+\item{raster}{RasterLayer}
 
-\item{points}{[\code{spatial points(1)}]\cr Spatial points of the sp package}
-
-\item{method}{[\code{string(1)}]\cr Method which was used to produce results}
+\item{pattern}{Point pattern}
 }
 \value{
-Table with counts in each habitat
+data.frame
 }
 \description{
-Internal help function extracts the number of counts within each habitat
+Extract points
+}
+\details{
+Extract number of pattern within each habitat
+}
+\examples{
+\dontrun{
+pattern_random <- spatstat::runifpoint(n = 50)
+pcf_pattern_random <- estimate_pcf_fast(pattern_random)
+}
+
 }

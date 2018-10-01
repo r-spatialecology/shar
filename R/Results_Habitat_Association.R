@@ -1,120 +1,83 @@
-#' Results habitat association
+#' results_habitat_association
 #'
-#' Results of the species-habitat association test using the simulated vs. the observed data
-#' @param pattern [\code{ppp(1)}]\cr ppp object of the spatstat package. If method="random_pattern", list with simulated patterns
-#' @param raster [\code{raster(1)}]\cr Raster object of the raster package. If method="random_raster, list with simulated habitats
-#' @param method [\code{string(1)}]\cr Form of input data. Either "random_pattern " or "random_raster"
-#' @param threshold [\code{numeric(2)}]\cr Threshold for significance. See ?quantile() for more details
-#' @param only_spatial [\code{logical(1)}]\cr Boolean if pattern contains only one species
-#' @return List or data frame with results of species-habitat association
+#' @description Results habitat association
+#'
+#' @param pattern Point pattern or list with reconstructed patterns
+#' @param raster RasterLayer or list of RasterLayers
+#' @param threshold Significance thresholds
+#'
+#' @details
+#' Results of habitat association tests
+#'
+#' @seealso
+#' \code{\link{calculate_mean_energy}} \cr
+#' \code{\link{plot_randomized_pattern}}
+#'
+#' @return list
+#'
+#' @examples
+#' \dontrun{
+#' pattern_random <- spatstat::runifpoint(n = 50)
+#' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+#' }
+#'
+#' @aliases results_habitat_association
+#' @rdname results_habitat_association
+#'
+#' @references
+#' Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
+#' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+#'
+#' Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000).
+#' Species-area curves, spatial aggregation, and habitat specialization in tropical forests.
+#' Journal of Theoretical Biology, 207(1), 81–99.
 
 #' @export
-results_habitat_association <- function(pattern, raster, method, threshold=c(0.025, 0.975), only_spatial=F){
+results_habitat_association <- function(pattern, raster, threshold=c(0.025, 0.975)){
 
-  result_list <- list()
 
-  if(method=="random_raster"){
+  if(class(raster) == "list" && class(pattern) != "list") {
 
-    if(only_spatial==T){
-
-       points <- pattern %>%
-        spatstat::coords() %>%
-        sp::SpatialPoints()
-
-      habitat_counts <- purrr::map_dfr(raster, .id = 'Type',
-                                       function(x) SHAR::extract_points(raster=x,
-                                                                        points=points,
-                                                                        method=method))
-
-      habitat_counts_randomized <- habitat_counts %>%
-        dplyr::filter(Type!="Observed") %>%
-        dplyr::group_by(Habitat) %>%
-        dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
-                         Hi=stats::quantile(Count,probs=threshold[[2]]))
-
-      habitat_counts_observed <- habitat_counts %>%
-        dplyr::filter(Type=="Observed") %>%
-        dplyr::select(-Type)
-
-      result_list <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized,
-                                      by = "Habitat") %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
-                                                           Count>Hi ~ "positive",
-                                                           Count>=Lo & Count<=Hi ~ "N.S.")))
-    }
-
-    else{
-
-      points <- pattern %>%
-        spatstat::coords() %>%
-        sp::SpatialPointsDataFrame(data=data.frame(pattern$marks$Species))
-      names(points) <- "Species"
-
-      species_list <- points$Species %>%
-        unique(drop=T)
-
-      for(i in 1:length(species_list)){
-        points_spec <- points %>%
-          subset(Species==species_list[[i]])
-
-        habitat_counts <- purrr::map_dfr(raster, .id = 'Type',
-                                         function(x) SHAR::extract_points(raster=x,
-                                                                    points=points_spec,
-                                                                    method=method))
-
-        habitat_counts_randomized <- habitat_counts %>%
-          dplyr::filter(Type!="Observed") %>%
-          dplyr::group_by(Habitat) %>%
-          dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
-                           Hi=stats::quantile(Count,probs=threshold[[2]]))
-
-        habitat_counts_observed <- habitat_counts %>%
-          dplyr::filter(Type=="Observed") %>%
-          dplyr::select(-Type)
-
-        result_list[[paste(species_list[[i]])]] <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized,
-                                                                    by = "Habitat") %>%
-          dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
-                                                             Count>Hi ~ "positive",
-                                                             Count>=Lo & Count<=Hi ~ "N.S.")))
-      }
-    }
+    habitats_count <- lapply(raster, function(current_raster) {
+      SHAR::extract_points(raster = current_raster,
+                           pattern = pattern,
+                           method = method)
+    })
   }
 
-  else if(method=="random_pattern"){
+  else if(class(pattern) == "list" && class(raster) != "list") {
 
-    if(only_spatial==T){
-      habitat_counts <- purrr::map_dfr(pattern, .id = 'Type',
-                                       function(x) SHAR::extract_points(raster=raster,
-                                                                        points=x,
-                                                                        method=method))
-
-      habitat_counts_randomized <- habitat_counts %>%
-        dplyr::filter(Type!="Observed") %>%
-        dplyr::group_by(Habitat) %>%
-        dplyr::summarise(Lo=stats::quantile(Count,probs=threshold[[1]]),
-                         Hi=stats::quantile(Count,probs=threshold[[2]]))
-
-      habitat_counts_observed <- habitat_counts %>%
-        dplyr::filter(Type=="Observed") %>%
-        dplyr::select(-Type)
-
-      result_list <- dplyr::full_join(habitat_counts_observed, habitat_counts_randomized, by = "Habitat") %>%
-        dplyr::mutate(Significance=factor(dplyr::case_when(Count<Lo ~ "negative",
-                                                           Count>Hi ~ "positive",
-                                                           Count>=Lo & Count<=Hi ~ "N.S.")))
-    }
-
-    else{
-      print("Method 'random_pattern' not implemented for multiple species yet")
-      result_list <- NA
-    }
+    habitats_count <- lapply(pattern, function(current_pattern) {
+      SHAR::extract_points(raster = raster,
+                           pattern = current_pattern,
+                           method = method)
+    })
   }
 
   else{
-    print("Please select either 'random_pattern' or 'random_raster' as method")
-    result_list <- NA
+    stop("Please provide either randomized point patterns or randomized rasters")
   }
 
-  return(result_list)
+  habitats_count <- dplyr::bind_rows(habitats_count, .id = "type")
+
+  habitats_count_random <- dplyr::filter(habitats_count, type != "observed")
+  habitats_count_random_grouped <- dplyr::group_by(habitats_count_random, habitat)
+  habitats_count_random_summarised <- dplyr::summarise(habitats_count_random_grouped,
+                                                       lo = quantile(count,probs = threshold[[1]]),
+                                                       hi = quantile(count,probs = threshold[[2]]))
+
+  habitats_count_obs <- dplyr::select(dplyr::filter(habitats_count, type == "observed"), - type)
+
+  result <- dplyr::full_join(habitats_count_obs, habitats_count_random_summarised,
+                             by = "habitat")
+
+  result <- result[, c("habitat", "count", "lo", "hi")]
+
+  result <- dplyr::mutate(result,
+                          significance = factor(dplyr::case_when(count < lo ~ "negative",
+                                                                 count > hi ~ "positive",
+                                                                 count>= lo & count <= hi ~ "n.s.")))
+
+  return(result)
+
 }

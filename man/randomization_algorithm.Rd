@@ -2,18 +2,44 @@
 % Please edit documentation in R/randomization_algorithm.R
 \name{randomization_algorithm}
 \alias{randomization_algorithm}
-\title{Internal help function}
+\title{randomization_algorithm}
 \usage{
-randomization_algorithm(raster, number_neighbours = 8)
+randomization_algorithm(raster, direction = 8, n_random = 19,
+  verbose = FALSE)
 }
 \arguments{
-\item{raster}{[\code{raster(1)}] Raster of the raster object with discrete habitats}
+\item{raster}{RasterLayer}
 
-\item{number_neighbours}{[\code{numeric(1)}] Number of random neigbhours. See ?raster::adjacent() for more details}
+\item{direction}{he number of directions in which cells should be connected:
+4 (rook's case), 8 (queen's case), 16 (knight and one-cell queen moves),
+or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix (see Details)}
+
+\item{n_random}{Number of randomized RasterLayers}
+
+\item{verbose}{Print progress report}
 }
 \value{
-Raster of the raster package with randomized habitats
+list
 }
 \description{
-Randomization algorithm assigning habitat to random neighbours
+Randomization algorithm
+}
+\details{
+Randomize habitat map
+}
+\examples{
+\dontrun{
+landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
+landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+landscape_random <- randomization_algorithm(landscape_classified, n_random = 9)
+}
+
+}
+\references{
+Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
+of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+}
+\seealso{
+\code{\link{translate_raster}} \cr
+\code{\link{adjacent}}
 }

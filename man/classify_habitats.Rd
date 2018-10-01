@@ -2,20 +2,37 @@
 % Please edit documentation in R/classify_habitats.R
 \name{classify_habitats}
 \alias{classify_habitats}
-\title{Habitat classification}
+\title{classify_habitats}
 \usage{
 classify_habitats(raster, classes = 5, style = "fisher")
 }
 \arguments{
-\item{raster}{[\code{raster(1)}]\cr raster object of the raster package with continiuous habitats}
+\item{raster}{RasterLayer}
 
-\item{classes}{[\code{numeric(1)}]\cr Number of classes}
+\item{classes}{Number of classes}
 
-\item{style}{[\code{string(1)}]\cr Style of breaks (see classInt::classInvervals() for more details)}
+\item{style}{Style of classification. See \code{\link{classIntervals}} for more details}
 }
 \value{
-Raster object of the raster package with classified habitats
+RasterLayer
 }
 \description{
-Classify continuous habitats values into discrete habitat types
+Classify habitats
+}
+\details{
+Classifies a RasterLayer with continious values into n discrete classes
+}
+\examples{
+\dontrun{
+landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
+landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+}
+
+}
+\references{
+Jenks, G. F., & Caspall, F. C. (1971). Error in choroplethic maps: Definition,
+measurement, reduction. Annals of the Association of American Geographers, 61(2), 217–244.
+}
+\seealso{
+\code{\link{classIntervals}}
 }

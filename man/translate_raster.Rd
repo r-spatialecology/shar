@@ -2,20 +2,34 @@
 % Please edit documentation in R/translate_raster.R
 \name{translate_raster}
 \alias{translate_raster}
-\title{Torus translation}
+\title{translate_raster}
 \usage{
-translate_raster(raster, x_shift = 0, y_shift = 0)
+translate_raster(raster)
 }
 \arguments{
-\item{raster}{[\code{raster(1)}] Raster of the raster package}
-
-\item{x_shift}{[\code{numeric(1)}] Number of pixels shifted in x direction}
-
-\item{y_shift}{[\code{numeric(1)}] Number of pixels shifted in y direction}
+\item{raster}{RasterLayer or list of RasterLayers}
 }
 \value{
-Raster object of the raster package
+list
 }
 \description{
-Shifts the raster in x or y direction on a tours
+Torus translation
+}
+\details{
+Torus translation
+}
+\examples{
+\dontrun{
+landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
+landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+landscape_random <- translate_raster(landscape_classified)
+}
+
+}
+\references{
+Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
+of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+}
+\seealso{
+\code{\link{randomization_algorithm}}
 }

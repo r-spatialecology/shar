@@ -8,22 +8,20 @@
 # nolint start
 "_PACKAGE"
 
-globalVariables(c("Species",
-                  "Type",
-                  "pcf",
-                  "lo",
-                  "hi",
-                  "gr",
-                  "Habitat",
-                  ".",
-                  "Correct",
-                  "False",
-                  "r",
-                  "theo",
-                  "rs",
-                  "iso",
-                  "Mean",
-                  "Count"))
+globalVariables(c(
+  "count",
+  "habitat",
+  "hi",
+  "lo",
+  "method",
+  "points",
+  "quantile",
+  "r",
+  "stack",
+  "summary_function",
+  "theo",
+  "type",
+  "x_r"))
 
 # nolint end
 # nocov end
