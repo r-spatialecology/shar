@@ -7,25 +7,33 @@
 results_habitat_association(pattern, raster, threshold = c(0.025, 0.975))
 }
 \arguments{
-\item{pattern}{Point pattern or list with reconstructed patterns}
+\item{pattern}{Point pattern or list with reconstructed patterns.}
 
-\item{raster}{RasterLayer or list of RasterLayers}
+\item{raster}{RasterLayer or list of RasterLayers.}
 
-\item{threshold}{Significance thresholds}
+\item{threshold}{Significance thresholds.}
 }
 \value{
-list
+data.frame
 }
 \description{
 Results habitat association
 }
 \details{
-Results of habitat association tests
+The functions shows significant habitat associations by comparing the number of
+points within a habitat between the observed data and randomized data as described in
+Plotkin et al. (2000) and Harms et al. (2001). Significant positive or associations are present
+if the observed count in a habitat is above or below a certain threshold of the
+randomized count, respectively.
 }
 \examples{
 \dontrun{
-pattern_random <- spatstat::runifpoint(n = 50)
-pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
+landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+species_1 <- spatstat::runifpoint(n = 50, win = spatstat::owin(c(0, 50), c(0, 50)))
+species_1_reconstructed <- SHAR::reconstruct_pattern(pattern = species_1,
+n_random = 9, max_runs = 1000)
+results_habitat_association(pattern = species_1_reconstructed, raster = landscape_classified)
 }
 
 }
@@ -38,6 +46,6 @@ Species-area curves, spatial aggregation, and habitat specialization in tropical
 Journal of Theoretical Biology, 207(1), 81–99.
 }
 \seealso{
-\code{\link{calculate_mean_energy}} \cr
-\code{\link{plot_randomized_pattern}}
+\code{\link{randomization_algorithm}} \cr
+\code{\link{reconstruct_pattern}}
 }

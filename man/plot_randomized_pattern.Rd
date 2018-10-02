@@ -4,18 +4,17 @@
 \alias{plot_randomized_pattern}
 \title{plot_randomized_pattern}
 \usage{
-plot_randomized_pattern(pattern, comp_fast = FALSE, base_size = 15,
-  size = 0.5)
+plot_randomized_pattern(pattern, size = 0.5, base_size = 15,
+  comp_fast = FALSE)
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns}
+\item{pattern}{List with reconstructed patterns.}
 
-\item{comp_fast}{Logical if summary functions should be estimated in an computational
-fast way (but without edge correction)}
+\item{size}{Line size.}
 
-\item{base_size}{base font size}
+\item{base_size}{base font size.}
 
-\item{size}{Line size}
+\item{comp_fast}{Should summary functions be estimated in an computational fast way.}
 }
 \value{
 ggplot
@@ -24,8 +23,11 @@ ggplot
 Plot randomized pattern
 }
 \details{
-Plot the summary functions of the observed pattern and the reconstructed patterns
-as "simulation envelopes".
+The function plots the pair correlation function and the nearest neighbour function
+the observed pattern and the reconstructed patterns (as "simulation envelopes".).
+For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
+correction is used and the pair correlation function is estimated based on Ripley's
+K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
 \dontrun{

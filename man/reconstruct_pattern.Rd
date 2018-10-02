@@ -4,25 +4,24 @@
 \alias{reconstruct_pattern}
 \title{reconstruct_pattern}
 \usage{
-reconstruct_pattern(pattern, n_random = 19, max_runs = 10000,
-  e_threshold = 0.01, fitting = FALSE, verbose = FALSE,
-  comp_fast = FALSE)
+reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
+  max_runs = 10000, fitting = FALSE, comp_fast = FALSE,
+  verbose = FALSE)
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns}
+\item{pattern}{List with reconstructed patterns.}
 
-\item{n_random}{Number of randomized RasterLayers}
+\item{n_random}{Number of randomized RasterLayers.}
 
-\item{max_runs}{Maximum number of iterations of e_threshold is not reached}
+\item{e_threshold}{Minimum energy to stop reconstruction.}
 
-\item{e_threshold}{Minimum energy to stop reconstruction}
+\item{max_runs}{Maximum number of iterations of e_threshold is not reached.}
 
-\item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process}
+\item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process.}
 
-\item{verbose}{Print progress report}
+\item{comp_fast}{Should summary functions be estimated in an computational fast way.}
 
-\item{comp_fast}{Logical if summary functions should be estimated in an computational
-fast way (but without edge correction)}
+\item{verbose}{Print progress report.}
 }
 \value{
 list
@@ -31,7 +30,15 @@ list
 Pattern reconstruction
 }
 \details{
-Pattern reconstruction
+The functions randomizes the observed pattern by using pattern reconstruction
+as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). The
+algorithm starts with a random reconstructed pattern, shifts a point to a new location and
+keeps the change only, if the deviation between the observed and the reconstructed
+pattern decreases. The pair correlation function and the nearest neighbour
+distance function are used to describe the patterns. For large patterns
+`comp_fast = TRUE` decreases the computational demand because no edge
+correction is used and the pair correlation function is estimated based on Ripley's
+K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
 \dontrun{

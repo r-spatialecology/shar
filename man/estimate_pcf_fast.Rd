@@ -7,9 +7,9 @@
 estimate_pcf_fast(pattern, ...)
 }
 \arguments{
-\item{pattern}{Point pattern}
+\item{pattern}{Point pattern.}
 
-\item{...}{Arguments passed to \code{\link{Kest}} and \code{\link{pcf.fv}}}
+\item{...}{Arguments passed down.}
 }
 \value{
 fv.object
@@ -18,7 +18,10 @@ fv.object
 Fast estimation of the pair correlation function
 }
 \details{
-Classifies a RasterLayer with continious values into n discrete classes
+The functions estimates the pair correlation functions based on an estimation
+of Ripley's K-function. This makes it computationally faster than estimating the
+pair correlation function directly. It is a wrapper around \code{\link{Kest}} and
+\code{\link{pcf.fv}}.
 }
 \examples{
 \dontrun{
@@ -26,6 +29,16 @@ pattern_random <- spatstat::runifpoint(n = 50)
 pcf_pattern_random <- estimate_pcf_fast(pattern_random)
 }
 
+}
+\references{
+Ripley, B.D. (1977) Modelling spatial patterns (with discussion). Journal of
+the Royal Statistical Society, Series B, 39, 172 – 212.
+
+Stoyan, D, Kendall, W.S. and Mecke, J. (1995) Stochastic geometry and its
+applications. 2nd edition. Springer Verlag.
+
+Stoyan, D. and Stoyan, H. (1994) Fractals, random shapes and point fields:
+methods of geometrical statistics. John Wiley and Sons.
 }
 \seealso{
 \code{\link{Kest}} \cr

@@ -2,17 +2,24 @@
 #'
 #' @description Pattern reconstruction
 #'
-#' @param pattern List with reconstructed patterns
-#' @param comp_fast Logical if summary functions should be estimated in an computational
-#' fast way (but without edge correction)
-#' @param n_random Number of randomized RasterLayers
-#' @param verbose Print progress report
-#' @param max_runs Maximum number of iterations of e_threshold is not reached
-#' @param e_threshold Minimum energy to stop reconstruction
-#' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process
+#' @param pattern List with reconstructed patterns.
+#' @param n_random Number of randomized RasterLayers.
+#' @param e_threshold Minimum energy to stop reconstruction.
+#' @param max_runs Maximum number of iterations of e_threshold is not reached.
+#' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
+#' @param comp_fast Should summary functions be estimated in an computational fast way.
+#' @param verbose Print progress report.
 #'
 #' @details
-#' Pattern reconstruction
+#' The functions randomizes the observed pattern by using pattern reconstruction
+#' as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). The
+#' algorithm starts with a random reconstructed pattern, shifts a point to a new location and
+#' keeps the change only, if the deviation between the observed and the reconstructed
+#' pattern decreases. The pair correlation function and the nearest neighbour
+#' distance function are used to describe the patterns. For large patterns
+#' `comp_fast = TRUE` decreases the computational demand because no edge
+#' correction is used and the pair correlation function is estimated based on Ripley's
+#' K-function. For more information see \code{\link{estimate_pcf_fast}}.
 #'
 #' @seealso
 #' \code{\link{calculate_mean_energy}} \cr
@@ -38,8 +45,9 @@
 #'
 #' @export
 reconstruct_pattern <- function(pattern, n_random = 19,
-                                max_runs = 10000, e_threshold = 0.01,
-                                fitting = FALSE, verbose = FALSE, comp_fast = FALSE){
+                                e_threshold = 0.01, max_runs = 10000,
+                                fitting = FALSE, comp_fast = FALSE,
+                                verbose = FALSE){
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
@@ -66,20 +74,30 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
     } else {simulated <- spatstat::runifpoint(n = pattern$n, win = pattern$window)} # create simulation data
 
+    if(isTRUE(comp_fast)) {
 
-    gest_observed <- spatstat::Gest(pattern, correction = "none")
+      gest_observed <- spatstat::Gest(pattern, correction = "none")
+      gest_simulated <- spatstat::Gest(simulated, correction = "none")
 
-    gest_simulated <- spatstat::Gest(simulated, correction = "none")
+      pcf_observed <- SHAR::estimate_pcf_fast(pattern,
+                                              correction = "none",
+                                              method = "c",
+                                              spar = 0.5)
+      pcf_simulated <- SHAR::estimate_pcf_fast(simulated,
+                                               correction = "none",
+                                               method = "c",
+                                               spar = 0.5)
+    }
 
-    pcf_observed <- SHAR::estimate_pcf_fast(pattern,
-                                            correction = "none",
-                                            method = "c",
-                                            spar = 0.5)
+    else {
 
-    pcf_simulated <- SHAR::estimate_pcf_fast(simulated,
-                                             correction = "none",
-                                             method = "c",
-                                             spar = 0.5)
+      gest_observed <- spatstat::Gest(X = pattern, correction = "han")
+      gest_simulated <- spatstat::Gest(X = simulated, correction = "han")
+
+
+      pcf_observed <- spatstat::pcf(X = pattern, correction = "best", divisor = "d")
+      pcf_simulated <- spatstat::pcf(X = simulated, correction = "best", divisor = "d")
+    }
 
     # energy before reconstruction
     e0 <-  mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
@@ -95,13 +113,22 @@ reconstruct_pattern <- function(pattern, n_random = 19,
       relocated$x[rp] <- runif(n = 1, min = xrange[1], max = xrange[2])
       relocated$y[rp] <- runif(n = 1, min = yrange[1], max = yrange[2])
 
+      if(isTRUE(comp_fast)) {
 
-      gest_relocated <- spatstat::Gest(relocated, correction = "none")
+        gest_relocated <- spatstat::Gest(relocated, correction = "none")
 
-      pcf_relocated <- SHAR::estimate_pcf_fast(relocated,
-                                               correction = "none",
-                                               method = "c",
-                                               spar = 0.5)
+        pcf_relocated <- SHAR::estimate_pcf_fast(relocated,
+                                                 correction = "none",
+                                                 method = "c",
+                                                 spar = 0.5)
+      }
+
+      else {
+
+        gest_relocated <- spatstat::Gest(X = relocated, correction = "han")
+
+        pcf_relocated <- spatstat::pcf(X = relocated, correction = "best", divisor = "d")
+      }
 
       # energy after relocation
       e_relocated <-  mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) +

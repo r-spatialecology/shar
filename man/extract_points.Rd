@@ -7,9 +7,9 @@
 extract_points(raster, pattern)
 }
 \arguments{
-\item{raster}{RasterLayer}
+\item{raster}{RasterLayer.}
 
-\item{pattern}{Point pattern}
+\item{pattern}{Point pattern.}
 }
 \value{
 data.frame
@@ -18,12 +18,14 @@ data.frame
 Extract points
 }
 \details{
-Extract number of pattern within each habitat
+The function extracts the number of points within each habitat.
 }
 \examples{
 \dontrun{
-pattern_random <- spatstat::runifpoint(n = 50)
-pcf_pattern_random <- estimate_pcf_fast(pattern_random)
+landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
+landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+species_1 <- spatstat::runifpoint(n = 50, win = spatstat::owin(c(0, 50), c(0, 50)))
+extract_points(raster = landscape_classified, pattern = species_1)
 }
 
 }

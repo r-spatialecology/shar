@@ -7,7 +7,7 @@
 translate_raster(raster)
 }
 \arguments{
-\item{raster}{RasterLayer or list of RasterLayers}
+\item{raster}{RasterLayer.}
 }
 \value{
 list
@@ -16,7 +16,9 @@ list
 Torus translation
 }
 \details{
-Torus translation
+Torus translation test as described in Harms et al. (20001). The raster is shifted
+in all four cardinal directions by steps equal to the raste resolution. If a cell
+exits the extent on one side, it enters the extent on the opposite side.
 }
 \examples{
 \dontrun{

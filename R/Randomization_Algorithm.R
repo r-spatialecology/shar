@@ -2,15 +2,20 @@
 #'
 #' @description Randomization algorithm
 #'
-#' @param raster RasterLayer
-#' @param direction he number of directions in which cells should be connected:
+#' @param raster RasterLayer.
+#' @param n_random Number of randomized RasterLayers.
+#' @param direction Number of directions in which cells should be connected:
 #' 4 (rook's case), 8 (queen's case), 16 (knight and one-cell queen moves),
-#' or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix (see Details)
-#' @param n_random Number of randomized RasterLayers
-#' @param verbose Print progress report
+#' or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix.
+#' @param verbose Print progress report.
 #'
 #' @details
-#' Randomize habitat map
+#' The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
+#' as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
+#' starts to assign random neighbouring cells (specified by `directions`) to each
+#' habitat (in increasing order of abundance in observed map). We modified the
+#' procedure slightly by increasing a probability to jump to a non-neighbouring
+#' cell as the current patch becomes larger.
 #'
 #' @seealso
 #' \code{\link{translate_raster}} \cr
@@ -33,7 +38,9 @@
 #' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
 #'
 #' @export
-randomization_algorithm <- function(raster, direction = 8, n_random = 19,
+randomization_algorithm <- function(raster,
+                                    n_random = 19,
+                                    direction = 8,
                                     verbose = FALSE){
 
   result <- lapply(1:n_random, function(current_raster) {

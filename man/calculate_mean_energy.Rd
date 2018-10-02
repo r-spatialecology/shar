@@ -7,10 +7,9 @@
 calculate_mean_energy(pattern, comp_fast = FALSE)
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns}
+\item{pattern}{List with reconstructed patterns.}
 
-\item{comp_fast}{Logical if summary functions should be estimated in an computational
-fast way (but without edge correction)}
+\item{comp_fast}{Should summary functions be estimated in an computational fast way.}
 }
 \value{
 numeric
@@ -19,7 +18,13 @@ numeric
 Calculate mean energy
 }
 \details{
-Calculate the mean energy between the observed pattern and all reconstructed patterns.
+The function calculates the mean energy (or deviation) between the observed
+pattern and all reconstructed patterns (for more information see Tscheschel &
+Stoyan (2006) or Wiegand & Moloney (2014)). The pair correlation function and the
+nearest neighbour distance function are used to describe the patterns. For large
+patterns `comp_fast = TRUE` decreases the computational demand because no edge
+correction is used and the pair correlation function is estimated based on Ripley's
+K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
 \dontrun{
@@ -37,6 +42,6 @@ Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
 in ecology. Boca Raton: Chapman and Hall/CRC Press.
 }
 \seealso{
-\code{\link{plot_randomized_pattern}} \cr
-\code{\link{reconstruct_pattern}}
+\code{\link{reconstruct_pattern}} \cr
+\code{\link{plot_randomized_pattern}}
 }

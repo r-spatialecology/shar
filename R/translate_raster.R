@@ -2,10 +2,12 @@
 #'
 #' @description Torus translation
 #'
-#' @param raster RasterLayer or list of RasterLayers
+#' @param raster RasterLayer.
 #'
 #' @details
-#' Torus translation
+#' Torus translation test as described in Harms et al. (20001). The raster is shifted
+#' in all four cardinal directions by steps equal to the raste resolution. If a cell
+#' exits the extent on one side, it enters the extent on the opposite side.
 #'
 #' @seealso
 #' \code{\link{randomization_algorithm}}

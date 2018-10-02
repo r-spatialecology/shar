@@ -4,19 +4,19 @@
 \alias{randomization_algorithm}
 \title{randomization_algorithm}
 \usage{
-randomization_algorithm(raster, direction = 8, n_random = 19,
+randomization_algorithm(raster, n_random = 19, direction = 8,
   verbose = FALSE)
 }
 \arguments{
-\item{raster}{RasterLayer}
+\item{raster}{RasterLayer.}
 
-\item{direction}{he number of directions in which cells should be connected:
+\item{n_random}{Number of randomized RasterLayers.}
+
+\item{direction}{Number of directions in which cells should be connected:
 4 (rook's case), 8 (queen's case), 16 (knight and one-cell queen moves),
-or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix (see Details)}
+or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix.}
 
-\item{n_random}{Number of randomized RasterLayers}
-
-\item{verbose}{Print progress report}
+\item{verbose}{Print progress report.}
 }
 \value{
 list
@@ -25,7 +25,12 @@ list
 Randomization algorithm
 }
 \details{
-Randomize habitat map
+The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
+as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
+starts to assign random neighbouring cells (specified by `directions`) to each
+habitat (in increasing order of abundance in observed map). We modified the
+procedure slightly by increasing a probability to jump to a non-neighbouring
+cell as the current patch becomes larger.
 }
 \examples{
 \dontrun{

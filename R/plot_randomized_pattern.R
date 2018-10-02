@@ -2,15 +2,17 @@
 #'
 #' @description Plot randomized pattern
 #'
-#' @param pattern List with reconstructed patterns
-#' @param comp_fast Logical if summary functions should be estimated in an computational
-#' fast way (but without edge correction)
-#' @param base_size base font size
-#' @param size Line size
+#' @param pattern List with reconstructed patterns.
+#' @param size Line size.
+#' @param base_size base font size.
+#' @param comp_fast Should summary functions be estimated in an computational fast way.
 #'
 #' @details
-#' Plot the summary functions of the observed pattern and the reconstructed patterns
-#' as "simulation envelopes".
+#' The function plots the pair correlation function and the nearest neighbour function
+#' the observed pattern and the reconstructed patterns (as "simulation envelopes".).
+#' For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
+#' correction is used and the pair correlation function is estimated based on Ripley's
+#' K-function. For more information see \code{\link{estimate_pcf_fast}}.
 #'
 #' @return ggplot
 #'
@@ -25,8 +27,9 @@
 #' @rdname plot_randomized_pattern
 #'
 #' @export
-plot_randomized_pattern <- function(pattern, comp_fast = FALSE,
-                                    base_size = 15, size = 0.5){
+plot_randomized_pattern <- function(pattern,
+                                    size = 0.5, base_size = 15,
+                                    comp_fast = FALSE){
 
   name_unit <- spatstat::unitname(pattern$observed)[[1]]
 

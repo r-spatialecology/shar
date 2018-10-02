@@ -2,23 +2,31 @@
 #'
 #' @description Results habitat association
 #'
-#' @param pattern Point pattern or list with reconstructed patterns
-#' @param raster RasterLayer or list of RasterLayers
-#' @param threshold Significance thresholds
+#' @param pattern Point pattern or list with reconstructed patterns.
+#' @param raster RasterLayer or list of RasterLayers.
+#' @param threshold Significance thresholds.
 #'
 #' @details
-#' Results of habitat association tests
+#' The functions shows significant habitat associations by comparing the number of
+#' points within a habitat between the observed data and randomized data as described in
+#' Plotkin et al. (2000) and Harms et al. (2001). Significant positive or associations are present
+#' if the observed count in a habitat is above or below a certain threshold of the
+#' randomized count, respectively.
 #'
 #' @seealso
-#' \code{\link{calculate_mean_energy}} \cr
-#' \code{\link{plot_randomized_pattern}}
+#' \code{\link{randomization_algorithm}} \cr
+#' \code{\link{reconstruct_pattern}}
 #'
-#' @return list
+#' @return data.frame
 #'
 #' @examples
 #' \dontrun{
-#' pattern_random <- spatstat::runifpoint(n = 50)
-#' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
+#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+#' species_1 <- spatstat::runifpoint(n = 50, win = spatstat::owin(c(0, 50), c(0, 50)))
+#' species_1_reconstructed <- SHAR::reconstruct_pattern(pattern = species_1,
+#' n_random = 9, max_runs = 1000)
+#' results_habitat_association(pattern = species_1_reconstructed, raster = landscape_classified)
 #' }
 #'
 #' @aliases results_habitat_association
@@ -40,8 +48,7 @@ results_habitat_association <- function(pattern, raster, threshold=c(0.025, 0.97
 
     habitats_count <- lapply(raster, function(current_raster) {
       SHAR::extract_points(raster = current_raster,
-                           pattern = pattern,
-                           method = method)
+                           pattern = pattern)
     })
   }
 
@@ -49,8 +56,7 @@ results_habitat_association <- function(pattern, raster, threshold=c(0.025, 0.97
 
     habitats_count <- lapply(pattern, function(current_pattern) {
       SHAR::extract_points(raster = raster,
-                           pattern = current_pattern,
-                           method = method)
+                           pattern = current_pattern)
     })
   }
 

@@ -2,12 +2,14 @@
 #'
 #' @description Classify habitats
 #'
-#' @param raster RasterLayer
-#' @param classes Number of classes
-#' @param style Style of classification. See \code{\link{classIntervals}} for more details
+#' @param raster RasterLayer.
+#' @param classes Number of classes.
+#' @param style Style of classification.
 #'
 #' @details
-#' Classifies a RasterLayer with continious values into n discrete classes
+#' Classifies a RasterLayer with continuous values into n discrete classes. Consequently,
+#' classes are non-overlapping (and left-closed). For more information see
+#' \code{\link{classIntervals}}.
 #'
 #' @seealso
 #' \code{\link{classIntervals}}
@@ -24,8 +26,20 @@
 #' @rdname classify_habitats
 #'
 #' @references
-#' Jenks, G. F., & Caspall, F. C. (1971). Error in choroplethic maps: Definition,
-#' measurement, reduction. Annals of the Association of American Geographers, 61(2), 217–244.
+#' Armstrong, M. P., Xiao, N., Bennett, D. A., 2003. "Using genetic algorithms
+#' to create multicriteria class intervals for choropleth maps". Annals,
+#' Association of American Geographers, 93 (3), 595–623;
+#'
+#' Jenks, G. F., Caspall, F. C., 1971. "Error on choroplethic maps: definition,
+#' measurement, reduction". Annals, Association of American Geographers, 61 (2), 217–244;
+#'
+#' Dent, B. D., 1999, Cartography: thematic map design. McGraw-Hill, Boston, 417 pp.;
+#
+#' Slocum TA, McMaster RB, Kessler FC, Howard HH 2005 Thematic Cartography and
+#' Geographic Visualization, Prentice Hall, Upper Saddle River NJ.;
+#'
+#' Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American
+#' Statistical Association, 53, pp. 789–798 (http://lib.stat.cmu.edu/cmlib/src/cluster/fish.f)
 
 #' @export
 classify_habitats <- function(raster, classes = 5, style = "fisher"){
