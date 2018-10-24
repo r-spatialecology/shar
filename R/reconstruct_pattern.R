@@ -151,8 +151,8 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     return(simulated)
   })
 
-  result[[length(result) + 1]] <- pattern
-  names(result) <-  c(rep(paste0("randomized_", 1:(length(result)-1))), "observed")
+  result[[n_random + 1]] <- pattern
+  names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
 
   return(result)
 }

@@ -122,8 +122,8 @@ randomize_raster <- function(raster,
   return(random_raster) # return results
   })
 
-  result[[length(result) + 1]] <- raster
-  names(result) <-  c(rep(paste0("randomized_", 1:(length(result)-1))), "observed")
+  result[[n_random + 1]] <- raster
+  names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
 
   return(result)
 }
