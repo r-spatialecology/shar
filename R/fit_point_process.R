@@ -10,10 +10,6 @@
 #' The functions randomizes the observed pattern by fitting a point process to the data.
 #' It is possible to choose between a Poisson process or a Thomas cluster process.
 #'
-#' @seealso
-#' \code{\link{calculate_mean_energy}} \cr
-#' \code{\link{plot_randomized_pattern}}
-#'
 #' @return list
 #'
 #' @examples
@@ -22,8 +18,8 @@
 #' pattern_fitted <- SHAR::fit_point_process(pattern_random, n_random = 9, process = "poisson")
 #' }
 #'
-#' @aliases reconstruct_pattern
-#' @rdname reconstruct_pattern
+#' @aliases fit_point_process
+#' @rdname fit_point_process
 #'
 #' @references
 #' Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000).
@@ -43,7 +39,7 @@ fit_point_process <- function(pattern, n_random = 19, process = 'poisson'){
 
     fitted_process <- spatstat::ppm(pattern)
 
-    result <- purrr::map(1:n_random, function(x) {
+    result <- lapply(1:n_random, function(x) {
 
       mobsim <- mobsim::sim_poisson_community(s_pool = 1,
                                               n_sim = pattern$n,
@@ -61,7 +57,7 @@ fit_point_process <- function(pattern, n_random = 19, process = 'poisson'){
 
     fitted_process <- spatstat::kppm(pattern)
 
-    result <- purrr::map(1:n_random, function(x) {
+    result <- lapply(1:n_random, function(x) {
 
       mobsim <- mobsim::sim_thomas_community(s_pool = 1,
                                              n_sim = pattern$n,
