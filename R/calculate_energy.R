@@ -1,4 +1,4 @@
-#' calculate_mean_energy
+#' calculate_energy
 #'
 #' @description Calculate mean energy
 #'
@@ -24,11 +24,11 @@
 #' \dontrun{
 #' pattern_random <- spatstat::runifpoint(n = 50)
 #' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
-#' calculate_mean_energy(pattern_recon)
+#' calculate_energy(pattern_recon)
 #' }
 #'
-#' @aliases calculate_mean_energy
-#' @rdname calculate_mean_energy
+#' @aliases calculate_energy
+#' @rdname calculate_energy
 #'
 #' @references
 #' Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
@@ -38,7 +38,7 @@
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 
 #' @export
-calculate_mean_energy <- function(pattern, comp_fast = FALSE){
+calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE){
 
   pattern_observed <- pattern[names(pattern) == "observed"]
   pattern_reconstructed <- pattern[names(pattern) != "observed"]
@@ -59,7 +59,7 @@ calculate_mean_energy <- function(pattern, comp_fast = FALSE){
                                   correction = "best", divisor = "d")
   }
 
-  energy_all_recon <- sapply(pattern_reconstructed, function(current_pattern) {
+  result <- sapply(pattern_reconstructed, function(current_pattern) {
 
     if(isTRUE(comp_fast)) {
       gest_reconstruction <- spatstat::Gest(X = current_pattern, correction = "none")
@@ -83,7 +83,9 @@ calculate_mean_energy <- function(pattern, comp_fast = FALSE){
     return(energy)
   })
 
-  result <- mean(energy_all_recon)
+  if(isTRUE(return_mean)) {
+    result <- mean(result)
+  }
 
   return(result)
 }
