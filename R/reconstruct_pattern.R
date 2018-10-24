@@ -94,7 +94,6 @@ reconstruct_pattern <- function(pattern, n_random = 19,
       gest_observed <- spatstat::Gest(X = pattern, correction = "han")
       gest_simulated <- spatstat::Gest(X = simulated, correction = "han")
 
-
       pcf_observed <- spatstat::pcf(X = pattern, correction = "best", divisor = "d")
       pcf_simulated <- spatstat::pcf(X = simulated, correction = "best", divisor = "d")
     }
