@@ -4,7 +4,8 @@
 \alias{fit_point_process}
 \title{fit_point_process}
 \usage{
-fit_point_process(pattern, n_random = 19, process = "poisson")
+fit_point_process(pattern, n_random = 19, process = "poisson",
+  return_input = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
@@ -12,6 +13,8 @@ fit_point_process(pattern, n_random = 19, process = "poisson")
 \item{n_random}{Number of randomized RasterLayers.}
 
 \item{process}{What point process to use. Either 'poisson' or 'cluster'}
+
+\item{return_input}{The original input data is returned as last list entry}
 }
 \value{
 list

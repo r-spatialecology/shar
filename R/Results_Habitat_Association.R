@@ -41,7 +41,7 @@
 #' Journal of Theoretical Biology, 207(1), 81–99.
 
 #' @export
-results_habitat_association <- function(pattern, raster, threshold=c(0.025, 0.975)){
+results_habitat_association <- function(pattern, raster, threshold = c(0.025, 0.975)){
 
 
   if(class(raster) == "list" && class(pattern) != "list") {
@@ -67,7 +67,9 @@ results_habitat_association <- function(pattern, raster, threshold=c(0.025, 0.97
   habitats_count <- dplyr::bind_rows(habitats_count, .id = "type")
 
   habitats_count_random <- dplyr::filter(habitats_count, type != "observed")
+
   habitats_count_random_grouped <- dplyr::group_by(habitats_count_random, habitat)
+
   habitats_count_random_summarised <- dplyr::summarise(habitats_count_random_grouped,
                                                        lo = quantile(count,probs = threshold[[1]]),
                                                        hi = quantile(count,probs = threshold[[2]]))

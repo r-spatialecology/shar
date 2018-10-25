@@ -3,6 +3,8 @@
 #' @description Torus translation
 #'
 #' @param raster RasterLayer.
+#' @param return_input The original input data is returned as last list entry
+
 #'
 #' @details
 #' Torus translation test as described in Harms et al. (20001). The raster is shifted
@@ -29,7 +31,7 @@
 #' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
 
 #' @export
-translate_raster <- function(raster){
+translate_raster <- function(raster, return_input = TRUE){
 
   # result <- list()
 
@@ -56,8 +58,14 @@ translate_raster <- function(raster){
     return(raster_shifted)
   })
 
-  result[[length(result) + 1]] <- raster
-  names(result) <-  c(rep(paste0("randomized_", 1:(length(result)-1))), "observed")
+  if(isTRUE(return_input)){
+    result[[length(result) + 1]] <- raster
+    names(result) <-  c(rep(paste0("randomized_", 1:(length(result)-1))), "observed")
+  }
+
+  else{
+    names(result) <- rep(paste0("randomized_", 1:(length(result))))
+  }
 
   return(result)
 }

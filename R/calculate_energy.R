@@ -3,6 +3,7 @@
 #' @description Calculate mean energy
 #'
 #' @param pattern List with reconstructed patterns.
+#' @param return_mean Return the mean energy
 #' @param comp_fast Should summary functions be estimated in an computational fast way.
 #'
 #' @details

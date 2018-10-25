@@ -7,6 +7,7 @@
 #' @param direction Number of directions in which cells should be connected:
 #' 4 (rook's case), 8 (queen's case), 16 (knight and one-cell queen moves),
 #' or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix.
+#' @param return_input The original input data is returned as last list entry
 #' @param verbose Print progress report.
 #'
 #' @details
@@ -41,6 +42,7 @@
 randomize_raster <- function(raster,
                              n_random = 19,
                              direction = 8,
+                             return_input = TRUE,
                              verbose = FALSE){
 
   result <- lapply(1:n_random, function(current_raster) {
@@ -110,8 +112,7 @@ randomize_raster <- function(raster,
 
       if(verbose == TRUE) {
         cat(paste0("\rProgress: n_random: ", current_raster, "/", n_random,
-                   "|| habitats:" , current_habitat, "/", length(habitats),
-                   "|| cells: ", length(zero_neighbours))) # add habitat and number empty cells
+                   "|| habitats:" , current_habitat, "/", length(habitats))) # add habitat and number empty cells
       }
     }
   }
@@ -122,8 +123,14 @@ randomize_raster <- function(raster,
   return(random_raster) # return results
   })
 
-  result[[n_random + 1]] <- raster
-  names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
+  if(isTRUE(return_input)){
+    result[[n_random + 1]] <- raster
+    names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
+  }
+
+  else{
+    names(result) <- rep(paste0("randomized_", 1:n_random))
+  }
 
   return(result)
 }

@@ -5,6 +5,8 @@
 #' @param pattern List with reconstructed patterns.
 #' @param n_random Number of randomized RasterLayers.
 #' @param process What point process to use. Either 'poisson' or 'cluster'
+#' @param return_input The original input data is returned as last list entry
+
 #'
 #' @details
 #' The functions randomizes the observed pattern by fitting a point process to the data.
@@ -27,7 +29,7 @@
 #' Journal of Theoretical Biology, 207(1), 81–99.
 #'
 #' @export
-fit_point_process <- function(pattern, n_random = 19, process = 'poisson'){
+fit_point_process <- function(pattern, n_random = 19, process = 'poisson', return_input = TRUE){
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
@@ -75,8 +77,14 @@ fit_point_process <- function(pattern, n_random = 19, process = 'poisson'){
 
   else{stop("Please select either 'poisson' or 'cluster'!")}
 
-  result[[n_random + 1]] <- pattern
-  names(result) <- c(rep(paste0("randomized_", 1:n_random)), "observed")
+  if(isTRUE(return_input)){
+    result[[n_random + 1]] <- pattern
+    names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
+  }
+
+  else{
+    names(result) <- rep(paste0("randomized_", 1:n_random))
+  }
 
   return(result)
 }

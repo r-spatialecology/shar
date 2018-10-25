@@ -9,6 +9,8 @@ calculate_energy(pattern, return_mean = FALSE, comp_fast = FALSE)
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
 
+\item{return_mean}{Return the mean energy}
+
 \item{comp_fast}{Should summary functions be estimated in an computational fast way.}
 }
 \value{

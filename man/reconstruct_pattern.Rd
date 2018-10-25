@@ -6,7 +6,7 @@
 \usage{
 reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
   max_runs = 10000, fitting = FALSE, comp_fast = FALSE,
-  verbose = FALSE)
+  return_input = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
@@ -20,6 +20,8 @@ reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
 \item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process.}
 
 \item{comp_fast}{Should summary functions be estimated in an computational fast way.}
+
+\item{return_input}{The original input data is returned as last list entry}
 
 \item{verbose}{Print progress report.}
 }

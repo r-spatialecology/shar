@@ -8,6 +8,7 @@
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param comp_fast Should summary functions be estimated in an computational fast way.
+#' @param return_input The original input data is returned as last list entry
 #' @param verbose Print progress report.
 #'
 #' @details
@@ -47,6 +48,7 @@
 reconstruct_pattern <- function(pattern, n_random = 19,
                                 e_threshold = 0.01, max_runs = 10000,
                                 fitting = FALSE, comp_fast = FALSE,
+                                return_input = TRUE,
                                 verbose = FALSE){
 
   pattern <- spatstat::unmark(pattern) # only spatial points
@@ -151,8 +153,14 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     return(simulated)
   })
 
-  result[[n_random + 1]] <- pattern
-  names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
+  if(isTRUE(return_input)){
+    result[[n_random + 1]] <- pattern
+    names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
+  }
+
+  else{
+    names(result) <- rep(paste0("randomized_", 1:n_random))
+  }
 
   return(result)
 }
