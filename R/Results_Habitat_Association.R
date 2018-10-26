@@ -4,7 +4,8 @@
 #'
 #' @param pattern Point pattern or list with reconstructed patterns.
 #' @param raster RasterLayer or list of RasterLayers.
-#' @param threshold Significance thresholds.
+#' @param significance_level Significance level
+#' @param verbose Print output
 #'
 #' @details
 #' The functions shows significant habitat associations by comparing the number of
@@ -24,8 +25,7 @@
 #' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
 #' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
 #' species_1 <- spatstat::runifpoint(n = 50, win = spatstat::owin(c(0, 50), c(0, 50)))
-#' species_1_reconstructed <- SHAR::reconstruct_pattern(pattern = species_1,
-#' n_random = 9, max_runs = 1000)
+#' species_1_reconstructed <- SHAR::reconstruct_pattern(pattern = species_1, n_random = 9, max_runs = 1000)
 #' results_habitat_association(pattern = species_1_reconstructed, raster = landscape_classified)
 #' }
 #'
@@ -41,10 +41,15 @@
 #' Journal of Theoretical Biology, 207(1), 81–99.
 
 #' @export
-results_habitat_association <- function(pattern, raster, threshold = c(0.025, 0.975)){
+results_habitat_association <- function(pattern, raster, significance_level = 0.05, verbose = TRUE){
 
+  threshold <- c(significance_level / 2, 1 - significance_level / 2)
 
   if(class(raster) == "list" && class(pattern) != "list") {
+
+    if(isTRUE(verbose)){
+      cat(paste0("> Input: randomized raster | Thresholds: negative < ", threshold[1], " - positive > ", threshold[2], "\n\n"))
+    }
 
     habitats_count <- lapply(raster, function(current_raster) {
       SHAR::extract_points(raster = current_raster,
@@ -53,6 +58,10 @@ results_habitat_association <- function(pattern, raster, threshold = c(0.025, 0.
   }
 
   else if(class(pattern) == "list" && class(raster) != "list") {
+
+    if(isTRUE(verbose)){
+      cat(paste0("> Input: randomized point pattern | Thresholds: negative < ", threshold[1], " - positive > ", threshold[2], "\n\n"))
+    }
 
     habitats_count <- lapply(pattern, function(current_pattern) {
       SHAR::extract_points(raster = raster,

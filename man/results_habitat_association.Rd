@@ -4,14 +4,17 @@
 \alias{results_habitat_association}
 \title{results_habitat_association}
 \usage{
-results_habitat_association(pattern, raster, threshold = c(0.025, 0.975))
+results_habitat_association(pattern, raster, significance_level = 0.05,
+  verbose = TRUE)
 }
 \arguments{
 \item{pattern}{Point pattern or list with reconstructed patterns.}
 
 \item{raster}{RasterLayer or list of RasterLayers.}
 
-\item{threshold}{Significance thresholds.}
+\item{significance_level}{Significance level}
+
+\item{verbose}{Print output}
 }
 \value{
 data.frame
@@ -31,8 +34,7 @@ randomized count, respectively.
 landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
 landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
 species_1 <- spatstat::runifpoint(n = 50, win = spatstat::owin(c(0, 50), c(0, 50)))
-species_1_reconstructed <- SHAR::reconstruct_pattern(pattern = species_1,
-n_random = 9, max_runs = 1000)
+species_1_reconstructed <- SHAR::reconstruct_pattern(pattern = species_1, n_random = 9, max_runs = 1000)
 results_habitat_association(pattern = species_1_reconstructed, raster = landscape_classified)
 }
 
