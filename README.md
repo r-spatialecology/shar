@@ -73,9 +73,9 @@ Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
 .
 
 ``` r
-gamma_test <- fit_point_process(pattern = species_b, process = "poisson", n_random = 39)
+gamma_test <- fit_point_process(pattern = species_a, process = "poisson", n_random = 39)
 
-reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 1000, n_random = 39) # takes some time
+reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 2500, n_random = 39) # takes some time
 ```
 
 The data was created that `species_a` has a negative association to
@@ -86,6 +86,7 @@ be seen in the results.
 
 ``` r
 results_habitat_association(pattern = species_a, raster = torus_trans)
+#> > Input: randomized raster | Thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count lo hi significance
 #> 1       1    10  0  8     positive
 #> 2       2    14  8 24         n.s.
@@ -93,27 +94,61 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 #> 4       4     0 10 26     negative
 #> 5       5    14  4 17         n.s.
 results_habitat_association(pattern = species_b, raster = random_walk)
+#> > Input: randomized raster | Thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  2.95 26.20         n.s.
-#> 2       2    24 23.65 66.75         n.s.
-#> 3       3    36 49.30 93.25     negative
-#> 4       4    19 32.90 79.15     negative
-#> 5       5   114 14.90 50.55     positive
+#> 1       1     7  3.00 23.05         n.s.
+#> 2       2    24 26.95 63.10     negative
+#> 3       3    36 46.95 90.05     negative
+#> 4       4    19 28.90 76.40     negative
+#> 5       5   114 11.75 47.30     positive
 
 results_habitat_association(pattern = gamma_test, raster = landscape_classified)
+#> > Input: randomized point pattern | Thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  5.95 14.05         n.s.
-#> 2       2    24 33.95 52.10     negative
-#> 3       3    36 51.90 79.30     negative
-#> 4       4    19 38.90 63.05     negative
-#> 5       5   114 21.00 40.00     positive
+#> 1       1    10  0.00  6.10     positive
+#> 2       2    14  8.85 21.05         n.s.
+#> 3       3    30 16.90 27.25     positive
+#> 4       4     0 11.85 24.10     negative
+#> 5       5    14  4.00 15.05         n.s.
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
+#> > Input: randomized point pattern | Thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  0.95 19.15         n.s.
-#> 2       2    24 25.00 72.05     negative
-#> 3       3    36 41.70 85.00     negative
-#> 4       4    19 33.90 82.10     negative
-#> 5       5   114  7.90 59.15     positive
+#> 1       1     7  1.00 21.25         n.s.
+#> 2       2    24 25.85 71.30     negative
+#> 3       3    36 44.90 86.10     negative
+#> 4       4    19 31.70 64.20     negative
+#> 5       5   114 11.95 58.35     positive
+```
+
+Of coures, there are several utility functions. For example, you can
+plot a randomized pattern or calculate the differences between the
+observed pattern and the randomized patterns (using summary functions).
+
+``` r
+plot_randomized_pattern(reconstruct)
+```
+
+<img src="man/figures/README-plot random pattern-1.png" width="100%" />
+
+``` r
+
+calculate_energy(reconstruct)
+#>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
+#>    0.12383933    0.11885764    0.06221139    0.10145441    0.08672217 
+#>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
+#>    0.07031200    0.08997604    0.07393047    0.10279469    0.10767068 
+#> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
+#>    0.10526385    0.09278873    0.08716073    0.07667916    0.10519324 
+#> randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 
+#>    0.12727424    0.09034474    0.08869269    0.10267411    0.06574193 
+#> randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 
+#>    0.07093437    0.07157113    0.08903972    0.11520388    0.08030586 
+#> randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
+#>    0.08439971    0.07392913    0.07722876    0.09209930    0.08618923 
+#> randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 
+#>    0.08711860    0.10440259    0.08059639    0.09564745    0.06967828 
+#> randomized_36 randomized_37 randomized_38 randomized_39 
+#>    0.10530861    0.08109449    0.12068153    0.09089023
 ```
 
 ## References
