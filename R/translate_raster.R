@@ -60,11 +60,11 @@ translate_raster <- function(raster, return_input = TRUE){
 
   if(isTRUE(return_input)){
     result[[length(result) + 1]] <- raster
-    names(result) <-  c(rep(paste0("randomized_", 1:(length(result)-1))), "observed")
+    names(result) <-  c(paste0("randomized_", 1:(length(result)-1)), "observed")
   }
 
   else{
-    names(result) <- rep(paste0("randomized_", 1:(length(result))))
+    names(result) <- paste0("randomized_", 1:(length(result)))
   }
 
   return(result)

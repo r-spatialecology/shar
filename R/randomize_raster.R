@@ -125,11 +125,11 @@ randomize_raster <- function(raster,
 
   if(isTRUE(return_input)){
     result[[n_random + 1]] <- raster
-    names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed")
+    names(result) <-  c(paste0("randomized_", 1:n_random), "observed")
   }
 
   else{
-    names(result) <- rep(paste0("randomized_", 1:n_random))
+    names(result) <- paste0("randomized_", 1:n_random)
   }
 
   return(result)
