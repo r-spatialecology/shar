@@ -35,8 +35,12 @@ translate_raster <- function(raster, return_input = TRUE){
 
   # result <- list()
 
-  steps_x <- seq(from = 0, to=raster::nrow(raster), by = 1) # All steps in x-direction
-  steps_y <- seq(from = 0, to=raster::ncol(raster), by = 1) # All steps in y-direction
+  if(!isTRUE(raster::nrow(raster) == raster::ncol(raster))) {
+    stop("Torus translation only works for raster with nrow == ncol")
+  }
+
+  steps_x <- seq(from = 0, to = raster::nrow(raster), by = 1) # All steps in x-direction
+  steps_y <- seq(from = 0, to = raster::ncol(raster), by = 1) # All steps in y-direction
 
   steps_xy <- expand.grid(x = steps_x, y = steps_y) # Grid with all possible x-y combinations
   steps_xy <- steps_xy[-c(1, length(steps_x), max(steps_x) * length(steps_y) + 1, length(steps_x)*length(steps_y)),] # Remove combinations identical to original raster
