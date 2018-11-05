@@ -40,8 +40,8 @@ Three different methods are availaible:
   
 First, we use a dataset of the `spatstat` packages.  
 ```{r}  
-  pattern <- spatstat.data::bei
-  habitats <- spatstat.data::bei.extra$elev
+  pattern <- bei
+  habitats <- bei.extra$elev
 ````
 
 ### References

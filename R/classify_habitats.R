@@ -1,0 +1,54 @@
+#' classify_habitats
+#'
+#' @description Classify habitats
+#'
+#' @param raster RasterLayer.
+#' @param classes Number of classes.
+#' @param style Style of classification.
+#'
+#' @details
+#' Classifies a RasterLayer with continuous values into n discrete classes. Consequently,
+#' classes are non-overlapping (and left-closed). For more information see
+#' \code{\link{classIntervals}}.
+#'
+#' @seealso
+#' \code{\link{classIntervals}}
+#'
+#' @return RasterLayer
+#'
+#' @examples
+#' \dontrun{
+#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
+#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+#' }
+#'
+#' @aliases classify_habitats
+#' @rdname classify_habitats
+#'
+#' @references
+#' Armstrong, M. P., Xiao, N., Bennett, D. A., 2003. "Using genetic algorithms
+#' to create multicriteria class intervals for choropleth maps". Annals,
+#' Association of American Geographers, 93 (3), 595–623;
+#'
+#' Jenks, G. F., Caspall, F. C., 1971. "Error on choroplethic maps: definition,
+#' measurement, reduction". Annals, Association of American Geographers, 61 (2), 217–244;
+#'
+#' Dent, B. D., 1999, Cartography: thematic map design. McGraw-Hill, Boston, 417 pp.;
+#
+#' Slocum TA, McMaster RB, Kessler FC, Howard HH 2005 Thematic Cartography and
+#' Geographic Visualization, Prentice Hall, Upper Saddle River NJ.;
+#'
+#' Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American
+#' Statistical Association, 53, pp. 789–798 (http://lib.stat.cmu.edu/cmlib/src/cluster/fish.f)
+
+#' @export
+classify_habitats <- function(raster, classes = 5, style = "fisher"){
+
+  raster_values <- na.omit(raster::getValues(raster))
+
+  breaks <- classInt::classIntervals(var = raster_values, n = classes, style = style)
+
+  result <- raster::cut(raster, breaks = breaks$brks, include.lowest = TRUE)
+
+  return(result)
+}

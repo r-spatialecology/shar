@@ -9,6 +9,6 @@ knitr::opts_chunk$set(
   library(spatstat)
 
 ## ------------------------------------------------------------------------
-  pattern <- spatstat.data::bei
-  habitats <- spatstat.data::bei.extra$elev
+  pattern <- bei
+  habitats <- bei.extra$elev
 
