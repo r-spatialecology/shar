@@ -1,4 +1,4 @@
-context("Randomize raster")
+context("randomize_raster")
 
 landscape_input <- NLMR::nlm_fbm(nrow = 20,
                                  ncol = 20,

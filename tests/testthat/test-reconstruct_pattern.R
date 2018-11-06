@@ -1,4 +1,4 @@
-context("Reconstruct pattern")
+context("reconstruct_pattern")
 
 pattern_input <- spatstat::runifpoint(n = 50)
 
