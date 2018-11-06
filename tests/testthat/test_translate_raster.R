@@ -12,7 +12,7 @@ landscape_classified <- SHAR::classify_habitats(landscape_input, classes = 5)
 n_random <- (nrow + 1) * (ncol + 1)  - 4
 names_random <- paste0("randomized_", 1:n_random)
 
-test_that("Output is a long as n_random", {
+test_that("Output is a long as n_random for translate_raster", {
 
   landscape_random <- SHAR::translate_raster(raster = landscape_classified)
 
@@ -20,7 +20,7 @@ test_that("Output is a long as n_random", {
 
 })
 
-test_that("Output includes randomizations and original pattern", {
+test_that("Output includes randomizations and original pattern for translate_raster", {
 
   landscape_random <- SHAR::translate_raster(raster = landscape_classified)
 
@@ -30,7 +30,7 @@ test_that("Output includes randomizations and original pattern", {
 
 })
 
-test_that("Input raster can not be returned", {
+test_that("Input raster can not be returned for translate_raster", {
 
   landscape_random <- SHAR::translate_raster(raster = landscape_classified,
                                              return_input = FALSE)
@@ -38,7 +38,7 @@ test_that("Input raster can not be returned", {
   expect_named(landscape_random, expected = names_random)
 })
 
-test_that("Error if nrow != ncol", {
+test_that("Error if nrow != ncol for translate_raster", {
 
   landscape_input <- NLMR::nlm_fbm(nrow = 20, ncol = 30,
                                    fract_dim = 1.0,

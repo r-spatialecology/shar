@@ -23,7 +23,7 @@
 #' K-function. For more information see \code{\link{estimate_pcf_fast}}.
 #'
 #' @seealso
-#' \code{\link{calculate_mean_energy}} \cr
+#' \code{\link{calculate_energy}} \cr
 #' \code{\link{plot_randomized_pattern}}
 #'
 #' @return list

@@ -5,7 +5,7 @@ pattern_input <- spatstat::runifpoint(n = 50)
 n_random <- 3
 names_random <- paste0("randomized_", 1:n_random)
 
-test_that("Output is a long as n_random", {
+test_that("Output is a long as n_random for reconstruct_pattern", {
 
   pattern_recon <- SHAR::reconstruct_pattern(pattern = pattern_input,
                                              n_random = n_random,
@@ -15,7 +15,7 @@ test_that("Output is a long as n_random", {
 
 })
 
-test_that("Output includes randomizations and original pattern", {
+test_that("Output includes randomizations and original pattern for reconstruct_pattern", {
 
   pattern_recon <- SHAR::reconstruct_pattern(pattern = pattern_input,
                                              n_random = n_random,
@@ -27,7 +27,7 @@ test_that("Output includes randomizations and original pattern", {
 
 })
 
-test_that("All optional arguments can be used", {
+test_that("All optional arguments can be used for reconstruct_pattern", {
 
   pattern_recon <- SHAR::reconstruct_pattern(pattern = pattern_input,
                                              n_random = n_random,
@@ -39,7 +39,7 @@ test_that("All optional arguments can be used", {
   expect_type(pattern_recon, type = "list")
 })
 
-test_that("Input pattern can not be returned", {
+test_that("Input pattern can not be returned for reconstruct_pattern", {
 
   pattern_recon <- SHAR::reconstruct_pattern(pattern = pattern_input,
                                              n_random = n_random,

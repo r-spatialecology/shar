@@ -10,7 +10,7 @@ landscape_classified <- SHAR::classify_habitats(landscape_input, classes = 5)
 n_random <- 3
 names_random <- paste0("randomized_", 1:n_random)
 
-test_that("Output is a long as n_random", {
+test_that("Output is a long as n_random for randomize_raster", {
 
   landscape_random <- SHAR::randomize_raster(raster = landscape_classified,
                                              n_random = n_random)
@@ -19,7 +19,7 @@ test_that("Output is a long as n_random", {
 
 })
 
-test_that("Output includes randomizations and original pattern", {
+test_that("Output includes randomizations and original pattern for randomize_raster", {
 
   landscape_random <- SHAR::randomize_raster(raster = landscape_classified,
                                              n_random = n_random)
@@ -30,7 +30,7 @@ test_that("Output includes randomizations and original pattern", {
 
 })
 
-test_that("All optional arguments can be used", {
+test_that("All optional arguments can be used for randomize_raster", {
 
   landscape_random <- SHAR::randomize_raster(raster = landscape_classified,
                                              n_random = n_random,
@@ -40,7 +40,7 @@ test_that("All optional arguments can be used", {
   expect_type(landscape_random, type = "list")
 })
 
-test_that("Input raster can not be returned", {
+test_that("Input raster can not be returned for randomize_raster", {
 
   landscape_random <- SHAR::randomize_raster(raster = landscape_classified,
                                              n_random = n_random,
