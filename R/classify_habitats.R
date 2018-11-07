@@ -44,7 +44,7 @@
 #' @export
 classify_habitats <- function(raster, classes = 5, style = "fisher"){
 
-  raster_values <- na.omit(raster::getValues(raster))
+  raster_values <- stats::na.omit(raster::getValues(raster))
 
   breaks <- classInt::classIntervals(var = raster_values, n = classes, style = style)
 

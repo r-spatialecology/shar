@@ -83,8 +83,8 @@ results_habitat_association <- function(pattern, raster,
   habitats_count_random_grouped <- dplyr::group_by(habitats_count_random, habitat)
 
   habitats_count_random_summarised <- dplyr::summarise(habitats_count_random_grouped,
-                                                       lo = quantile(count,probs = threshold[[1]]),
-                                                       hi = quantile(count,probs = threshold[[2]]))
+                                                       lo = stats::quantile(count,probs = threshold[[1]]),
+                                                       hi = stats::quantile(count,probs = threshold[[2]]))
 
   habitats_count_obs <- dplyr::select(dplyr::filter(habitats_count, type == "observed"), - type)
 
