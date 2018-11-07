@@ -65,7 +65,7 @@ randomize_raster <- function(raster,
     while(TRUE){
 
       ratio <- k / n_cells_plot
-      r <- runif(n = 1, min = 0, max = 1)
+      r <- stats::runif(n = 1, min = 0, max = 1)
 
       if(r >= ratio){ # neighbouring patch
 

@@ -23,7 +23,7 @@
 #' K-function. For more information see \code{\link{estimate_pcf_fast}}.
 #'
 #' @seealso
-#' \code{\link{calculate_mean_energy}} \cr
+#' \code{\link{calculate_energy}} \cr
 #' \code{\link{plot_randomized_pattern}}
 #'
 #' @return list
@@ -111,8 +111,8 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
       rp <- sample(x = 1:relocated$n , size = 1) # random point of pattern
 
-      relocated$x[rp] <- runif(n = 1, min = xrange[1], max = xrange[2])
-      relocated$y[rp] <- runif(n = 1, min = yrange[1], max = yrange[2])
+      relocated$x[rp] <- stats::runif(n = 1, min = xrange[1], max = xrange[2])
+      relocated$y[rp] <- stats::runif(n = 1, min = yrange[1], max = yrange[2])
 
       if(isTRUE(comp_fast)) {
 

@@ -1,29 +1,11 @@
-#' SHAR
-#'
-#' \emph{SHAR} provides ,,,
-#'
-#' @importFrom stats na.omit runif setNames
+# Global variables
 
-# nocov start
-# nolint start
-"_PACKAGE"
-
-globalVariables(c(
-  "count",
-  "habitat",
-  "hi",
-  "lo",
-  "method",
-  "points",
-  "quantile",
-  "r",
-  "stack",
-  "summary_function",
-  "theo",
-  "type",
-  "x_r"))
-
-# nolint end
-# nocov end
-
-
+utils::globalVariables(c("count",
+                         "habitat",
+                         "hi",
+                         "lo",
+                         "r",
+                         "summary_function",
+                         "theo",
+                         "type",
+                         "x_r"))
