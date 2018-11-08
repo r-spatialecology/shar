@@ -27,8 +27,7 @@ test_that("All optional arguments can be used for reconstruct_pattern", {
                                              n_random = 39,
                                              max_runs = 50,
                                              fitting = TRUE,
-                                             comp_fast = TRUE,
-                                             verbose = TRUE)
+                                             comp_fast = TRUE)
 
   expect_type(pattern_recon, type = "list")
 })

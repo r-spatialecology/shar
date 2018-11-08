@@ -40,9 +40,7 @@ test_that("Input raster can not be returned for translate_raster", {
 
 test_that("Error if nrow != ncol for translate_raster", {
 
-  landscape_wrong <- NLMR::nlm_fbm(nrow = 20, ncol = 30,
-                                   fract_dim = 1.0,
-                                   user_seed = 42)
+  landscape_wrong <- raster::crop(SHAR::landscape, raster::extent(0, 1000, 0, 500))
 
   landscape_classified <- SHAR::classify_habitats(landscape_wrong, classes = 3)
 

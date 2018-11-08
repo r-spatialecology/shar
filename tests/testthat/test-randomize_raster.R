@@ -31,8 +31,7 @@ test_that("All optional arguments can be used for randomize_raster", {
 
   landscape_random <- SHAR::randomize_raster(raster = landscape_classified,
                                              n_random = 2,
-                                             direction = 4,
-                                             verbose = TRUE)
+                                             direction = 4)
 
   expect_type(landscape_random, type = "list")
 })
