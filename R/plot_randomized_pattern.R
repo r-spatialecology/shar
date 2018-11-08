@@ -19,7 +19,7 @@
 #' @examples
 #' \dontrun{
 #' pattern_random <- spatstat::runifpoint(n = 50)
-#' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+#' pattern_recon <- SHAR::reconstruct_pattern(, n_random = 9, max_runs = 1000)
 #' plot_randomized_pattern(pattern_recon)
 #' }
 #'
@@ -98,7 +98,8 @@ plot_randomized_pattern <- function(pattern,
                                            "observed" = "black"),
                                 name = "") +
     ggplot2::labs(x = paste0("r [",name_unit, "]"), y = "f(r)") +
-    ggplot2::theme_bw(base_size = base_size)
+    ggplot2::theme_bw(base_size = base_size) +
+    ggplot2::theme(legend.position="bottom")
 
   return(plot)
 }
