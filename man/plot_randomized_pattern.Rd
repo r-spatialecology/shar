@@ -31,8 +31,7 @@ K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
 \dontrun{
-pattern_random <- spatstat::runifpoint(n = 50)
-pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+pattern_recon <- SHAR::reconstruct_pattern(species_a, n_random = 9, max_runs = 1000)
 plot_randomized_pattern(pattern_recon)
 }
 

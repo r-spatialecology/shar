@@ -93,31 +93,17 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 #> 3       3    30 14 29     positive
 #> 4       4     0 10 26     negative
 #> 5       5    14  4 17         n.s.
-results_habitat_association(pattern = species_b, raster = random_walk)
-#> > Input: randomized raster | Thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count    lo    hi significance
-#> 1       1     7  3.00 23.05         n.s.
-#> 2       2    24 26.95 63.10     negative
-#> 3       3    36 46.95 90.05     negative
-#> 4       4    19 28.90 76.40     negative
-#> 5       5   114 11.75 47.30     positive
+# results_habitat_association(pattern = species_b, raster = random_walk)
 
-results_habitat_association(pattern = gamma_test, raster = landscape_classified)
-#> > Input: randomized point pattern | Thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count    lo    hi significance
-#> 1       1    10  0.00  6.10     positive
-#> 2       2    14  8.85 21.05         n.s.
-#> 3       3    30 16.90 27.25     positive
-#> 4       4     0 11.85 24.10     negative
-#> 5       5    14  4.00 15.05         n.s.
+# results_habitat_association(pattern = gamma_test, raster = landscape_classified)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  1.00 21.25         n.s.
-#> 2       2    24 25.85 71.30     negative
-#> 3       3    36 44.90 86.10     negative
-#> 4       4    19 31.70 64.20     negative
-#> 5       5   114 11.95 58.35     positive
+#> 1       1     7  0.95 31.05         n.s.
+#> 2       2    24 23.70 68.05         n.s.
+#> 3       3    36 43.95 85.20     negative
+#> 4       4    19 36.70 66.05     negative
+#> 5       5   114 12.95 62.15     positive
 ```
 
 Of coures, there are several utility functions. For example, you can
@@ -128,27 +114,27 @@ observed pattern and the randomized patterns (using summary functions).
 plot_randomized_pattern(reconstruct)
 ```
 
-<img src="man/figures/README-plot random pattern-1.png" width="100%" />
+<img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
 
 ``` r
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.12383933    0.11885764    0.06221139    0.10145441    0.08672217 
+#>    0.09556845    0.07865363    0.08173372    0.07445512    0.10303691 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.07031200    0.08997604    0.07393047    0.10279469    0.10767068 
+#>    0.07568313    0.08639062    0.08466276    0.10028128    0.10518081 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.10526385    0.09278873    0.08716073    0.07667916    0.10519324 
+#>    0.10897048    0.08180118    0.14758840    0.09257915    0.10835420 
 #> randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 
-#>    0.12727424    0.09034474    0.08869269    0.10267411    0.06574193 
+#>    0.05450840    0.08976510    0.09771665    0.11003811    0.08866355 
 #> randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 
-#>    0.07093437    0.07157113    0.08903972    0.11520388    0.08030586 
+#>    0.09995662    0.11386063    0.13338897    0.08845621    0.08010405 
 #> randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
-#>    0.08439971    0.07392913    0.07722876    0.09209930    0.08618923 
+#>    0.09335033    0.13856827    0.06866902    0.07481506    0.09855286 
 #> randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 
-#>    0.08711860    0.10440259    0.08059639    0.09564745    0.06967828 
+#>    0.06356960    0.10064438    0.10708168    0.11012993    0.06657973 
 #> randomized_36 randomized_37 randomized_38 randomized_39 
-#>    0.10530861    0.08109449    0.12068153    0.09089023
+#>    0.07827583    0.06711359    0.08096713    0.09443177
 ```
 
 ## References
