@@ -6,7 +6,7 @@
 \usage{
 reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
   max_runs = 10000, fitting = FALSE, comp_fast = FALSE,
-  return_input = TRUE, verbose = FALSE)
+  return_input = TRUE, verbose = FALSE, plot = FALSE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
@@ -24,6 +24,8 @@ reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
 \item{return_input}{The original input data is returned as last list entry}
 
 \item{verbose}{Print progress report.}
+
+\item{plot}{Plot pcf function during optimization}
 }
 \value{
 list

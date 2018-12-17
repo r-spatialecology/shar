@@ -10,6 +10,8 @@
 #' @param comp_fast Should summary functions be estimated in an computational fast way.
 #' @param return_input The original input data is returned as last list entry
 #' @param verbose Print progress report.
+#' @param plot Plot pcf function during optimization
+
 #'
 #' @details
 #' The functions randomizes the observed pattern by using pattern reconstruction
@@ -49,18 +51,30 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                 e_threshold = 0.01, max_runs = 10000,
                                 fitting = FALSE, comp_fast = FALSE,
                                 return_input = TRUE,
-                                verbose = FALSE){
+                                verbose = FALSE,
+                                plot = FALSE){
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
   xrange <- pattern$window$xrange
   yrange <- pattern$window$yrange
 
+  if(fitting){
+
+    window <- spatstat::owin(xrange = pattern$window$xrange,
+                             yrange = pattern$window$yrange)
+
+    fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
+                                     statistic = "pcf",
+                                     statargs = list(divisor = "d",
+                                                     correction = "best"),
+                                     method = "mincon",
+                                     improve.type = "none")
+  }
+
   result <- lapply(1:n_random, function(current_pattern){
 
-    if(fitting == TRUE){ # Fit a Thomas process to the data
-
-      fitted_process <- spatstat::kppm(pattern)
+    if(fitting){ # Fit a Thomas process to the data
 
       mobsim <- mobsim::sim_thomas_community(s_pool = 1,
                                              n_sim = pattern$n,
@@ -71,20 +85,26 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
       simulated <- spatstat::ppp(x = mobsim$census$x,
                                  y = mobsim$census$y,
-                                 window = spatstat::owin(xrange = pattern$window$xrange,
-                                                         yrange = pattern$window$yrange))
+                                 window = window)
 
-    } else {simulated <- spatstat::runifpoint(n = pattern$n, win = pattern$window)} # create simulation data
+    }
 
-    if(isTRUE(comp_fast)) {
+    else {
+      simulated <- spatstat::runifpoint(n = pattern$n,
+                                        win = pattern$window) # create simulation data
+    }
+
+    if(comp_fast) {
 
       gest_observed <- spatstat::Gest(pattern, correction = "none")
+
       gest_simulated <- spatstat::Gest(simulated, correction = "none")
 
       pcf_observed <- SHAR::estimate_pcf_fast(pattern,
                                               correction = "none",
                                               method = "c",
                                               spar = 0.5)
+
       pcf_simulated <- SHAR::estimate_pcf_fast(simulated,
                                                correction = "none",
                                                method = "c",
@@ -94,16 +114,17 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     else {
 
       gest_observed <- spatstat::Gest(X = pattern, correction = "han")
+
       gest_simulated <- spatstat::Gest(X = simulated, correction = "han")
 
       pcf_observed <- spatstat::pcf(X = pattern, correction = "best", divisor = "d")
+
       pcf_simulated <- spatstat::pcf(X = simulated, correction = "best", divisor = "d")
     }
 
     # energy before reconstruction
     e0 <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
       mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
-
 
     for(i in 1:max_runs){ # pattern reconstruction algorithm
 
@@ -112,6 +133,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
       rp <- sample(x = 1:relocated$n, size = 1) # random point of pattern
 
       relocated$x[rp] <- stats::runif(n = 1, min = xrange[1], max = xrange[2])
+
       relocated$y[rp] <- stats::runif(n = 1, min = yrange[1], max = yrange[2])
 
       if(isTRUE(comp_fast)) {
@@ -138,10 +160,23 @@ reconstruct_pattern <- function(pattern, n_random = 19,
       if(e_relocated < e0){ # lower energy after relocation
 
         simulated <- relocated # keep relocated pattern
+
         e0 <- e_relocated # keep e_relocated as e0
+
+        if(plot) {
+          Sys.sleep(0.01)
+          graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
+                         type = "l", col = "black",
+                         xlab = "r", ylab = "g(r)")
+          graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
+          graphics::legend("topright",
+                           legend = c("observed", "reconstructed"),
+                           col = c("black", "red"),
+                           lty = 1, inset = 0.025)
+        }
       }
 
-      if(verbose == TRUE) {
+      if(verbose) {
         cat(paste0("\rProgress: n_random: ", current_pattern, "/", n_random,
                    " || max_runs: ", i, "/", max_runs,
                    " || e0 = ", round(e0, 5)))
@@ -153,8 +188,10 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     return(simulated)
   })
 
-  if(isTRUE(return_input)){
+  if(return_input){
+
     result[[n_random + 1]] <- pattern
+
     names(result) <-  c(paste0("randomized_", 1:n_random), "observed")
   }
 
