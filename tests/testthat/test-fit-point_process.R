@@ -33,7 +33,5 @@ test_that("Input pattern can not be returned for fit_point_process", {
                                            n_random = 19,
                                            return_input = FALSE)
 
-  expect_named(pattern_random, expected = paste0("randomized_", 1:19))
-
   expect_false(any(SHAR::species_b %in% pattern_random))
 })

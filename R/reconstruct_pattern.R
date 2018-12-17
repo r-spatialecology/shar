@@ -101,7 +101,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     }
 
     # energy before reconstruction
-    e0 <-  mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
+    e0 <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
       mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
 
 
@@ -109,7 +109,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
       relocated <- simulated # data for relocation
 
-      rp <- sample(x = 1:relocated$n , size = 1) # random point of pattern
+      rp <- sample(x = 1:relocated$n, size = 1) # random point of pattern
 
       relocated$x[rp] <- stats::runif(n = 1, min = xrange[1], max = xrange[2])
       relocated$y[rp] <- stats::runif(n = 1, min = yrange[1], max = yrange[2])
@@ -132,7 +132,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
       }
 
       # energy after relocation
-      e_relocated <-  mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) +
+      e_relocated <- mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) +
         mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE)
 
       if(e_relocated < e0){ # lower energy after relocation

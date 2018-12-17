@@ -1,41 +1,26 @@
 context("test-results_habitat_association")
 
+set.seed(42)
+random_a <- SHAR::fit_point_process(pattern = SHAR::species_b, n_random = 199)
+
+landscape_classified <- SHAR::classify_habitats(raster = SHAR::landscape,
+                                                classes = 5)
+
+result <- results_habitat_association(raster = landscape_classified,
+                                      pattern = random_a,
+                                      verbose = FALSE)
+
 test_that("results_habitat_association returns one row for each habitat", {
 
-  random_a <- SHAR::fit_point_process(pattern = SHAR::species_a, n_random = 199)
-
-  landscape_classified <- SHAR::classify_habitats(raster = SHAR::landscape,
-                                                  classes = 3)
-
-  result <- results_habitat_association(raster = landscape_classified,
-                                        pattern = random_a)
-
-  expect_equal(nrow(result), expected = 3)
+  expect_equal(nrow(result), expected = 5)
 })
 
-
 test_that("results_habitat_association lo is < hi", {
-
-  random_b <- SHAR::fit_point_process(pattern = SHAR::species_b, n_random = 199)
-
-  landscape_classified <- SHAR::classify_habitats(raster = SHAR::landscape,
-                                                  classes = 3)
-
-  result <- results_habitat_association(raster = landscape_classified,
-                                        pattern = random_b)
 
   expect_true(all(result$lo < result$hi))
 })
 
 test_that("results_habitat_association returns correct association", {
-
-  random_a <- SHAR::fit_point_process(pattern = SHAR::species_a, n_random = 199)
-
-  landscape_classified <- SHAR::classify_habitats(raster = SHAR::landscape,
-                                                  classes = 3)
-
-  result <- results_habitat_association(raster = landscape_classified,
-                                        pattern = random_a)
 
   result_ns <- dplyr::filter(result, significance == "n.s.")
   result_pos <- dplyr::filter(result, significance == "positive")

@@ -1,0 +1,54 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Species-habitat associations are present if species are specialized to small-scale environmental conditions (Tilman & Pacala, 1993) and are more common within suitable habitats (Comita et al., 2007; Harms et al., 2001). Following, species-habitat associations show the importance of abiotic processes on the spatial patterning of plant populations (Garzon-Lopez et al., 2014).
+
+There are mainly two methods that can be found in the literature to analyse such small-scale species-habitat associations, namely the gamma-test (Plotkin et al., 2000) and the torus-translation test (Harms et al., 2001). Both methods require data on the locations of plants (as `spatstat::ppp` point pattern) and on the environmental conditions (classified into discrete habitats as `raster::raster`). To show significance species-habitat associations, both methods randomize one of the components. Because the locations of plants as well as the habitats are most likely auto-correlated, the spatial structure must be kept while randomizing the data (Wiegand & Moloney, 2014).
+
+All methods compare the abundance within a habitat between the observed data and the randomized null model data. If the count is below or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles), negative or positive associations, respectively, are present.
+
+#### Gamma-test
+The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in `SHAR`, use `fit_point_process()`.
+
+#### Torus-translation-test
+The torus-translation test (Harms et al. 2001) shifts the habitat map in all four cardinal directions around a torus. This is only possible for square rasters. To use this method in `SHAR`, use `translate_raster()`.
+
+#### Randomized-habitats procedure
+The randomze-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in `SHAR` use `randomize_raster()`.
+
+#### Pattern reconstruction
+Pattern reconstruction (Tscheschel & Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in `SHAR` use `reconstruct_pattern()`
+
+<img src="methods.png" align="center" width = 675 />
+  
+  #### References 
+  Comita, L. S., Condit, R., & Hubbell, S. P. (2007). Developmental changes in habitat associations of tropical trees. Journal of Ecology, 95(3), 482–492.
+
+Garzon-Lopez, C. X., Jansen, P. A., Bohlman, S. A., Ordonez, A., & Olff, H. (2014). Effects of sampling scale on patterns of habitat association in tropical trees. Journal of Vegetation Science, 25(2), 349–362.
+
+Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+
+Kirkpatrick, S., Gelatt, C. D. J., & Vecchi, M. P. (1983). Optimization by simulated annealing. Science, 220(4598), 671–680.
+
+Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000). Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology, 207(1), 81–99.
+
+Tilman, D., & Pacala, S. W. (1993). The maintenance of species richness in plant communities. In R. E. Ricklefs & D. Schluter (Eds.), Species Diversity in Ecological Communities (pp. 13–25). Chicago: University of Chicago Press.
+
+Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis, 51(2), 859–871.
+
+Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis in ecology. Boca Raton: Chapman and Hall/CRC Press.
