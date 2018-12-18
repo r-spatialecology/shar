@@ -2,20 +2,15 @@
 % Please edit documentation in R/randomize_raster.R
 \name{randomize_raster}
 \alias{randomize_raster}
-\alias{randomization_algorithm}
 \title{randomize_raster}
 \usage{
-randomize_raster(raster, n_random = 19, direction = 8,
-  return_input = TRUE, verbose = FALSE)
+randomize_raster(raster, n_random = 19, return_input = TRUE,
+  verbose = FALSE)
 }
 \arguments{
 \item{raster}{RasterLayer.}
 
 \item{n_random}{Number of randomized RasterLayers.}
-
-\item{direction}{Number of directions in which cells should be connected:
-4 (rook's case), 8 (queen's case), 16 (knight and one-cell queen moves),
-or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix.}
 
 \item{return_input}{The original input data is returned as last list entry}
 

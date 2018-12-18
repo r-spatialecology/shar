@@ -26,7 +26,7 @@ test_that("Output includes randomizations and original pattern for randomize_ras
 test_that("Input raster can not be returned for randomize_raster", {
 
   landscape_random <- SHAR::randomize_raster(raster = landscape_classified,
-                                             n_random = 2,
+                                             n_random = 3,
                                              return_input = FALSE)
 
   expect_false(any(list(landscape_classified) %in% landscape_random))
@@ -36,7 +36,6 @@ test_that("All optional arguments can be used for randomize_raster", {
 
   landscape_random <- SHAR::randomize_raster(raster = landscape_classified,
                                              n_random = 3,
-                                             direction = 4,
                                              verbose = TRUE)
 
   expect_type(landscape_random, type = "list")
