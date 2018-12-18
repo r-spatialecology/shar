@@ -21,11 +21,7 @@ Extract points
 The function extracts the number of points within each habitat.
 }
 \examples{
-\dontrun{
-landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-species_1 <- spatstat::runifpoint(n = 50, win = spatstat::owin(c(0, 50), c(0, 50)))
-extract_points(raster = landscape_classified, pattern = species_1)
-}
+landscape_classified <- classify_habitats(landscape, classes = 5)
+extract_points(raster = landscape_classified, pattern = species_b)
 
 }

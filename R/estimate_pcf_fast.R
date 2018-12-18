@@ -3,7 +3,7 @@
 #' @description Fast estimation of the pair correlation function
 #'
 #' @param pattern Point pattern.
-#' @param ... Arguments passed down.
+#' @param ... Arguments passed down to spatstat::Kest() or spatstat::pcf.fv().
 #'
 #' @details
 #' The functions estimates the pair correlation functions based on an estimation
@@ -18,10 +18,7 @@
 #' @return fv.object
 #'
 #' @examples
-#' \dontrun{
-#' pattern_random <- spatstat::runifpoint(n = 50)
-#' pcf_pattern_random <- estimate_pcf_fast(pattern_random)
-#' }
+#' pcf_species_b <- estimate_pcf_fast(species_a)
 #'
 #' @aliases estimate_pcf_fast
 #' @rdname estimate_pcf_fast

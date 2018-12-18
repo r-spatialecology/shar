@@ -26,9 +26,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-#' landscape_random <- randomize_raster(landscape_classified, n_random = 9)
+#' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' landscape_random <- randomize_raster(landscape_classified, n_random = 39)
 #' }
 #'
 #' @aliases randomization_algorithm
@@ -44,6 +43,11 @@ randomize_raster <- function(raster,
                              direction = 8,
                              return_input = TRUE,
                              verbose = FALSE){
+
+  # check if n_random is >= 1
+  if(!n_random >= 1) {
+    stop("n_random must be >= 1.", call. = FALSE)
+  }
 
   # create n_random rasters
   result <- lapply(1:n_random, function(current_raster) {
@@ -133,7 +137,7 @@ randomize_raster <- function(raster,
         # print progess
         if(verbose) {
           cat(paste0("\rProgress: n_random: ", current_raster, "/", n_random,
-                     "|| habitats:" , current_habitat, "/", length(habitats))) # add habitat and number empty cells
+                     " || habitats:" , current_habitat, "/", length(habitats))) # add habitat and number empty cells
         }
       }
     }

@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/background.html">Vignette Title</a>
+      <a href="../articles/background.html">Background</a>
     </li>
     <li>
       <a href="../articles/publication_record.html">Publication record</a>
@@ -169,11 +169,7 @@ Journal of Theoretical Biology, 207(1), 81–99.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>pattern_random</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/runifpoint'>runifpoint</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='no'>pattern_fitted</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>SHAR</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/SHAR/topics/fit_point_process'>fit_point_process</a></span>(<span class='no'>pattern_random</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>9</span>, <span class='kw'>process</span> <span class='kw'>=</span> <span class='st'>"poisson"</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>pattern_fitted</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_point_process</span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>39</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

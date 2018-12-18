@@ -16,10 +16,8 @@
 #' @return ggplot
 #'
 #' @examples
-#' \dontrun{
-#' pattern_recon <- SHAR::reconstruct_pattern(species_a, n_random = 9, max_runs = 1000)
+#' pattern_recon <- fit_point_process(species_b, n_random = 39, process = "cluster")
 #' plot_randomized_pattern(pattern_recon)
-#' }
 #'
 #' @aliases plot_randomized_pattern
 #' @rdname plot_randomized_pattern
@@ -28,6 +26,12 @@
 plot_randomized_pattern <- function(pattern,
                                     probs = c(0.025, 0.975),
                                     comp_fast = FALSE){
+
+  # check if randomized and observed is present
+  if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
+    stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.",
+         call. = FALSE)
+  }
 
   name_unit <- spatstat::unitname(pattern$observed)[[1]] # unit name for labels
 
@@ -96,8 +100,8 @@ plot_randomized_pattern <- function(pattern,
   # plot Gest
   graphics::plot(x = result_nndf$r[result_nndf$type == "observed"],
                  y = result_nndf$x_r[result_nndf$type == "observed"], type = "l",
-                 main = "Nearest Neighbour Distance Function G(r)",
-                 xlab = paste0("r [",name_unit, "]"), ylab = "f(r)")
+                 main = "Nearest Neighbour Distance Function",
+                 xlab = paste0("r [",name_unit, "]"), ylab = "G(r)")
 
   graphics::lines(x = result_nndf$r[result_nndf$type == "randomized"],
                   y = result_nndf$lo[result_nndf$type == "randomized"],
@@ -114,8 +118,8 @@ plot_randomized_pattern <- function(pattern,
   # plot pcf
   graphics::plot(x = result_pcf$r[result_pcf$type == "observed"],
                  y = result_pcf$x_r[result_pcf$type == "observed"], type = "l",
-                 main = "Pair Correlation Function g(r)",
-                 xlab = paste0("r [",name_unit, "]"), ylab = "f(r)")
+                 main = "Pair Correlation Function",
+                 xlab = paste0("r [",name_unit, "]"), ylab = "g(r)")
 
   graphics::lines(x = result_pcf$r[result_pcf$type == "randomized"],
                   y = result_pcf$lo[result_pcf$type == "randomized"],
@@ -125,7 +129,7 @@ plot_randomized_pattern <- function(pattern,
                   y = result_pcf$hi[result_pcf$type == "randomized"],
                   col = "red", lty = 2)
 
-  graphics::legend("bottomright",
+  graphics::legend("topright",
                    legend = c("observed", "randomized"),
                    col = c("black", "red"), lty = c(1,2), inset = 0.025)
 

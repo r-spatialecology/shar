@@ -37,9 +37,8 @@ cell as the current patch becomes larger.
 }
 \examples{
 \dontrun{
-landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-landscape_random <- randomize_raster(landscape_classified, n_random = 9)
+landscape_classified <- classify_habitats(landscape, classes = 5)
+landscape_random <- randomize_raster(landscape_classified, n_random = 39)
 }
 
 }

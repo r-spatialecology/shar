@@ -31,8 +31,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pattern_random <- spatstat::runifpoint(n = 50)
-#' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern(species_b, n_random = 39, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_pattern
@@ -53,9 +52,14 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                 verbose = FALSE,
                                 plot = FALSE){
 
+  # check if n_random is >= 1
+  if(!n_random >= 1) {
+    stop("n_random must be >= 1.", call. = FALSE)
+  }
+
   pattern <- spatstat::unmark(pattern) # only spatial points
 
-  # get dimenstion of pattern
+  # get dimension of pattern
   xrange <- pattern$window$xrange
 
   yrange <- pattern$window$yrange
@@ -64,8 +68,8 @@ reconstruct_pattern <- function(pattern, n_random = 19,
   if(fitting){
 
     # create observation window
-    window <- spatstat::owin(xrange = pattern$window$xrange,
-                             yrange = pattern$window$yrange)
+    window <- spatstat::owin(xrange = xrange,
+                             yrange = yrange)
 
     # fit Thomas process
     fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",

@@ -14,10 +14,7 @@
 #' @return list
 #'
 #' @examples
-#' \dontrun{
-#' pattern_random <- spatstat::runifpoint(n = 50)
-#' pattern_fitted <- SHAR::fit_point_process(pattern_random, n_random = 9, process = "poisson")
-#' }
+#' pattern_fitted <- fit_point_process(species_a, n_random = 39)
 #'
 #' @aliases fit_point_process
 #' @rdname fit_point_process
@@ -29,6 +26,11 @@
 #'
 #' @export
 fit_point_process <- function(pattern, n_random = 19, process = 'poisson', return_input = TRUE){
+
+  # check if n_random is >= 1
+  if(!n_random >= 1) {
+    stop("n_random must be >= 1.", call. = FALSE)
+  }
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
@@ -75,16 +77,22 @@ fit_point_process <- function(pattern, n_random = 19, process = 'poisson', retur
       })
   }
 
-  else{stop("Please select either 'poisson' or 'cluster'!")}
+  else{
+
+    stop("Please select either 'poisson' or 'cluster'.", call. = FALSE)
+  }
 
   # return input pattern and simulated patterns
   if(return_input){
+
     result[[n_random + 1]] <- pattern # add input raster to result list
+
     names(result) <-  c(rep(paste0("randomized_", 1:n_random)), "observed") # name list entries
   }
 
   # only return simulated patterns
   else{
+
     names(result) <- rep(paste0("randomized_", 1:n_random)) # name list entries
   }
 

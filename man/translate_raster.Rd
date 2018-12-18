@@ -24,8 +24,7 @@ exits the extent on one side, it enters the extent on the opposite side.
 }
 \examples{
 \dontrun{
-landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+landscape_classified <- classify_habitats(landscape, classes = 5)
 landscape_random <- translate_raster(landscape_classified)
 }
 

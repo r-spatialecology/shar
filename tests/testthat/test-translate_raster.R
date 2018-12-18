@@ -35,5 +35,5 @@ test_that("Error if nrow != ncol for translate_raster", {
   landscape_classified <- SHAR::classify_habitats(landscape_wrong, classes = 3)
 
   expect_error(SHAR::translate_raster(raster = landscape_classified),
-               regexp  = "Torus translation only works for raster with nrow == ncol")
+               regexp  = "Torus translation only works for raster with nrow == ncol.")
 })

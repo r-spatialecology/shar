@@ -35,3 +35,18 @@ test_that("Input pattern can not be returned for fit_point_process", {
 
   expect_false(any(SHAR::species_b %in% pattern_random))
 })
+
+test_that("fit_point_process returns error if n_random < 1", {
+
+  expect_error(SHAR::fit_point_process(pattern = SHAR::species_b,
+                                       n_random = -10),
+               regexp = "n_random must be >= 1.")
+})
+
+test_that("fit_point_process returns error process is unknown", {
+
+  expect_error(SHAR::fit_point_process(pattern = SHAR::species_b,
+                                       n_random = 39,
+                                       process = "not_valid"),
+               regexp = "Please select either 'poisson' or 'cluster'.")
+})

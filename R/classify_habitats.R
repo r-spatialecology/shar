@@ -17,10 +17,7 @@
 #' @return RasterLayer
 #'
 #' @examples
-#' \dontrun{
-#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-#' }
+#' landscape_classified <- classify_habitats(landscape, classes = 5)
 #'
 #' @aliases classify_habitats
 #' @rdname classify_habitats

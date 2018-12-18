@@ -27,10 +27,7 @@ The functions randomizes the observed pattern by fitting a point process to the 
 It is possible to choose between a Poisson process or a Thomas cluster process.
 }
 \examples{
-\dontrun{
-pattern_random <- spatstat::runifpoint(n = 50)
-pattern_fitted <- SHAR::fit_point_process(pattern_random, n_random = 9, process = "poisson")
-}
+pattern_fitted <- fit_point_process(species_a, n_random = 39)
 
 }
 \references{

@@ -9,7 +9,7 @@ estimate_pcf_fast(pattern, ...)
 \arguments{
 \item{pattern}{Point pattern.}
 
-\item{...}{Arguments passed down.}
+\item{...}{Arguments passed down to spatstat::Kest() or spatstat::pcf.fv().}
 }
 \value{
 fv.object
@@ -24,10 +24,7 @@ pair correlation function directly. It is a wrapper around \code{\link{Kest}} an
 \code{\link{pcf.fv}}.
 }
 \examples{
-\dontrun{
-pattern_random <- spatstat::runifpoint(n = 50)
-pcf_pattern_random <- estimate_pcf_fast(pattern_random)
-}
+pcf_species_b <- estimate_pcf_fast(species_a)
 
 }
 \references{

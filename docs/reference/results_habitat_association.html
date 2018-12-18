@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/background.html">Vignette Title</a>
+      <a href="../articles/background.html">Background</a>
     </li>
     <li>
       <a href="../articles/publication_record.html">Publication record</a>
@@ -179,13 +179,15 @@ Journal of Theoretical Biology, 207(1), 81–99.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>landscape</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>NLMR</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/NLMR/topics/nlm_fbm'>nlm_fbm</a></span>(<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>user_seed</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='no'>landscape_classified</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>SHAR</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/SHAR/topics/classify_habitats'>classify_habitats</a></span>(<span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>species_1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/runifpoint'>runifpoint</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>win</span> <span class='kw'>=</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/owin'>owin</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>)))
-<span class='no'>species_1_ran</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>SHAR</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/SHAR/topics/fit_point_process'>fit_point_process</a></span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='no'>species_1</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>199</span>)
-<span class='fu'>results_habitat_association</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='no'>species_1_ran</span>, <span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>landscape_classified</span>)
-<span class='co'># }</span><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>landscape_classified</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span>(<span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+<span class='no'>species_a_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_point_process.html'>fit_point_process</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>199</span>)
+<span class='fu'>results_habitat_association</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='no'>species_a_random</span>, <span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>landscape_classified</span>)</div><div class='output co'>#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975
+#&gt; </div><div class='output co'>#&gt;   habitat count    lo    hi significance
+#&gt; 1       1    10  0.95  7.00     positive
+#&gt; 2       2    14 10.00 21.00         n.s.
+#&gt; 3       3    30 14.00 27.05     positive
+#&gt; 4       4     0 10.95 25.00     negative
+#&gt; 5       5    14  4.95 16.00         n.s.</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

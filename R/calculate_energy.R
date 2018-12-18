@@ -22,12 +22,9 @@
 #' @return numeric
 #'
 #' @examples
-#' \dontrun{
-#' pattern_random <- spatstat::runifpoint(n = 50)
-#' pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
-#' calculate_energy(pattern_recon)
-#' calculate_energy(pattern_recon, return_mean = TRUE)
-#' }
+#' pattern_random <- fit_point_process(species_a, n_random = 39)
+#' calculate_energy(pattern_random)
+#' calculate_energy(pattern_random, return_mean = TRUE)
 #'
 #' @aliases calculate_energy
 #' @rdname calculate_energy
@@ -41,6 +38,12 @@
 
 #' @export
 calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE){
+
+  # check if randomized and observed is present
+  if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
+    stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.",
+         call. = FALSE)
+  }
 
   pattern_observed <- pattern[names(pattern) == "observed"] # extract observed pattern
 

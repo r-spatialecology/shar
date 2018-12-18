@@ -4,7 +4,6 @@
 #'
 #' @param raster RasterLayer.
 #' @param return_input The original input data is returned as last list entry
-
 #'
 #' @details
 #' Torus translation test as described in Harms et al. (20001). The raster is shifted
@@ -18,8 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
+#' landscape_classified <- classify_habitats(landscape, classes = 5)
 #' landscape_random <- translate_raster(landscape_classified)
 #' }
 #'
@@ -35,7 +33,7 @@ translate_raster <- function(raster, return_input = TRUE){
 
   # check if dim of raster are equal
   if(!raster::nrow(raster) == raster::ncol(raster)) {
-    stop("Torus translation only works for raster with nrow == ncol")
+    stop("Torus translation only works for raster with nrow == ncol.", call. = FALSE)
   }
 
   steps_x <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in x-direction

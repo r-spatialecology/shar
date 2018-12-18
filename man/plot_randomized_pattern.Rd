@@ -28,9 +28,7 @@ correction is used and the pair correlation function is estimated based on Riple
 K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
-\dontrun{
-pattern_recon <- SHAR::reconstruct_pattern(species_a, n_random = 9, max_runs = 1000)
+pattern_recon <- fit_point_process(species_b, n_random = 39, process = "cluster")
 plot_randomized_pattern(pattern_recon)
-}
 
 }
