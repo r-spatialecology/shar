@@ -4,15 +4,13 @@
 \alias{plot_randomized_pattern}
 \title{plot_randomized_pattern}
 \usage{
-plot_randomized_pattern(pattern, size = 0.5, base_size = 15,
+plot_randomized_pattern(pattern, probs = c(0.025, 0.975),
   comp_fast = FALSE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
 
-\item{size}{Line size.}
-
-\item{base_size}{base font size.}
+\item{probs}{Quantiles of randomized data used for envelope construction.}
 
 \item{comp_fast}{Should summary functions be estimated in an computational fast way.}
 }

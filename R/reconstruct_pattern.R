@@ -11,7 +11,6 @@
 #' @param return_input The original input data is returned as last list entry
 #' @param verbose Print progress report.
 #' @param plot Plot pcf function during optimization
-
 #'
 #' @details
 #' The functions randomizes the observed pattern by using pattern reconstruction
@@ -56,14 +55,19 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
+  # get dimenstion of pattern
   xrange <- pattern$window$xrange
+
   yrange <- pattern$window$yrange
 
+  # start with fitted pattern
   if(fitting){
 
+    # create observation window
     window <- spatstat::owin(xrange = pattern$window$xrange,
                              yrange = pattern$window$yrange)
 
+    # fit Thomas process
     fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
                                      statistic = "pcf",
                                      statargs = list(divisor = "d",
@@ -72,10 +76,13 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                      improve.type = "none")
   }
 
+  # create n_random recondstructed patterns
   result <- lapply(1:n_random, function(current_pattern){
 
-    if(fitting){ # Fit a Thomas process to the data
+    # fit a Thomas process to the data
+    if(fitting){
 
+      # create random, clustered coordinates
       mobsim <- mobsim::sim_thomas_community(s_pool = 1,
                                              n_sim = pattern$n,
                                              xrange = xrange,
@@ -83,17 +90,20 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                              sigma = fitted_process$modelpar[["sigma"]],
                                              cluster_points = fitted_process$modelpar[["mu"]])
 
+      # conver to ppp
       simulated <- spatstat::ppp(x = mobsim$census$x,
                                  y = mobsim$census$y,
                                  window = window)
 
     }
 
+    # create Poisson simulation data
     else {
       simulated <- spatstat::runifpoint(n = pattern$n,
-                                        win = pattern$window) # create simulation data
+                                        win = pattern$window)
     }
 
+    # fast computation of summary functions
     if(comp_fast) {
 
       gest_observed <- spatstat::Gest(pattern, correction = "none")
@@ -111,6 +121,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                                spar = 0.5)
     }
 
+    # normal computation of summary functions
     else {
 
       gest_observed <- spatstat::Gest(X = pattern, correction = "han")
@@ -126,17 +137,20 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     e0 <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
       mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
 
-    for(i in 1:max_runs){ # pattern reconstruction algorithm
+    # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
+    for(i in 1:max_runs){
 
       relocated <- simulated # data for relocation
 
       rp <- sample(x = 1:relocated$n, size = 1) # random point of pattern
 
+      # create random coordinates for new point
       relocated$x[rp] <- stats::runif(n = 1, min = xrange[1], max = xrange[2])
 
       relocated$y[rp] <- stats::runif(n = 1, min = yrange[1], max = yrange[2])
 
-      if(isTRUE(comp_fast)) {
+      # calculate summary functions after relocation
+      if(comp_fast) {
 
         gest_relocated <- spatstat::Gest(relocated, correction = "none")
 
@@ -157,14 +171,16 @@ reconstruct_pattern <- function(pattern, n_random = 19,
       e_relocated <- mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) +
         mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE)
 
-      if(e_relocated < e0){ # lower energy after relocation
+      # lower energy after relocation
+      if(e_relocated < e0){
 
         simulated <- relocated # keep relocated pattern
 
         e0 <- e_relocated # keep e_relocated as e0
 
+        # plot observed vs reconstructed
         if(plot) {
-          Sys.sleep(0.01)
+          Sys.sleep(0.1) # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
                          type = "l", col = "black",
                          xlab = "r", ylab = "g(r)")
@@ -176,27 +192,33 @@ reconstruct_pattern <- function(pattern, n_random = 19,
         }
       }
 
+      # print progress
       if(verbose) {
         cat(paste0("\rProgress: n_random: ", current_pattern, "/", n_random,
                    " || max_runs: ", i, "/", max_runs,
                    " || e0 = ", round(e0, 5)))
       }
 
-      if(e0 <= e_threshold){break} # exit loop
+      # exit loop if e threshold is reached
+      if(e0 <= e_threshold){
+        break
+      }
     }
 
     return(simulated)
   })
 
+  # add input pattern to randomizations
   if(return_input){
 
-    result[[n_random + 1]] <- pattern
+    result[[n_random + 1]] <- pattern # add input pattern as last list entry
 
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed")
+    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
   }
 
   else{
-    names(result) <- paste0("randomized_", 1:n_random)
+
+    names(result) <- paste0("randomized_", 1:n_random) # set names
   }
 
   return(result)

@@ -39,7 +39,7 @@
 #' @export
 estimate_pcf_fast <- function(pattern, ...){
 
-  k_fun <- spatstat::Kest(X = pattern, ...)
+  k_fun <- spatstat::Kest(X = pattern, ...) # estimate K-fct
 
   result <- spatstat::pcf.fv(X = k_fun, ...) # estimate pcf from K-fct
 

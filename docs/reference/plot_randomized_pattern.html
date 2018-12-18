@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • Species-habitat associations in R</title>
+<title>plot_randomized_pattern — plot_randomized_pattern • Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="plot_randomized_pattern — plot_randomized_pattern" />
+
+<meta property="og:description" content="Plot randomized pattern" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -112,114 +115,71 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>plot_randomized_pattern</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mhesselbarth/SHAR/blob/master/R/plot_randomized_pattern.R'><code>R/plot_randomized_pattern.R</code></a></small>
+    <div class="hidden name"><code>plot_randomized_pattern.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Plot randomized pattern</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="calculate_energy.html">calculate_energy()</a></code> </p>
-        </td>
-        <td><p>calculate_energy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="classify_habitats.html">classify_habitats()</a></code> </p>
-        </td>
-        <td><p>classify_habitats</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="estimate_pcf_fast.html">estimate_pcf_fast()</a></code> </p>
-        </td>
-        <td><p>estimate_pcf_fast</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_points.html">extract_points()</a></code> </p>
-        </td>
-        <td><p>extract_points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fit_point_process.html">fit_point_process()</a></code> </p>
-        </td>
-        <td><p>fit_point_process</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="landscape.html">landscape</a></code> </p>
-        </td>
-        <td><p>Example landscape (random cluster neutral landscape model).</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_randomized_pattern.html">plot_randomized_pattern()</a></code> </p>
-        </td>
-        <td><p>plot_randomized_pattern</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="randomization_algorithm.html">randomize_raster()</a></code> </p>
-        </td>
-        <td><p>randomize_raster</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reconstruct_pattern.html">reconstruct_pattern()</a></code> </p>
-        </td>
-        <td><p>reconstruct_pattern</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="results_habitat_association.html">results_habitat_association()</a></code> </p>
-        </td>
-        <td><p>results_habitat_association</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="species_a.html">species_a</a></code> </p>
-        </td>
-        <td><p>Species a</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="species_b.html">species_b</a></code> </p>
-        </td>
-        <td><p>Species b</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="translate_raster.html">translate_raster()</a></code> </p>
-        </td>
-        <td><p>translate_raster</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>),
+  <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>pattern</th>
+      <td><p>List with reconstructed patterns.</p></td>
+    </tr>
+    <tr>
+      <th>probs</th>
+      <td><p>Quantiles of randomized data used for envelope construction.</p></td>
+    </tr>
+    <tr>
+      <th>comp_fast</th>
+      <td><p>Should summary functions be estimated in an computational fast way.</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>ggplot</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function plots the pair correlation function and the nearest neighbour function
+the observed pattern and the reconstructed patterns (as "simulation envelopes".).
+For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
+correction is used and the pair correlation function is estimated based on Ripley's
+K-function. For more information see <code><a href='estimate_pcf_fast.html'>estimate_pcf_fast</a></code>.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>pattern_recon</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>SHAR</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/SHAR/topics/reconstruct_pattern'>reconstruct_pattern</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>9</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+<span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern_recon</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

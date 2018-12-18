@@ -33,6 +33,7 @@ K-function. For more information see \code{\link{estimate_pcf_fast}}.
 pattern_random <- spatstat::runifpoint(n = 50)
 pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
 calculate_energy(pattern_recon)
+calculate_energy(pattern_recon, return_mean = TRUE)
 }
 
 }
