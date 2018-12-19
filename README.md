@@ -1,6 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![Travis build
+status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
 [![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
