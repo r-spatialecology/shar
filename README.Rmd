@@ -13,8 +13,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![Travis build status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+[![Travis build status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=development)](https://travis-ci.org/r-spatialecology/SHAR)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=development&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+[![Coverage status](https://codecov.io/gh/r-spatialecology/SHAR/branch/development/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=development)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 

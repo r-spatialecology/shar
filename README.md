@@ -2,9 +2,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Travis build
-status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
+status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=development)](https://travis-ci.org/r-spatialecology/SHAR)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=development&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+[![Coverage
+status](https://codecov.io/gh/r-spatialecology/SHAR/branch/development/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=development)
 [![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
