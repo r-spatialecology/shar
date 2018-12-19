@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>results_habitat_association — results_habitat_association • Species-habitat associations in R</title>
+<title>randomize_raster — randomize_raster • Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="results_habitat_association — results_habitat_association" />
+<meta property="og:title" content="randomize_raster — randomize_raster" />
 
-<meta property="og:description" content="Results habitat association" />
+<meta property="og:description" content="Randomization algorithm" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,77 +117,70 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>results_habitat_association</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mhesselbarth/SHAR/blob/master/R/results_habitat_association.R'><code>R/results_habitat_association.R</code></a></small>
-    <div class="hidden name"><code>results_habitat_association.Rd</code></div>
+    <h1>randomize_raster</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mhesselbarth/SHAR/blob/master/R/randomize_raster.R'><code>R/randomize_raster.R</code></a></small>
+    <div class="hidden name"><code>randomize_raster.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Results habitat association</p>
+    <p>Randomization algorithm</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>results_habitat_association</span>(<span class='no'>pattern</span>, <span class='no'>raster</span>, <span class='kw'>significance_level</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>randomize_raster</span>(<span class='no'>raster</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pattern</th>
-      <td><p>Point pattern or list with reconstructed patterns.</p></td>
-    </tr>
-    <tr>
       <th>raster</th>
-      <td><p>RasterLayer or list of RasterLayers.</p></td>
+      <td><p>RasterLayer.</p></td>
     </tr>
     <tr>
-      <th>significance_level</th>
-      <td><p>Significance level</p></td>
+      <th>n_random</th>
+      <td><p>Number of randomized RasterLayers.</p></td>
+    </tr>
+    <tr>
+      <th>return_input</th>
+      <td><p>The original input data is returned as last list entry</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Print output</p></td>
+      <td><p>Print progress report.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>list</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The functions shows significant habitat associations by comparing the number of
-points within a habitat between the observed data and randomized data as described in
-Plotkin et al. (2000) and Harms et al. (2001). Significant positive or associations are present
-if the observed count in a habitat is above or below a certain threshold of the
-randomized count, respectively.</p>
+    <p>The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
+as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
+starts to assign random neighbouring cells (specified by `directions`) to each
+habitat (in increasing order of abundance in observed map). We modified the
+procedure slightly by increasing a probability to jump to a non-neighbouring
+cell as the current patch becomes larger.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Harms, K. E., Condit, R., Hubbell, S. P., &amp; Foster, R. B. (2001). Habitat associations
 of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.</p>
-<p>Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., &amp; Ashton, P. S. (2000).
-Species-area curves, spatial aggregation, and habitat specialization in tropical forests.
-Journal of Theoretical Biology, 207(1), 81–99.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>randomization_algorithm</code> <br />
-<code><a href='reconstruct_pattern.html'>reconstruct_pattern</a></code></p></div>
+    <div class='dont-index'><p><code><a href='translate_raster.html'>translate_raster</a></code> <br />
+<code>adjacent</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>landscape_classified</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span>(<span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>species_a_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_point_process.html'>fit_point_process</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>199</span>)
-<span class='fu'>results_habitat_association</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='no'>species_a_random</span>, <span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>landscape_classified</span>)</div><div class='output co'>#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975
-#&gt; </div><div class='output co'>#&gt;   habitat count    lo    hi significance
-#&gt; 1       1    10  0.95  7.00     positive
-#&gt; 2       2    14 10.00 21.00         n.s.
-#&gt; 3       3    30 14.00 27.05     positive
-#&gt; 4       4     0 10.95 25.00     negative
-#&gt; 5       5    14  4.95 16.00         n.s.</div><div class='input'>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>landscape_classified</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span>(<span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+<span class='no'>landscape_random</span> <span class='kw'>&lt;-</span> <span class='fu'>randomize_raster</span>(<span class='no'>landscape_classified</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>39</span>)
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

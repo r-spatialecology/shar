@@ -117,14 +117,14 @@
 <p>There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">torus_trans &lt;-<span class="st"> </span><span class="kw"><a href="reference/translate_raster.html">translate_raster</a></span>(<span class="dt">raster =</span> landscape_classified)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">random_walk &lt;-<span class="st"> </span><span class="kw"><a href="reference/randomization_algorithm.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">n_random =</span> <span class="dv">39</span>) <span class="co"># takes some time</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-3" data-line-number="3">random_walk &lt;-<span class="st"> </span><span class="kw"><a href="reference/randomize_raster.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">n_random =</span> <span class="dv">39</span>) <span class="co"># takes some time</span></a></code></pre></div>
 <p>To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel &amp; Stoyan 2006) .</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">gamma_test &lt;-<span class="st"> </span><span class="kw"><a href="reference/fit_point_process.html">fit_point_process</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">process =</span> <span class="st">"poisson"</span>, <span class="dt">n_random =</span> <span class="dv">39</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">reconstruct &lt;-<span class="st"> </span><span class="kw"><a href="reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_b, <span class="dt">max_runs =</span> <span class="dv">2500</span>, <span class="dt">n_random =</span> <span class="dv">39</span>) <span class="co"># takes some time</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;   habitat count lo hi significance</span></a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; 1       1    10  0  8     positive</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; 2       2    14  8 24         n.s.</span></a>
@@ -135,34 +135,34 @@
 <a class="sourceLine" id="cb6-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co"># results_habitat_association(pattern = gamma_test, raster = landscape_classified)</span></a>
 <a class="sourceLine" id="cb6-12" data-line-number="12"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; &gt; Input: randomized point pattern | Thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 1       1     7  1.00 27.05         n.s.</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 2       2    24 29.90 60.45     negative</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 3       3    36 47.95 81.60     negative</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 4       4    19 37.85 68.35     negative</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 5       5   114 11.90 47.45     positive</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 1       1     7  0.00 23.30         n.s.</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 2       2    24 29.90 70.05     negative</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 3       3    36 45.95 87.10     negative</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 4       4    19 33.90 71.10     negative</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 5       5   114 12.75 62.15     positive</span></a></code></pre></div>
 <p>Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct)</a></code></pre></div>
 <p><img src="reference/figures/README-plot_random_pattern-1.png" width="100%"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct)</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    0.12062705    0.07476973    0.09470234    0.06196056    0.09846720 </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    0.09481731    0.07382020    0.10023122    0.08573285    0.06231225 </span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 </span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;    0.08388253    0.08824972    0.12066541    0.07910319    0.10306119 </span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;    0.07739111    0.12502291    0.09969273    0.11543414    0.08359523 </span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 </span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;    0.11539596    0.09069781    0.06198931    0.11004343    0.08600697 </span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;    0.08278483    0.06516241    0.09957282    0.09244634    0.09085962 </span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 </span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    0.08668970    0.07339560    0.10363805    0.10644032    0.08398389 </span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    0.09403522    0.08788637    0.06362430    0.11447290    0.09805810 </span></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 </span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;    0.07880863    0.07523513    0.05064903    0.08879221    0.09984420 </span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;    0.06848622    0.09386348    0.13042476    0.09357512    0.08275753 </span></a>
 <a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 </span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;    0.09490212    0.09217019    0.09470795    0.08061853    0.08384268 </span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt;    0.13032444    0.08373904    0.07670673    0.04277298    0.08332331 </span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 </span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;    0.08449398    0.05180590    0.07288051    0.15958509    0.04100665 </span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;    0.10105206    0.07585601    0.06321596    0.11097997    0.10295583 </span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; randomized_36 randomized_37 randomized_38 randomized_39 </span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;    0.08092233    0.11700253    0.09866548    0.06394337</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt;    0.06150131    0.10031086    0.11233729    0.07933087</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
