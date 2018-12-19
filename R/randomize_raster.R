@@ -3,7 +3,7 @@
 #' @description Randomization algorithm
 #'
 #' @param raster RasterLayer.
-#' @param n_random Number of randomized RasterLayers.
+#' @param n_random Number of randomizations.
 #' @param return_input The original input data is returned as last list entry
 #' @param verbose Print progress report.
 #'

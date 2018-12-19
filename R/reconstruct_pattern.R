@@ -2,8 +2,8 @@
 #'
 #' @description Pattern reconstruction
 #'
-#' @param pattern List with reconstructed patterns.
-#' @param n_random Number of randomized RasterLayers.
+#' @param pattern ppp.
+#' @param n_random Number of randomizations.
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
