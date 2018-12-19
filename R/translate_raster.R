@@ -11,7 +11,7 @@
 #' exits the extent on one side, it enters the extent on the opposite side.
 #'
 #' @seealso
-#' \code{\link{randomization_algorithm}}
+#' \code{\link{randomize_raster}}
 #'
 #' @return list
 #'
