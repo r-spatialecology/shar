@@ -21,13 +21,9 @@
 #' @return data.frame
 #'
 #' @examples
-#' \dontrun{
-#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-#' species_1 <- spatstat::runifpoint(n = 50, win = spatstat::owin(c(0, 50), c(0, 50)))
-#' species_1_ran <- SHAR::fit_point_process(pattern = species_1, n_random = 199)
-#' results_habitat_association(pattern = species_1_ran, raster = landscape_classified)
-#' }
+#' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' species_a_random <- fit_point_process(species_a, n_random = 199)
+#' results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 #'
 #' @aliases results_habitat_association
 #' @rdname results_habitat_association
@@ -44,55 +40,89 @@
 results_habitat_association <- function(pattern, raster,
                                         significance_level = 0.05, verbose = TRUE){
 
+  if(significance_level < 0.01 || significance_level > 0.1) {
+    warning("Make sure signifcance_level is meaningful (e.g. 'significance_level = 0.05').",
+            call. = FALSE)
+  }
+
+  # probs for quantile function from significance level
   threshold <- c(significance_level / 2, 1 - significance_level / 2)
 
+  # randomized rasters as input
   if(class(raster) == "list" && class(pattern) != "list") {
 
-    if(isTRUE(verbose)){
-      cat(paste0("> Input: randomized raster | Thresholds: negative < ",
+    # check if randomized and observed is present
+    if(!all(c(paste0("randomized_", seq_len(length(raster) - 1)), "observed") == names(raster)) || is.null(names(raster))) {
+      stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' raster.",
+           call. = FALSE)
+    }
+
+    # print quantiles
+    if(verbose){
+      cat(paste0("> Input: randomized raster | Quantile thresholds: negative < ",
                  threshold[1], " - positive > ", threshold[2], "\n\n"))
     }
 
+    # extract number of points within each habitat for all list entries
     habitats_count <- lapply(raster, function(current_raster) {
+
       SHAR::extract_points(raster = current_raster,
                            pattern = pattern)
     })
   }
 
+  # randomized patterns as input
   else if(class(pattern) == "list" && class(raster) != "list") {
 
-    if(isTRUE(verbose)){
-      cat(paste0("> Input: randomized point pattern | Thresholds: negative < ",
+    # check if randomized and observed is present
+    if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
+      stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' raster.",
+           call. = FALSE)
+    }
+
+    # print quantiles
+    if(verbose){
+      cat(paste0("> Input: randomized point pattern | Quantile thresholds: negative < ",
                  threshold[1], " - positive > ", threshold[2], "\n\n"))
     }
 
+    # extract number of points within each habitat for all list entries
     habitats_count <- lapply(pattern, function(current_pattern) {
+
       SHAR::extract_points(raster = raster,
                            pattern = current_pattern)
     })
   }
 
   else{
-    stop("Please provide either randomized point patterns or randomized rasters")
+    stop("Please provide either randomized point patterns or randomized rasters.",
+         call. = FALSE)
   }
 
+  # combine to one df
   habitats_count <- dplyr::bind_rows(habitats_count, .id = "type")
 
+  # only randomized data
   habitats_count_random <- dplyr::filter(habitats_count, type != "observed")
 
+  # group by habitat to summarise
   habitats_count_random_grouped <- dplyr::group_by(habitats_count_random, habitat)
 
+  # get quanitiles of randomized data
   habitats_count_random_summarised <- dplyr::summarise(habitats_count_random_grouped,
-                                                       lo = stats::quantile(count,probs = threshold[[1]]),
-                                                       hi = stats::quantile(count,probs = threshold[[2]]))
+                                                       lo = stats::quantile(count, probs = threshold[[1]]),
+                                                       hi = stats::quantile(count, probs = threshold[[2]]))
 
+  # get observed data
   habitats_count_obs <- dplyr::select(dplyr::filter(habitats_count, type == "observed"), - type)
 
+  # combine (join) with quantiles of randomized data
   result <- dplyr::full_join(habitats_count_obs, habitats_count_random_summarised,
                              by = "habitat")
 
-  result <- result[, c("habitat", "count", "lo", "hi")]
+  result <- result[, c("habitat", "count", "lo", "hi")] # set col names
 
+  # classify results to positive/negative/n.s.
   result <- dplyr::mutate(result,
                           significance = factor(dplyr::case_when(count < lo ~ "negative",
                                                                  count > hi ~ "positive",

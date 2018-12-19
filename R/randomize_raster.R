@@ -4,9 +4,6 @@
 #'
 #' @param raster RasterLayer.
 #' @param n_random Number of randomized RasterLayers.
-#' @param direction Number of directions in which cells should be connected:
-#' 4 (rook's case), 8 (queen's case), 16 (knight and one-cell queen moves),
-#' or 'bishop' to connect cells with one-cell diagonal moves. Or a neigborhood matrix.
 #' @param return_input The original input data is returned as last list entry
 #' @param verbose Print progress report.
 #'
@@ -26,112 +23,155 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-#' landscape_random <- randomize_raster(landscape_classified, n_random = 9)
+#' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' landscape_random <- randomize_raster(landscape_classified, n_random = 39)
 #' }
 #'
-#' @aliases randomization_algorithm
-#' @rdname randomization_algorithm
+#' @aliases randomize_raster
+#' @rdname randomize_raster
 #'
 #' @references
 #' Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
 #' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
-#'
-#' @export
+
+#'@export
 randomize_raster <- function(raster,
                              n_random = 19,
-                             direction = 8,
                              return_input = TRUE,
                              verbose = FALSE){
 
-  result <- lapply(1:n_random, function(current_raster) {
-
-  n_cells_plot <- length(raster::Which(!is.na(raster), cells = TRUE)) # all cells within plot
-  random_raster <- raster::setValues(raster, NA) # new raster without values
-  random_raster <- raster::mask(random_raster, raster) # mask new random raster to plot area
-
-  habitats <- sort(table(raster::values(raster)))
-
-  for(current_habitat in 1:(length(habitats) - 1)){ # loop for habitats
-
-    k <- 0 # counter since last jump
-    true_counter <- vector()
-
-    random_cell <- sample(raster::Which(is.na(random_raster), cells = TRUE), size = 1)
-
-    random_raster[random_cell] <- as.numeric(names(habitats[current_habitat])) # assign habitat to cell
-
-    while(TRUE){
-
-      ratio <- k / n_cells_plot
-      r <- stats::runif(n = 1, min = 0, max = 1)
-
-      if(r >= ratio){ # neighbouring patch
-
-        cells_habitat <- raster::Which(random_raster == as.numeric(names(habitats[current_habitat])), cells = TRUE) # cells already assigned to habitat
-
-        zero_neighbours <- raster::adjacent(x = random_raster,
-                                            cells = cells_habitat,
-                                            target = raster::Which(is.na(random_raster), cells = TRUE),
-                                            direction = direction,
-                                            pairs = FALSE,
-                                            include = FALSE) # neighbours of cell already assigned to habitat
-
-        if(length(zero_neighbours) > 0){ # neighbours without habitat and inside plot present
-
-          random_cell <- sample(zero_neighbours, size = 1) # random number
-          true_counter <- c(true_counter, random_cell %in% raster::Which(is.na(random_raster), cells = TRUE))
-
-          random_raster[random_cell] <- as.numeric(names(habitats[current_habitat])) # assign habitat to cell
-          k <- k +1 # count since laste time jumped
-        }
-
-        else{ # no neighbour with habitat and inside plot present
-
-          random_cell <- sample(x = raster::Which(is.na(random_raster), cells = TRUE), size = 1) # random number
-          true_counter <- c(true_counter, random_cell %in% raster::Which(is.na(random_raster), cells = TRUE))
-
-          random_raster[random_cell] <- as.numeric(names(habitats[current_habitat])) # assign habitat
-          k <- 0 # set counter since last jump zero
-        }
-      }
-
-      else{ # jump to random patch
-
-        random_cell <- sample(x = raster::Which(is.na(random_raster), cells = TRUE), size = 1) # random number
-        true_counter <- c(true_counter, random_cell %in% raster::Which(is.na(random_raster), cells = TRUE))
-
-        random_raster[random_cell] <- as.numeric(names(habitats[current_habitat])) # assign habitat
-        k <- 0 # set counter since last jump zero
-      }
-
-      if(length(raster::Which(random_raster == as.numeric(names(habitats[current_habitat])), cells = TRUE)) == habitats[current_habitat]){
-        break
-      }
-
-      if(verbose == TRUE) {
-        cat(paste0("\rProgress: n_random: ", current_raster, "/", n_random,
-                   "|| habitats:" , current_habitat, "/", length(habitats))) # add habitat and number empty cells
-      }
-    }
+  # check if n_random is >= 1
+  if(!n_random >= 1) {
+    stop("n_random must be >= 1.", call. = FALSE)
   }
 
-  empty_cells <- raster::Which(is.na(random_raster), cells = TRUE)
-  random_raster[empty_cells] <- as.numeric(names(habitats[length(habitats)]))
+  habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
 
-  return(random_raster) # return results
+  n_cells <- sum(habitats) # number of cells
+
+  # create n_random rasters
+  result <- lapply(1:n_random, function(current_raster) {
+
+    random_matrix <- raster::as.matrix(raster) # new raster without values
+
+    random_matrix[!is.na(random_matrix)] <- -999 # set all non-NAs to unique number
+
+    # loop through habitats but last one (all remaining cells will be last)
+    for(current_habitat in 1:(length(habitats) - 1)){
+
+      k <- 0 # counter since last jump
+
+      habitat_id <- as.numeric(names(habitats[current_habitat])) # get value of current habitat
+
+      random_cell <- sample(which(random_matrix == -999), size = 1) # random cell which is still -999
+
+      random_matrix[random_cell] <- habitat_id # assign habitat to cell
+
+      # loop until same number as number in original raster are assigned (break criterion within loop)
+      for(i in seq_len(habitats[current_habitat] - 1)) {
+
+        # increases as loop continious and increases prob to jump to non-neighbouring cell
+        ratio <- k / n_cells
+
+        r <- stats::runif(n = 1, min = 0, max = 1) # random number
+
+        # assign value to neighbouring patch
+        if(r >= ratio){
+
+          # cells already assigned to habitat
+          cells_habitat <- which(random_matrix == habitat_id,
+                                 arr.ind = TRUE, useNames = FALSE)
+
+          # 4-neighbour rule cells
+          neighbours <- unique(rbind(cbind(cells_habitat[, 1] - 1, cells_habitat[, 2]),
+                                     cbind(cells_habitat[, 1] + 1, cells_habitat[, 2]),
+                                     cbind(cells_habitat[, 1], cells_habitat[, 2] - 1),
+                                     cbind(cells_habitat[, 1], cells_habitat[, 2] + 1)))
+
+          # remove all "neighbours" outside matrix
+          neighbours[neighbours == 0] <- NA
+
+          neighbours[, 1][neighbours[, 1] > nrow(random_matrix)] <- NA
+
+          neighbours[, 2][neighbours[, 2] > ncol(random_matrix)] <- NA
+
+          # all neighbouring cells that are -999
+          empty_neighbours <- which(random_matrix[neighbours] == -999,
+                                    arr.ind = TRUE, useNames = FALSE)
+
+          # neighbours without habitat and inside plot present
+          if(length(empty_neighbours) > 0){
+
+            # sample random neighbour
+            random_neighbour <- sample(empty_neighbours, size = 1)
+
+            # get matrix index of sampled neighbour
+            random_neighbour <- matrix(neighbours[random_neighbour, ], ncol = 2)
+
+            # assign cell to habitat
+            random_matrix[random_neighbour] <- habitat_id
+
+            k <- k + 1 # count since laste time jumped
+          }
+
+          # no neighbour with habitat and inside plot present
+          else{
+
+            # random cell which is still -999
+            random_cell <- sample(which(random_matrix == -999), size = 1)
+
+            # assign habitat to cell
+            random_matrix[random_cell] <- habitat_id
+
+            k <- 0 # set counter since last jump zero
+          }
+        }
+
+        # jump to random starting cell
+        else {
+
+          # random cell which is still -999
+          random_cell <- sample(which(random_matrix == -999), size = 1)
+
+          # assign habitat to cell
+          random_matrix[random_cell] <- habitat_id
+
+          k <- 0 # set counter since last jump zero
+        }
+
+        # print progess
+        if(verbose) {
+          cat(paste0("\rProgress: n_random: ", current_raster, "/", n_random,
+                     " || habitats: " , current_habitat, "/", length(habitats))) # add habitat and number empty cells
+        }
+      }
+    }
+
+    # cells not assigned to any habitat yet
+    empty_cells <- which(random_matrix == -999,
+                         arr.ind = TRUE, useNames = FALSE)
+
+    # assign all still empty cells to last habitat
+    random_matrix[empty_cells] <- as.numeric(names(habitats[length(habitats)]))
+
+    # convert back to raster
+    random_raster <- raster::setValues(x = raster,
+                                       values = random_matrix)
+
+    return(random_raster)
   })
 
-  if(isTRUE(return_input)){
-    result[[n_random + 1]] <- raster
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed")
+  # add input raster
+  if(return_input){
+
+    result[[n_random + 1]] <- raster # add input raster as last list entry
+    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
   }
 
   else{
-    names(result) <- paste0("randomized_", 1:n_random)
+
+    names(result) <- paste0("randomized_", 1:n_random) # set names
   }
 
   return(result)
 }
-

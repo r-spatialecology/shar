@@ -1,28 +1,20 @@
 
-[![Travis build
-status](https://travis-ci.org/mhesselbarth/SHAR.svg?branch=master)](https://travis-ci.org/mhesselbarth/SHAR)
-[![Coverage
-status](https://codecov.io/gh/mhesselbarth/SHAR/branch/master/graph/badge.svg)](https://codecov.io/github/mhesselbarth/SHAR?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/SHAR)](https://cran.r-project.org/package=SHAR)
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # SHAR
 
-SHAR is a R package for analyzing species habitat associations.
-Therefore, information about the location of the species is needed (as a
-point pattern) and about the environmental conditions (as a raster map).
-In order to analyse the data for significant habitat associations either
-the location data or the environmental data is randomized n-times. Then,
-counts within the habitats are compared between the randomized data and
-the observed data. Positive or negative associations are present if the
-observed counts is higher or lower than the randomized counts (using
-quantile thresholds). Methods are mainly described in Plotkin et al.
-(2000), Harms et al. (2001) and Wiegand & Moloney (2014). SHAR is mainly
-based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans
-2017) package.
+**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to
+analyze species-habitat associations. Therefore, information about the
+location of the species is needed (as a point pattern) and about the
+environmental conditions (as a raster map). In order to analyse the data
+for significant habitat associations either the location data or the
+environmental data is randomized n-times. Then, counts within the
+habitats are compared between the randomized data and the observed data.
+Positive or negative associations are present if the observed counts is
+higher or lower than the randomized counts (using quantile thresholds).
+Methods are mainly described in Plotkin et al. (2000), Harms et al.
+(2001) and Wiegand & Moloney (2014). SHAR is mainly based on the
+`spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
 
 ## Installation
 
@@ -93,31 +85,17 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 #> 3       3    30 14 29     positive
 #> 4       4     0 10 26     negative
 #> 5       5    14  4 17         n.s.
-results_habitat_association(pattern = species_b, raster = random_walk)
-#> > Input: randomized raster | Thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count    lo    hi significance
-#> 1       1     7  3.00 23.05         n.s.
-#> 2       2    24 26.95 63.10     negative
-#> 3       3    36 46.95 90.05     negative
-#> 4       4    19 28.90 76.40     negative
-#> 5       5   114 11.75 47.30     positive
+# results_habitat_association(pattern = species_b, raster = random_walk)
 
-results_habitat_association(pattern = gamma_test, raster = landscape_classified)
-#> > Input: randomized point pattern | Thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count    lo    hi significance
-#> 1       1    10  0.00  6.10     positive
-#> 2       2    14  8.85 21.05         n.s.
-#> 3       3    30 16.90 27.25     positive
-#> 4       4     0 11.85 24.10     negative
-#> 5       5    14  4.00 15.05         n.s.
+# results_habitat_association(pattern = gamma_test, raster = landscape_classified)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  1.00 21.25         n.s.
-#> 2       2    24 25.85 71.30     negative
-#> 3       3    36 44.90 86.10     negative
-#> 4       4    19 31.70 64.20     negative
-#> 5       5   114 11.95 58.35     positive
+#> 1       1     7  0.95 34.50         n.s.
+#> 2       2    24 23.80 65.00         n.s.
+#> 3       3    36 37.00 86.05     negative
+#> 4       4    19 31.95 76.10     negative
+#> 5       5   114  8.90 56.10     positive
 ```
 
 Of coures, there are several utility functions. For example, you can
@@ -128,27 +106,27 @@ observed pattern and the randomized patterns (using summary functions).
 plot_randomized_pattern(reconstruct)
 ```
 
-<img src="man/figures/README-plot random pattern-1.png" width="100%" />
+<img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
 
 ``` r
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.12383933    0.11885764    0.06221139    0.10145441    0.08672217 
+#>    0.07899679    0.07891553    0.06709110    0.11342881    0.07866284 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.07031200    0.08997604    0.07393047    0.10279469    0.10767068 
+#>    0.10681150    0.11017324    0.07640943    0.07349415    0.09370937 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.10526385    0.09278873    0.08716073    0.07667916    0.10519324 
+#>    0.08459566    0.11000410    0.13270481    0.11122431    0.07014703 
 #> randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 
-#>    0.12727424    0.09034474    0.08869269    0.10267411    0.06574193 
+#>    0.08966671    0.08551390    0.07780163    0.11917970    0.12294471 
 #> randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 
-#>    0.07093437    0.07157113    0.08903972    0.11520388    0.08030586 
+#>    0.08665463    0.08436713    0.05145891    0.06155880    0.10357395 
 #> randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
-#>    0.08439971    0.07392913    0.07722876    0.09209930    0.08618923 
+#>    0.11249149    0.06743358    0.09820767    0.06240891    0.09005689 
 #> randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 
-#>    0.08711860    0.10440259    0.08059639    0.09564745    0.06967828 
+#>    0.11480566    0.10019580    0.10845557    0.10959663    0.06467069 
 #> randomized_36 randomized_37 randomized_38 randomized_39 
-#>    0.10530861    0.08109449    0.12068153    0.09089023
+#>    0.05969907    0.11118554    0.10430424    0.08642659
 ```
 
 ## References

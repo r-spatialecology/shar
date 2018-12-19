@@ -29,11 +29,9 @@ correction is used and the pair correlation function is estimated based on Riple
 K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
-\dontrun{
-pattern_random <- spatstat::runifpoint(n = 50)
-pattern_recon <- SHAR::reconstruct_pattern(pattern_random, n_random = 9, max_runs = 1000)
-calculate_energy(pattern_recon)
-}
+pattern_random <- fit_point_process(species_a, n_random = 39)
+calculate_energy(pattern_random)
+calculate_energy(pattern_random, return_mean = TRUE)
 
 }
 \references{

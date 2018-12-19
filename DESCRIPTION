@@ -1,6 +1,6 @@
 Type: Package
 Package: SHAR
-Title: Species-habitat associations in R
+Title: Species-Habitat Associations in R
 Version: 0.1
 Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
@@ -8,24 +8,22 @@ Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesse
              role = "aut", comment = c(ORCID = '0000-0002-3042-5435')))
 Maintainer: Maximillian H.K. Hesselbarth <maximilian.hesselbarth@uni-goettingen.de>
 Description:
-  SHAR is a R package for analyzing species habitat associations. Therefore, information 
-  about the location of the species is needed and about the environmental conditions. 
-  To test for significance habitat associations, one of the two components is randomized.
+  Analyse species-habitat associations in R. Therefore, information about the 
+  location of the species is needed and about the environmental conditions. To test 
+  for significance habitat associations, one of the two components is randomized. 
   Methods are described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). 
   SHAR is mainly based on the 'spatstat' (Baddeley et al. 2015) and 'raster' (Hijmans 2017) package.
 License: GPL-3
+URL: https://github.com/mhesselbarth/SHAR
+BugReports: https://github.com/mhesselbarth/SHAR/issues
 Depends: R (>= 3.1)
 Imports:
   classInt,
   dplyr,
-  ggplot2,
   mobsim,
   raster,
-  sp,
-  spatstat,
-  stats, 
-  utils
-RoxygenNote: 6.1.0
+  spatstat
+RoxygenNote: 6.1.1
 Suggests:
     covr,
     testthat,

@@ -1,13 +1,6 @@
 ---
 output: github_document
-editor_options: 
-  chunk_output_type: console
 ---
-
-[![Travis build status](https://travis-ci.org/mhesselbarth/SHAR.svg?branch=master)](https://travis-ci.org/mhesselbarth/SHAR)
-[![Coverage status](https://codecov.io/gh/mhesselbarth/SHAR/branch/master/graph/badge.svg)](https://codecov.io/github/mhesselbarth/SHAR?branch=master)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![CRAN status](https://www.r-pkg.org/badges/version/SHAR)](https://cran.r-project.org/package=SHAR)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -21,19 +14,19 @@ knitr::opts_chunk$set(
 ```
 # SHAR
 
-SHAR is a R package for analyzing species habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). SHAR is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
+**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). SHAR is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
 
 ## Installation
 
 You can install the released version of SHAR from [CRAN](https://CRAN.R-project.org) with:
 
-``` r
+```{r install_CRAN, eval = FALSE}
 install.packages("SHAR") # Nope, not yet...
 ```
 
 And the development version from [GitHub](https://github.com/) with:
 
-``` r
+```{r install_github, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("mhesselbarth/SHAR")
 ```
@@ -41,7 +34,7 @@ devtools::install_github("mhesselbarth/SHAR")
 
 SHAR comes with build-in example data sets. `landscape` contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
 
-```{r environmental data, message = FALSE}
+```{r environmental_data, message = FALSE}
 library(SHAR)
 library(raster)
 
@@ -52,7 +45,7 @@ landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 
 There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. 
 
-```{r habitat random}
+```{r habitat_random}
 torus_trans <- translate_raster(raster = landscape_classified)
 
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 39) # takes some time
@@ -60,7 +53,7 @@ random_walk <- randomize_raster(raster = landscape_classified, n_random = 39) # 
 
 To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan 2006) . 
 
-```{r pattern random}
+```{r pattern_random}
 gamma_test <- fit_point_process(pattern = species_a, process = "poisson", n_random = 39)
 
 reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 2500, n_random = 39) # takes some time
@@ -70,16 +63,16 @@ The data was created that `species_a` has a negative association to habitat 4 an
 
 ```{r results}
 results_habitat_association(pattern = species_a, raster = torus_trans)
-results_habitat_association(pattern = species_b, raster = random_walk)
+# results_habitat_association(pattern = species_b, raster = random_walk)
 
-results_habitat_association(pattern = gamma_test, raster = landscape_classified)
+# results_habitat_association(pattern = gamma_test, raster = landscape_classified)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 
 ```
 
 Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions). 
 
-```{r plot random pattern}
+```{r plot_random_pattern}
 plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)

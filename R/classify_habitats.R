@@ -17,10 +17,7 @@
 #' @return RasterLayer
 #'
 #' @examples
-#' \dontrun{
-#' landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-#' landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-#' }
+#' landscape_classified <- classify_habitats(landscape, classes = 5)
 #'
 #' @aliases classify_habitats
 #' @rdname classify_habitats
@@ -44,11 +41,12 @@
 #' @export
 classify_habitats <- function(raster, classes = 5, style = "fisher"){
 
-  raster_values <- stats::na.omit(raster::getValues(raster))
+  raster_values <- raster::values(raster) # get all values
 
-  breaks <- classInt::classIntervals(var = raster_values, n = classes, style = style)
+  breaks <- classInt::classIntervals(var = raster_values,
+                                     n = classes, style = style) # get class intervals
 
-  result <- raster::cut(raster, breaks = breaks$brks, include.lowest = TRUE)
+  result <- raster::cut(raster, breaks = breaks$brks, include.lowest = TRUE) # classify raster
 
   return(result)
 }

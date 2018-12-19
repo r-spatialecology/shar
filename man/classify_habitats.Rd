@@ -25,10 +25,7 @@ classes are non-overlapping (and left-closed). For more information see
 \code{\link{classIntervals}}.
 }
 \examples{
-\dontrun{
-landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, user_seed = 1)
-landscape_classified <- SHAR::classify_habitats(landscape, classes = 5)
-}
+landscape_classified <- classify_habitats(landscape, classes = 5)
 
 }
 \references{
