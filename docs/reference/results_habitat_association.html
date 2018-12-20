@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>results_habitat_association — results_habitat_association • Species-habitat associations in R</title>
+<title>results_habitat_association — results_habitat_association • SHAR | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">Species-habitat associations in R</a>
+        <a class="navbar-link" href="../index.html">SHAR | Species-habitat associations in R</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
       </span>
     </div>
@@ -100,7 +100,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/mhesselbarth/SHAR">
+  <a href="https://github.com/r-spatialecology/SHAR">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -118,7 +118,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>results_habitat_association</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mhesselbarth/SHAR/blob/master/R/results_habitat_association.R'><code>R/results_habitat_association.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/r-spatialecology/SHAR/blob/master/R/results_habitat_association.R'><code>R/results_habitat_association.R</code></a></small>
     <div class="hidden name"><code>results_habitat_association.Rd</code></div>
     </div>
 
@@ -174,7 +174,8 @@ Journal of Theoretical Biology, 207(1), 81–99.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>randomization_algorithm</code> <br />
+    <div class='dont-index'><p><code><a href='randomize_raster.html'>randomize_raster</a></code> <br />
+<code><a href='translate_raster.html'>translate_raster</a></code> <br />
 <code><a href='reconstruct_pattern.html'>reconstruct_pattern</a></code></p></div>
     
 
@@ -183,11 +184,11 @@ Journal of Theoretical Biology, 207(1), 81–99.</p>
 <span class='no'>species_a_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_point_process.html'>fit_point_process</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>199</span>)
 <span class='fu'>results_habitat_association</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='no'>species_a_random</span>, <span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>landscape_classified</span>)</div><div class='output co'>#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975
 #&gt; </div><div class='output co'>#&gt;   habitat count    lo    hi significance
-#&gt; 1       1    10  0.95  7.00     positive
-#&gt; 2       2    14 10.00 21.00         n.s.
-#&gt; 3       3    30 14.00 27.05     positive
-#&gt; 4       4     0 10.95 25.00     negative
-#&gt; 5       5    14  4.95 16.00         n.s.</div><div class='input'>
+#&gt; 1       1    10  0.00  7.05     positive
+#&gt; 2       2    14  8.00 21.00         n.s.
+#&gt; 3       3    30 14.95 29.00     positive
+#&gt; 4       4     0 11.00 25.00     negative
+#&gt; 5       5    14  4.00 15.00         n.s.</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -215,7 +216,7 @@ Journal of Theoretical Biology, 207(1), 81–99.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
    </div>
