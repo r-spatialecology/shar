@@ -9,7 +9,7 @@ estimate_pcf_fast(pattern, ...)
 \arguments{
 \item{pattern}{Point pattern.}
 
-\item{...}{Arguments passed down to spatstat::Kest() or spatstat::pcf.fv().}
+\item{...}{Arguments passed down to `Kest` or `pcf.fv`.}
 }
 \value{
 fv.object
@@ -20,8 +20,7 @@ Fast estimation of the pair correlation function
 \details{
 The functions estimates the pair correlation functions based on an estimation
 of Ripley's K-function. This makes it computationally faster than estimating the
-pair correlation function directly. It is a wrapper around \code{\link{Kest}} and
-\code{\link{pcf.fv}}.
+pair correlation function directly. It is a wrapper around `Kest` and `pcf.fv`.
 }
 \examples{
 pcf_species_b <- estimate_pcf_fast(species_a)

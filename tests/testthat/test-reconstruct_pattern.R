@@ -18,7 +18,7 @@ test_that("Output includes randomizations and original pattern for reconstruct_p
 
   expect_named(pattern_recon, expected = c(paste0("randomized_", c(1: 3)), "observed"))
 
-  expect_equal(pattern_recon[[4]], expected = SHAR::species_b)
+  expect_equal(pattern_recon[[4]], expected = spatstat::unmark(SHAR::species_b))
 })
 
 test_that("Input pattern can not be returned for reconstruct_pattern", {

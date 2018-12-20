@@ -15,7 +15,7 @@ test_that("Output includes randomizations and original pattern for fit_point_pro
 
   expect_named(pattern_random, expected = c(paste0("randomized_", 1:19), "observed"))
 
-  expect_equal(pattern_random[[20]], expected = SHAR::species_a)
+  expect_equal(pattern_random[[20]], expected = spatstat::unmark(SHAR::species_a))
 })
 
 test_that("All optional arguments can be used for fit_point_process", {
@@ -50,3 +50,4 @@ test_that("fit_point_process returns error process is unknown", {
                                        process = "not_valid"),
                regexp = "Please select either 'poisson' or 'cluster'.")
 })
+
