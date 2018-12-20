@@ -3,27 +3,36 @@
 #' @description Pattern reconstruction of marks
 #'
 #' @param pattern ppp.
+#' @param marked_pattern ppp (marked; see details).
 #' @param n_random Number of randomizations.
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param return_input The original input data is returned as last list entry
+#' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
-#' @param plot Plot mark function during optimization
+#' @param plot Plot kmmr function during optimization.
 #'
 #' @details
-#'
+#' The function randomizes the numeric marks of a point pattern using pattern reconstruction
+#' as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). Therefore,
+#' an unmarked as well as a marked pattern must be provided. The unmarked pattern must have
+#' the spatial characteristics but the same observation window and number of points
+#' as the marked one (see `reconstruct_pattern` or `fit_point_process`). Marks must be
+#' numeric because the mark-correlation function is used as summary function. Two
+#' randomly chosen marks are switch each iterations and changes only kept if the
+#' deviation between the observed and the reconstructed pattern decreases.
 #'
 #' @seealso
 #' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{fit_point_process}} \cr
 #'
 #' @return list
 #'
 #' @examples
 #' \dontrun{
-#' species_a
-#' species_b
-#'
-#' pattern_recon <- reconstruct_marks(species_b, n_random = 39, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000)[[1]]
+#' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
+#' marks_recon <- reconstruct_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_marks
@@ -39,10 +48,10 @@
 #' @export
 reconstruct_marks <- function(pattern,
                               marked_pattern,
-                              mark,
                               n_random = 19,
                               e_threshold = 0.01, max_runs = 10000,
                               return_input = TRUE,
+                              simplify = FALSE,
                               verbose = FALSE,
                               plot = FALSE){
 
@@ -51,84 +60,85 @@ reconstruct_marks <- function(pattern,
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
-  #
+  # check if pattern is marked
+  if(spatstat::is.marked(pattern) || !spatstat::is.marked(marked_pattern)) {
+    stop("'pattern' must be unmarked and 'marked_pattern' marked", call. = FALSE)
+  }
+
   if(any(pattern$window$xrange != marked_pattern$window$xrange) ||
      any(pattern$window$yrange != marked_pattern$window$yrange) ||
-     pattern$n != marked_pattern$n ||
-     spatstat::is.marked(pattern)) {
-    stop("'pattern' and 'pattern' must have same window and n & 'pattern' must be unmarked",
+     pattern$n != marked_pattern$n) {
+    stop("'pattern' and 'pattern' must have same window and number of points",
          call. = FALSE)
   }
 
-  # check if marks are data frame
-  if(spatstat::markformat(marked_pattern) == "dataframe") {
-
-    # only use selected mark
-    marked_pattern$marks <- marked_pattern$marks[[mark]]
+  # check if marks are numeric
+  if(class(marked_pattern$marks) != "numeric") {
+    stop("marks must be 'numeric'", call. = FALSE)
   }
-
-  if(class(marked_pattern$marks) == "numeric") {
-
-    summary_function <- get("markcorr", mode = "function")
-  }
-
-  else if(class(marked_pattern$marks) == "factor") {
-    summary_function <- get("markcon", mode = "function")
-
-  }
-
-  else{
-
-    stop("marks must bei either 'numeric' or 'factor'",
-         call. = FALSE)
-  }
-
-
 
   # create n_random recondstructed patterns
   result <- lapply(1:n_random, function(current_pattern){
 
-    # create random simulation data (shuffle marks)
-    # spatstat::rlabel()
+    # assign shuffeld marks to pattern
+    spatstat::marks(pattern) <- sample(marked_pattern$marks, size = marked_pattern$n)
 
     # calculate summary functions
+    kmmr_observed <- spatstat::markcorr(marked_pattern,
+                                        correction = "Ripley")
+
+    kmmr_simulated <- spatstat::markcorr(pattern,
+                                         correction = "Ripley")
 
     # energy before reconstruction
-    # e0 <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
-    #   mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
+    e0 <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
 
     # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
     for(i in 1:max_runs){
 
-      relocated <- simulated # data for relocation
+      relocated <- pattern # data for relocation
 
-      rp <- sample(x = 1:relocated$n, size = 1) # random point of pattern
+      # get two random points to switch marks
+      rp_a <- sample(x = 1:relocated$n, size = 1)
 
-      # switch marks
-      # relocated$x[rp] <- stats::runif(n = 1, min = xrange[1], max = xrange[2])
-      #
-      # relocated$y[rp] <- stats::runif(n = 1, min = yrange[1], max = yrange[2])
+      rp_b <- sample(x = 1:relocated$n, size = 1)
+
+
+      # get marks of the two random points
+      mark_a <- relocated$marks[rp_a]
+
+      mark_b <- relocated$marks[rp_b]
+
+      # switch the marks of the two points
+      relocated$marks[rp_a] <- mark_b
+
+      relocated$marks[rp_b] <- mark_a
 
       # calculate summary functions after relocation
+      kmmr_relocated <- spatstat::markcorr(relocated,
+                                           correction = "Ripley")
 
       # energy after relocation
-      # e_relocated <- mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) +
-      #   mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE)
+      e_relocated <- mean(abs(kmmr_observed[[3]] - kmmr_relocated[[3]]), na.rm = TRUE)
 
       # lower energy after relocation
       if(e_relocated < e0){
 
-        simulated <- relocated # keep relocated pattern
+        pattern <- relocated # keep relocated pattern
 
         e0 <- e_relocated # keep e_relocated as e0
 
         # plot observed vs reconstructed
         if(plot) {
+
           Sys.sleep(0.1) # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
-          graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
+
+          graphics::plot(x = kmmr_observed[[1]], y = kmmr_observed[[3]],
                          type = "l", col = "black",
-                         xlab = "r", ylab = "g(r)")
-          graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
+                         xlab = "r", ylab = "kmm(r)")
+
+          graphics::lines(x = kmmr_relocated[[1]], y = kmmr_relocated[[3]], col = "red")
+
           graphics::legend("topright",
                            legend = c("observed", "reconstructed"),
                            col = c("black", "red"),
@@ -149,20 +159,39 @@ reconstruct_marks <- function(pattern,
       }
     }
 
-    return(simulated)
+    return(pattern)
   })
 
   # add input pattern to randomizations
   if(return_input){
 
-    result[[n_random + 1]] <- pattern # add input pattern as last list entry
+    if(verbose & simplify){
+      cat("\n")
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'", call. = FALSE)
+    }
+
+    result[[n_random + 1]] <- marked_pattern # add input pattern as last list entry
 
     names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
   }
 
   else{
 
-    names(result) <- paste0("randomized_", 1:n_random) # set names
+    if(simplify) {
+
+      if(verbose & n_random > 1) {
+        cat("\n")
+        warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
+      }
+
+      else {
+        result <- result[[1]]
+      }
+    }
+
+    else{
+      names(result) <- paste0("randomized_", 1:n_random) # set names
+    }
   }
 
   return(result)
