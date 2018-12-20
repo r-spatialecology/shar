@@ -2,11 +2,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Travis build
-status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=development)](https://travis-ci.org/r-spatialecology/SHAR)
+status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=development&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
 [![Coverage
-status](https://codecov.io/gh/r-spatialecology/SHAR/branch/development/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=development)
+status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=master)
 [![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -62,23 +62,48 @@ e.g. trees, as `ppp`-objects from the `spatstat` package.
 There are two possibilities to randomize the environmental data, both
 described in Harms et al. (2001). The first shifts the habitat map in
 all 4 cardinal directions around a torus. The second one assigns the
-habitat values to an empty map using a random walk algorithm.
+habitat values to an empty map using a random walk algorithm. Both
+functions return a list with randomized rasters and the observed one.
 
 ``` r
 torus_trans <- translate_raster(raster = landscape_classified)
 
-random_walk <- randomize_raster(raster = landscape_classified, n_random = 19) # takes some time
+random_walk <- randomize_raster(raster = landscape_classified, n_random = 19)
 ```
+
+<img src="man/figures/README-plot_habitat_random-1.png" width="100%" />
 
 To randomize the point pattern, either use the Gamma test described by
 Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
-2006)
-.
+2006).
 
 ``` r
 gamma_test <- fit_point_process(pattern = species_a, process = "poisson", n_random = 19)
 
 reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 1000, n_random = 19) # takes some time
+```
+
+Of coures, there are several utility functions. For example, you can
+plot a randomized pattern or calculate the differences between the
+observed pattern and the randomized patterns (using summary functions).
+
+``` r
+plot_randomized_pattern(reconstruct)
+```
+
+<img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
+
+``` r
+
+calculate_energy(reconstruct)
+#>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
+#>    0.03471070    0.04057115    0.03668950    0.03387042    0.03147279 
+#>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
+#>    0.03397615    0.03480122    0.04286949    0.04180701    0.04186344 
+#> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
+#>    0.03510950    0.03502008    0.02993903    0.03985823    0.04253843 
+#> randomized_16 randomized_17 randomized_18 randomized_19 
+#>    0.03760139    0.03654125    0.03512742    0.03521904
 ```
 
 The data was created that `species_a` has a negative association to
@@ -102,34 +127,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  3.45 20.30         n.s.
-#> 2       2    20 26.45 58.55     negative
-#> 3       3    31 45.70 73.00     negative
-#> 4       4    33 42.35 72.55     negative
-#> 5       5   109 15.45 49.55     positive
-```
-
-Of coures, there are several utility functions. For example, you can
-plot a randomized pattern or calculate the differences between the
-observed pattern and the randomized patterns (using summary functions).
-
-``` r
-plot_randomized_pattern(reconstruct)
-```
-
-<img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
-
-``` r
-
-calculate_energy(reconstruct)
-#>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.04230458    0.03182673    0.03571768    0.03230298    0.03878629 
-#>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.03489477    0.03500614    0.04230536    0.03753370    0.04363900 
-#> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.03261439    0.03310754    0.03511444    0.04087401    0.03544422 
-#> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.04261805    0.03610672    0.03416292    0.04382523
+#> 1       1     7  3.45 26.00         n.s.
+#> 2       2    20 26.50 56.00     negative
+#> 3       3    31 49.45 81.00     negative
+#> 4       4    33 34.80 68.65     negative
+#> 5       5   109 11.45 39.65     positive
 ```
 
 ## References
