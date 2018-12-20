@@ -5,15 +5,15 @@
 #' @param raster RasterLayer.
 #' @param n_random Number of randomizations.
 #' @param return_input The original input data is returned as last list entry
+#' @param simplify If n_random = 1 and return_input = FALSE only raster will be returned.
 #' @param verbose Print progress report.
 #'
 #' @details
 #' The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
 #' as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
-#' starts to assign random neighbouring cells (specified by `directions`) to each
-#' habitat (in increasing order of abundance in observed map). We modified the
-#' procedure slightly by increasing a probability to jump to a non-neighbouring
-#' cell as the current patch becomes larger.
+#' starts to assign random neighbouring cells to each habitat (in increasing order of
+#' abundance in observed map). We modified the procedure slightly by increasing a
+#' probability to jump to a non-neighbouring cell as the current patch becomes larger.
 #'
 #' @seealso
 #' \code{\link{translate_raster}} \cr
@@ -24,7 +24,7 @@
 #' @examples
 #' \dontrun{
 #' landscape_classified <- classify_habitats(landscape, classes = 5)
-#' landscape_random <- randomize_raster(landscape_classified, n_random = 39)
+#' landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 #' }
 #'
 #' @aliases randomize_raster
@@ -38,6 +38,7 @@
 randomize_raster <- function(raster,
                              n_random = 19,
                              return_input = TRUE,
+                             simplify = FALSE,
                              verbose = FALSE){
 
   # check if n_random is >= 1
@@ -161,16 +162,36 @@ randomize_raster <- function(raster,
     return(random_raster)
   })
 
-  # add input raster
+  # add input pattern to randomizations
   if(return_input){
 
-    result[[n_random + 1]] <- raster # add input raster as last list entry
+    if(verbose & simplify){
+      cat("\n")
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'", call. = FALSE)
+    }
+
+    result[[n_random + 1]] <- raster # add input pattern as last list entry
+
     names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
   }
 
   else{
 
-    names(result) <- paste0("randomized_", 1:n_random) # set names
+    if(simplify) {
+
+      if(verbose & n_random > 1) {
+        cat("\n")
+        warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
+      }
+
+      else {
+        result <- result[[1]]
+      }
+    }
+
+    else{
+      names(result) <- paste0("randomized_", 1:n_random) # set names
+    }
   }
 
   return(result)
