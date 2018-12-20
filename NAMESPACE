@@ -2,6 +2,7 @@
 
 export(calculate_energy)
 export(classify_habitats)
+export(create_neighbourhood)
 export(estimate_pcf_fast)
 export(extract_points)
 export(fit_point_process)

@@ -4,13 +4,15 @@
 \alias{randomize_raster}
 \title{randomize_raster}
 \usage{
-randomize_raster(raster, n_random = 19, return_input = TRUE,
-  simplify = FALSE, verbose = TRUE)
+randomize_raster(raster, n_random = 19, directions = 4,
+  return_input = TRUE, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{raster}{RasterLayer.}
 
 \item{n_random}{Number of randomizations.}
+
+\item{directions}{Cells neighbour rule: 4 (rook's case), 8 (queen's case).}
 
 \item{return_input}{The original input data is returned as last list entry}
 

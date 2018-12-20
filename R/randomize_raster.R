@@ -4,6 +4,7 @@
 #'
 #' @param raster RasterLayer.
 #' @param n_random Number of randomizations.
+#' @param directions Cells neighbour rule: 4 (rook's case), 8 (queen's case).
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only raster will be returned.
 #' @param verbose Print progress report.
@@ -37,6 +38,7 @@
 #'@export
 randomize_raster <- function(raster,
                              n_random = 19,
+                             directions = 4,
                              return_input = TRUE,
                              simplify = FALSE,
                              verbose = TRUE){
@@ -83,18 +85,10 @@ randomize_raster <- function(raster,
           cells_habitat <- which(random_matrix == habitat_id,
                                  arr.ind = TRUE, useNames = FALSE)
 
-          # 4-neighbour rule cells
-          neighbours <- unique(rbind(cbind(cells_habitat[, 1] - 1, cells_habitat[, 2]),
-                                     cbind(cells_habitat[, 1] + 1, cells_habitat[, 2]),
-                                     cbind(cells_habitat[, 1], cells_habitat[, 2] - 1),
-                                     cbind(cells_habitat[, 1], cells_habitat[, 2] + 1)))
-
-          # remove all "neighbours" outside matrix
-          neighbours[neighbours == 0] <- NA
-
-          neighbours[, 1][neighbours[, 1] > nrow(random_matrix)] <- NA
-
-          neighbours[, 2][neighbours[, 2] > ncol(random_matrix)] <- NA
+          # get neighbour cells
+          neighbours <- create_neighbourhood(cells = cells_habitat,
+                                             matrix = random_matrix,
+                                             directions = directions)
 
           # all neighbouring cells that are -999
           empty_neighbours <- which(random_matrix[neighbours] == -999,
