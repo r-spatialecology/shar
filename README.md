@@ -89,10 +89,24 @@ be seen in the results.
 
 ``` r
 results_habitat_association(pattern = species_a, raster = torus_trans)
+#> > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
+#>   habitat count lo hi significance
+#> 1       1    10  0  8     positive
+#> 2       2    14  8 24         n.s.
+#> 3       3    30 14 29     positive
+#> 4       4     0 10 26     negative
+#> 5       5    14  4 17         n.s.
 # results_habitat_association(pattern = species_b, raster = random_walk)
 
 # results_habitat_association(pattern = gamma_test, raster = landscape_classified)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
+#> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
+#>   habitat count    lo    hi significance
+#> 1       1     7  3.45 20.30         n.s.
+#> 2       2    20 26.45 58.55     negative
+#> 3       3    31 45.70 73.00     negative
+#> 4       4    33 42.35 72.55     negative
+#> 5       5   109 15.45 49.55     positive
 ```
 
 Of coures, there are several utility functions. For example, you can
@@ -101,8 +115,21 @@ observed pattern and the randomized patterns (using summary functions).
 
 ``` r
 plot_randomized_pattern(reconstruct)
+```
+
+<img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
+
+``` r
 
 calculate_energy(reconstruct)
+#>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
+#>    0.04230458    0.03182673    0.03571768    0.03230298    0.03878629 
+#>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
+#>    0.03489477    0.03500614    0.04230536    0.03753370    0.04363900 
+#> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
+#>    0.03261439    0.03310754    0.03511444    0.04087401    0.03544422 
+#> randomized_16 randomized_17 randomized_18 randomized_19 
+#>    0.04261805    0.03610672    0.03416292    0.04382523
 ```
 
 ## References
