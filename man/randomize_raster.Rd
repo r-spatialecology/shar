@@ -10,7 +10,7 @@ randomize_raster(raster, n_random = 19, return_input = TRUE,
 \arguments{
 \item{raster}{RasterLayer.}
 
-\item{n_random}{Number of randomizations.}
+\item{n_random}{Number of randomized RasterLayers.}
 
 \item{return_input}{The original input data is returned as last list entry}
 

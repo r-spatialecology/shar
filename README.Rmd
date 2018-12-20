@@ -58,7 +58,7 @@ torus_trans <- translate_raster(raster = landscape_classified)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19)
 ```
 
-```{r plot habitat_random, echo = FALSE}
+```{r plot_habitat_random, echo = FALSE}
 plot(raster::stack(random_walk)[[c(1,2,3, 20)]])
 ```
 

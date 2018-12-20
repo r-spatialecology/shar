@@ -71,7 +71,7 @@ torus_trans <- translate_raster(raster = landscape_classified)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19)
 ```
 
-<img src="man/figures/README-plot habitat_random-1.png" width="100%" />
+<img src="man/figures/README-plot_habitat_random-1.png" width="100%" />
 
 To randomize the point pattern, either use the Gamma test described by
 Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
@@ -97,13 +97,13 @@ plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.17043092    0.15756410    0.13684675    0.18718905    0.16078348 
+#>    0.03617805    0.04361921    0.03336834    0.04101410    0.04016677 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.13030812    0.14663873    0.08434357    0.13756353    0.16071291 
+#>    0.03984255    0.03567671    0.03788960    0.04090265    0.03705915 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.19504826    0.19736410    0.15269170    0.12062451    0.14657549 
+#>    0.04183583    0.03094681    0.03656802    0.03467723    0.03356028 
 #> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.17017649    0.14458419    0.13449995    0.15495501
+#>    0.03442587    0.03097767    0.02816643    0.03108487
 ```
 
 The data was created that `species_a` has a negative association to
@@ -127,11 +127,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count   lo    hi significance
-#> 1       1     7  2.0 19.50         n.s.
-#> 2       2    24 28.9 67.00     negative
-#> 3       3    36 50.9 89.55     negative
-#> 4       4    19 40.0 65.30     negative
-#> 5       5   114 10.8 55.00     positive
+#> 1       1     7  1.0 24.55         n.s.
+#> 2       2    20 33.7 67.65     negative
+#> 3       3    31 48.9 73.55     negative
+#> 4       4    33 34.8 72.00     negative
+#> 5       5   109 11.0 42.95     positive
 ```
 
 ## References
