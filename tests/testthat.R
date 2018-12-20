@@ -1,3 +1,4 @@
+library(dplyr)
 library(testthat)
 library(SHAR)
 library(spatstat)

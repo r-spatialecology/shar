@@ -36,18 +36,41 @@ test_that("Input pattern can not be returned for fit_point_process", {
   expect_false(any(SHAR::species_b %in% pattern_random))
 })
 
-test_that("fit_point_process returns error if n_random < 1", {
+test_that("simplify works for fit_point_process", {
+
+  pattern_random <- SHAR::fit_point_process(pattern = SHAR::species_a,
+                                            n_random = 1,
+                                            return_input = FALSE,
+                                            simplify = TRUE)
+
+  expect_is(pattern_random, "ppp")
+})
+
+test_that("fit_point_process returns errors", {
 
   expect_error(SHAR::fit_point_process(pattern = SHAR::species_b,
                                        n_random = -10),
                regexp = "n_random must be >= 1.")
-})
-
-test_that("fit_point_process returns error process is unknown", {
 
   expect_error(SHAR::fit_point_process(pattern = SHAR::species_b,
-                                       n_random = 39,
+                                       n_random = 19,
                                        process = "not_valid"),
                regexp = "Please select either 'poisson' or 'cluster'.")
+})
+
+test_that("fit_point_process returns warnings", {
+
+  expect_warning(SHAR::fit_point_process(pattern = SHAR::species_b,
+                                         n_random = 19,
+                                         return_input = FALSE,
+                                         simplify = TRUE,
+                                         verbose = TRUE),
+               regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
+
+  expect_warning(SHAR::fit_point_process(pattern = SHAR::species_b,
+                                         n_random = 1,
+                                         simplify = TRUE,
+                                         verbose = TRUE),
+                 regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 })
 

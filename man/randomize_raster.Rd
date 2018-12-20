@@ -5,7 +5,7 @@
 \title{randomize_raster}
 \usage{
 randomize_raster(raster, n_random = 19, return_input = TRUE,
-  simplify = FALSE, verbose = FALSE)
+  simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{raster}{RasterLayer.}

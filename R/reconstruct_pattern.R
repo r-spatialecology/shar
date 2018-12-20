@@ -51,7 +51,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                 fitting = FALSE, comp_fast = FALSE,
                                 return_input = TRUE,
                                 simplify = FALSE,
-                                verbose = FALSE,
+                                verbose = TRUE,
                                 plot = FALSE){
 
   # check if n_random is >= 1
@@ -223,7 +223,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
     if(verbose & simplify){
       cat("\n")
-      warning("'simplify = TRUE' not possible for 'return_input = TRUE'", call. = FALSE)
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
 
     result[[n_random + 1]] <- pattern # add input pattern as last list entry
@@ -237,7 +237,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
       if(verbose & n_random > 1) {
         cat("\n")
-        warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
 
       else {

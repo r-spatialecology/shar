@@ -28,8 +28,8 @@ test_that("results_habitat_association lo is < hi", {
 
 test_that("results_habitat_association returns correct association", {
 
-  result <- results_habitat_association(raster = landscape_classified,
-                                        pattern = random_a)
+  result <- SHAR::results_habitat_association(raster = landscape_classified,
+                                              pattern = random_a)
 
   result_ns <- dplyr::filter(result, significance == "n.s.")
   result_pos <- dplyr::filter(result, significance == "positive")
@@ -44,30 +44,29 @@ test_that("results_habitat_association returns correct association", {
 
 test_that("results_habitat_association returns warning if significance_threshold is not meaningful", {
 
-  expect_warning(results_habitat_association(raster = landscape_classified,
-                                             pattern = random_a,
-                                             significance_level = 0.75))
+  expect_warning(SHAR::results_habitat_association(raster = landscape_classified,
+                                                   pattern = random_a,
+                                                   significance_level = 0.75))
 })
 
 test_that("results_habitat_association returns error if input is named wrong", {
 
-
-  expect_error(results_habitat_association(raster = landscape_classified,
-                                           pattern = unname(random_a)),
+  expect_error(SHAR::results_habitat_association(raster = landscape_classified,
+                                                 pattern = unname(random_a)),
                regexp = "Input must named 'randomized_1' to 'randomized_n' and includ 'observed' raster.")
 })
 
 test_that("results_habitat_association returns error if wrong input is provided", {
 
-  expect_error(results_habitat_association(raster = landscape_classified,
-                                             pattern = random_a[[1]]),
+  expect_error(SHAR::results_habitat_association(raster = landscape_classified,
+                                                 pattern = random_a[[1]]),
                regexp = "Please provide either randomized point patterns or randomized rasters.")
 })
 
 test_that("results_habitat_association works for random raster", {
 
-  result <- results_habitat_association(raster = raster_random,
-                                        pattern = species_b)
+  result <- SHAR::results_habitat_association(raster = raster_random,
+                                              pattern = species_b)
 
   expect_equal(nrow(result), expected = 5)
   expect_true(all(result$lo < result$hi))

@@ -39,7 +39,7 @@ randomize_raster <- function(raster,
                              n_random = 19,
                              return_input = TRUE,
                              simplify = FALSE,
-                             verbose = FALSE){
+                             verbose = TRUE){
 
   # check if n_random is >= 1
   if(!n_random >= 1) {
@@ -167,7 +167,7 @@ randomize_raster <- function(raster,
 
     if(verbose & simplify){
       cat("\n")
-      warning("'simplify = TRUE' not possible for 'return_input = TRUE'", call. = FALSE)
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
 
     result[[n_random + 1]] <- raster # add input pattern as last list entry
@@ -181,7 +181,7 @@ randomize_raster <- function(raster,
 
       if(verbose & n_random > 1) {
         cat("\n")
-        warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
 
       else {

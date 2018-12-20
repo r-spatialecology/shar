@@ -6,7 +6,7 @@
 \usage{
 reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
   max_runs = 10000, fitting = FALSE, comp_fast = FALSE,
-  return_input = TRUE, simplify = FALSE, verbose = FALSE,
+  return_input = TRUE, simplify = FALSE, verbose = TRUE,
   plot = FALSE)
 }
 \arguments{

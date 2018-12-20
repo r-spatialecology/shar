@@ -82,7 +82,6 @@ fit_point_process <- function(pattern,
   }
 
   else{
-
     stop("Please select either 'poisson' or 'cluster'.", call. = FALSE)
   }
 
@@ -91,7 +90,7 @@ fit_point_process <- function(pattern,
 
     if(verbose & simplify){
       cat("\n")
-      warning("'simplify = TRUE' not possible for 'return_input = TRUE'", call. = FALSE)
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
 
     result[[n_random + 1]] <- pattern # add input pattern as last list entry
@@ -105,7 +104,7 @@ fit_point_process <- function(pattern,
 
       if(verbose & n_random > 1) {
         cat("\n")
-        warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
 
       else {

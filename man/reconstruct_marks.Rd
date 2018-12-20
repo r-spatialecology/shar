@@ -6,7 +6,7 @@
 \usage{
 reconstruct_marks(pattern, marked_pattern, n_random = 19,
   e_threshold = 0.01, max_runs = 10000, return_input = TRUE,
-  simplify = FALSE, verbose = FALSE, plot = FALSE)
+  simplify = FALSE, verbose = TRUE, plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}

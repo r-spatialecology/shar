@@ -31,12 +31,6 @@ test_that("Input pattern can not be returned for reconstruct_pattern", {
   expect_false(any(SHAR::species_b %in% pattern_recon))
 })
 
-test_that("reconstruct_pattern returns error if n_random < 1", {
-
-  expect_error(SHAR::reconstruct_pattern(pattern = SHAR::species_b, n_random = -5),
-               regexp = "n_random must be >= 1.")
-})
-
 test_that("All optional arguments can be used for reconstruct_pattern", {
 
   pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_a,
@@ -50,3 +44,40 @@ test_that("All optional arguments can be used for reconstruct_pattern", {
   expect_type(pattern_recon, type = "list")
   expect_length(pattern_recon, n = 4)
 })
+
+test_that("simplify works for reconstruct_pattern", {
+
+  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+                                             n_random = 1,
+                                             max_runs = 10,
+                                             return_input = FALSE,
+                                             simplify = TRUE)
+
+  expect_is(pattern_recon, "ppp")
+})
+
+test_that("reconstruct_pattern returns error if n_random < 1", {
+
+  expect_error(SHAR::reconstruct_pattern(pattern = SHAR::species_b, n_random = -5),
+               regexp = "n_random must be >= 1.")
+})
+
+test_that("reconstruct_pattern returns warnings", {
+
+  expect_warning(SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+                                           n_random = 3,
+                                           max_runs = 10,
+                                           return_input = FALSE,
+                                           simplify = TRUE,
+                                           verbose = TRUE),
+                 regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
+
+  expect_warning(SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+                                           n_random = 1,
+                                           max_runs = 10,
+                                           simplify = TRUE,
+                                           verbose = TRUE),
+                 regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
+})
+
+

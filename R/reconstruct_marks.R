@@ -52,7 +52,7 @@ reconstruct_marks <- function(pattern,
                               e_threshold = 0.01, max_runs = 10000,
                               return_input = TRUE,
                               simplify = FALSE,
-                              verbose = FALSE,
+                              verbose = TRUE,
                               plot = FALSE){
 
   # check if n_random is >= 1
