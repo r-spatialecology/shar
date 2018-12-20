@@ -24,7 +24,7 @@ Get cell ids of all neighbouring cells. The neighbourhoood rule can be specified
 and is either rook's case (4 neighbours) or queen's case (8 neighbours).
 }
 \examples{
-mat <- matrix(NA, nrow= 10, ncol = 10)
+mat <- matrix(1, nrow= 10, ncol = 10)
 cell_id <- rbind(cbind(3,5), cbind(7,1))
 create_neighbourhood(cell_id, mat)
 

@@ -2,11 +2,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Travis build
-status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=development)](https://travis-ci.org/r-spatialecology/SHAR)
+status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=development&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
 [![Coverage
-status](https://codecov.io/gh/r-spatialecology/SHAR/branch/development/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=development)
+status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=master)
 [![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -68,7 +68,7 @@ functions return a list with randomized rasters and the observed one.
 ``` r
 torus_trans <- translate_raster(raster = landscape_classified)
 
-random_walk <- randomize_raster(raster = landscape_classified, n_random = 19)
+random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
 
 <img src="man/figures/README-plot_habitat_random-1.png" width="100%" />
@@ -78,9 +78,9 @@ Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
 2006).
 
 ``` r
-gamma_test <- fit_point_process(pattern = species_a, process = "poisson", n_random = 19)
+gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 19, verbose = FALSE)
 
-reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 1000, n_random = 19) # takes some time
+reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 500, n_random = 19, verbose = FALSE) # takes some time
 ```
 
 Of coures, there are several utility functions. For example, you can
@@ -97,13 +97,13 @@ plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.03304121    0.03176411    0.03386051    0.04841400    0.03254174 
+#>    0.04995853    0.06981113    0.07113446    0.05988735    0.06163742 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.03721286    0.03662717    0.03450859    0.03501017    0.03361069 
+#>    0.06001926    0.05880870    0.05640780    0.05721940    0.05960783 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.03997862    0.03573093    0.03635669    0.03874959    0.03578262 
+#>    0.05891350    0.05850048    0.05196743    0.06003873    0.06498729 
 #> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.03561692    0.02985703    0.04398804    0.03050047
+#>    0.05110090    0.05293245    0.06473949    0.05541910
 ```
 
 The data was created that `species_a` has a negative association to
@@ -121,17 +121,15 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 #> 3       3    30 14 29     positive
 #> 4       4     0 10 26     negative
 #> 5       5    14  4 17         n.s.
-# results_habitat_association(pattern = species_b, raster = random_walk)
 
-# results_habitat_association(pattern = gamma_test, raster = landscape_classified)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  5.00 20.55         n.s.
-#> 2       2    20 30.00 66.95     negative
-#> 3       3    31 49.45 82.55     negative
-#> 4       4    33 34.70 59.20     negative
-#> 5       5   109 12.80 49.00     positive
+#> 1       1     7  3.45 24.20         n.s.
+#> 2       2    20 34.70 60.75     negative
+#> 3       3    31 50.35 81.75     negative
+#> 4       4    33 34.25 69.30     negative
+#> 5       5   109 13.80 43.20     positive
 ```
 
 ## References
@@ -143,7 +141,7 @@ Methodology and Applications with R. London:Chapman and Hall/CRC Press,
 
 Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001).
 Habitat associations of trees and shrubs in a 50-ha neotropical forest
-plot. Journal of Ecology, 89(6), 947â€“959.
+plot. Journal of Ecology, 89(6), 947-959.
 
 Hijmans, R. J. (2017). raster: Geographic Data Analysis and Modeling. R
 package version 2.6-7. <https://CRAN.R-project.org/package=raster>
@@ -151,11 +149,11 @@ package version 2.6-7. <https://CRAN.R-project.org/package=raster>
 Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J.
 V., & Ashton, P. S. (2000). Species-area curves, spatial aggregation,
 and habitat specialization in tropical forests. Journal of Theoretical
-Biology, 207(1), 81â€“99.
+Biology, 207(1), 81-99.
 
 Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of
 random point patterns. Computational Statistics and Data Analysis,
-51(2), 859â€“871.
+51(2), 859-871.
 
 Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern
 analysis in ecology. Boca Raton: Chapman and Hall/CRC Press.

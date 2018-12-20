@@ -13,9 +13,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![Travis build status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=development)](https://travis-ci.org/r-spatialecology/SHAR)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=development&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
-[![Coverage status](https://codecov.io/gh/r-spatialecology/SHAR/branch/development/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=development)
+[![Travis build status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+[![Coverage status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=master)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
@@ -55,7 +55,7 @@ There are two possibilities to randomize the environmental data, both described 
 ```{r habitat_random}
 torus_trans <- translate_raster(raster = landscape_classified)
 
-random_walk <- randomize_raster(raster = landscape_classified, n_random = 19)
+random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
 
 ```{r plot_habitat_random, echo = FALSE, fig.width = 5, fig.height = 3.5}
@@ -65,9 +65,9 @@ plot(raster::stack(random_walk)[[c(20, 1, 2, 3)]], legend = FALSE, cex = 0.5)
 To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan 2006). 
 
 ```{r pattern_random}
-gamma_test <- fit_point_process(pattern = species_a, process = "poisson", n_random = 19)
+gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 19, verbose = FALSE)
 
-reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 1000, n_random = 19) # takes some time
+reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 500, n_random = 19, verbose = FALSE) # takes some time
 ```
 
 Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions). 
@@ -82,22 +82,19 @@ The data was created that `species_a` has a negative association to habitat 4 an
 
 ```{r results}
 results_habitat_association(pattern = species_a, raster = torus_trans)
-# results_habitat_association(pattern = species_b, raster = random_walk)
 
-# results_habitat_association(pattern = gamma_test, raster = landscape_classified)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
-
 ```
 
 ## References 
 Baddeley, A., Rubak, E., Turner, R. (2015). Spatial Point Patterns: Methodology and Applications with R. London:Chapman and Hall/CRC Press, 2015. http://www.crcpress.com/Spatial-Point-Patterns-Methodology-and-Applications-with-R/Baddeley-Rubak-Turner/9781482210200/
 
-Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
 
 Hijmans, R. J. (2017). raster: Geographic Data Analysis and Modeling. R package version 2.6-7. https://CRAN.R-project.org/package=raster
 
-Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000). Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology, 207(1), 81–99.
+Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000). Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology, 207(1), 81-99.
 
-Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis, 51(2), 859–871.
+Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis, 51(2), 859-871.
 
 Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis in ecology. Boca Raton: Chapman and Hall/CRC Press.
