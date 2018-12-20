@@ -9,9 +9,9 @@ reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
   return_input = TRUE, verbose = FALSE, plot = FALSE)
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns.}
+\item{pattern}{ppp.}
 
-\item{n_random}{Number of randomized RasterLayers.}
+\item{n_random}{Number of randomizations.}
 
 \item{e_threshold}{Minimum energy to stop reconstruction.}
 
