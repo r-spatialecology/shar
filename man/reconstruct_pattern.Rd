@@ -6,12 +6,13 @@
 \usage{
 reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
   max_runs = 10000, fitting = FALSE, comp_fast = FALSE,
-  return_input = TRUE, verbose = FALSE, plot = FALSE)
+  return_input = TRUE, simplify = FALSE, verbose = TRUE,
+  plot = FALSE)
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns.}
+\item{pattern}{ppp.}
 
-\item{n_random}{Number of randomized RasterLayers.}
+\item{n_random}{Number of randomizations.}
 
 \item{e_threshold}{Minimum energy to stop reconstruction.}
 
@@ -23,9 +24,11 @@ reconstruct_pattern(pattern, n_random = 19, e_threshold = 0.01,
 
 \item{return_input}{The original input data is returned as last list entry}
 
+\item{simplify}{If n_random = 1 and return_input = FALSE only pattern will be returned.}
+
 \item{verbose}{Print progress report.}
 
-\item{plot}{Plot pcf function during optimization}
+\item{plot}{Plot pcf function during optimization.}
 }
 \value{
 list
@@ -46,7 +49,7 @@ K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
 \dontrun{
-pattern_recon <- reconstruct_pattern(species_b, n_random = 39, max_runs = 1000)
+pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000)
 }
 
 }

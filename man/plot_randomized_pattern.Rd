@@ -4,11 +4,13 @@
 \alias{plot_randomized_pattern}
 \title{plot_randomized_pattern}
 \usage{
-plot_randomized_pattern(pattern, probs = c(0.025, 0.975),
-  comp_fast = FALSE)
+plot_randomized_pattern(pattern, method = "spatial", probs = c(0.025,
+  0.975), comp_fast = FALSE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
+
+\item{method}{String to specifiy if spatial pattern or marks were reconstructed}
 
 \item{probs}{Quantiles of randomized data used for envelope construction.}
 
@@ -28,7 +30,13 @@ correction is used and the pair correlation function is estimated based on Riple
 K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
 \examples{
-pattern_recon <- fit_point_process(species_b, n_random = 39, process = "cluster")
-plot_randomized_pattern(pattern_recon)
+pattern_random <- fit_point_process(species_a, n_random = 19, process = "cluster")
+plot_randomized_pattern(pattern_random)
+
+\dontrun{
+marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
+marks_recon <- reconstruct_marks(pattern_random[[1]], marks_sub, n_random = 19, max_runs = 1000)
+plot_randomized_pattern(marks_recon, method = "marks")
+}
 
 }

@@ -21,8 +21,7 @@ Classify habitats
 }
 \details{
 Classifies a RasterLayer with continuous values into n discrete classes. Consequently,
-classes are non-overlapping (and left-closed). For more information see
-\code{\link{classIntervals}}.
+classes are non-overlapping (and left-closed). For more information see `classIntervals`.
 }
 \examples{
 landscape_classified <- classify_habitats(landscape, classes = 5)

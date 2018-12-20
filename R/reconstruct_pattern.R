@@ -2,15 +2,16 @@
 #'
 #' @description Pattern reconstruction
 #'
-#' @param pattern List with reconstructed patterns.
-#' @param n_random Number of randomized RasterLayers.
+#' @param pattern ppp.
+#' @param n_random Number of randomizations.
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param comp_fast Should summary functions be estimated in an computational fast way.
 #' @param return_input The original input data is returned as last list entry
+#' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
-#' @param plot Plot pcf function during optimization
+#' @param plot Plot pcf function during optimization.
 #'
 #' @details
 #' The functions randomizes the observed pattern by using pattern reconstruction
@@ -31,7 +32,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern(species_b, n_random = 39, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_pattern
@@ -49,7 +50,8 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                 e_threshold = 0.01, max_runs = 10000,
                                 fitting = FALSE, comp_fast = FALSE,
                                 return_input = TRUE,
-                                verbose = FALSE,
+                                simplify = FALSE,
+                                verbose = TRUE,
                                 plot = FALSE){
 
   # check if n_random is >= 1
@@ -184,11 +186,15 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
         # plot observed vs reconstructed
         if(plot) {
+
           Sys.sleep(0.1) # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
+
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
                          type = "l", col = "black",
                          xlab = "r", ylab = "g(r)")
+
           graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
+
           graphics::legend("topright",
                            legend = c("observed", "reconstructed"),
                            col = c("black", "red"),
@@ -215,6 +221,11 @@ reconstruct_pattern <- function(pattern, n_random = 19,
   # add input pattern to randomizations
   if(return_input){
 
+    if(verbose & simplify){
+      cat("\n")
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+    }
+
     result[[n_random + 1]] <- pattern # add input pattern as last list entry
 
     names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
@@ -222,7 +233,21 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
   else{
 
-    names(result) <- paste0("randomized_", 1:n_random) # set names
+    if(simplify) {
+
+      if(verbose & n_random > 1) {
+        cat("\n")
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+      }
+
+      else {
+        result <- result[[1]]
+      }
+    }
+
+    else{
+      names(result) <- paste0("randomized_", 1:n_random) # set names
+    }
   }
 
   return(result)

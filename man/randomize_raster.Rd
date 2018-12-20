@@ -4,15 +4,19 @@
 \alias{randomize_raster}
 \title{randomize_raster}
 \usage{
-randomize_raster(raster, n_random = 19, return_input = TRUE,
-  verbose = FALSE)
+randomize_raster(raster, n_random = 19, directions = 4,
+  return_input = TRUE, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{raster}{RasterLayer.}
 
-\item{n_random}{Number of randomized RasterLayers.}
+\item{n_random}{Number of randomizations.}
+
+\item{directions}{Cells neighbour rule: 4 (rook's case), 8 (queen's case).}
 
 \item{return_input}{The original input data is returned as last list entry}
+
+\item{simplify}{If n_random = 1 and return_input = FALSE only raster will be returned.}
 
 \item{verbose}{Print progress report.}
 }
@@ -25,15 +29,14 @@ Randomization algorithm
 \details{
 The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
 as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
-starts to assign random neighbouring cells (specified by `directions`) to each
-habitat (in increasing order of abundance in observed map). We modified the
-procedure slightly by increasing a probability to jump to a non-neighbouring
-cell as the current patch becomes larger.
+starts to assign random neighbouring cells to each habitat (in increasing order of
+abundance in observed map). We modified the procedure slightly by increasing a
+probability to jump to a non-neighbouring cell as the current patch becomes larger.
 }
 \examples{
 \dontrun{
 landscape_classified <- classify_habitats(landscape, classes = 5)
-landscape_random <- randomize_raster(landscape_classified, n_random = 39)
+landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 }
 
 }
