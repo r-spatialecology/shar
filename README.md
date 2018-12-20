@@ -97,13 +97,13 @@ plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.03471070    0.04057115    0.03668950    0.03387042    0.03147279 
+#>    0.03214788    0.04418204    0.03501925    0.03446197    0.03514437 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.03397615    0.03480122    0.04286949    0.04180701    0.04186344 
+#>    0.04343519    0.03267078    0.04266866    0.04176790    0.03947863 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.03510950    0.03502008    0.02993903    0.03985823    0.04253843 
+#>    0.04059253    0.04182937    0.03943340    0.04183510    0.04484873 
 #> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.03760139    0.03654125    0.03512742    0.03521904
+#>    0.04244900    0.03642636    0.04041160    0.03892596
 ```
 
 The data was created that `species_a` has a negative association to
@@ -127,11 +127,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  3.45 26.00         n.s.
-#> 2       2    20 26.50 56.00     negative
-#> 3       3    31 49.45 81.00     negative
-#> 4       4    33 34.80 68.65     negative
-#> 5       5   109 11.45 39.65     positive
+#> 1       1     7  2.45 21.65         n.s.
+#> 2       2    20 31.80 66.30     negative
+#> 3       3    31 43.95 84.50     negative
+#> 4       4    33 35.80 67.65     negative
+#> 5       5   109 14.90 41.55     positive
 ```
 
 ## References
