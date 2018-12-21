@@ -67,14 +67,7 @@
   <a href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/r-spatialecology/SHAR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -94,65 +87,63 @@
 <div id="shar" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#shar" class="anchor"></a>SHAR</h1></div>
-<p><strong>Sp</strong>ecies-<strong>H</strong>abitat <strong>A</strong>ssociations in <strong>R</strong> is a <code>R</code> package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand &amp; Moloney (2014). SHAR is mainly based on the <code>spatstat</code> (Baddeley et al. 2015) and <code>raster</code> (Hijmans 2017) package.</p>
+<p><strong>Sp</strong>ecies-<strong>H</strong>abitat <strong>A</strong>ssociations in <strong>R</strong> is a <code>R</code> package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand &amp; Moloney (2014). <strong>SHAR</strong> is mainly based on the <code>spatstat</code> (Baddeley et al. 2015) and <code>raster</code> (Hijmans 2017) package.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the released version of SHAR from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"SHAR"</span>) <span class="co"># Nope, not yet...</span></a></code></pre></div>
-<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<p>And the development version from <a href="https://github.com/r-spatialecology/SHAR">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"r-spatialecology/SHAR"</span>)</a></code></pre></div>
 </div>
 <div id="how-to-use-shar" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-to-use-shar" class="anchor"></a>How to use SHAR</h2>
-<p>SHAR comes with build-in example data sets. <code>landscape</code> contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SHAR)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">landscape_classified &lt;-<span class="st"> </span><span class="kw"><a href="reference/classify_habitats.html">classify_habitats</a></span>(<span class="dt">raster =</span> landscape, <span class="dt">classes =</span> <span class="dv">5</span>)</a></code></pre></div>
-<p><code>species_a</code> and <code>species_b</code> are examplary location of species, e.g. trees, as <code>ppp</code>-objects from the <code>spatstat</code> package.</p>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a></code></pre></div>
+<p>SHAR comes with build-in example data sets. <code>species_a</code> and <code>species_b</code> are examplary location of species, e.g. trees, as <code>ppp</code>-objects from the <code>spatstat</code> package. <code>landscape</code> contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">landscape_classified &lt;-<span class="st"> </span><span class="kw"><a href="reference/classify_habitats.html">classify_habitats</a></span>(<span class="dt">raster =</span> landscape, <span class="dt">classes =</span> <span class="dv">5</span>)</a></code></pre></div>
 <p>There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">torus_trans &lt;-<span class="st"> </span><span class="kw"><a href="reference/translate_raster.html">translate_raster</a></span>(<span class="dt">raster =</span> landscape_classified)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">random_walk &lt;-<span class="st"> </span><span class="kw"><a href="reference/randomize_raster.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">torus_trans &lt;-<span class="st"> </span><span class="kw"><a href="reference/translate_raster.html">translate_raster</a></span>(<span class="dt">raster =</span> landscape_classified)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">random_walk &lt;-<span class="st"> </span><span class="kw"><a href="reference/randomize_raster.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-plot_habitat_random-1.png" width="100%"></p>
 <p>To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel &amp; Stoyan 2006).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">gamma_test &lt;-<span class="st"> </span><span class="kw"><a href="reference/fit_point_process.html">fit_point_process</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">process =</span> <span class="st">"cluster"</span>, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">reconstruct &lt;-<span class="st"> </span><span class="kw"><a href="reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_b, <span class="dt">max_runs =</span> <span class="dv">500</span>, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="co"># takes some time</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">gamma_test &lt;-<span class="st"> </span><span class="kw"><a href="reference/fit_point_process.html">fit_point_process</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">process =</span> <span class="st">"cluster"</span>, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">reconstruct &lt;-<span class="st"> </span><span class="kw"><a href="reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_b, <span class="dt">max_runs =</span> <span class="dv">500</span>, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="co"># takes some time</span></a></code></pre></div>
 <p>Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct)</a></code></pre></div>
 <p><img src="reference/figures/README-plot_random_pattern-1.png" width="100%"></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 </span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    0.05108324    0.05794264    0.06811674    0.07251280    0.05405266 </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;    0.07753518    0.06974239    0.07841078    0.09947446    0.05187527 </span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 </span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;    0.07771992    0.07626694    0.05123656    0.06739205    0.05437122 </span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; randomized_16 randomized_17 randomized_18 randomized_19 </span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;    0.05887036    0.05329568    0.04151764    0.07443496</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    0.06951730    0.04337857    0.07466012    0.07678066    0.07119171 </span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 </span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;    0.05419799    0.07316340    0.06535525    0.06079760    0.05749028 </span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 </span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;    0.10335617    0.06604640    0.05116495    0.05129167    0.07397986 </span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; randomized_16 randomized_17 randomized_18 randomized_19 </span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    0.05258333    0.05597987    0.06367468    0.05198028</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;   habitat count lo hi significance</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 1       1    10  0  8     positive</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 2       2    14  8 24         n.s.</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 3       3    30 14 29     positive</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 4       4     0 10 26     negative</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 5       5    14  4 17         n.s.</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; 1       1     7  2.00 18.30         n.s.</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 2       2    20 28.25 72.80     negative</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 3       3    31 49.35 76.55     negative</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; 4       4    33 36.95 61.55     negative</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; 5       5   109 14.25 50.55     positive</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;   habitat count lo hi significance</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; 1       1    10  0  8     positive</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; 2       2    14  8 24         n.s.</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 3       3    30 14 29     positive</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 4       4     0 10 26     negative</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 5       5    14  4 17         n.s.</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  3.00 28.55         n.s.</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 28.90 66.55     negative</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 47.45 74.00     negative</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 35.90 60.20     negative</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109 10.45 42.40     positive</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
@@ -171,8 +162,6 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/r-spatialecology/SHAR">https://​github.com/​r-spatialecology/​SHAR</a>
-</li>
 <li>Report a bug at <br><a href="https://github.com/r-spatialecology/SHAR/issues">https://​github.com/​r-spatialecology/​SHAR/​issues</a>
 </li>
 </ul>
@@ -211,7 +200,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>

@@ -21,22 +21,22 @@ There are mainly two methods that can be found in the literature to analyse such
 
 All methods compare the abundance within a habitat between the observed data and the randomized null model data. If the count is below or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles), negative or positive associations, respectively, are present.
 
-#### Gamma-test
-The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in `SHAR`, use `fit_point_process()`.
+### Gamma-test
+The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in **SHAR*`** use `fit_point_process()`.
 
-#### Torus-translation-test
-The torus-translation test (Harms et al. 2001) shifts the habitat map in all four cardinal directions around a torus. This is only possible for square rasters. To use this method in `SHAR`, use `translate_raster()`.
+### Torus-translation-test
+The torus-translation test (Harms et al. 2001) shifts the habitat map in all four cardinal directions around a torus. This is only possible for square rasters. To use this method in **SHAR*`**,use `translate_raster()`.
 
-#### Randomized-habitats procedure
-The randomze-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in `SHAR` use `randomize_raster()`.
+### Randomized-habitats procedure
+The randomze-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in **SHAR** use `randomize_raster()`.
 
-#### Pattern reconstruction
-Pattern reconstruction (Tscheschel & Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in `SHAR` use `reconstruct_pattern()`
+### Pattern reconstruction
+Pattern reconstruction (Tscheschel & Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in **SHAR** use `reconstruct_pattern()`
 
-<img src="methods.png" align="center" width = 675 />
+<img src="methods.png" align="center" width = 700 height = 150 />
   
-  #### References 
-  Comita, L. S., Condit, R., & Hubbell, S. P. (2007). Developmental changes in habitat associations of tropical trees. Journal of Ecology, 95(3), 482–492.
+#### References 
+Comita, L. S., Condit, R., & Hubbell, S. P. (2007). Developmental changes in habitat associations of tropical trees. Journal of Ecology, 95(3), 482–492.
 
 Garzon-Lopez, C. X., Jansen, P. A., Bohlman, S. A., Ordonez, A., & Olff, H. (2014). Effects of sampling scale on patterns of habitat association in tropical trees. Journal of Vegetation Science, 25(2), 349–362.
 

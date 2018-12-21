@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 # SHAR
 
-**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). SHAR is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
+**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **SHAR** is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
 
 ## Installation
 
@@ -31,7 +31,7 @@ You can install the released version of SHAR from [CRAN](https://CRAN.R-project.
 install.packages("SHAR") # Nope, not yet...
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+And the development version from [GitHub](https://github.com/r-spatialecology/SHAR) with:
 
 ```{r install_github, eval = FALSE}
 # install.packages("devtools")
@@ -39,16 +39,16 @@ devtools::install_github("r-spatialecology/SHAR")
 ```
 ## How to use SHAR
 
-SHAR comes with build-in example data sets. `landscape` contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
-
-```{r environmental_data, message = FALSE}
+```{r import_libs, message = FALSE}
 library(SHAR)
 library(raster)
-
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
 
-`species_a` and `species_b` are examplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package.
+SHAR comes with build-in example data sets. `species_a` and `species_b` are examplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
+
+```{r environmental_data}
+landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+```
 
 There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one.
 
@@ -59,7 +59,8 @@ random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, ve
 ```
 
 ```{r plot_habitat_random, echo = FALSE, fig.width = 5, fig.height = 3.5}
-plot(raster::stack(random_walk)[[c(20, 1, 2, 3)]], legend = FALSE, cex = 0.5)
+plot(raster::stack(random_walk)[[c(20, 1, 2, 3)]], legend = FALSE, cex = 0.5, 
+     col = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C"))
 ```
 
 To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan 2006). 

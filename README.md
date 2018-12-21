@@ -24,7 +24,7 @@ habitats are compared between the randomized data and the observed data.
 Positive or negative associations are present if the observed counts is
 higher or lower than the randomized counts (using quantile thresholds).
 Methods are mainly described in Plotkin et al. (2000), Harms et al.
-(2001) and Wiegand & Moloney (2014). SHAR is mainly based on the
+(2001) and Wiegand & Moloney (2014). **SHAR** is mainly based on the
 `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
 
 ## Installation
@@ -36,7 +36,8 @@ You can install the released version of SHAR from
 install.packages("SHAR") # Nope, not yet...
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+And the development version from
+[GitHub](https://github.com/r-spatialecology/SHAR) with:
 
 ``` r
 # install.packages("devtools")
@@ -45,19 +46,21 @@ devtools::install_github("r-spatialecology/SHAR")
 
 ## How to use SHAR
 
-SHAR comes with build-in example data sets. `landscape` contains
-examplary continious environmental data. However, all methods depend on
-discrete data. Therefore we need to classify the data first.
-
 ``` r
 library(SHAR)
 library(raster)
-
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
 
-`species_a` and `species_b` are examplary location of species,
-e.g. trees, as `ppp`-objects from the `spatstat` package.
+SHAR comes with build-in example data sets. `species_a` and `species_b`
+are examplary location of species, e.g. trees, as `ppp`-objects from the
+`spatstat` package. `landscape` contains examplary continious
+environmental data. However, all methods depend on discrete data.
+Therefore we need to classify the data
+first.
+
+``` r
+landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+```
 
 There are two possibilities to randomize the environmental data, both
 described in Harms et al. (2001). The first shifts the habitat map in
@@ -97,13 +100,13 @@ plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.05556111    0.05002281    0.06750310    0.06939615    0.06554276 
+#>    0.06487915    0.05958754    0.04637876    0.06875571    0.05432705 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.06704461    0.10196797    0.05777903    0.06533177    0.07226947 
+#>    0.05185324    0.07465264    0.04706372    0.05397079    0.05137827 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.05745653    0.05976380    0.05953421    0.06765263    0.05489300 
+#>    0.05515471    0.08330050    0.06659265    0.05566015    0.07036794 
 #> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.06324396    0.06187737    0.05891777    0.04592981
+#>    0.06684170    0.07254924    0.05966716    0.05948601
 ```
 
 The data was created that `species_a` has a negative association to
@@ -125,11 +128,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  1.00 29.10         n.s.
-#> 2       2    20 25.90 61.20     negative
-#> 3       3    31 46.15 80.10     negative
-#> 4       4    33 32.70 69.85         n.s.
-#> 5       5   109 12.15 55.25     positive
+#> 1       1     7  1.45 20.55         n.s.
+#> 2       2    20 36.00 59.55     negative
+#> 3       3    31 45.45 85.10     negative
+#> 4       4    33 40.35 76.85     negative
+#> 5       5   109 14.15 47.10     positive
 ```
 
 ## References
