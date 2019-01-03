@@ -61,10 +61,6 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
-  # get dimension of pattern
-  xrange <- pattern$window$xrange
-  yrange <- pattern$window$yrange
-
   # start with fitted pattern
   if(fitting){
 
@@ -78,13 +74,15 @@ reconstruct_pattern <- function(pattern, n_random = 19,
   }
 
   # create n_random recondstructed patterns
-  result <- lapply(1:n_random, function(current_pattern){
+  result <- lapply(seq_len(n_random), function(current_pattern){
 
     # fit a Thomas process to the data
     if(fitting){
 
       # simulte clustered pattern
-      simulated <- spatstat::simulate.kppm(fitted_process, nsim = 1, drop = TRUE)
+      simulated <- spatstat::simulate.kppm(fitted_process,
+                                           nsim = 1, drop = TRUE,
+                                           window = pattern$window)
 
       # remove points because more points in simulated
       if(pattern$n < simulated$n) {
@@ -106,7 +104,9 @@ reconstruct_pattern <- function(pattern, n_random = 19,
         difference <- pattern$n - simulated$n
 
         # create missing points
-        missing_points <- spatstat::runifpoint(n = difference, win = pattern$window)
+        missing_points <- spatstat::runifpoint(n = difference,
+                                               nsim = 1, drop = TRUE,
+                                               win = pattern$window)
 
         # add missing points to simulated
         simulated <- spatstat::superimpose(simulated, missing_points,
@@ -117,6 +117,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     # create Poisson simulation data
     else {
       simulated <- spatstat::runifpoint(n = pattern$n,
+                                        nsim = 1, drop = TRUE,
                                         win = pattern$window)
     }
 
@@ -155,16 +156,21 @@ reconstruct_pattern <- function(pattern, n_random = 19,
       mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
 
     # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
-    for(i in 1:max_runs){
+    for(i in seq_len(max_runs)){
 
       relocated <- simulated # data for relocation
 
-      rp <- sample(x = 1:relocated$n, size = 1) # random point of pattern
+      rp_id <- sample(x = seq_len(relocated$n), size = 1) # random point of pattern
 
       # create random coordinates for new point
-      relocated$x[rp] <- stats::runif(n = 1, min = xrange[1], max = xrange[2])
+      rp_coords <- spatstat::runifpoint(n = 1,
+                                        nsim = 1, drop = TRUE,
+                                        win = pattern$window)
 
-      relocated$y[rp] <- stats::runif(n = 1, min = yrange[1], max = yrange[2])
+      # relocate point
+      relocated$x[rp_id] <- rp_coords$x
+
+      relocated$y[rp_id] <- rp_coords$y
 
       # calculate summary functions after relocation
       if(comp_fast) {
@@ -239,7 +245,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
     result[[n_random + 1]] <- pattern # add input pattern as last list entry
 
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
   }
 
   else{
@@ -257,7 +263,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     }
 
     else{
-      names(result) <- paste0("randomized_", 1:n_random) # set names
+      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
   }
 
