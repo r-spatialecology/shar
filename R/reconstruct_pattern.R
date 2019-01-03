@@ -63,15 +63,10 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
   # get dimension of pattern
   xrange <- pattern$window$xrange
-
   yrange <- pattern$window$yrange
 
   # start with fitted pattern
   if(fitting){
-
-    # create observation window
-    window <- spatstat::owin(xrange = xrange,
-                             yrange = yrange)
 
     # fit Thomas process
     fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
@@ -88,19 +83,35 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     # fit a Thomas process to the data
     if(fitting){
 
-      # create random, clustered coordinates
-      mobsim <- mobsim::sim_thomas_community(s_pool = 1,
-                                             n_sim = pattern$n,
-                                             xrange = xrange,
-                                             yrange = yrange,
-                                             sigma = fitted_process$modelpar[["sigma"]],
-                                             cluster_points = fitted_process$modelpar[["mu"]])
+      # simulte clustered pattern
+      simulated <- spatstat::simulate.kppm(fitted_process, nsim = 1, drop = TRUE)
 
-      # conver to ppp
-      simulated <- spatstat::ppp(x = mobsim$census$x,
-                                 y = mobsim$census$y,
-                                 window = window)
+      # remove points because more points in simulated
+      if(pattern$n < simulated$n) {
 
+        # difference between patterns
+        difference <- simulated$n - pattern$n
+
+        # id of points to remove
+        remove_points <- sample(seq_len(pattern$n), size = difference)
+
+        # remove points
+        simulated <- simulated[-remove_points]
+      }
+
+      # add points because less points in simulated
+      if(pattern$n > simulated$n) {
+
+        # difference between patterns
+        difference <- pattern$n - simulated$n
+
+        # create missing points
+        missing_points <- spatstat::runifpoint(n = difference, win = pattern$window)
+
+        # add missing points to simulated
+        simulated <- spatstat::superimpose(simulated, missing_points,
+                                           W = pattern$window)
+      }
     }
 
     # create Poisson simulation data

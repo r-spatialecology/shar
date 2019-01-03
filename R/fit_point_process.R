@@ -38,23 +38,15 @@ fit_point_process <- function(pattern,
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
-  # get observation window coordinates
-  xrange <- pattern$window$xrange
-
-  yrange <- pattern$window$yrange
-
-  window <- spatstat::owin(xrange = xrange,
-                           yrange = yrange)
-
-  if(process == 'poisson'){
+  if(process == "poisson"){
 
     result <- lapply(1:n_random, function(x) {
 
-      spatstat::runifpoint(n = pattern$n, win = window) # simulate poisson process
+      spatstat::runifpoint(n = pattern$n, win = pattern$window) # simulate poisson process
     })
   }
 
-  else if(process == 'cluster'){
+  else if(process == "cluster"){
 
     # fit cluster process
     fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
@@ -66,19 +58,40 @@ fit_point_process <- function(pattern,
 
     result <- lapply(1:n_random, function(x) {
 
-      # create cluster community
-      mobsim <- mobsim::sim_thomas_community(s_pool = 1,
-                                             n_sim = pattern$n,
-                                             xrange = xrange,
-                                             yrange = yrange,
-                                             sigma = fitted_process$modelpar[["sigma"]],
-                                             cluster_points = fitted_process$modelpar[["mu"]])
+      # simulte clustered pattern
+      simulated <- spatstat::simulate.kppm(fitted_process, nsim = 1, drop = TRUE)
 
-      # convert to ppp
-      spatstat::ppp(x = mobsim$census$x,
-                    y = mobsim$census$y,
-                    window = window)
-      })
+      # remove points because more points in simulated
+      if(pattern$n < simulated$n) {
+
+        # difference between patterns
+        difference <- simulated$n - pattern$n
+
+        # id of points to remove
+        remove_points <- sample(seq_len(pattern$n), size = difference)
+
+        # remove points
+        simulated[-remove_points]
+      }
+
+      # add points because less points in simulated
+      else if(pattern$n > simulated$n) {
+
+        # difference between patterns
+        difference <- pattern$n - simulated$n
+
+        # create missing points
+        missing_points <- spatstat::runifpoint(n = difference, win = pattern$window)
+
+        # add missing points to simulated
+        spatstat::superimpose(simulated, missing_points,
+                              W = pattern$window)
+      }
+
+      else {
+        simulated
+      }
+    })
   }
 
   else{

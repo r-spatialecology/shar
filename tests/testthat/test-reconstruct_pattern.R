@@ -21,6 +21,17 @@ test_that("Output includes randomizations and original pattern for reconstruct_p
   expect_equal(pattern_recon[[4]], expected = spatstat::unmark(SHAR::species_b))
 })
 
+test_that("Reconstructed patterns have same number of points for fitting = TRUE", {
+
+  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+                                             n_random = 199,
+                                             max_runs = 1,
+                                             fitting = TRUE,
+                                             return_input = FALSE)
+
+  expect_true(all(purrr::map_lgl(pattern_recon, function(x) x$n == SHAR::species_a$n)))
+})
+
 test_that("Input pattern can not be returned for reconstruct_pattern", {
 
   pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_b,

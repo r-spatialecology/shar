@@ -18,20 +18,21 @@ test_that("Output includes randomizations and original pattern for fit_point_pro
   expect_equal(pattern_random[[20]], expected = spatstat::unmark(SHAR::species_a))
 })
 
-test_that("All optional arguments can be used for fit_point_process", {
+test_that("Fitted patterns have same number of points for cluster process", {
 
   pattern_random <- SHAR::fit_point_process(pattern = SHAR::species_b,
-                                            n_random = 19,
-                                            process = "cluster")
+                                            n_random = 199,
+                                            process = "cluster",
+                                            return_input = FALSE)
 
-  expect_type(pattern_random, type = "list")
+  expect_true( all(purrr::map_lgl(pattern_random, function(x) x$n == SHAR::species_b$n)))
 })
 
 test_that("Input pattern can not be returned for fit_point_process", {
 
   pattern_random <- SHAR::fit_point_process(pattern = SHAR::species_b,
-                                           n_random = 19,
-                                           return_input = FALSE)
+                                            n_random = 19,
+                                            return_input = FALSE)
 
   expect_false(any(SHAR::species_b %in% pattern_random))
 })
