@@ -53,14 +53,14 @@ randomize_raster <- function(raster,
   n_cells <- sum(habitats) # number of cells
 
   # create n_random rasters
-  result <- lapply(1:n_random, function(current_raster) {
+  result <- lapply(seq_len(n_random), function(current_raster) {
 
     random_matrix <- raster::as.matrix(raster) # new raster without values
 
     random_matrix[!is.na(random_matrix)] <- -999 # set all non-NAs to unique number
 
     # loop through habitats but last one (all remaining cells will be last)
-    for(current_habitat in 1:(length(habitats) - 1)){
+    for(current_habitat in seq_len(length(habitats) - 1)){
 
       k <- 0 # counter since last jump
 
@@ -166,7 +166,7 @@ randomize_raster <- function(raster,
 
     result[[n_random + 1]] <- raster # add input pattern as last list entry
 
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
   }
 
   else{
@@ -184,7 +184,7 @@ randomize_raster <- function(raster,
     }
 
     else{
-      names(result) <- paste0("randomized_", 1:n_random) # set names
+      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
   }
 

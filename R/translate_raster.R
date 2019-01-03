@@ -56,11 +56,11 @@ translate_raster <- function(raster, return_input = TRUE){
 
     if(x_shift == 0){matrix_shifted <- matrix_raster}
 
-    else{matrix_shifted <- cbind(matrix_raster[,(x_shift + 1):dim(matrix_raster)[2]], matrix_raster[,1:x_shift])}
+    else{matrix_shifted <- cbind(matrix_raster[, (x_shift + 1):dim(matrix_raster)[2]], matrix_raster[, seq_len(x_shift)])}
 
     if(y_shift == 0){matrix_shifted <- matrix_shifted}
 
-    else{matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1],], matrix_shifted[1:y_shift,])}
+    else{matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1], ], matrix_shifted[seq_len(y_shift), ])}
 
     # convert back to raster
     raster::raster(matrix_shifted,
@@ -71,11 +71,11 @@ translate_raster <- function(raster, return_input = TRUE){
   # return input raster
   if(return_input){
     result[[length(result) + 1]] <- raster # add input raster as last list entry
-    names(result) <- c(paste0("randomized_", 1:(length(result)-1)), "observed") # set names
+    names(result) <- c(paste0("randomized_", seq_len(length(result) - 1)), "observed") # set names
   }
 
   else{
-    names(result) <- paste0("randomized_", 1:(length(result))) # set names
+    names(result) <- paste0("randomized_", seq_len(length(result))) # set names
   }
 
   return(result)

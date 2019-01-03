@@ -78,7 +78,7 @@ reconstruct_marks <- function(pattern,
   }
 
   # create n_random recondstructed patterns
-  result <- lapply(1:n_random, function(current_pattern){
+  result <- lapply(seq_len(n_random), function(current_pattern){
 
     # assign shuffeld marks to pattern
     spatstat::marks(pattern) <- sample(marked_pattern$marks, size = marked_pattern$n)
@@ -94,15 +94,14 @@ reconstruct_marks <- function(pattern,
     e0 <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
 
     # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
-    for(i in 1:max_runs){
+    for(i in seq_len(max_runs)){
 
       relocated <- pattern # data for relocation
 
       # get two random points to switch marks
-      rp_a <- sample(x = 1:relocated$n, size = 1)
+      rp_a <- sample(x = seq_len(relocated$n), size = 1)
 
-      rp_b <- sample(x = 1:relocated$n, size = 1)
-
+      rp_b <- sample(x = seq_len(relocated$n), size = 1)
 
       # get marks of the two random points
       mark_a <- relocated$marks[rp_a]
@@ -172,7 +171,7 @@ reconstruct_marks <- function(pattern,
 
     result[[n_random + 1]] <- marked_pattern # add input pattern as last list entry
 
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
   }
 
   else{
@@ -190,7 +189,7 @@ reconstruct_marks <- function(pattern,
     }
 
     else{
-      names(result) <- paste0("randomized_", 1:n_random) # set names
+      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
   }
 

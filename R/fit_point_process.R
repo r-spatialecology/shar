@@ -40,7 +40,7 @@ fit_point_process <- function(pattern,
 
   if(process == "poisson"){
 
-    result <- lapply(1:n_random, function(x) {
+    result <- lapply(seq_len(n_random), function(x) {
 
       spatstat::runifpoint(n = pattern$n, win = pattern$window) # simulate poisson process
     })
@@ -56,10 +56,12 @@ fit_point_process <- function(pattern,
                                      method = "mincon",
                                      improve.type = "none")
 
-    result <- lapply(1:n_random, function(x) {
+    result <- lapply(seq_len(n_random), function(x) {
 
       # simulte clustered pattern
-      simulated <- spatstat::simulate.kppm(fitted_process, nsim = 1, drop = TRUE)
+      simulated <- spatstat::simulate.kppm(fitted_process,
+                                           window = pattern$window,
+                                           nsim = 1, drop = TRUE)
 
       # remove points because more points in simulated
       if(pattern$n < simulated$n) {
@@ -81,13 +83,16 @@ fit_point_process <- function(pattern,
         difference <- pattern$n - simulated$n
 
         # create missing points
-        missing_points <- spatstat::runifpoint(n = difference, win = pattern$window)
+        missing_points <- spatstat::runifpoint(n = difference,
+                                               win = pattern$window,
+                                               nsim = 1, drop = TRUE)
 
         # add missing points to simulated
         spatstat::superimpose(simulated, missing_points,
                               W = pattern$window)
       }
 
+      # number of points already equal
       else {
         simulated
       }
@@ -108,7 +113,7 @@ fit_point_process <- function(pattern,
 
     result[[n_random + 1]] <- pattern # add input pattern as last list entry
 
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
   }
 
   else{
@@ -126,7 +131,7 @@ fit_point_process <- function(pattern,
     }
 
     else{
-      names(result) <- paste0("randomized_", 1:n_random) # set names
+      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
   }
 
