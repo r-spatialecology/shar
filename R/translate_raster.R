@@ -3,7 +3,8 @@
 #' @description Torus translation
 #'
 #' @param raster RasterLayer.
-#' @param return_input The original input data is returned as last list entry
+#' @param return_input The original input data is returned as last list entry.
+#' @param verbose Print progress report.
 #'
 #' @details
 #' Torus translation test as described in Harms et al. (20001). The raster is shifted
@@ -29,7 +30,7 @@
 #' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
 
 #' @export
-translate_raster <- function(raster, return_input = TRUE){
+translate_raster <- function(raster, return_input = TRUE, verbose = TRUE){
 
   # check if dim of raster are equal
   if(!raster::nrow(raster) == raster::ncol(raster)) {
@@ -63,9 +64,15 @@ translate_raster <- function(raster, return_input = TRUE){
     else{matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1], ], matrix_shifted[seq_len(y_shift), ])}
 
     # convert back to raster
-    raster::raster(matrix_shifted,
-                   xmn = raster::xmin(raster), xmx = raster::xmax(raster),
-                   ymn = raster::ymin(raster), ymx = raster::ymax(raster))
+    raster_shifted <- raster::raster(matrix_shifted,
+                                     xmn = raster::xmin(raster), xmx = raster::xmax(raster),
+                                     ymn = raster::ymin(raster), ymx = raster::ymax(raster))
+
+    if(verbose) {
+      cat(paste0("\rProgress: n_random: ", current_row, "/", nrow(steps_xy)))
+    }
+
+    return(raster_shifted)
   })
 
   # return input raster

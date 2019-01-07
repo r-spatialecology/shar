@@ -29,7 +29,9 @@
 #' @export
 fit_point_process <- function(pattern,
                               n_random = 19, process = 'poisson',
-                              return_input = TRUE, simplify = FALSE, verbose = FALSE){
+                              return_input = TRUE,
+                              simplify = FALSE,
+                              verbose = TRUE){
 
   # check if n_random is >= 1
   if(!n_random >= 1) {
@@ -42,7 +44,15 @@ fit_point_process <- function(pattern,
 
     result <- lapply(seq_len(n_random), function(x) {
 
-      spatstat::runifpoint(n = pattern$n, win = pattern$window) # simulate poisson process
+      simulated <- spatstat::runifpoint(n = pattern$n,
+                                        win = pattern$window) # simulate poisson process
+
+
+      if(verbose) {
+        cat(paste0("\rProgress: n_random: ", x, "/", n_random))
+      }
+
+      return(simulated)
     })
   }
 
@@ -73,7 +83,7 @@ fit_point_process <- function(pattern,
         remove_points <- sample(seq_len(pattern$n), size = difference)
 
         # remove points
-        simulated[-remove_points]
+        simulated <- simulated[-remove_points]
       }
 
       # add points because less points in simulated
@@ -88,14 +98,15 @@ fit_point_process <- function(pattern,
                                                nsim = 1, drop = TRUE)
 
         # add missing points to simulated
-        spatstat::superimpose(simulated, missing_points,
-                              W = pattern$window)
+        simulated <- spatstat::superimpose(simulated, missing_points,
+                                           W = pattern$window)
       }
 
-      # number of points already equal
-      else {
-        simulated
+      if(verbose) {
+        cat(paste0("\rProgress: n_random: ", x, "/", n_random))
       }
+
+      return(simulated)
     })
   }
 

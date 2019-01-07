@@ -4,12 +4,14 @@
 \alias{translate_raster}
 \title{translate_raster}
 \usage{
-translate_raster(raster, return_input = TRUE)
+translate_raster(raster, return_input = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{raster}{RasterLayer.}
 
-\item{return_input}{The original input data is returned as last list entry}
+\item{return_input}{The original input data is returned as last list entry.}
+
+\item{verbose}{Print progress report.}
 }
 \value{
 list

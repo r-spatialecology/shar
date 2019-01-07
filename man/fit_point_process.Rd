@@ -5,7 +5,7 @@
 \title{fit_point_process}
 \usage{
 fit_point_process(pattern, n_random = 19, process = "poisson",
-  return_input = TRUE, simplify = FALSE, verbose = FALSE)
+  return_input = TRUE, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
