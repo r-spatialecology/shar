@@ -155,22 +155,26 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     e0 <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
       mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
 
+    # random ids of pattern
+    rp_id <- sample(x = seq_len(pattern$n),
+                    size = max_runs, replace = TRUE)
+
+    # create random new points
+    rp_coords <- spatstat::runifpoint(n = max_runs,
+                                      nsim = 1, drop = TRUE,
+                                      win = pattern$window)
+
     # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
     for(i in seq_len(max_runs)){
 
       relocated <- simulated # data for relocation
 
-      rp_id <- sample(x = seq_len(relocated$n), size = 1) # random point of pattern
-
-      # create random coordinates for new point
-      rp_coords <- spatstat::runifpoint(n = 1,
-                                        nsim = 1, drop = TRUE,
-                                        win = pattern$window)
+      rp_id_current <- rp_id[[i]] # get current point id
 
       # relocate point
-      relocated$x[rp_id] <- rp_coords$x
+      relocated$x[[rp_id_current]] <- rp_coords$x[[i]]
 
-      relocated$y[rp_id] <- rp_coords$y
+      relocated$y[[rp_id_current]] <- rp_coords$y[[i]]
 
       # calculate summary functions after relocation
       if(comp_fast) {

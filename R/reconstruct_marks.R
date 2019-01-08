@@ -93,25 +93,31 @@ reconstruct_marks <- function(pattern,
     # energy before reconstruction
     e0 <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
 
+
+    # get two random points to switch marks
+    rp_a <- sample(x = seq_len(pattern$n), size = max_runs, replace = TRUE)
+
+    rp_b <- sample(x = seq_len(pattern$n), size = max_runs, replace = TRUE)
+
     # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
     for(i in seq_len(max_runs)){
 
       relocated <- pattern # data for relocation
 
-      # get two random points to switch marks
-      rp_a <- sample(x = seq_len(relocated$n), size = 1)
+      # current random points
+      rp_a_current <- rp_a[[i]]
 
-      rp_b <- sample(x = seq_len(relocated$n), size = 1)
+      rp_b_current <- rp_b[[i]]
 
       # get marks of the two random points
-      mark_a <- relocated$marks[rp_a]
+      mark_a <- relocated$marks[[rp_a_current]]
 
-      mark_b <- relocated$marks[rp_b]
+      mark_b <- relocated$marks[[rp_b_current]]
 
       # switch the marks of the two points
-      relocated$marks[rp_a] <- mark_b
+      relocated$marks[[rp_a_current]] <- mark_b
 
-      relocated$marks[rp_b] <- mark_a
+      relocated$marks[[rp_b_current]] <- mark_a
 
       # calculate summary functions after relocation
       kmmr_relocated <- spatstat::markcorr(relocated,
