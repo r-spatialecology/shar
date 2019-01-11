@@ -18,6 +18,9 @@ knitr::opts_chunk$set(
 [![Coverage status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=master)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CRAN status](https://www.r-pkg.org/badges/version/SHAR)](https://cran.r-project.org/package=SHAR)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/SHAR)](http://cran.rstudio.com/web/packages/SHAR/index.html)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # SHAR
 
@@ -53,7 +56,7 @@ landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one.
 
 ```{r habitat_random}
-torus_trans <- translate_raster(raster = landscape_classified)
+torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
 
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
