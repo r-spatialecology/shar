@@ -11,6 +11,11 @@ status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.sv
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/SHAR)](https://cran.r-project.org/package=SHAR)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/SHAR)](http://cran.rstudio.com/web/packages/SHAR/index.html)
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # SHAR
 
@@ -66,10 +71,11 @@ There are two possibilities to randomize the environmental data, both
 described in Harms et al. (2001). The first shifts the habitat map in
 all 4 cardinal directions around a torus. The second one assigns the
 habitat values to an empty map using a random walk algorithm. Both
-functions return a list with randomized rasters and the observed one.
+functions return a list with randomized rasters and the observed
+one.
 
 ``` r
-torus_trans <- translate_raster(raster = landscape_classified)
+torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
 
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
@@ -100,13 +106,13 @@ plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.06487915    0.05958754    0.04637876    0.06875571    0.05432705 
+#>    0.05446658    0.06767455    0.06332802    0.06230811    0.07328460 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.05185324    0.07465264    0.04706372    0.05397079    0.05137827 
+#>    0.06494394    0.05523958    0.05802557    0.05092322    0.06039074 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.05515471    0.08330050    0.06659265    0.05566015    0.07036794 
+#>    0.05967658    0.06271794    0.06087066    0.04632613    0.06257779 
 #> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.06684170    0.07254924    0.05966716    0.05948601
+#>    0.06212633    0.04856156    0.07230112    0.06577636
 ```
 
 The data was created that `species_a` has a negative association to
@@ -128,11 +134,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  1.45 20.55         n.s.
-#> 2       2    20 36.00 59.55     negative
-#> 3       3    31 45.45 85.10     negative
-#> 4       4    33 40.35 76.85     negative
-#> 5       5   109 14.15 47.10     positive
+#> 1       1     7  1.90 15.00         n.s.
+#> 2       2    20 25.90 58.30     negative
+#> 3       3    31 44.80 89.35     negative
+#> 4       4    33 33.35 69.65     negative
+#> 5       5   109 16.45 60.30     positive
 ```
 
 ## References
