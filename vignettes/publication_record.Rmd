@@ -3,19 +3,12 @@ title: "Publication record"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Publications}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-We try to maintain a list of publications that have used the `SHAR` package. If you have used `SHAR` in your own work, we would love to hear from you. Please file an issue on GitHub so we can add your work to this list.
+We try to maintain a list of publications that have used the **SHAR** package. If you have used **SHAR** in your own work, we would love to hear from you. Please file an issue on GitHub so we can add your work to this list.
 
 ## List of publications
 

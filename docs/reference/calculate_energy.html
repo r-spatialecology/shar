@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>calculate_energy — calculate_energy • Species-habitat associations in R</title>
+<title>calculate_energy — calculate_energy • SHAR | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">Species-habitat associations in R</a>
+        <a class="navbar-link" href="../index.html">SHAR | Species-habitat associations in R</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
       </span>
     </div>
@@ -99,12 +99,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/mhesselbarth/SHAR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -118,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>calculate_energy</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mhesselbarth/SHAR/blob/master/R/calculate_energy.R'><code>R/calculate_energy.R</code></a></small>
+    
     <div class="hidden name"><code>calculate_energy.Rd</code></div>
     </div>
 
@@ -175,8 +170,7 @@ in ecology. Boca Raton: Chapman and Hall/CRC Press.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>pattern_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_point_process.html'>fit_point_process</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>39</span>)
-<span class='fu'>calculate_energy</span>(<span class='no'>pattern_random</span>)</div><div class='output co'>#&gt;  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
+    <pre class="examples"><div class='input'><span class='no'>pattern_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_point_process.html'>fit_point_process</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>39</span>)</div><div class='output co'>#&gt; Progress: n_random: 1/39Progress: n_random: 2/39Progress: n_random: 3/39Progress: n_random: 4/39Progress: n_random: 5/39Progress: n_random: 6/39Progress: n_random: 7/39Progress: n_random: 8/39Progress: n_random: 9/39Progress: n_random: 10/39Progress: n_random: 11/39Progress: n_random: 12/39Progress: n_random: 13/39Progress: n_random: 14/39Progress: n_random: 15/39Progress: n_random: 16/39Progress: n_random: 17/39Progress: n_random: 18/39Progress: n_random: 19/39Progress: n_random: 20/39Progress: n_random: 21/39Progress: n_random: 22/39Progress: n_random: 23/39Progress: n_random: 24/39Progress: n_random: 25/39Progress: n_random: 26/39Progress: n_random: 27/39Progress: n_random: 28/39Progress: n_random: 29/39Progress: n_random: 30/39Progress: n_random: 31/39Progress: n_random: 32/39Progress: n_random: 33/39Progress: n_random: 34/39Progress: n_random: 35/39Progress: n_random: 36/39Progress: n_random: 37/39Progress: n_random: 38/39Progress: n_random: 39/39</div><div class='input'><span class='fu'>calculate_energy</span>(<span class='no'>pattern_random</span>)</div><div class='output co'>#&gt;  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
 #&gt;     0.4066292     0.3788558     0.4915708     0.3605971     0.3999073 
 #&gt;  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
 #&gt;     0.3176181     0.3358566     0.3919977     0.3857408     0.4138439 

@@ -5,16 +5,20 @@
 \title{fit_point_process}
 \usage{
 fit_point_process(pattern, n_random = 19, process = "poisson",
-  return_input = TRUE)
+  return_input = TRUE, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
 
 \item{n_random}{Number of randomized RasterLayers.}
 
-\item{process}{What point process to use. Either 'poisson' or 'cluster'}
+\item{process}{What point process to use. Either 'poisson' or 'cluster'.}
 
-\item{return_input}{The original input data is returned as last list entry}
+\item{return_input}{The original input data is returned as last list entry.}
+
+\item{simplify}{If n_random = 1 and return_input = FALSE only pattern will be returned.}
+
+\item{verbose}{Print progress report.}
 }
 \value{
 list

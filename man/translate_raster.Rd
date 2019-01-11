@@ -4,12 +4,14 @@
 \alias{translate_raster}
 \title{translate_raster}
 \usage{
-translate_raster(raster, return_input = TRUE)
+translate_raster(raster, return_input = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{raster}{RasterLayer.}
 
-\item{return_input}{The original input data is returned as last list entry}
+\item{return_input}{The original input data is returned as last list entry.}
+
+\item{verbose}{Print progress report.}
 }
 \value{
 list
@@ -34,5 +36,5 @@ Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associ
 of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
 }
 \seealso{
-\code{\link{randomization_algorithm}}
+\code{\link{randomize_raster}}
 }

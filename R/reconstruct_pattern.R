@@ -2,15 +2,16 @@
 #'
 #' @description Pattern reconstruction
 #'
-#' @param pattern List with reconstructed patterns.
-#' @param n_random Number of randomized RasterLayers.
+#' @param pattern ppp.
+#' @param n_random Number of randomizations.
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param comp_fast Should summary functions be estimated in an computational fast way.
 #' @param return_input The original input data is returned as last list entry
+#' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
-#' @param plot Plot pcf function during optimization
+#' @param plot Plot pcf function during optimization.
 #'
 #' @details
 #' The functions randomizes the observed pattern by using pattern reconstruction
@@ -31,7 +32,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern(species_b, n_random = 39, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_pattern
@@ -49,7 +50,8 @@ reconstruct_pattern <- function(pattern, n_random = 19,
                                 e_threshold = 0.01, max_runs = 10000,
                                 fitting = FALSE, comp_fast = FALSE,
                                 return_input = TRUE,
-                                verbose = FALSE,
+                                simplify = FALSE,
+                                verbose = TRUE,
                                 plot = FALSE){
 
   # check if n_random is >= 1
@@ -59,17 +61,8 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
-  # get dimension of pattern
-  xrange <- pattern$window$xrange
-
-  yrange <- pattern$window$yrange
-
   # start with fitted pattern
   if(fitting){
-
-    # create observation window
-    window <- spatstat::owin(xrange = xrange,
-                             yrange = yrange)
 
     # fit Thomas process
     fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
@@ -81,29 +74,50 @@ reconstruct_pattern <- function(pattern, n_random = 19,
   }
 
   # create n_random recondstructed patterns
-  result <- lapply(1:n_random, function(current_pattern){
+  result <- lapply(seq_len(n_random), function(current_pattern){
 
     # fit a Thomas process to the data
     if(fitting){
 
-      # create random, clustered coordinates
-      mobsim <- mobsim::sim_thomas_community(s_pool = 1,
-                                             n_sim = pattern$n,
-                                             xrange = xrange,
-                                             yrange = yrange,
-                                             sigma = fitted_process$modelpar[["sigma"]],
-                                             cluster_points = fitted_process$modelpar[["mu"]])
+      # simulte clustered pattern
+      simulated <- spatstat::simulate.kppm(fitted_process,
+                                           nsim = 1, drop = TRUE,
+                                           window = pattern$window)
 
-      # conver to ppp
-      simulated <- spatstat::ppp(x = mobsim$census$x,
-                                 y = mobsim$census$y,
-                                 window = window)
+      # remove points because more points in simulated
+      if(pattern$n < simulated$n) {
 
+        # difference between patterns
+        difference <- simulated$n - pattern$n
+
+        # id of points to remove
+        remove_points <- sample(seq_len(pattern$n), size = difference)
+
+        # remove points
+        simulated <- simulated[-remove_points]
+      }
+
+      # add points because less points in simulated
+      if(pattern$n > simulated$n) {
+
+        # difference between patterns
+        difference <- pattern$n - simulated$n
+
+        # create missing points
+        missing_points <- spatstat::runifpoint(n = difference,
+                                               nsim = 1, drop = TRUE,
+                                               win = pattern$window)
+
+        # add missing points to simulated
+        simulated <- spatstat::superimpose(simulated, missing_points,
+                                           W = pattern$window)
+      }
     }
 
     # create Poisson simulation data
     else {
       simulated <- spatstat::runifpoint(n = pattern$n,
+                                        nsim = 1, drop = TRUE,
                                         win = pattern$window)
     }
 
@@ -141,17 +155,26 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     e0 <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
       mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
 
+    # random ids of pattern
+    rp_id <- sample(x = seq_len(pattern$n),
+                    size = max_runs, replace = TRUE)
+
+    # create random new points
+    rp_coords <- spatstat::runifpoint(n = max_runs,
+                                      nsim = 1, drop = TRUE,
+                                      win = pattern$window)
+
     # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
-    for(i in 1:max_runs){
+    for(i in seq_len(max_runs)){
 
       relocated <- simulated # data for relocation
 
-      rp <- sample(x = 1:relocated$n, size = 1) # random point of pattern
+      rp_id_current <- rp_id[[i]] # get current point id
 
-      # create random coordinates for new point
-      relocated$x[rp] <- stats::runif(n = 1, min = xrange[1], max = xrange[2])
+      # relocate point
+      relocated$x[[rp_id_current]] <- rp_coords$x[[i]]
 
-      relocated$y[rp] <- stats::runif(n = 1, min = yrange[1], max = yrange[2])
+      relocated$y[[rp_id_current]] <- rp_coords$y[[i]]
 
       # calculate summary functions after relocation
       if(comp_fast) {
@@ -184,11 +207,15 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
         # plot observed vs reconstructed
         if(plot) {
+
           Sys.sleep(0.1) # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
+
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
                          type = "l", col = "black",
                          xlab = "r", ylab = "g(r)")
+
           graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
+
           graphics::legend("topright",
                            legend = c("observed", "reconstructed"),
                            col = c("black", "red"),
@@ -215,14 +242,33 @@ reconstruct_pattern <- function(pattern, n_random = 19,
   # add input pattern to randomizations
   if(return_input){
 
+    if(verbose & simplify){
+      cat("\n")
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+    }
+
     result[[n_random + 1]] <- pattern # add input pattern as last list entry
 
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
   }
 
   else{
 
-    names(result) <- paste0("randomized_", 1:n_random) # set names
+    if(simplify) {
+
+      if(verbose & n_random > 1) {
+        cat("\n")
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+      }
+
+      else {
+        result <- result[[1]]
+      }
+    }
+
+    else{
+      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+    }
   }
 
   return(result)

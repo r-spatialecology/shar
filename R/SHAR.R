@@ -2,6 +2,7 @@
 globalVariables(c("count",
                   "habitat",
                   "hi",
+                  "iso",
                   "lo",
                   "r",
                   "summary_function",

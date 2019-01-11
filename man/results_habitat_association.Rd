@@ -44,6 +44,7 @@ Species-area curves, spatial aggregation, and habitat specialization in tropical
 Journal of Theoretical Biology, 207(1), 81–99.
 }
 \seealso{
-\code{\link{randomization_algorithm}} \cr
+\code{\link{randomize_raster}} \cr
+\code{\link{translate_raster}} \cr
 \code{\link{reconstruct_pattern}}
 }

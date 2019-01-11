@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>fit_point_process — fit_point_process • Species-habitat associations in R</title>
+<title>fit_point_process — fit_point_process • SHAR | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">Species-habitat associations in R</a>
+        <a class="navbar-link" href="../index.html">SHAR | Species-habitat associations in R</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
       </span>
     </div>
@@ -99,12 +99,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/mhesselbarth/SHAR">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -118,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>fit_point_process</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mhesselbarth/SHAR/blob/master/R/fit_point_process.R'><code>R/fit_point_process.R</code></a></small>
+    
     <div class="hidden name"><code>fit_point_process.Rd</code></div>
     </div>
 
@@ -129,7 +124,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>fit_point_process</span>(<span class='no'>pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>process</span> <span class='kw'>=</span> <span class='st'>"poisson"</span>,
-  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,11 +139,19 @@
     </tr>
     <tr>
       <th>process</th>
-      <td><p>What point process to use. Either 'poisson' or 'cluster'</p></td>
+      <td><p>What point process to use. Either 'poisson' or 'cluster'.</p></td>
     </tr>
     <tr>
       <th>return_input</th>
-      <td><p>The original input data is returned as last list entry</p></td>
+      <td><p>The original input data is returned as last list entry.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>If n_random = 1 and return_input = FALSE only pattern will be returned.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Print progress report.</p></td>
     </tr>
     </table>
     
@@ -169,7 +172,8 @@ Journal of Theoretical Biology, 207(1), 81–99.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>pattern_fitted</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_point_process</span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>39</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>pattern_fitted</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_point_process</span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>39</span>)</div><div class='output co'>#&gt; Progress: n_random: 1/39Progress: n_random: 2/39Progress: n_random: 3/39Progress: n_random: 4/39Progress: n_random: 5/39Progress: n_random: 6/39Progress: n_random: 7/39Progress: n_random: 8/39Progress: n_random: 9/39Progress: n_random: 10/39Progress: n_random: 11/39Progress: n_random: 12/39Progress: n_random: 13/39Progress: n_random: 14/39Progress: n_random: 15/39Progress: n_random: 16/39Progress: n_random: 17/39Progress: n_random: 18/39Progress: n_random: 19/39Progress: n_random: 20/39Progress: n_random: 21/39Progress: n_random: 22/39Progress: n_random: 23/39Progress: n_random: 24/39Progress: n_random: 25/39Progress: n_random: 26/39Progress: n_random: 27/39Progress: n_random: 28/39Progress: n_random: 29/39Progress: n_random: 30/39Progress: n_random: 31/39Progress: n_random: 32/39Progress: n_random: 33/39Progress: n_random: 34/39Progress: n_random: 35/39Progress: n_random: 36/39Progress: n_random: 37/39Progress: n_random: 38/39Progress: n_random: 39/39</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

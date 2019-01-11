@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>reconstruct_pattern — reconstruct_pattern • SHAR | Species-habitat associations in R</title>
+<title>reconstruct_marks — reconstruct_marks • SHAR | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="reconstruct_pattern — reconstruct_pattern" />
+<meta property="og:title" content="reconstruct_marks — reconstruct_marks" />
 
-<meta property="og:description" content="Pattern reconstruction" />
+<meta property="og:description" content="Pattern reconstruction of marks" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,21 +112,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>reconstruct_pattern</h1>
+    <h1>reconstruct_marks</h1>
     
-    <div class="hidden name"><code>reconstruct_pattern.Rd</code></div>
+    <div class="hidden name"><code>reconstruct_marks.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Pattern reconstruction</p>
+    <p>Pattern reconstruction of marks</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>reconstruct_pattern</span>(<span class='no'>pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>e_threshold</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>reconstruct_marks</span>(<span class='no'>pattern</span>, <span class='no'>marked_pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>,
+  <span class='kw'>e_threshold</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,6 +133,10 @@
     <tr>
       <th>pattern</th>
       <td><p>ppp.</p></td>
+    </tr>
+    <tr>
+      <th>marked_pattern</th>
+      <td><p>ppp (marked; see details).</p></td>
     </tr>
     <tr>
       <th>n_random</th>
@@ -146,14 +149,6 @@
     <tr>
       <th>max_runs</th>
       <td><p>Maximum number of iterations of e_threshold is not reached.</p></td>
-    </tr>
-    <tr>
-      <th>fitting</th>
-      <td><p>It true, the pattern reconstruction starts with a fitting of a Thomas process.</p></td>
-    </tr>
-    <tr>
-      <th>comp_fast</th>
-      <td><p>Should summary functions be estimated in an computational fast way.</p></td>
     </tr>
     <tr>
       <th>return_input</th>
@@ -169,7 +164,7 @@
     </tr>
     <tr>
       <th>plot</th>
-      <td><p>Plot pcf function during optimization.</p></td>
+      <td><p>Plot kmmr function during optimization.</p></td>
     </tr>
     </table>
     
@@ -179,15 +174,14 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The functions randomizes the observed pattern by using pattern reconstruction
-as described in Tscheschel &amp; Stoyan (2006) and Wiegand &amp; Moloney (2014). The
-algorithm starts with a random reconstructed pattern, shifts a point to a new location and
-keeps the change only, if the deviation between the observed and the reconstructed
-pattern decreases. The pair correlation function and the nearest neighbour
-distance function are used to describe the patterns. For large patterns
-`comp_fast = TRUE` decreases the computational demand because no edge
-correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see <code><a href='estimate_pcf_fast.html'>estimate_pcf_fast</a></code>.</p>
+    <p>The function randomizes the numeric marks of a point pattern using pattern reconstruction
+as described in Tscheschel &amp; Stoyan (2006) and Wiegand &amp; Moloney (2014). Therefore,
+an unmarked as well as a marked pattern must be provided. The unmarked pattern must have
+the spatial characteristics but the same observation window and number of points
+as the marked one (see `reconstruct_pattern` or `fit_point_process`). Marks must be
+numeric because the mark-correlation function is used as summary function. Two
+randomly chosen marks are switch each iterations and changes only kept if the
+deviation between the observed and the reconstructed pattern decreases.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -198,13 +192,15 @@ in ecology. Boca Raton: Chapman and Hall/CRC Press.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='calculate_energy.html'>calculate_energy</a></code> <br />
-<code><a href='plot_randomized_pattern.html'>plot_randomized_pattern</a></code></p></div>
+    <div class='dont-index'><p><code><a href='reconstruct_pattern.html'>reconstruct_pattern</a></code> <br />
+<code><a href='fit_point_process.html'>fit_point_process</a></code> <br /></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>pattern_recon</span> <span class='kw'>&lt;-</span> <span class='fu'>reconstruct_pattern</span>(<span class='no'>species_b</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+<span class='no'>pattern_recon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reconstruct_pattern.html'>reconstruct_pattern</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)<span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='no'>marks_sub</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/subset.ppp'>subset.ppp</a></span>(<span class='no'>species_a</span>, <span class='kw'>select</span> <span class='kw'>=</span> <span class='no'>dbh</span>)
+<span class='no'>marks_recon</span> <span class='kw'>&lt;-</span> <span class='fu'>reconstruct_marks</span>(<span class='no'>pattern_recon</span>, <span class='no'>marks_sub</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

@@ -3,17 +3,18 @@
 #' @description Randomization algorithm
 #'
 #' @param raster RasterLayer.
-#' @param n_random Number of randomized RasterLayers.
+#' @param n_random Number of randomizations.
+#' @param directions Cells neighbour rule: 4 (rook's case), 8 (queen's case).
 #' @param return_input The original input data is returned as last list entry
+#' @param simplify If n_random = 1 and return_input = FALSE only raster will be returned.
 #' @param verbose Print progress report.
 #'
 #' @details
 #' The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
 #' as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
-#' starts to assign random neighbouring cells (specified by `directions`) to each
-#' habitat (in increasing order of abundance in observed map). We modified the
-#' procedure slightly by increasing a probability to jump to a non-neighbouring
-#' cell as the current patch becomes larger.
+#' starts to assign random neighbouring cells to each habitat (in increasing order of
+#' abundance in observed map). We modified the procedure slightly by increasing a
+#' probability to jump to a non-neighbouring cell as the current patch becomes larger.
 #'
 #' @seealso
 #' \code{\link{translate_raster}} \cr
@@ -24,7 +25,7 @@
 #' @examples
 #' \dontrun{
 #' landscape_classified <- classify_habitats(landscape, classes = 5)
-#' landscape_random <- randomize_raster(landscape_classified, n_random = 39)
+#' landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 #' }
 #'
 #' @aliases randomize_raster
@@ -37,8 +38,10 @@
 #'@export
 randomize_raster <- function(raster,
                              n_random = 19,
+                             directions = 4,
                              return_input = TRUE,
-                             verbose = FALSE){
+                             simplify = FALSE,
+                             verbose = TRUE){
 
   # check if n_random is >= 1
   if(!n_random >= 1) {
@@ -50,14 +53,14 @@ randomize_raster <- function(raster,
   n_cells <- sum(habitats) # number of cells
 
   # create n_random rasters
-  result <- lapply(1:n_random, function(current_raster) {
+  result <- lapply(seq_len(n_random), function(current_raster) {
 
     random_matrix <- raster::as.matrix(raster) # new raster without values
 
     random_matrix[!is.na(random_matrix)] <- -999 # set all non-NAs to unique number
 
     # loop through habitats but last one (all remaining cells will be last)
-    for(current_habitat in 1:(length(habitats) - 1)){
+    for(current_habitat in seq_len(length(habitats) - 1)){
 
       k <- 0 # counter since last jump
 
@@ -82,18 +85,10 @@ randomize_raster <- function(raster,
           cells_habitat <- which(random_matrix == habitat_id,
                                  arr.ind = TRUE, useNames = FALSE)
 
-          # 4-neighbour rule cells
-          neighbours <- unique(rbind(cbind(cells_habitat[, 1] - 1, cells_habitat[, 2]),
-                                     cbind(cells_habitat[, 1] + 1, cells_habitat[, 2]),
-                                     cbind(cells_habitat[, 1], cells_habitat[, 2] - 1),
-                                     cbind(cells_habitat[, 1], cells_habitat[, 2] + 1)))
-
-          # remove all "neighbours" outside matrix
-          neighbours[neighbours == 0] <- NA
-
-          neighbours[, 1][neighbours[, 1] > nrow(random_matrix)] <- NA
-
-          neighbours[, 2][neighbours[, 2] > ncol(random_matrix)] <- NA
+          # get neighbour cells
+          neighbours <- create_neighbourhood(cells = cells_habitat,
+                                             matrix = random_matrix,
+                                             directions = directions)
 
           # all neighbouring cells that are -999
           empty_neighbours <- which(random_matrix[neighbours] == -999,
@@ -161,16 +156,36 @@ randomize_raster <- function(raster,
     return(random_raster)
   })
 
-  # add input raster
+  # add input pattern to randomizations
   if(return_input){
 
-    result[[n_random + 1]] <- raster # add input raster as last list entry
-    names(result) <-  c(paste0("randomized_", 1:n_random), "observed") # set names
+    if(verbose & simplify){
+      cat("\n")
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+    }
+
+    result[[n_random + 1]] <- raster # add input pattern as last list entry
+
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
   }
 
   else{
 
-    names(result) <- paste0("randomized_", 1:n_random) # set names
+    if(simplify) {
+
+      if(verbose & n_random > 1) {
+        cat("\n")
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+      }
+
+      else {
+        result <- result[[1]]
+      }
+    }
+
+    else{
+      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+    }
   }
 
   return(result)

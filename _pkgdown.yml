@@ -1,1 +1,5 @@
-title: Species-habitat associations in R
+title: SHAR | Species-habitat associations in R
+
+template:
+  params:
+   bootswatch: sandstone
