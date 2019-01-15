@@ -4,7 +4,7 @@
 [![Travis build
 status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+status](https://ci.appveyor.com/api/projects/status/q4dd6skku0y5j8yi/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=master)
 [![Project Status: Active â€“ The project has reached a stable, usable
@@ -106,13 +106,13 @@ plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.05446658    0.06767455    0.06332802    0.06230811    0.07328460 
+#>    0.05772849    0.06533121    0.06093178    0.05686499    0.06315068 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.06494394    0.05523958    0.05802557    0.05092322    0.06039074 
+#>    0.07305866    0.05232330    0.05277536    0.05616866    0.05345017 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.05967658    0.06271794    0.06087066    0.04632613    0.06257779 
+#>    0.06213911    0.04715181    0.06513447    0.05715674    0.07507551 
 #> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.06212633    0.04856156    0.07230112    0.06577636
+#>    0.07018706    0.06812196    0.08091072    0.07284165
 ```
 
 The data was created that `species_a` has a negative association to
@@ -134,11 +134,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  1.90 15.00         n.s.
-#> 2       2    20 25.90 58.30     negative
-#> 3       3    31 44.80 89.35     negative
-#> 4       4    33 33.35 69.65     negative
-#> 5       5   109 16.45 60.30     positive
+#> 1       1     7  4.00 26.10         n.s.
+#> 2       2    20 29.60 64.75     negative
+#> 3       3    31 51.35 81.20     negative
+#> 4       4    33 36.80 68.10     negative
+#> 5       5   109 12.45 44.20     positive
 ```
 
 ## References
