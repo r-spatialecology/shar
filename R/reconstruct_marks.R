@@ -153,9 +153,9 @@ reconstruct_marks <- function(pattern,
 
       # print progress
       if(verbose) {
-        cat(paste0("\rProgress: n_random: ", current_pattern, "/", n_random,
+        message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                    " || max_runs: ", i, "/", max_runs,
-                   " || e0 = ", round(e0, 5)))
+                   " || e0 = ", round(e0, 5), appendLF = FALSE)
       }
 
       # exit loop if e threshold is reached
@@ -197,6 +197,11 @@ reconstruct_marks <- function(pattern,
     else{
       names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
+  }
+
+  # write result in new line if progress was printed
+  if(verbose) {
+    message("\r")
   }
 
   return(result)

@@ -5,7 +5,7 @@
 \title{plot_randomized_pattern}
 \usage{
 plot_randomized_pattern(pattern, method = "spatial", probs = c(0.025,
-  0.975), comp_fast = FALSE)
+  0.975), comp_fast = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
@@ -14,7 +14,9 @@ plot_randomized_pattern(pattern, method = "spatial", probs = c(0.025,
 
 \item{probs}{Quantiles of randomized data used for envelope construction.}
 
-\item{comp_fast}{Should summary functions be estimated in an computational fast way.}
+\item{comp_fast}{Should summary functions be estimated in an computational fast way.#'}
+
+\item{verbose}{Print progress report.}
 }
 \value{
 ggplot

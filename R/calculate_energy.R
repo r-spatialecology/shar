@@ -92,16 +92,18 @@ calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE, ve
                                           correction = "best", divisor = "d")
     }
 
+    # difference between observed and reconstructed pattern
+    energy <- mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) +
+      mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE)
+
     # print progress
     if(verbose) {
       message("\r> Progress: ", x, "/", length(pattern_reconstructed), appendLF = FALSE)
     }
 
-    # difference between observed and reconstructed pattern
-    mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) +
-      mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE)
+    return(energy)
 
-    }, FUN.VALUE = numeric(1))
+  }, FUN.VALUE = numeric(1))
 
   # return mean for all reconstructed patterns
   if(return_mean) {
