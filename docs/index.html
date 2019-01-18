@@ -121,13 +121,13 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct)</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    0.06134891    0.04947930    0.05827499    0.07270684    0.10303707 </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    0.04164286    0.05956312    0.06837838    0.05228294    0.05426113 </span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 </span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;    0.04933946    0.06913307    0.06908321    0.06317492    0.05213864 </span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;    0.06194320    0.06608969    0.05039749    0.06182786    0.07425444 </span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 </span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;    0.05103293    0.06587732    0.04718216    0.06313717    0.04928722 </span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;    0.06006974    0.04960242    0.05950768    0.07160343    0.05806646 </span></a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; randomized_16 randomized_17 randomized_18 randomized_19 </span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    0.06132155    0.05132336    0.04337744    0.04391011</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    0.07284712    0.06115898    0.04408925    0.09897747</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
@@ -141,11 +141,11 @@
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  3.00 20.55         n.s.</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 32.00 69.95     negative</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 52.25 71.55     negative</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 30.25 72.55         n.s.</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109 14.70 50.75     positive</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  2.00 16.20         n.s.</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 30.15 60.30     negative</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 49.70 84.45     negative</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 41.45 71.20     negative</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109  8.90 42.30     positive</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
