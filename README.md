@@ -7,7 +7,7 @@ status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
-[![Project Status: Active â€“ The project has reached a stable, usable
+[![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -97,43 +97,18 @@ plot a randomized pattern or calculate the differences between the
 observed pattern and the randomized patterns (using summary functions).
 
 ``` r
-plot_randomized_pattern(reconstruct)
-#> > Progress: 1/20 > Progress: 2/20 > Progress: 3/20 > Progress: 4/20
-#> > Progress: 5/20 > Progress: 6/20 > Progress: 7/20 > Progress: 8/20 >
-#> Progress: 9/20 > Progress: 10/20 > Progress: 11/20 > Progress: 12/20 >
-#> Progress: 13/20 > Progress: 14/20 > Progress: 15/20 > Progress: 16/20 >
-#> Progress: 17/20 > Progress: 18/20 > Progress: 19/20 > Progress: 20/20
+plot_randomized_pattern(reconstruct, verbose = FALSE)
 ```
 
 <img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
 
 ``` r
 
-calculate_energy(reconstruct)
-#> 
-> Progress: 1/19
-> Progress: 2/19
-> Progress: 3/19
-> Progress: 4/19
-> Progress: 5/19
-> Progress: 6/19
-> Progress: 7/19
-> Progress: 8/19
-> Progress: 9/19
-> Progress: 10/19
-> Progress: 11/19
-> Progress: 12/19
-> Progress: 13/19
-> Progress: 14/19
-> Progress: 15/19
-> Progress: 16/19
-> Progress: 17/19
-> Progress: 18/19
-> Progress: 19/19
-#>  [1] 0.05665303 0.06070149 0.06751259 0.06509026 0.06539750 0.05028764
-#>  [7] 0.05780923 0.07275291 0.06374529 0.06052045 0.06363818 0.07660827
-#> [13] 0.06467851 0.07218597 0.05664780 0.06387625 0.06231587 0.06277629
-#> [19] 0.07467266
+calculate_energy(reconstruct, verbose = FALSE)
+#>  [1] 0.06349289 0.06804223 0.05593802 0.06337212 0.06947160 0.04602812
+#>  [7] 0.04909569 0.04285437 0.05059097 0.05289087 0.05423130 0.05682939
+#> [13] 0.05349411 0.05759448 0.05739303 0.06711981 0.06964723 0.04821529
+#> [19] 0.05200410
 ```
 
 The data was created that `species_a` has a negative association to
@@ -155,11 +130,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  2.00 16.10         n.s.
-#> 2       2    20 24.45 64.20     negative
-#> 3       3    31 50.45 85.85     negative
-#> 4       4    33 40.25 66.55     negative
-#> 5       5   109 11.45 52.55     positive
+#> 1       1     7  1.45 17.10         n.s.
+#> 2       2    20 26.35 57.50     negative
+#> 3       3    31 46.00 81.65     negative
+#> 4       4    33 43.00 73.40     negative
+#> 5       5   109 11.15 52.20     positive
 ```
 
 ## References
