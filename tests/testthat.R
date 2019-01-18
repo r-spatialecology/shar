@@ -1,6 +1,6 @@
 library(dplyr)
-library(SHAR)
+library(shar)
 library(spatstat)
 library(testthat)
 
-test_check("SHAR")
+test_check("shar")

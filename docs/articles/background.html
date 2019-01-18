@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Background • SHAR | Species-habitat associations in R</title>
+<title>Background • shar | Species-habitat associations in R</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -29,7 +29,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">SHAR | Species-habitat associations in R</a>
+        <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
       </span>
     </div>
@@ -78,7 +78,7 @@
     <div class="page-header toc-ignore">
       <h1>Background</h1>
             
-            <h4 class="date">2019-01-11</h4>
+            <h4 class="date">2019-01-18</h4>
       
       
       <div class="hidden name"><code>background.Rmd</code></div>
@@ -93,22 +93,22 @@
 <div id="gamma-test" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gamma-test" class="anchor"></a>Gamma-test</h3>
-<p>The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in <strong>SHAR</strong> use <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code>.</p>
+<p>The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code>.</p>
 </div>
 <div id="torus-translation-test" class="section level3">
 <h3 class="hasAnchor">
 <a href="#torus-translation-test" class="anchor"></a>Torus-translation-test</h3>
-<p>The torus-translation test (Harms et al. 2001) shifts the habitat map in all four cardinal directions around a torus. This is only possible for square rasters. To use this method in <strong>SHAR</strong> use <code><a href="../reference/translate_raster.html">translate_raster()</a></code>.</p>
+<p>The torus-translation test (Harms et al. 2001) shifts the habitat map in all four cardinal directions around a torus. This is only possible for square rasters. To use this method in <strong>shar</strong> use <code><a href="../reference/translate_raster.html">translate_raster()</a></code>.</p>
 </div>
 <div id="randomized-habitats-procedure" class="section level3">
 <h3 class="hasAnchor">
 <a href="#randomized-habitats-procedure" class="anchor"></a>Randomized-habitats procedure</h3>
-<p>The randomze-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in <strong>SHAR</strong> use <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>.</p>
+<p>The randomze-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in <strong>shar</strong> use <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>.</p>
 </div>
 <div id="pattern-reconstruction" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pattern-reconstruction" class="anchor"></a>Pattern reconstruction</h3>
-<p>Pattern reconstruction (Tscheschel &amp; Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in <strong>SHAR</strong> use <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code></p>
+<p>Pattern reconstruction (Tscheschel &amp; Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code></p>
 <p><img src="methods.png" align="center" width="700" height="150"></p>
 <div id="references" class="section level4">
 <h4 class="hasAnchor">

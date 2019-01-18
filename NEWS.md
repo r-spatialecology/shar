@@ -1,2 +1,2 @@
-# landscapemetrics 0.1
+# shar 0.1
 * First submission to CRAN

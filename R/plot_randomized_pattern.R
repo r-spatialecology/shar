@@ -53,7 +53,7 @@ plot_randomized_pattern <- function(pattern,
 
         gest_result <- spatstat::Gest(current_pattern, correction = "none")
 
-        pcf_result <- SHAR::estimate_pcf_fast(current_pattern,
+        pcf_result <- shar::estimate_pcf_fast(current_pattern,
                                               correction = "none",
                                               method = "c",
                                               spar = 0.5)

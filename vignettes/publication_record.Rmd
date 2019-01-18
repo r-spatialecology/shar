@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-We try to maintain a list of publications that have used the **SHAR** package. If you have used **SHAR** in your own work, we would love to hear from you. Please file an issue on GitHub so we can add your work to this list.
+We try to maintain a list of publications that have used the **shar** package. If you have used **shar** in your own work, we would love to hear from you. Please file an issue on GitHub so we can add your work to this list.
 
 ## List of publications
 

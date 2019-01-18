@@ -54,7 +54,7 @@ calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE){
 
     gest_observed <- spatstat::Gest(X = pattern_observed[[1]], correction = "none")
 
-    pcf_observed <- SHAR::estimate_pcf_fast(pattern = pattern_observed[[1]],
+    pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed[[1]],
                                             correction = "none",
                                             method = "c",
                                             spar = 0.5)
@@ -75,7 +75,7 @@ calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE){
 
       gest_reconstruction <- spatstat::Gest(X = current_pattern, correction = "none")
 
-      pcf_reconstruction <- SHAR::estimate_pcf_fast(pattern = current_pattern,
+      pcf_reconstruction <- shar::estimate_pcf_fast(pattern = current_pattern,
                                                     correction = "none",
                                                     method = "c",
                                                     spar = 0.5)

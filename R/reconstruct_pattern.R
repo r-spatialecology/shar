@@ -128,12 +128,12 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
       gest_simulated <- spatstat::Gest(simulated, correction = "none")
 
-      pcf_observed <- SHAR::estimate_pcf_fast(pattern,
+      pcf_observed <- shar::estimate_pcf_fast(pattern,
                                               correction = "none",
                                               method = "c",
                                               spar = 0.5)
 
-      pcf_simulated <- SHAR::estimate_pcf_fast(simulated,
+      pcf_simulated <- shar::estimate_pcf_fast(simulated,
                                                correction = "none",
                                                method = "c",
                                                spar = 0.5)
@@ -181,7 +181,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
         gest_relocated <- spatstat::Gest(relocated, correction = "none")
 
-        pcf_relocated <- SHAR::estimate_pcf_fast(relocated,
+        pcf_relocated <- shar::estimate_pcf_fast(relocated,
                                                  correction = "none",
                                                  method = "c",
                                                  spar = 0.5)

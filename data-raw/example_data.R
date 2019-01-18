@@ -14,7 +14,7 @@ landscape <- NLMR::nlm_fbm(ncol = 50,
                            fract_dim = 1,
                            user_seed = 42)
 
-landscape_class <- SHAR::classify_habitats(landscape, classes = 5)
+landscape_class <- shar::classify_habitats(landscape, classes = 5)
 
 # Create species with negative
 pattern_a <- spatstat::runifpoint(n = 100, win = spatstat::owin(c(0, 1000), c(0, 1000)))

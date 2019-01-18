@@ -13,41 +13,41 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![Travis build status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
-[![Coverage status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=master)
+[![Travis build status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://travis-ci.org/r-spatialecology/shar)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
+[![Coverage status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![CRAN status](https://www.r-pkg.org/badges/version/SHAR)](https://cran.r-project.org/package=SHAR)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/SHAR)](http://cran.rstudio.com/web/packages/SHAR/index.html)
+[![CRAN status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-# SHAR
+# shar
 
-**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **SHAR** is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
+**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
 
 ## Installation
 
-You can install the released version of SHAR from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of shar from [CRAN](https://CRAN.R-project.org) with:
 
 ```{r install_CRAN, eval = FALSE}
-install.packages("SHAR") # Nope, not yet...
+install.packages("shar") # Nope, not yet...
 ```
 
-And the development version from [GitHub](https://github.com/r-spatialecology/SHAR) with:
+And the development version from [GitHub](https://github.com/r-spatialecology/shar) with:
 
 ```{r install_github, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("r-spatialecology/SHAR")
+devtools::install_github("r-spatialecology/shar")
 ```
-## How to use SHAR
+## How to use shar
 
 ```{r import_libs, message = FALSE}
-library(SHAR)
+library(shar)
 library(raster)
 ```
 
-SHAR comes with build-in example data sets. `species_a` and `species_b` are examplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
+shar comes with build-in example data sets. `species_a` and `species_b` are examplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
 
 ```{r environmental_data}
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)

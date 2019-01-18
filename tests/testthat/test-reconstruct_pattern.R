@@ -2,7 +2,7 @@ testthat::context("reconstruct_pattern")
 
 testthat::test_that("Output is a long as n_random for reconstruct_pattern", {
 
-  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_b,
+  pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_b,
                                              n_random = 3,
                                              max_runs = 10)
 
@@ -12,7 +12,7 @@ testthat::test_that("Output is a long as n_random for reconstruct_pattern", {
 
 testthat::test_that("Output includes randomizations and original pattern for reconstruct_pattern", {
 
-  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_b,
+  pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_b,
                                              n_random = 3,
                                              max_runs = 10)
 
@@ -20,12 +20,12 @@ testthat::test_that("Output includes randomizations and original pattern for rec
                          expected = c(paste0("randomized_", c(1: 3)), "observed"))
 
   testthat::expect_equal(pattern_recon[[4]],
-                         expected = spatstat::unmark(SHAR::species_b))
+                         expected = spatstat::unmark(shar::species_b))
 })
 
 testthat::test_that("Reconstructed patterns have same number of points for fitting = TRUE", {
 
-  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+  pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
                                              n_random = 199,
                                              max_runs = 1,
                                              fitting = TRUE,
@@ -33,22 +33,22 @@ testthat::test_that("Reconstructed patterns have same number of points for fitti
 
   testthat::expect_true(all(vapply(pattern_recon,
                                    FUN.VALUE = logical(1),
-                                   function(x) x$n == SHAR::species_a$n)))
+                                   function(x) x$n == shar::species_a$n)))
 })
 
 testthat::test_that("Input pattern can not be returned for reconstruct_pattern", {
 
-  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_b,
+  pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_b,
                                              n_random = 3,
                                              max_runs = 10,
                                              return_input = FALSE)
 
-  testthat::expect_false(any(SHAR::species_b %in% pattern_recon))
+  testthat::expect_false(any(shar::species_b %in% pattern_recon))
 })
 
 testthat::test_that("All optional arguments can be used for reconstruct_pattern", {
 
-  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+  pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
                                              n_random = 3,
                                              max_runs = 10,
                                              fitting = TRUE,
@@ -62,7 +62,7 @@ testthat::test_that("All optional arguments can be used for reconstruct_pattern"
 
 testthat::test_that("simplify works for reconstruct_pattern", {
 
-  pattern_recon <- SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+  pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
                                              n_random = 1,
                                              max_runs = 10,
                                              return_input = FALSE,
@@ -73,13 +73,13 @@ testthat::test_that("simplify works for reconstruct_pattern", {
 
 testthat::test_that("reconstruct_pattern returns error if n_random < 1", {
 
-  testthat::expect_error(SHAR::reconstruct_pattern(pattern = SHAR::species_b, n_random = -5),
+  testthat::expect_error(shar::reconstruct_pattern(pattern = shar::species_b, n_random = -5),
                          regexp = "n_random must be >= 1.")
 })
 
 testthat::test_that("reconstruct_pattern returns warnings", {
 
-  testthat::expect_warning(SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+  testthat::expect_warning(shar::reconstruct_pattern(pattern = shar::species_a,
                                                      n_random = 3,
                                                      max_runs = 10,
                                                      return_input = FALSE,
@@ -87,7 +87,7 @@ testthat::test_that("reconstruct_pattern returns warnings", {
                                                      verbose = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
-  testthat::expect_warning(SHAR::reconstruct_pattern(pattern = SHAR::species_a,
+  testthat::expect_warning(shar::reconstruct_pattern(pattern = shar::species_a,
                                                      n_random = 1,
                                                      max_runs = 10,
                                                      simplify = TRUE,

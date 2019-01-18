@@ -2,22 +2,22 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![Travis build
-status](https://travis-ci.org/r-spatialecology/SHAR.svg?branch=master)](https://travis-ci.org/r-spatialecology/SHAR)
+status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://travis-ci.org/r-spatialecology/shar)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/r-spatialecology/SHAR?branch=master&svg=true)](https://ci.appveyor.com/project/r-spatialecology/SHAR)
+status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
 [![Coverage
-status](https://codecov.io/gh/r-spatialecology/SHAR/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/SHAR?branch=master)
+status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
 [![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/SHAR)](https://cran.r-project.org/package=SHAR)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/SHAR)](http://cran.rstudio.com/web/packages/SHAR/index.html)
+status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-# SHAR
+# shar
 
 **Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to
 analyze species-habitat associations. Therefore, information about the
@@ -29,34 +29,34 @@ habitats are compared between the randomized data and the observed data.
 Positive or negative associations are present if the observed counts is
 higher or lower than the randomized counts (using quantile thresholds).
 Methods are mainly described in Plotkin et al. (2000), Harms et al.
-(2001) and Wiegand & Moloney (2014). **SHAR** is mainly based on the
+(2001) and Wiegand & Moloney (2014). **shar** is mainly based on the
 `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
 
 ## Installation
 
-You can install the released version of SHAR from
+You can install the released version of shar from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("SHAR") # Nope, not yet...
+install.packages("shar") # Nope, not yet...
 ```
 
 And the development version from
-[GitHub](https://github.com/r-spatialecology/SHAR) with:
+[GitHub](https://github.com/r-spatialecology/shar) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("r-spatialecology/SHAR")
+devtools::install_github("r-spatialecology/shar")
 ```
 
-## How to use SHAR
+## How to use shar
 
 ``` r
-library(SHAR)
+library(shar)
 library(raster)
 ```
 
-SHAR comes with build-in example data sets. `species_a` and `species_b`
+shar comes with build-in example data sets. `species_a` and `species_b`
 are examplary location of species, e.g. trees, as `ppp`-objects from the
 `spatstat` package. `landscape` contains examplary continious
 environmental data. However, all methods depend on discrete data.
@@ -106,13 +106,13 @@ plot_randomized_pattern(reconstruct)
 
 calculate_energy(reconstruct)
 #>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.05446658    0.06767455    0.06332802    0.06230811    0.07328460 
+#>    0.06030756    0.05936283    0.05819350    0.06859139    0.06856632 
 #>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.06494394    0.05523958    0.05802557    0.05092322    0.06039074 
+#>    0.07287071    0.06409940    0.06361426    0.06129393    0.04715134 
 #> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.05967658    0.06271794    0.06087066    0.04632613    0.06257779 
+#>    0.05203248    0.05572710    0.05258205    0.07844003    0.05031089 
 #> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.06212633    0.04856156    0.07230112    0.06577636
+#>    0.06423693    0.06101793    0.07234846    0.07822852
 ```
 
 The data was created that `species_a` has a negative association to
@@ -134,11 +134,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  1.90 15.00         n.s.
-#> 2       2    20 25.90 58.30     negative
-#> 3       3    31 44.80 89.35     negative
-#> 4       4    33 33.35 69.65     negative
-#> 5       5   109 16.45 60.30     positive
+#> 1       1     7  3.00 22.10         n.s.
+#> 2       2    20 32.00 66.75     negative
+#> 3       3    31 47.45 79.55     negative
+#> 4       4    33 35.35 63.55     negative
+#> 5       5   109 12.35 44.10     positive
 ```
 
 ## References
