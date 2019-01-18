@@ -1,40 +1,35 @@
 testthat::context("test-calculate_energy")
 
+pattern_random_a <- shar::fit_point_process(pattern = shar::species_a,
+                                            n_random = 3)
+
+pattern_random_b <- shar::fit_point_process(pattern = shar::species_b,
+                                            n_random = 3,
+                                            return_input = FALSE)
+
 testthat::test_that("calculate_energy returns energy for all randomizations", {
 
-  pattern_random <- shar::fit_point_process(pattern = shar::species_a,
-                                            n_random = 19)
-
-  testthat::expect_length(shar::calculate_energy(pattern_random), n = 19)
+  testthat::expect_length(shar::calculate_energy(pattern_random_a),
+                          n = 3)
 })
 
 testthat::test_that("calculate_energy returns mean ", {
 
-  pattern_random <- shar::fit_point_process(pattern = shar::species_a,
-                                            n_random = 19)
+  mean_energy <- mean(shar::calculate_energy(pattern_random_a))
 
-  mean_energy <- mean(shar::calculate_energy(pattern_random))
-
-  testthat::expect_equal(shar::calculate_energy(pattern_random,
+  testthat::expect_equal(shar::calculate_energy(pattern_random_a,
                                                 return_mean = TRUE),
                          expected = mean_energy)
 })
 
 testthat::test_that("calculate_energy can use comp_fast = TRUE ", {
 
-  pattern_random <- shar::fit_point_process(pattern = shar::species_a,
-                                            n_random = 19)
-
-  expect_length(shar::calculate_energy(pattern_random,
-                                       comp_fast = TRUE), n = 19)
+  expect_length(shar::calculate_energy(pattern_random_a,
+                                       comp_fast = TRUE), n = 3)
 })
 
 testthat::test_that("calculate_energy returns error if observed not included ", {
 
-  pattern_random <- shar::fit_point_process(pattern = shar::species_a,
-                                            n_random = 19,
-                                            return_input = FALSE)
-
-  testthat::expect_error(shar::calculate_energy(pattern_random),
+  testthat::expect_error(shar::calculate_energy(pattern_random_b),
                          regexp = "Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.")
 })

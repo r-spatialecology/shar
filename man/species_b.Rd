@@ -9,6 +9,6 @@
 species_b
 }
 \description{
-A species with negative associations to habitat 5 of `landscape`.
+A species with positive associations to habitat 5 of `landscape`.
 }
 \keyword{datasets}
