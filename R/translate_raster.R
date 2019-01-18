@@ -68,8 +68,9 @@ translate_raster <- function(raster, return_input = TRUE, verbose = TRUE){
                                      xmn = raster::xmin(raster), xmx = raster::xmax(raster),
                                      ymn = raster::ymin(raster), ymx = raster::ymax(raster))
 
+    # print progress
     if(verbose) {
-      cat(paste0("\rProgress: n_random: ", current_row, "/", nrow(steps_xy)))
+      message("\r> Progress: n_random: ", current_row, "/", nrow(steps_xy), appendLF = FALSE)
     }
 
     return(raster_shifted)
@@ -83,6 +84,11 @@ translate_raster <- function(raster, return_input = TRUE, verbose = TRUE){
 
   else{
     names(result) <- paste0("randomized_", seq_len(length(result))) # set names
+  }
+
+  # write result in new line if progress was printed
+  if(verbose) {
+    message("\r")
   }
 
   return(result)

@@ -5,7 +5,8 @@
 #' @param pattern List with reconstructed patterns.
 #' @param method String to specifiy if spatial pattern or marks were reconstructed
 #' @param probs Quantiles of randomized data used for envelope construction.
-#' @param comp_fast Should summary functions be estimated in an computational fast way.
+#' @param comp_fast Should summary functions be estimated in an computational fast way.#'
+#' @param verbose Print progress report.
 #'
 #' @details
 #' The function plots the pair correlation function and the nearest neighbour function
@@ -33,7 +34,8 @@
 plot_randomized_pattern <- function(pattern,
                                     method = "spatial",
                                     probs = c(0.025, 0.975),
-                                    comp_fast = FALSE){
+                                    comp_fast = FALSE,
+                                    verbose = TRUE){
 
   # check if randomized and observed is present
   if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
@@ -46,23 +48,23 @@ plot_randomized_pattern <- function(pattern,
   if(method == "spatial") {
 
     # loop through all input
-    result_list <- lapply(pattern, function(current_pattern){
+    result_list <- lapply(seq_along(pattern), function(x){
 
       # calculate summary functions
       if(comp_fast) {
 
-        gest_result <- spatstat::Gest(current_pattern, correction = "none")
+        gest_result <- spatstat::Gest(pattern[[x]], correction = "none")
 
-        pcf_result <- shar::estimate_pcf_fast(current_pattern,
+        pcf_result <- shar::estimate_pcf_fast(pattern[[x]],
                                               correction = "none",
                                               method = "c",
                                               spar = 0.5)
       }
 
       else{
-        gest_result <- spatstat::Gest(current_pattern, correction = "han")
+        gest_result <- spatstat::Gest(pattern[[x]], correction = "han")
 
-        pcf_result <- spatstat::pcf(current_pattern, divisor = "d", correction = "best")
+        pcf_result <- spatstat::pcf(pattern[[x]], divisor = "d", correction = "best")
       }
 
       gest_df <- as.data.frame(gest_result) # conver to df
@@ -77,7 +79,14 @@ plot_randomized_pattern <- function(pattern,
 
       pcf_df$summary_function <- "Pair Correlation Function g(r)" # name of method
 
-      dplyr::bind_rows(gest_df, pcf_df) # combine to one df
+      summary_stats <- dplyr::bind_rows(gest_df, pcf_df) # combine to one df
+
+      # print progress
+      if(verbose) {
+        message("\r> Progress: ", x, "/", length(pattern), appendLF = FALSE)
+      }
+
+      return(summary_stats)
     })
 
     names(result_list) <- names(pattern) # add names of input to result list
@@ -148,10 +157,17 @@ plot_randomized_pattern <- function(pattern,
 
   else if (method == "marks") {
 
-    result_list <- lapply(pattern, function(current_pattern){
+    result_list <- lapply(seq_along(pattern), function(x){
 
-      as.data.frame(spatstat::markcorr(current_pattern,
-                                       correction = "Ripley"))
+      mark_corr <- as.data.frame(spatstat::markcorr(pattern[[x]],
+                                                    correction = "Ripley"))
+
+      # print progress
+      if(verbose) {
+        message("\r> Progress: ", x, "/", length(pattern), appendLF = FALSE)
+      }
+
+      return(mark_corr)
     })
 
     names(result_list) <- names(pattern) # add names of input to result list
@@ -195,4 +211,3 @@ plot_randomized_pattern <- function(pattern,
          call. =FALSE)
   }
 }
-

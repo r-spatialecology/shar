@@ -116,18 +116,39 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">reconstruct &lt;-<span class="st"> </span><span class="kw"><a href="reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_b, <span class="dt">max_runs =</span> <span class="dv">500</span>, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="co"># takes some time</span></a></code></pre></div>
 <p>Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; &gt; Progress: 1/20 &gt; Progress: 2/20 &gt; Progress: 3/20 &gt; Progress: 4/20</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; &gt; Progress: 5/20 &gt; Progress: 6/20 &gt; Progress: 7/20 &gt; Progress: 8/20 &gt;</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Progress: 9/20 &gt; Progress: 10/20 &gt; Progress: 11/20 &gt; Progress: 12/20 &gt;</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; Progress: 13/20 &gt; Progress: 14/20 &gt; Progress: 15/20 &gt; Progress: 16/20 &gt;</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Progress: 17/20 &gt; Progress: 18/20 &gt; Progress: 19/20 &gt; Progress: 20/20</span></a></code></pre></div>
 <p><img src="reference/figures/README-plot_random_pattern-1.png" width="100%"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    0.04164286    0.05956312    0.06837838    0.05228294    0.05426113 </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 </span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;    0.06194320    0.06608969    0.05039749    0.06182786    0.07425444 </span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 </span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;    0.06006974    0.04960242    0.05950768    0.07160343    0.05806646 </span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; randomized_16 randomized_17 randomized_18 randomized_19 </span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;    0.07284712    0.06115898    0.04408925    0.09897747</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">2</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">3</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">4</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">5</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">6</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">7</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">8</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">9</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">10</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">11</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">12</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">13</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">14</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">15</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">16</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">17</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">18</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="op">&gt;</span><span class="st"> </span>Progress<span class="op">:</span><span class="st"> </span><span class="dv">19</span><span class="op">/</span><span class="dv">19</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt;  [1] 0.07258976 0.04916562 0.05868023 0.07716245 0.07494910 0.06905034</span></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt;  [7] 0.05512440 0.06146392 0.06107426 0.05733996 0.08617111 0.06613197</span></a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; [13] 0.06286418 0.05707504 0.04794031 0.06010188 0.07327014 0.05482072</span></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt; [19] 0.08091794</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
@@ -141,11 +162,11 @@
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  2.00 16.20         n.s.</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 30.15 60.30     negative</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 49.70 84.45     negative</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 41.45 71.20     negative</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109  8.90 42.30     positive</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  1.35 24.10         n.s.</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 29.35 68.85     negative</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 57.45 84.20     negative</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 31.35 60.20         n.s.</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109 11.45 52.50     positive</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">

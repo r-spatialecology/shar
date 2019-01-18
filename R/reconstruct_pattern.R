@@ -225,9 +225,9 @@ reconstruct_pattern <- function(pattern, n_random = 19,
 
       # print progress
       if(verbose) {
-        cat(paste0("\rProgress: n_random: ", current_pattern, "/", n_random,
-                   " || max_runs: ", i, "/", max_runs,
-                   " || e0 = ", round(e0, 5)))
+        message("\r> Progress: n_random: ", current_pattern, "/", n_random,
+                " || max_runs: ", i, "/", max_runs,
+                " || e0 = ", round(e0, 5), appendLF = FALSE)
       }
 
       # exit loop if e threshold is reached
@@ -243,7 +243,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
   if(return_input){
 
     if(verbose & simplify){
-      cat("\n")
+      message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
 
@@ -257,7 +257,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     if(simplify) {
 
       if(verbose & n_random > 1) {
-        cat("\n")
+        message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
 
@@ -269,6 +269,11 @@ reconstruct_pattern <- function(pattern, n_random = 19,
     else{
       names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
+  }
+
+  # write result in new line if progress was printed
+  if(verbose) {
+    message("\r")
   }
 
   return(result)

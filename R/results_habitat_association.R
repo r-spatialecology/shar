@@ -60,8 +60,8 @@ results_habitat_association <- function(pattern, raster,
 
     # print quantiles
     if(verbose){
-      cat(paste0("> Input: randomized raster | Quantile thresholds: negative < ",
-                 threshold[1], " - positive > ", threshold[2], "\n\n"))
+      message("> Input: randomized raster | Quantile thresholds: negative < ",
+              threshold[1], " - positive > ", threshold[2])
     }
 
     # extract number of points within each habitat for all list entries
@@ -83,8 +83,8 @@ results_habitat_association <- function(pattern, raster,
 
     # print quantiles
     if(verbose){
-      cat(paste0("> Input: randomized point pattern | Quantile thresholds: negative < ",
-                 threshold[1], " - positive > ", threshold[2], "\n\n"))
+      message("> Input: randomized point pattern | Quantile thresholds: negative < ",
+              threshold[1], " - positive > ", threshold[2])
     }
 
     # extract number of points within each habitat for all list entries
@@ -130,5 +130,4 @@ results_habitat_association <- function(pattern, raster,
                                                                  count>= lo & count <= hi ~ "n.s.")))
 
   return(result)
-
 }

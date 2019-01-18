@@ -4,7 +4,8 @@
 \alias{calculate_energy}
 \title{calculate_energy}
 \usage{
-calculate_energy(pattern, return_mean = FALSE, comp_fast = FALSE)
+calculate_energy(pattern, return_mean = FALSE, comp_fast = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
@@ -12,6 +13,8 @@ calculate_energy(pattern, return_mean = FALSE, comp_fast = FALSE)
 \item{return_mean}{Return the mean energy}
 
 \item{comp_fast}{Should summary functions be estimated in an computational fast way.}
+
+\item{verbose}{Print progress report.}
 }
 \value{
 numeric

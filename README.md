@@ -98,6 +98,11 @@ observed pattern and the randomized patterns (using summary functions).
 
 ``` r
 plot_randomized_pattern(reconstruct)
+#> > Progress: 1/20 > Progress: 2/20 > Progress: 3/20 > Progress: 4/20
+#> > Progress: 5/20 > Progress: 6/20 > Progress: 7/20 > Progress: 8/20 >
+#> Progress: 9/20 > Progress: 10/20 > Progress: 11/20 > Progress: 12/20 >
+#> Progress: 13/20 > Progress: 14/20 > Progress: 15/20 > Progress: 16/20 >
+#> Progress: 17/20 > Progress: 18/20 > Progress: 19/20 > Progress: 20/20
 ```
 
 <img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
@@ -105,14 +110,30 @@ plot_randomized_pattern(reconstruct)
 ``` r
 
 calculate_energy(reconstruct)
-#>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.06030756    0.05936283    0.05819350    0.06859139    0.06856632 
-#>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.07287071    0.06409940    0.06361426    0.06129393    0.04715134 
-#> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.05203248    0.05572710    0.05258205    0.07844003    0.05031089 
-#> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.06423693    0.06101793    0.07234846    0.07822852
+#> 
+> Progress: 1/19
+> Progress: 2/19
+> Progress: 3/19
+> Progress: 4/19
+> Progress: 5/19
+> Progress: 6/19
+> Progress: 7/19
+> Progress: 8/19
+> Progress: 9/19
+> Progress: 10/19
+> Progress: 11/19
+> Progress: 12/19
+> Progress: 13/19
+> Progress: 14/19
+> Progress: 15/19
+> Progress: 16/19
+> Progress: 17/19
+> Progress: 18/19
+> Progress: 19/19
+#>  [1] 0.05665303 0.06070149 0.06751259 0.06509026 0.06539750 0.05028764
+#>  [7] 0.05780923 0.07275291 0.06374529 0.06052045 0.06363818 0.07660827
+#> [13] 0.06467851 0.07218597 0.05664780 0.06387625 0.06231587 0.06277629
+#> [19] 0.07467266
 ```
 
 The data was created that `species_a` has a negative association to
@@ -134,11 +155,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  3.00 22.10         n.s.
-#> 2       2    20 32.00 66.75     negative
-#> 3       3    31 47.45 79.55     negative
-#> 4       4    33 35.35 63.55     negative
-#> 5       5   109 12.35 44.10     positive
+#> 1       1     7  2.00 16.10         n.s.
+#> 2       2    20 24.45 64.20     negative
+#> 3       3    31 50.45 85.85     negative
+#> 4       4    33 40.25 66.55     negative
+#> 5       5   109 11.45 52.55     positive
 ```
 
 ## References

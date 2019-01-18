@@ -136,8 +136,9 @@ randomize_raster <- function(raster,
 
         # print progess
         if(verbose) {
-          cat(paste0("\rProgress: n_random: ", current_raster, "/", n_random,
-                     " || habitats: " , current_habitat, "/", length(habitats))) # add habitat and number empty cells
+          message("\r> Progress: n_random: ", current_raster, "/", n_random,
+                  " || habitats: " , current_habitat, "/", length(habitats),
+                  appendLF = FALSE) # add habitat and number empty cells
         }
       }
     }
@@ -160,7 +161,7 @@ randomize_raster <- function(raster,
   if(return_input){
 
     if(verbose & simplify){
-      cat("\n")
+      message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
 
@@ -174,7 +175,7 @@ randomize_raster <- function(raster,
     if(simplify) {
 
       if(verbose & n_random > 1) {
-        cat("\n")
+        message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
 
@@ -186,6 +187,11 @@ randomize_raster <- function(raster,
     else{
       names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
+  }
+
+  # write result in new line if progress was printed
+  if(verbose) {
+    message("\r")
   }
 
   return(result)

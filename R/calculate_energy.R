@@ -5,6 +5,7 @@
 #' @param pattern List with reconstructed patterns.
 #' @param return_mean Return the mean energy
 #' @param comp_fast Should summary functions be estimated in an computational fast way.
+#' @param verbose Print progress report.
 #'
 #' @details
 #' The function calculates the mean energy (or deviation) between the observed
@@ -37,7 +38,7 @@
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 
 #' @export
-calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE){
+calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE, verbose = TRUE){
 
   # check if randomized and observed is present
   if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
@@ -69,36 +70,50 @@ calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE){
   }
 
   # loop through all reconstructed patterns
-  result <- vapply(pattern_reconstructed, function(current_pattern) {
+  result <- vapply(seq_along(pattern_reconstructed), function(x) {
 
+    # fast computation of summary stats
     if(comp_fast) {
 
-      gest_reconstruction <- spatstat::Gest(X = current_pattern, correction = "none")
+      gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]], correction = "none")
 
-      pcf_reconstruction <- shar::estimate_pcf_fast(pattern = current_pattern,
+      pcf_reconstruction <- shar::estimate_pcf_fast(pattern = pattern_reconstructed[[x]],
                                                     correction = "none",
                                                     method = "c",
                                                     spar = 0.5)
     }
 
+    # normal computation of summary stats
     else{
 
-      gest_reconstruction <- spatstat::Gest(X = current_pattern, correction = "han")
+      gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]], correction = "han")
 
-      pcf_reconstruction <- spatstat::pcf(X = current_pattern,
+      pcf_reconstruction <- spatstat::pcf(X = pattern_reconstructed[[x]],
                                           correction = "best", divisor = "d")
     }
 
     # difference between observed and reconstructed pattern
-    mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) +
+    energy <- mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) +
       mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE)
-  },  FUN.VALUE = numeric(1))
+
+    # print progress
+    if(verbose) {
+      message("\r> Progress: ", x, "/", length(pattern_reconstructed), appendLF = FALSE)
+    }
+
+    return(energy)
+
+  }, FUN.VALUE = numeric(1))
 
   # return mean for all reconstructed patterns
   if(return_mean) {
     result <- mean(result)
   }
 
+  # write result in new line if progress was printed
+  if(verbose) {
+    message("\r")
+  }
+
   return(result)
 }
-
