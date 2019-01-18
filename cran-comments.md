@@ -7,6 +7,15 @@
 
 * Added "Methods are mainly based on Plotkin et al. (2000) <doi:10.1006/jtbi.2000.2158> and Harms et al. (2001) <doi:10.1111/j.1365-2745.2001.00615.x>." to the description field
 
+3. Thanks, we see: 
+  running tests for arch 'i386' ... [320s] OK 
+  running tests for arch 'x64' ... [356s] OK
+which is together alreadyv more than 10 min which is the CRAN threshold for a package check. Can you pls simplify the test cases or run less important tests only conditionally if some env var is set that you only define on your machine?
+
+* The test run faster now (checked on win-builder.r-project)
+  running tests for arch 'i386' ... [152s] OK
+  running tests for arch 'x64' ... [164s] OK
+
 * Renamed package from `SHAR` to `shar`
 
 ## Test environments
