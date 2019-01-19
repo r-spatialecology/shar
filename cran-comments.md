@@ -13,8 +13,6 @@
 which is together alreadyv more than 10 min which is the CRAN threshold for a package check. Can you pls simplify the test cases or run less important tests only conditionally if some env var is set that you only define on your machine?
 
 * The test run faster now (checked on win-builder.r-project)
-  running tests for arch 'i386' ... [152s] OK
-  running tests for arch 'x64' ... [164s] OK
 
 * Renamed package from `SHAR` to `shar`
 
