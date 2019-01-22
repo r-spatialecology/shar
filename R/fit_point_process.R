@@ -80,7 +80,7 @@ fit_point_process <- function(pattern,
         difference <- simulated$n - pattern$n
 
         # id of points to remove
-        remove_points <- sample(seq_len(pattern$n), size = difference)
+        remove_points <- sample(seq_len(simulated$n), size = difference)
 
         # remove points
         simulated <- simulated[-remove_points]
