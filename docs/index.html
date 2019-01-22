@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
       </span>
     </div>
 
@@ -120,10 +120,10 @@
 <p><img src="reference/figures/README-plot_random_pattern-1.png" width="100%"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  [1] 0.10426062 0.06507259 0.05477898 0.04844769 0.06215580 0.06606939</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;  [7] 0.05321224 0.04775923 0.06567171 0.07409387 0.06059107 0.06949132</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; [13] 0.07126840 0.06353377 0.04214986 0.07610525 0.06951011 0.05541534</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; [19] 0.05374531</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  [1] 0.08717188 0.07388463 0.06598124 0.05477311 0.08383747 0.05835966</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;  [7] 0.08267451 0.06248824 0.06481604 0.03726285 0.12211681 0.04183738</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; [13] 0.05254235 0.07155866 0.05706179 0.07359680 0.05282555 0.07355806</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; [19] 0.04766422</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
@@ -136,12 +136,12 @@
 <a class="sourceLine" id="cb9-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;   habitat count   lo    hi significance</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  2.9 15.10         n.s.</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 36.0 67.50     negative</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 53.0 77.75     negative</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 39.9 75.40     negative</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109 10.9 46.00     positive</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  1.45 20.20         n.s.</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 25.90 68.10     negative</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 45.80 77.55     negative</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 34.00 69.40     negative</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109 13.25 52.85     positive</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
