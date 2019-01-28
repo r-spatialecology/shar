@@ -28,10 +28,10 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-You can install the released version of shar from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of **shar** from [CRAN](https://CRAN.R-project.org) with:
 
 ```{r install_CRAN, eval = FALSE}
-install.packages("shar") # Nope, not yet...
+install.packages("shar")
 ```
 
 And the development version from [GitHub](https://github.com/r-spatialecology/shar) with:
@@ -47,7 +47,7 @@ library(shar)
 library(raster)
 ```
 
-shar comes with build-in example data sets. `species_a` and `species_b` are examplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
+**shar** comes with build-in example data sets. `species_a` and `species_b` are examplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
 
 ```{r environmental_data}
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)

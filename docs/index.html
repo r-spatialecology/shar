@@ -93,8 +93,8 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of shar from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"shar"</span>) <span class="co"># Nope, not yet...</span></a></code></pre></div>
+<p>You can install the released version of <strong>shar</strong> from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"shar"</span>)</a></code></pre></div>
 <p>And the development version from <a href="https://github.com/r-spatialecology/shar">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"r-spatialecology/shar"</span>)</a></code></pre></div>
@@ -104,7 +104,7 @@
 <a href="#how-to-use-shar" class="anchor"></a>How to use shar</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shar)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a></code></pre></div>
-<p>shar comes with build-in example data sets. <code>species_a</code> and <code>species_b</code> are examplary location of species, e.g. trees, as <code>ppp</code>-objects from the <code>spatstat</code> package. <code>landscape</code> contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first.</p>
+<p><strong>shar</strong> comes with build-in example data sets. <code>species_a</code> and <code>species_b</code> are examplary location of species, e.g. trees, as <code>ppp</code>-objects from the <code>spatstat</code> package. <code>landscape</code> contains examplary continious environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">landscape_classified &lt;-<span class="st"> </span><span class="kw"><a href="reference/classify_habitats.html">classify_habitats</a></span>(<span class="dt">raster =</span> landscape, <span class="dt">classes =</span> <span class="dv">5</span>)</a></code></pre></div>
 <p>There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">torus_trans &lt;-<span class="st"> </span><span class="kw"><a href="reference/translate_raster.html">translate_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
@@ -120,10 +120,10 @@
 <p><img src="reference/figures/README-plot_random_pattern-1.png" width="100%"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  [1] 0.06852348 0.06408633 0.06531618 0.04173977 0.05499634 0.06291039</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;  [7] 0.06996135 0.06997656 0.06910285 0.07782464 0.06015617 0.06530319</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; [13] 0.07550727 0.06301783 0.07611815 0.07815182 0.05762906 0.04274877</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; [19] 0.05264750</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;  [1] 0.07222916 0.05586767 0.06621835 0.04754561 0.05854249 0.05203715</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;  [7] 0.05014688 0.06019734 0.05753963 0.06378630 0.05332740 0.06763482</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; [13] 0.05640592 0.05468725 0.05669595 0.04209138 0.05287211 0.06597714</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; [19] 0.05386930</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
@@ -137,11 +137,11 @@
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  1.45 19.20         n.s.</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 31.25 63.05     negative</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 39.70 80.80     negative</span></a>
-<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 33.35 70.55     negative</span></a>
-<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109 13.05 49.55     positive</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 1       1     7  1.90 25.10         n.s.</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 2       2    20 31.35 61.10     negative</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; 3       3    31 40.25 83.30     negative</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; 4       4    33 38.35 68.75     negative</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; 5       5   109 13.45 49.00     positive</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
@@ -160,6 +160,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=shar">https://​cloud.r-project.org/​package=shar</a>
+</li>
 <li>Report a bug at <br><a href="https://github.com/r-spatialecology/shar/issues">https://​github.com/​r-spatialecology/​shar/​issues</a>
 </li>
 </ul>
