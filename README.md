@@ -7,7 +7,7 @@ status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
-[![Project Status: Active â€“ The project has reached a stable, usable
+[![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -34,11 +34,11 @@ Methods are mainly described in Plotkin et al. (2000), Harms et al.
 
 ## Installation
 
-You can install the released version of shar from
+You can install the released version of **shar** from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("shar") # Nope, not yet...
+install.packages("shar")
 ```
 
 And the development version from
@@ -56,11 +56,11 @@ library(shar)
 library(raster)
 ```
 
-shar comes with build-in example data sets. `species_a` and `species_b`
-are examplary location of species, e.g. trees, as `ppp`-objects from the
-`spatstat` package. `landscape` contains examplary continious
-environmental data. However, all methods depend on discrete data.
-Therefore we need to classify the data
+**shar** comes with build-in example data sets. `species_a` and
+`species_b` are examplary location of species, e.g. trees, as
+`ppp`-objects from the `spatstat` package. `landscape` contains
+examplary continious environmental data. However, all methods depend on
+discrete data. Therefore we need to classify the data
 first.
 
 ``` r
@@ -97,43 +97,18 @@ plot a randomized pattern or calculate the differences between the
 observed pattern and the randomized patterns (using summary functions).
 
 ``` r
-plot_randomized_pattern(reconstruct)
-#> > Progress: 1/20 > Progress: 2/20 > Progress: 3/20 > Progress: 4/20
-#> > Progress: 5/20 > Progress: 6/20 > Progress: 7/20 > Progress: 8/20 >
-#> Progress: 9/20 > Progress: 10/20 > Progress: 11/20 > Progress: 12/20 >
-#> Progress: 13/20 > Progress: 14/20 > Progress: 15/20 > Progress: 16/20 >
-#> Progress: 17/20 > Progress: 18/20 > Progress: 19/20 > Progress: 20/20
+plot_randomized_pattern(reconstruct, verbose = FALSE)
 ```
 
 <img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
 
 ``` r
 
-calculate_energy(reconstruct)
-#> 
-> Progress: 1/19
-> Progress: 2/19
-> Progress: 3/19
-> Progress: 4/19
-> Progress: 5/19
-> Progress: 6/19
-> Progress: 7/19
-> Progress: 8/19
-> Progress: 9/19
-> Progress: 10/19
-> Progress: 11/19
-> Progress: 12/19
-> Progress: 13/19
-> Progress: 14/19
-> Progress: 15/19
-> Progress: 16/19
-> Progress: 17/19
-> Progress: 18/19
-> Progress: 19/19
-#>  [1] 0.05665303 0.06070149 0.06751259 0.06509026 0.06539750 0.05028764
-#>  [7] 0.05780923 0.07275291 0.06374529 0.06052045 0.06363818 0.07660827
-#> [13] 0.06467851 0.07218597 0.05664780 0.06387625 0.06231587 0.06277629
-#> [19] 0.07467266
+calculate_energy(reconstruct, verbose = FALSE)
+#>  [1] 0.06946475 0.05652419 0.06131211 0.05674564 0.04543196 0.05823235
+#>  [7] 0.08188117 0.09577735 0.06980046 0.05246978 0.06385015 0.05848106
+#> [13] 0.06453171 0.07813714 0.05937555 0.07139397 0.07124605 0.05038522
+#> [19] 0.05815600
 ```
 
 The data was created that `species_a` has a negative association to
@@ -155,11 +130,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  2.00 16.10         n.s.
-#> 2       2    20 24.45 64.20     negative
-#> 3       3    31 50.45 85.85     negative
-#> 4       4    33 40.25 66.55     negative
-#> 5       5   109 11.45 52.55     positive
+#> 1       1     7  0.45 14.55         n.s.
+#> 2       2    20 29.45 65.65     negative
+#> 3       3    31 48.45 80.55     negative
+#> 4       4    33 36.80 74.30     negative
+#> 5       5   109 15.45 49.85     positive
 ```
 
 ## References

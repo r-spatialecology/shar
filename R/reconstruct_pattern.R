@@ -91,7 +91,7 @@ reconstruct_pattern <- function(pattern, n_random = 19,
         difference <- simulated$n - pattern$n
 
         # id of points to remove
-        remove_points <- sample(seq_len(pattern$n), size = difference)
+        remove_points <- sample(seq_len(simulated$n), size = difference)
 
         # remove points
         simulated <- simulated[-remove_points]

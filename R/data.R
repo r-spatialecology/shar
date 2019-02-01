@@ -9,14 +9,14 @@
 
 #' Species a
 #'
-#' A species with positive associations to habitat 4 of `landscape`.
+#' A species with negative associations to habitat 4 of `landscape`.
 #'
 #' @format A spatstat ppp object
 "species_a"
 
 #' Species b
 #'
-#' A species with negative associations to habitat 5 of `landscape`.
+#' A species with positive associations to habitat 5 of `landscape`.
 #'
 #' @format A spatstat ppp object
 "species_b"
