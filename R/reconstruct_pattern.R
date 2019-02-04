@@ -7,6 +7,7 @@
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
+#' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
 #' @param comp_fast If pattern contains more points than threshol, summary functions are estimated in a computational fast way.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
@@ -19,10 +20,16 @@
 #' algorithm starts with a random reconstructed pattern, shifts a point to a new location and
 #' keeps the change only, if the deviation between the observed and the reconstructed
 #' pattern decreases. The pair correlation function and the nearest neighbour
-#' distance function are used to describe the patterns. For large patterns
-#' `comp_fast = TRUE` decreases the computational demand because no edge
+#' distance function are used to describe the patterns.
+#'
+#' @section `comp_fast`:
+#' For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
 #' correction is used and the pair correlation function is estimated based on Ripley's
 #' K-function. For more information see \code{\link{estimate_pcf_fast}}.
+#'
+#' @section `no_change`:
+#' To not stop the reconstruction, even if the energy did not decrease for many iterations, set
+#' the argument to infinity `no_change = Inf`.
 #'
 #' @seealso
 #' \code{\link{calculate_energy}} \cr
@@ -47,7 +54,9 @@
 #'
 #' @export
 reconstruct_pattern <- function(pattern, n_random = 1,
-                                e_threshold = 0.01, max_runs = 1000,
+                                e_threshold = 0.01,
+                                max_runs = 1000,
+                                no_change = Inf,
                                 fitting = FALSE,
                                 comp_fast = 1000,
                                 return_input = TRUE,
@@ -62,12 +71,21 @@ reconstruct_pattern <- function(pattern, n_random = 1,
 
   # check if number of points exceed comp_fast limit
   if(pattern$n > comp_fast) {
+
+    # Print message that summary functions will be computed fast
+    if(verbose) {
+      message("> Using fast compuation of summary functions.")
+    }
+
     comp_fast <- TRUE
   }
 
   else {
     comp_fast <- FALSE
   }
+
+  # counter if energy changed
+  energy_counter <- 0
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
@@ -162,7 +180,7 @@ reconstruct_pattern <- function(pattern, n_random = 1,
     }
 
     # energy before reconstruction
-    e0 <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
+    energy <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
       mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
 
     # random ids of pattern
@@ -174,8 +192,8 @@ reconstruct_pattern <- function(pattern, n_random = 1,
                                       nsim = 1, drop = TRUE,
                                       win = pattern$window)
 
-    # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
-    for(i in seq_len(max_runs)){
+    # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
+    for(i in seq_len(max_runs)) {
 
       relocated <- simulated # data for relocation
 
@@ -209,11 +227,13 @@ reconstruct_pattern <- function(pattern, n_random = 1,
         mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE)
 
       # lower energy after relocation
-      if(e_relocated < e0){
+      if(e_relocated < energy){
 
         simulated <- relocated # keep relocated pattern
 
-        e0 <- e_relocated # keep e_relocated as e0
+        energy <- e_relocated # keep e_relocated as energy
+
+        energy_counter <- 0
 
         # plot observed vs reconstructed
         if(plot) {
@@ -233,15 +253,20 @@ reconstruct_pattern <- function(pattern, n_random = 1,
         }
       }
 
+      else {
+        energy_counter <- energy_counter + 1
+      }
+
       # print progress
       if(verbose) {
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", i, "/", max_runs,
-                " || e0 = ", round(e0, 5), appendLF = FALSE)
+                " || energy = ", round(energy, 5),
+                appendLF = FALSE)
       }
 
       # exit loop if e threshold is reached
-      if(e0 <= e_threshold){
+      if(energy <= e_threshold || energy_counter > no_change){
         break
       }
     }

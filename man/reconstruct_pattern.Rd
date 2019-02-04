@@ -5,9 +5,9 @@
 \title{reconstruct_pattern}
 \usage{
 reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
-  max_runs = 1000, fitting = FALSE, comp_fast = 1000,
-  return_input = TRUE, simplify = FALSE, verbose = TRUE,
-  plot = FALSE)
+  max_runs = 1000, no_change = Inf, fitting = FALSE,
+  comp_fast = 1000, return_input = TRUE, simplify = FALSE,
+  verbose = TRUE, plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}
@@ -17,6 +17,8 @@ reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
 \item{e_threshold}{Minimum energy to stop reconstruction.}
 
 \item{max_runs}{Maximum number of iterations of e_threshold is not reached.}
+
+\item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
 
 \item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process.}
 
@@ -42,11 +44,21 @@ as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). The
 algorithm starts with a random reconstructed pattern, shifts a point to a new location and
 keeps the change only, if the deviation between the observed and the reconstructed
 pattern decreases. The pair correlation function and the nearest neighbour
-distance function are used to describe the patterns. For large patterns
-`comp_fast = TRUE` decreases the computational demand because no edge
+distance function are used to describe the patterns.
+}
+\section{`comp_fast`}{
+
+For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
 correction is used and the pair correlation function is estimated based on Ripley's
 K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }
+
+\section{`no_change`}{
+
+To not stop the reconstruction, even if the energy did not decrease for many iterations, set
+the argument to infinity `no_change = Inf`.
+}
+
 \examples{
 \dontrun{
 pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000)
