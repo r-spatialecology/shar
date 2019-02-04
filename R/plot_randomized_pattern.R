@@ -5,7 +5,7 @@
 #' @param pattern List with reconstructed patterns.
 #' @param method String to specifiy if spatial pattern or marks were reconstructed
 #' @param probs Quantiles of randomized data used for envelope construction.
-#' @param comp_fast Should summary functions be estimated in an computational fast way.#'
+#' @param comp_fast If pattern contains more points than threshol, summary functions are estimated in a computational fast way.
 #' @param verbose Print progress report.
 #'
 #' @details
@@ -34,13 +34,22 @@
 plot_randomized_pattern <- function(pattern,
                                     method = "spatial",
                                     probs = c(0.025, 0.975),
-                                    comp_fast = FALSE,
+                                    comp_fast = 1000,
                                     verbose = TRUE){
 
   # check if randomized and observed is present
   if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
     stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.",
          call. = FALSE)
+  }
+
+  # check if number of points exceed comp_fast limit
+  if(pattern$observed$n > comp_fast) {
+    comp_fast <- TRUE
+  }
+
+  else {
+    comp_fast <- FALSE
   }
 
   name_unit <- spatstat::unitname(pattern$observed)[[1]] # unit name for labels

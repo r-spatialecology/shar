@@ -7,7 +7,7 @@
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
-#' @param comp_fast Should summary functions be estimated in an computational fast way.
+#' @param comp_fast If pattern contains more points than threshol, summary functions are estimated in a computational fast way.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
@@ -48,7 +48,8 @@
 #' @export
 reconstruct_pattern <- function(pattern, n_random = 1,
                                 e_threshold = 0.01, max_runs = 1000,
-                                fitting = FALSE, comp_fast = FALSE,
+                                fitting = FALSE,
+                                comp_fast = 1000,
                                 return_input = TRUE,
                                 simplify = FALSE,
                                 verbose = TRUE,
@@ -57,6 +58,15 @@ reconstruct_pattern <- function(pattern, n_random = 1,
   # check if n_random is >= 1
   if(!n_random >= 1) {
     stop("n_random must be >= 1.", call. = FALSE)
+  }
+
+  # check if number of points exceed comp_fast limit
+  if(pattern$n > comp_fast) {
+    comp_fast <- TRUE
+  }
+
+  else {
+    comp_fast <- FALSE
   }
 
   pattern <- spatstat::unmark(pattern) # only spatial points

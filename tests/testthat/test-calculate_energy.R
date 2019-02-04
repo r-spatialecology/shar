@@ -22,10 +22,10 @@ testthat::test_that("calculate_energy returns mean ", {
                          expected = mean_energy)
 })
 
-testthat::test_that("calculate_energy can use comp_fast = TRUE ", {
+testthat::test_that("calculate_energy can use comp_fast ", {
 
   expect_length(shar::calculate_energy(pattern_random_a,
-                                       comp_fast = TRUE), n = 3)
+                                       comp_fast = 50), n = 3)
 })
 
 testthat::test_that("calculate_energy returns error if observed not included ", {

@@ -2,6 +2,7 @@
 * Improvements
   * Replaced `cat()` with `message()` for all printing to console
   * All defaults set  to `n_random = 1`
+  * `comp_fast` argument equals TRUE if number of points exceed threshold
 * Bugfixes
   * Bug in `fit_point_process()` that more points as present could be removed from simulated pattern
   * Bug in `reconstruct_pattern()` that more points as present could be removed from simulated pattern

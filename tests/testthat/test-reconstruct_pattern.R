@@ -43,7 +43,7 @@ testthat::test_that("Argument comp_fast = TRUE is working", {
   pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
                                              n_random = 1,
                                              max_runs = 1,
-                                             comp_fast = TRUE)
+                                             comp_fast = 50)
 
   testthat::expect_type(pattern_recon, type = "list")
 

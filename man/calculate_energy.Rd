@@ -4,7 +4,7 @@
 \alias{calculate_energy}
 \title{calculate_energy}
 \usage{
-calculate_energy(pattern, return_mean = FALSE, comp_fast = FALSE,
+calculate_energy(pattern, return_mean = FALSE, comp_fast = 1000,
   verbose = TRUE)
 }
 \arguments{
@@ -12,7 +12,7 @@ calculate_energy(pattern, return_mean = FALSE, comp_fast = FALSE,
 
 \item{return_mean}{Return the mean energy}
 
-\item{comp_fast}{Should summary functions be estimated in an computational fast way.}
+\item{comp_fast}{If pattern contains more points than threshol, summary functions are estimated in a computational fast way.}
 
 \item{verbose}{Print progress report.}
 }

@@ -30,7 +30,7 @@ testthat::test_that("plot_randomized_pattern returns error if input is named wro
 testthat::test_that("plot_randomized_pattern uses comp_fast", {
 
   shar::plot_randomized_pattern(pattern_random_a,
-                                comp_fast = TRUE)
+                                comp_fast = 50)
 })
 
 testthat::test_that("plot_randomized_patterns works for reconstructed marks", {
