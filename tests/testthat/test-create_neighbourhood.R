@@ -22,3 +22,9 @@ testthat::test_that("create_neighbourhood returns right dimension for directions
 
   testthat::expect_equal(ncol(neighbourhood_8), expected = 2)
 })
+
+testthat::test_that("create_neighbourhood returns error", {
+
+  testthat::expect_error(shar::create_neighbourhood(cell_id, mat, directions = 12),
+                         regexp = "'directions must be 'directions = 4' or 'directions = 8'.")
+})

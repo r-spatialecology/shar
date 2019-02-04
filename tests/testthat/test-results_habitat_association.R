@@ -55,6 +55,10 @@ testthat::test_that("results_habitat_association returns error if input is named
   testthat::expect_error(shar::results_habitat_association(raster = landscape_classified,
                                                            pattern = unname(random_a)),
                          regexp = "Input must named 'randomized_1' to 'randomized_n' and includ 'observed' raster.")
+
+  testthat::expect_error(shar::results_habitat_association(raster = raster_random[1:3],
+                                                           pattern = shar::species_a),
+                         regexp = "Input must named 'randomized_1' to 'randomized_n' and includ 'observed' raster.")
 })
 
 testthat::test_that("results_habitat_association returns error if wrong input is provided", {
