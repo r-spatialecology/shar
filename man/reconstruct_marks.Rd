@@ -5,8 +5,9 @@
 \title{reconstruct_marks}
 \usage{
 reconstruct_marks(pattern, marked_pattern, n_random = 1,
-  e_threshold = 0.01, max_runs = 10000, return_input = TRUE,
-  simplify = FALSE, verbose = TRUE, plot = FALSE)
+  e_threshold = 0.01, max_runs = 10000, no_change = Inf,
+  return_input = TRUE, simplify = FALSE, verbose = TRUE,
+  plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}
@@ -18,6 +19,8 @@ reconstruct_marks(pattern, marked_pattern, n_random = 1,
 \item{e_threshold}{Minimum energy to stop reconstruction.}
 
 \item{max_runs}{Maximum number of iterations of e_threshold is not reached.}
+
+\item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
 
 \item{return_input}{The original input data is returned as last list entry}
 

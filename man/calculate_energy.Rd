@@ -12,7 +12,7 @@ calculate_energy(pattern, return_mean = FALSE, comp_fast = 1000,
 
 \item{return_mean}{Return the mean energy}
 
-\item{comp_fast}{If pattern contains more points than threshol, summary functions are estimated in a computational fast way.}
+\item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 
 \item{verbose}{Print progress report.}
 }

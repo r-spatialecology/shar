@@ -6,8 +6,8 @@
 #' @param n_random Number of randomizations.
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
-#' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
+#' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
@@ -53,7 +53,8 @@
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 #'
 #' @export
-reconstruct_pattern <- function(pattern, n_random = 1,
+reconstruct_pattern <- function(pattern,
+                                n_random = 1,
                                 e_threshold = 0.01,
                                 max_runs = 1000,
                                 no_change = Inf,
@@ -253,6 +254,7 @@ reconstruct_pattern <- function(pattern, n_random = 1,
         }
       }
 
+      # increase counter no change
       else {
         energy_counter <- energy_counter + 1
       }
@@ -265,7 +267,7 @@ reconstruct_pattern <- function(pattern, n_random = 1,
                 appendLF = FALSE)
       }
 
-      # exit loop if e threshold is reached
+      # exit loop if e threshold or no_change counter max is reached
       if(energy <= e_threshold || energy_counter > no_change){
         break
       }

@@ -14,7 +14,7 @@ plot_randomized_pattern(pattern, method = "spatial", probs = c(0.025,
 
 \item{probs}{Quantiles of randomized data used for envelope construction.}
 
-\item{comp_fast}{If pattern contains more points than threshol, summary functions are estimated in a computational fast way.}
+\item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 
 \item{verbose}{Print progress report.}
 }

@@ -22,7 +22,7 @@ reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
 
 \item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process.}
 
-\item{comp_fast}{If pattern contains more points than threshol, summary functions are estimated in a computational fast way.}
+\item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 
 \item{return_input}{The original input data is returned as last list entry}
 
