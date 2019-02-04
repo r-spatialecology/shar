@@ -1,6 +1,7 @@
 # shar 0.1.1
 * Improvements
-  * replaced `cat()` with `message()` for all printing to console
+  * Replaced `cat()` with `message()` for all printing to console
+  * All defaults set  to `n_random = 1`
 * Bugfixes
   * Bug in `fit_point_process()` that more points as present could be removed from simulated pattern
   * Bug in `reconstruct_pattern()` that more points as present could be removed from simulated pattern

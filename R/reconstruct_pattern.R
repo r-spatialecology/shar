@@ -46,8 +46,8 @@
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 #'
 #' @export
-reconstruct_pattern <- function(pattern, n_random = 19,
-                                e_threshold = 0.01, max_runs = 10000,
+reconstruct_pattern <- function(pattern, n_random = 1,
+                                e_threshold = 0.01, max_runs = 1000,
                                 fitting = FALSE, comp_fast = FALSE,
                                 return_input = TRUE,
                                 simplify = FALSE,

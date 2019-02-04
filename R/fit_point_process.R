@@ -28,7 +28,7 @@
 
 #' @export
 fit_point_process <- function(pattern,
-                              n_random = 19, process = 'poisson',
+                              n_random = 1, process = 'poisson',
                               return_input = TRUE,
                               simplify = FALSE,
                               verbose = TRUE){

@@ -48,7 +48,7 @@
 #' @export
 reconstruct_marks <- function(pattern,
                               marked_pattern,
-                              n_random = 19,
+                              n_random = 1,
                               e_threshold = 0.01, max_runs = 10000,
                               return_input = TRUE,
                               simplify = FALSE,
