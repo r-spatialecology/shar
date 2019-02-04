@@ -8,7 +8,7 @@
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
-#' @param comp_fast If pattern contains more points than threshol, summary functions are estimated in a computational fast way.
+#' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.

@@ -4,7 +4,7 @@
 #'
 #' @param pattern List with reconstructed patterns.
 #' @param return_mean Return the mean energy
-#' @param comp_fast If pattern contains more points than threshol, summary functions are estimated in a computational fast way.
+#' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param verbose Print progress report.
 #'
 #' @details
