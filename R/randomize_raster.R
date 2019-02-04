@@ -37,7 +37,7 @@
 
 #'@export
 randomize_raster <- function(raster,
-                             n_random = 19,
+                             n_random = 1,
                              directions = 4,
                              return_input = TRUE,
                              simplify = FALSE,

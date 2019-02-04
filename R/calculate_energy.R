@@ -4,7 +4,7 @@
 #'
 #' @param pattern List with reconstructed patterns.
 #' @param return_mean Return the mean energy
-#' @param comp_fast Should summary functions be estimated in an computational fast way.
+#' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param verbose Print progress report.
 #'
 #' @details
@@ -38,12 +38,21 @@
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 
 #' @export
-calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = FALSE, verbose = TRUE){
+calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = 1000, verbose = TRUE){
 
   # check if randomized and observed is present
   if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
     stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.",
          call. = FALSE)
+  }
+
+  # check if number of points exceed comp_fast limit
+  if(pattern$observed$n > comp_fast) {
+    comp_fast <- TRUE
+  }
+
+  else {
+    comp_fast <- FALSE
   }
 
   pattern_observed <- pattern[names(pattern) == "observed"] # extract observed pattern

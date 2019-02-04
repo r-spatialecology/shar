@@ -7,6 +7,7 @@
 #' @param n_random Number of randomizations.
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
+#' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
@@ -48,8 +49,10 @@
 #' @export
 reconstruct_marks <- function(pattern,
                               marked_pattern,
-                              n_random = 19,
-                              e_threshold = 0.01, max_runs = 10000,
+                              n_random = 1,
+                              e_threshold = 0.01,
+                              max_runs = 10000,
+                              no_change = Inf,
                               return_input = TRUE,
                               simplify = FALSE,
                               verbose = TRUE,
@@ -77,6 +80,9 @@ reconstruct_marks <- function(pattern,
     stop("marks must be 'numeric'", call. = FALSE)
   }
 
+  # counter if energy changed
+  energy_counter <- 0
+
   # create n_random recondstructed patterns
   result <- lapply(seq_len(n_random), function(current_pattern){
 
@@ -91,7 +97,7 @@ reconstruct_marks <- function(pattern,
                                          correction = "Ripley")
 
     # energy before reconstruction
-    e0 <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
+    energy <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
 
 
     # get two random points to switch marks
@@ -99,7 +105,7 @@ reconstruct_marks <- function(pattern,
 
     rp_b <- sample(x = seq_len(pattern$n), size = max_runs, replace = TRUE)
 
-    # pattern reconstruction algorithm (optimaztion of e0) - not longer than max_runs
+    # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
     for(i in seq_len(max_runs)){
 
       relocated <- pattern # data for relocation
@@ -127,11 +133,11 @@ reconstruct_marks <- function(pattern,
       e_relocated <- mean(abs(kmmr_observed[[3]] - kmmr_relocated[[3]]), na.rm = TRUE)
 
       # lower energy after relocation
-      if(e_relocated < e0){
+      if(e_relocated < energy){
 
         pattern <- relocated # keep relocated pattern
 
-        e0 <- e_relocated # keep e_relocated as e0
+        energy <- e_relocated # keep e_relocated as energy
 
         # plot observed vs reconstructed
         if(plot) {
@@ -151,15 +157,20 @@ reconstruct_marks <- function(pattern,
         }
       }
 
+      # increase counter no change
+      else {
+        energy_counter <- energy_counter + 1
+      }
+
       # print progress
       if(verbose) {
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", i, "/", max_runs,
-                " || e0 = ", round(e0, 5), appendLF = FALSE)
+                " || energy = ", round(energy, 5), appendLF = FALSE)
       }
 
-      # exit loop if e threshold is reached
-      if(e0 <= e_threshold){
+      # exit loop if e threshold or no_change counter max is reached
+      if(energy <= e_threshold|| energy_counter > no_change){
         break
       }
     }
