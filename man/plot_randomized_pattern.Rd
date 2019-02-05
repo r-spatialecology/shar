@@ -4,11 +4,13 @@
 \alias{plot_randomized_pattern}
 \title{plot_randomized_pattern}
 \usage{
-plot_randomized_pattern(pattern, method = "spatial", probs = c(0.025,
-  0.975), comp_fast = 1000, verbose = TRUE)
+plot_randomized_pattern(pattern, what = "sf", method = "spatial",
+  probs = c(0.025, 0.975), comp_fast = 1000, verbose = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
+
+\item{what}{Plot summary functions of point patterns (\code{what = "sf"}) or acutal patterns (\code{what = "pp"}).}
 
 \item{method}{String to specifiy if spatial pattern or marks were reconstructed}
 
@@ -27,13 +29,16 @@ Plot randomized pattern
 \details{
 The function plots the pair correlation function and the nearest neighbour function
 the observed pattern and the reconstructed patterns (as "simulation envelopes".).
-For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
+For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
 correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see \code{\link{estimate_pcf_fast}}.
+K-function. For more information see \code{\link{estimate_pcf_fast}}. It is also
+possible to plot 3 randomized patterns and the observed pattern using \code{what = "pp"}.
 }
 \examples{
 pattern_random <- fit_point_process(species_a, n_random = 19, process = "cluster")
 plot_randomized_pattern(pattern_random)
+
+plot_randomized_pattern(pattern_random, what = "pp")
 
 \dontrun{
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)

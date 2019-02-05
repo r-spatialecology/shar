@@ -1,3 +1,6 @@
+## shar 0.2 
+Some bugfixes and improvements of existing functions
+
 ## Review CRAN submission
 1. Thanks. Please omit the redundant "in R". 
 

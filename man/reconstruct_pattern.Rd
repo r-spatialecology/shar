@@ -68,6 +68,6 @@ Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
 in ecology. Boca Raton: Chapman and Hall/CRC Press.
 }
 \seealso{
-[calculate_energy]
+\code{\link{calculate_energy}} \cr
 \code{\link{plot_randomized_pattern}}
 }
