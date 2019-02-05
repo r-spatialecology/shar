@@ -22,14 +22,13 @@
 #' pattern decreases. The pair correlation function and the nearest neighbour
 #' distance function are used to describe the patterns.
 #'
-#' @section `comp_fast`:
-#' For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
-#' correction is used and the pair correlation function is estimated based on Ripley's
-#' K-function. For more information see \code{\link{estimate_pcf_fast}}.
+#' For large patterns (\code{n > comp_fast}) the pair correlation function can be estimated
+#' from Ripley's K-function without edge correction. This decreases the computational
+#' time. For more information see \code{\link{estimate_pcf_fast}}.
 #'
-#' @section `no_change`:
-#' To not stop the reconstruction, even if the energy did not decrease for many iterations, set
-#' the argument to infinity `no_change = Inf`.
+#' The reconstruction can be stopped automatically if for n steps the energy does not
+#' decrease. The number of steps can be controlled by \code{no_change} and is set to
+#' \code{no_change = Inf} as default to never stop automatically.
 #'
 #' @seealso
 #' \code{\link{calculate_energy}} \cr
