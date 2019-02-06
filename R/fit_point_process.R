@@ -28,7 +28,7 @@
 
 #' @export
 fit_point_process <- function(pattern,
-                              n_random = 19, process = 'poisson',
+                              n_random = 1, process = 'poisson',
                               return_input = TRUE,
                               simplify = FALSE,
                               verbose = TRUE){
@@ -49,7 +49,7 @@ fit_point_process <- function(pattern,
 
 
       if(verbose) {
-        cat(paste0("\rProgress: n_random: ", x, "/", n_random))
+        message("\r> Progress: n_random: ", x, "/", n_random, appendLF = FALSE)
       }
 
       return(simulated)
@@ -80,7 +80,7 @@ fit_point_process <- function(pattern,
         difference <- simulated$n - pattern$n
 
         # id of points to remove
-        remove_points <- sample(seq_len(pattern$n), size = difference)
+        remove_points <- sample(seq_len(simulated$n), size = difference)
 
         # remove points
         simulated <- simulated[-remove_points]
@@ -103,7 +103,7 @@ fit_point_process <- function(pattern,
       }
 
       if(verbose) {
-        cat(paste0("\rProgress: n_random: ", x, "/", n_random))
+        message("\r> Progress: n_random: ", x, "/", n_random, appendLF = FALSE)
       }
 
       return(simulated)
@@ -117,8 +117,8 @@ fit_point_process <- function(pattern,
   # add input pattern to randomizations
   if(return_input){
 
-    if(verbose & simplify){
-      cat("\n")
+    if(simplify){
+      message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
 
@@ -131,8 +131,8 @@ fit_point_process <- function(pattern,
 
     if(simplify) {
 
-      if(verbose & n_random > 1) {
-        cat("\n")
+      if(n_random > 1) {
+        message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
 
@@ -144,6 +144,11 @@ fit_point_process <- function(pattern,
     else{
       names(result) <- paste0("randomized_", seq_len(n_random)) # set names
     }
+  }
+
+  # write result in new line if progress was printed
+  if(verbose) {
+    message("\r")
   }
 
   return(result)

@@ -5,7 +5,8 @@ testthat::context("Translate raster")
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 3)
 
-landscape_random <- shar::translate_raster(raster = landscape_classified)
+landscape_random <- shar::translate_raster(raster = landscape_classified,
+                                           verbose = FALSE)
 
 landscape_wrong <- raster::crop(shar::landscape, raster::extent(0, 1000, 0, 500))
 
@@ -29,13 +30,15 @@ testthat::test_that("Output includes randomizations and original pattern for tra
 testthat::test_that("Input raster can not be returned for translate_raster", {
 
   landscape_random <- shar::translate_raster(raster = landscape_classified,
-                                             return_input = FALSE)
+                                             return_input = FALSE,
+                                             verbose = FALSE)
 
   testthat::expect_false(any(list(landscape_classified) %in% landscape_random))
 })
 
 testthat::test_that("Error if nrow != ncol for translate_raster", {
 
-  testthat::expect_error(shar::translate_raster(raster = landscape_classified_wrong),
+  testthat::expect_error(shar::translate_raster(raster = landscape_classified_wrong,
+                                                verbose = FALSE),
                          regexp  = "Torus translation only works for raster with nrow == ncol.")
 })

@@ -60,8 +60,8 @@ results_habitat_association <- function(pattern, raster,
 
     # print quantiles
     if(verbose){
-      cat(paste0("> Input: randomized raster | Quantile thresholds: negative < ",
-                 threshold[1], " - positive > ", threshold[2], "\n\n"))
+      message("> Input: randomized raster | Quantile thresholds: negative < ",
+              threshold[1], " - positive > ", threshold[2])
     }
 
     # extract number of points within each habitat for all list entries
@@ -83,8 +83,8 @@ results_habitat_association <- function(pattern, raster,
 
     # print quantiles
     if(verbose){
-      cat(paste0("> Input: randomized point pattern | Quantile thresholds: negative < ",
-                 threshold[1], " - positive > ", threshold[2], "\n\n"))
+      message("> Input: randomized point pattern | Quantile thresholds: negative < ",
+              threshold[1], " - positive > ", threshold[2])
     }
 
     # extract number of points within each habitat for all list entries
@@ -100,35 +100,51 @@ results_habitat_association <- function(pattern, raster,
          call. = FALSE)
   }
 
+  # count number of habitats
+  number_habitats <- length(unique(habitats_count$observed$habitat))
+
   # combine to one df
-  habitats_count <- dplyr::bind_rows(habitats_count, .id = "type")
+  names <- names(habitats_count)
+
+  # repeat each name as often as number of habitats
+  names <- rep(names, each = number_habitats)
+
+  # rowbind to one dataframe
+  habitats_count <- do.call(rbind, unname(habitats_count))
+
+  # add id
+  habitats_count$type <- names
 
   # only randomized data
-  habitats_count_random <- dplyr::filter(habitats_count, type != "observed")
-
-  # group by habitat to summarise
-  habitats_count_random_grouped <- dplyr::group_by(habitats_count_random, habitat)
+  habitats_count_random <- habitats_count[habitats_count$type != "observed", ]
 
   # get quanitiles of randomized data
-  habitats_count_random_summarised <- dplyr::summarise(habitats_count_random_grouped,
-                                                       lo = stats::quantile(count, probs = threshold[[1]]),
-                                                       hi = stats::quantile(count, probs = threshold[[2]]))
+  habitats_count_random_summarised <- do.call(data.frame,
+                                              stats::aggregate(x = data.frame(count = habitats_count_random$count),
+                                                               by = data.frame(habitat = habitats_count_random$habitat),
+                                                               FUN = function(x)
+                                                                 cbind(lo = stats::quantile(x, probs = threshold[[1]]),
+                                                                       hi = stats::quantile(x, probs = threshold[[2]]))))
+
+
+
+  # convert to dataframe
+  names(habitats_count_random_summarised) <- c("habitat", "lo", "hi")
 
   # get observed data
-  habitats_count_obs <- dplyr::select(dplyr::filter(habitats_count, type == "observed"), - type)
+  habitats_count_obs <- habitats_count[habitats_count$type == "observed", 1:2]
 
   # combine (join) with quantiles of randomized data
-  result <- dplyr::full_join(habitats_count_obs, habitats_count_random_summarised,
-                             by = "habitat")
-
-  result <- result[, c("habitat", "count", "lo", "hi")] # set col names
+  result <- merge(x = habitats_count_obs,
+                  y = habitats_count_random_summarised,
+                  by = "habitat")
 
   # classify results to positive/negative/n.s.
-  result <- dplyr::mutate(result,
-                          significance = factor(dplyr::case_when(count < lo ~ "negative",
-                                                                 count > hi ~ "positive",
-                                                                 count>= lo & count <= hi ~ "n.s.")))
+  result$significance <- ifelse(test = result$count < result$lo,
+                                yes = "negative",
+                                no = ifelse(test = result$count > result$hi,
+                                            yes = "positive",
+                                            no = "n.s."))
 
   return(result)
-
 }

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
       </span>
     </div>
 
@@ -123,8 +123,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spatial"</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.025</span>,
-  <span class='fl'>0.975</span>), <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"sf"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"spatial"</span>,
+  <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.025</span>, <span class='fl'>0.975</span>), <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,6 +132,10 @@
     <tr>
       <th>pattern</th>
       <td><p>List with reconstructed patterns.</p></td>
+    </tr>
+    <tr>
+      <th>what</th>
+      <td><p>Plot summary functions of point patterns (<code>what = "sf"</code>) or acutal patterns (<code>what = "pp"</code>).</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -143,7 +147,11 @@
     </tr>
     <tr>
       <th>comp_fast</th>
-      <td><p>Should summary functions be estimated in an computational fast way.</p></td>
+      <td><p>If pattern contains more points than threshold, summary functions are estimated in a computational fast way.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Print progress report.</p></td>
     </tr>
     </table>
     
@@ -155,13 +163,15 @@
 
     <p>The function plots the pair correlation function and the nearest neighbour function
 the observed pattern and the reconstructed patterns (as "simulation envelopes".).
-For large patterns `comp_fast = TRUE` decreases the computational demand because no edge
+For large patterns <code>comp_fast = TRUE</code> decreases the computational demand because no edge
 correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see <code><a href='estimate_pcf_fast.html'>estimate_pcf_fast</a></code>.</p>
+K-function. For more information see <code><a href='estimate_pcf_fast.html'>estimate_pcf_fast</a></code>. It is also
+possible to plot 3 randomized patterns and the observed pattern using <code>what = "pp"</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>pattern_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_point_process.html'>fit_point_process</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>process</span> <span class='kw'>=</span> <span class='st'>"cluster"</span>)</div><div class='output co'>#&gt; Progress: n_random: 1/19Progress: n_random: 2/19Progress: n_random: 3/19Progress: n_random: 4/19Progress: n_random: 5/19Progress: n_random: 6/19Progress: n_random: 7/19Progress: n_random: 8/19Progress: n_random: 9/19Progress: n_random: 10/19Progress: n_random: 11/19Progress: n_random: 12/19Progress: n_random: 13/19Progress: n_random: 14/19Progress: n_random: 15/19Progress: n_random: 16/19Progress: n_random: 17/19Progress: n_random: 18/19Progress: n_random: 19/19</div><div class='input'><span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern_random</span>)</div><div class='img'><img src='plot_randomized_pattern-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>pattern_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_point_process.html'>fit_point_process</a></span>(<span class='no'>species_a</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>process</span> <span class='kw'>=</span> <span class='st'>"cluster"</span>)</div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 1/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 2/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 3/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 4/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 5/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 6/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 7/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 8/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 9/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 10/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 11/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 12/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 13/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 14/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 15/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 16/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 17/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 18/19</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: n_random: 19/19</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='input'><span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern_random</span>)</div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 1/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 2/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 3/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 4/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 5/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 6/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 7/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 8/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 9/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 10/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 11/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 12/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 13/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 14/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 15/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 16/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 17/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 18/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 19/20</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 20/20</span></div><div class='img'><img src='plot_randomized_pattern-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern_random</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"pp"</span>)</div><div class='output co'>#&gt; <span class='message'>&gt; Plotting observed pattern and 4 randomized patterns only</span></div><div class='img'><img src='plot_randomized_pattern-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>marks_sub</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/subset.ppp'>subset.ppp</a></span>(<span class='no'>species_a</span>, <span class='kw'>select</span> <span class='kw'>=</span> <span class='no'>dbh</span>)
 <span class='no'>marks_recon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reconstruct_marks.html'>reconstruct_marks</a></span>(<span class='no'>pattern_random</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>marks_sub</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)

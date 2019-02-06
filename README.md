@@ -7,7 +7,7 @@ status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
-[![Project Status: Active â€“ The project has reached a stable, usable
+[![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -34,11 +34,11 @@ Methods are mainly described in Plotkin et al. (2000), Harms et al.
 
 ## Installation
 
-You can install the released version of shar from
+You can install the released version of **shar** from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("shar") # Nope, not yet...
+install.packages("shar")
 ```
 
 And the development version from
@@ -56,11 +56,11 @@ library(shar)
 library(raster)
 ```
 
-shar comes with build-in example data sets. `species_a` and `species_b`
-are examplary location of species, e.g. trees, as `ppp`-objects from the
-`spatstat` package. `landscape` contains examplary continious
-environmental data. However, all methods depend on discrete data.
-Therefore we need to classify the data
+**shar** comes with build-in example data sets. `species_a` and
+`species_b` are examplary location of species, e.g. trees, as
+`ppp`-objects from the `spatstat` package. `landscape` contains
+examplary continious environmental data. However, all methods depend on
+discrete data. Therefore we need to classify the data
 first.
 
 ``` r
@@ -97,22 +97,18 @@ plot a randomized pattern or calculate the differences between the
 observed pattern and the randomized patterns (using summary functions).
 
 ``` r
-plot_randomized_pattern(reconstruct)
+plot_randomized_pattern(reconstruct, verbose = FALSE)
 ```
 
 <img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
 
 ``` r
 
-calculate_energy(reconstruct)
-#>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-#>    0.06030756    0.05936283    0.05819350    0.06859139    0.06856632 
-#>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-#>    0.07287071    0.06409940    0.06361426    0.06129393    0.04715134 
-#> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-#>    0.05203248    0.05572710    0.05258205    0.07844003    0.05031089 
-#> randomized_16 randomized_17 randomized_18 randomized_19 
-#>    0.06423693    0.06101793    0.07234846    0.07822852
+calculate_energy(reconstruct, verbose = FALSE)
+#>  [1] 0.06946475 0.05652419 0.06131211 0.05674564 0.04543196 0.05823235
+#>  [7] 0.08188117 0.09577735 0.06980046 0.05246978 0.06385015 0.05848106
+#> [13] 0.06453171 0.07813714 0.05937555 0.07139397 0.07124605 0.05038522
+#> [19] 0.05815600
 ```
 
 The data was created that `species_a` has a negative association to
@@ -134,11 +130,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  3.00 22.10         n.s.
-#> 2       2    20 32.00 66.75     negative
-#> 3       3    31 47.45 79.55     negative
-#> 4       4    33 35.35 63.55     negative
-#> 5       5   109 12.35 44.10     positive
+#> 1       1     7  0.45 14.55         n.s.
+#> 2       2    20 29.45 65.65     negative
+#> 3       3    31 48.45 80.55     negative
+#> 4       4    33 36.80 74.30     negative
+#> 5       5   109 15.45 49.85     positive
 ```
 
 ## References
