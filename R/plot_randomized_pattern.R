@@ -87,15 +87,15 @@ plot_randomized_pattern <- function(pattern,
 
         names(gest_df)[3] <- "x_r" # unique col names
 
-        gest_df$summary_function <- "Nearest Neighbour Distance Function G(r)" # name of method
+        gest_df$summary_function <- "G(r)" # name of method
 
         pcf_df <- as.data.frame(pcf_result) # convert to df
 
         names(pcf_df)[3] <- "x_r" # unique col names
 
-        pcf_df$summary_function <- "Pair Correlation Function g(r)" # name of method
+        pcf_df$summary_function <- "g(r)" # name of method
 
-        summary_stats <- dplyr::bind_rows(gest_df, pcf_df) # combine to one df
+        summary_stats <- rbind(gest_df, pcf_df)
 
         # print progress
         if(verbose) {
@@ -105,45 +105,46 @@ plot_randomized_pattern <- function(pattern,
         return(summary_stats)
       })
 
-      names(result_list) <- names(pattern) # add names of input to result list
+      # get number of rows
+      result_list_nrow <- vapply(X = result_list,
+                                 FUN = nrow, FUN.VALUE = numeric(1))
 
-      result_df <- dplyr::bind_rows(result_list, .id = "pattern") # combinte to one df
+      # combine results to one dataframe
+      result_df <- do.call(rbind, result_list)
+
+      # add pattern col
+      result_df$pattern <- rep(names(pattern), times = result_list_nrow)
 
       # classify all observed and all randomized repetitions identical
-      result_df <- dplyr::mutate(result_df, type = dplyr::case_when(pattern == "observed" ~ "observed",
-                                                                    TRUE ~ "randomized"))
+      result_df$type[result_df$pattern != "observed"] <- "randomized"
+      result_df$type[result_df$pattern == "observed"] <- "observed"
 
-      result_df_grouped <- dplyr::group_by(result_df, summary_function, r, type) # group to calculate envelopes
-
-      # calculate envelopes
-      result_df_summarised <- dplyr::summarise(result_df_grouped,
-                                               lo = stats::quantile(x_r, probs = probs[1]),
-                                               hi = stats::quantile(x_r, probs = probs[2]),
-                                               x_r = mean(x_r),
-                                               theo = mean(theo))
-
+      result_df_summarised <- do.call(data.frame,
+                                      stats::aggregate(x_r ~ summary_function + r + type,
+                                                       data = result_df,
+                                                       FUN = function(x){c(lo = stats::quantile(x, probs = probs[1]),
+                                                                           hi = stats::quantile(x, probs = probs[2]),
+                                                                           x_r = mean(x))}))
       # results Gest
-      result_nndf <- dplyr::filter(result_df_summarised,
-                                   summary_function == "Nearest Neighbour Distance Function G(r)")
+      result_nndf <- result_df_summarised[result_df_summarised$summary_function == "G(r)", ]
 
       # results pcf
-      result_pcf <- dplyr::filter(result_df_summarised,
-                                  summary_function == "Pair Correlation Function g(r)")
+      result_pcf <- result_df_summarised[result_df_summarised$summary_function == "g(r)", ]
 
       graphics::par(mfrow = c(1, 2)) # two plots next to each other
 
       # plot Gest
-      graphics::plot(x = result_nndf$r[result_nndf$type == "observed"],
-                     y = result_nndf$x_r[result_nndf$type == "observed"], type = "l",
+      graphics::plot(x = result_nndf[, 2][result_nndf$type == "observed"],
+                     y = result_nndf[, 6][result_nndf$type == "observed"], type = "l",
                      main = "Nearest Neighbour Distance Function",
                      xlab = paste0("r [",name_unit, "]"), ylab = "G(r)")
 
-      graphics::lines(x = result_nndf$r[result_nndf$type == "randomized"],
-                      y = result_nndf$lo[result_nndf$type == "randomized"],
+      graphics::lines(x = result_nndf[, 2][result_nndf$type == "randomized"],
+                      y = result_nndf[, 4][result_nndf$type == "randomized"],
                       col = "red", lty = 2)
 
-      graphics::lines(x = result_nndf$r[result_nndf$type == "randomized"],
-                      y = result_nndf$hi[result_nndf$type == "randomized"],
+      graphics::lines(x = result_nndf[, 2][result_nndf$type == "randomized"],
+                      y = result_nndf[, 5][result_nndf$type == "randomized"],
                       col = "red", lty = 2)
 
       graphics::legend("bottomright",
@@ -151,17 +152,17 @@ plot_randomized_pattern <- function(pattern,
                        col = c("black", "red"), lty = c(1,2), inset = 0.025)
 
       # plot pcf
-      graphics::plot(x = result_pcf$r[result_pcf$type == "observed"],
-                     y = result_pcf$x_r[result_pcf$type == "observed"], type = "l",
+      graphics::plot(x = result_pcf[, 2][result_pcf$type == "observed"],
+                     y = result_pcf[, 6][result_pcf$type == "observed"], type = "l",
                      main = "Pair Correlation Function",
                      xlab = paste0("r [",name_unit, "]"), ylab = "g(r)")
 
-      graphics::lines(x = result_pcf$r[result_pcf$type == "randomized"],
-                      y = result_pcf$lo[result_pcf$type == "randomized"],
+      graphics::lines(x = result_pcf[, 2][result_pcf$type == "randomized"],
+                      y = result_pcf[, 4][result_pcf$type == "randomized"],
                       col = "red", lty = 2)
 
-      graphics::lines(x = result_pcf$r[result_pcf$type == "randomized"],
-                      y = result_pcf$hi[result_pcf$type == "randomized"],
+      graphics::lines(x = result_pcf[, 2][result_pcf$type == "randomized"],
+                      y = result_pcf[, 5][result_pcf$type == "randomized"],
                       col = "red", lty = 2)
 
       graphics::legend("topright",
@@ -186,40 +187,45 @@ plot_randomized_pattern <- function(pattern,
         return(mark_corr)
       })
 
-      names(result_list) <- names(pattern) # add names of input to result list
+      # get number of rows
+      result_list_nrow <- vapply(X = result_list,
+                                 FUN = nrow, FUN.VALUE = numeric(1))
 
-      result_df <- dplyr::bind_rows(result_list, .id = "pattern") # combinte to one df
+      # combine results to one dataframe
+      result_df <- do.call(rbind, result_list)
+
+      # add pattern col
+      result_df$pattern <- rep(names(pattern), times = result_list_nrow)
 
       # classify all observed and all randomized repetitions identical
-      result_df <- dplyr::mutate(result_df, type = dplyr::case_when(pattern == "observed" ~ "observed",
-                                                                    TRUE ~ "randomized"))
-
-      result_df_grouped <- dplyr::group_by(result_df, r, type) # group to calculate envelopes
+      # classify all observed and all randomized repetitions identical
+      result_df$type[result_df$pattern != "observed"] <- "randomized"
+      result_df$type[result_df$pattern == "observed"] <- "observed"
 
       # calculate envelopes
-      result_df_summarised <- dplyr::summarise(result_df_grouped,
-                                               lo = stats::quantile(iso, probs = probs[1]),
-                                               hi = stats::quantile(iso, probs = probs[2]),
-                                               x_r = mean(iso),
-                                               theo = mean(theo))
+      result_df_summarised <- do.call(data.frame,
+                                      stats::aggregate(iso ~ r + type,
+                                                       data = result_df,
+                                                       FUN = function(x){c(lo = stats::quantile(x, probs = probs[1]),
+                                                                           hi = stats::quantile(x, probs = probs[2]),
+                                                                           x_r = mean(x))}))
 
-      graphics::plot(x = result_df_summarised$r[result_df_summarised$type == "observed"],
-                     y = result_df_summarised$x_r[result_df_summarised$type == "observed"], type = "l",
+      graphics::plot(x = result_df_summarised[, 1][result_df_summarised$type == "observed"],
+                     y = result_df_summarised[, 5][result_df_summarised$type == "observed"], type = "l",
                      main = "Mark correlation function",
                      xlab = paste0("r [",name_unit, "]"), ylab = "kmm(r)")
 
-      graphics::lines(x = result_df_summarised$r[result_df_summarised$type == "randomized"],
-                      y = result_df_summarised$lo[result_df_summarised$type == "randomized"],
+      graphics::lines(x = result_df_summarised[, 1][result_df_summarised$type == "randomized"],
+                      y = result_df_summarised[, 3][result_df_summarised$type == "randomized"],
                       col = "red", lty = 2)
 
-      graphics::lines(x = result_df_summarised$r[result_df_summarised$type == "randomized"],
-                      y = result_df_summarised$hi[result_df_summarised$type == "randomized"],
+      graphics::lines(x = result_df_summarised[, 1][result_df_summarised$type == "randomized"],
+                      y = result_df_summarised[, 4][result_df_summarised$type == "randomized"],
                       col = "red", lty = 2)
 
       graphics::legend("bottomright",
                        legend = c("observed", "randomized"),
                        col = c("black", "red"), lty = c(1,2), inset = 0.025)
-
     }
 
     else{
