@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
       </span>
     </div>
 
@@ -123,10 +123,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>reconstruct_pattern</span>(<span class='no'>pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>e_threshold</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>10000</span>, <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>reconstruct_pattern</span>(<span class='no'>pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>e_threshold</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>no_change</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,12 +148,16 @@
       <td><p>Maximum number of iterations of e_threshold is not reached.</p></td>
     </tr>
     <tr>
+      <th>no_change</th>
+      <td><p>Reconstrucction will stop if energy does not decrease for this number of iterations.</p></td>
+    </tr>
+    <tr>
       <th>fitting</th>
       <td><p>It true, the pattern reconstruction starts with a fitting of a Thomas process.</p></td>
     </tr>
     <tr>
       <th>comp_fast</th>
-      <td><p>Should summary functions be estimated in an computational fast way.</p></td>
+      <td><p>If pattern contains more points than threshold, summary functions are estimated in a computational fast way.</p></td>
     </tr>
     <tr>
       <th>return_input</th>
@@ -184,10 +188,13 @@ as described in Tscheschel &amp; Stoyan (2006) and Wiegand &amp; Moloney (2014).
 algorithm starts with a random reconstructed pattern, shifts a point to a new location and
 keeps the change only, if the deviation between the observed and the reconstructed
 pattern decreases. The pair correlation function and the nearest neighbour
-distance function are used to describe the patterns. For large patterns
-`comp_fast = TRUE` decreases the computational demand because no edge
-correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see <code><a href='estimate_pcf_fast.html'>estimate_pcf_fast</a></code>.</p>
+distance function are used to describe the patterns.</p>
+<p>For large patterns (<code>n &gt; comp_fast</code>) the pair correlation function can be estimated
+from Ripley's K-function without edge correction. This decreases the computational
+time. For more information see <code><a href='estimate_pcf_fast.html'>estimate_pcf_fast</a></code>.</p>
+<p>The reconstruction can be stopped automatically if for n steps the energy does not
+decrease. The number of steps can be controlled by <code>no_change</code> and is set to
+<code>no_change = Inf</code> as default to never stop automatically.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
