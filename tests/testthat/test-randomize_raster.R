@@ -4,7 +4,8 @@ landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 3)
 
 landscape_random <- shar::randomize_raster(raster = landscape_classified,
-                                           n_random = 3)
+                                           n_random = 3,
+                                           verbose = FALSE)
 
 testthat::test_that("Output is as long as n_random for randomize_raster", {
 
@@ -26,7 +27,8 @@ testthat::test_that("Input raster can not be returned for randomize_raster", {
 
   landscape_random <- shar::randomize_raster(raster = landscape_classified,
                                              n_random = 1,
-                                             return_input = FALSE)
+                                             return_input = FALSE,
+                                             verbose = FALSE)
 
   testthat::expect_false(any(list(landscape_classified) %in% landscape_random))
 })
@@ -36,7 +38,8 @@ testthat::test_that("simplify works for randomize_raster", {
   raster_random <- shar::randomize_raster(raster = landscape_classified,
                                           n_random = 1,
                                           simplify = TRUE,
-                                          return_input = FALSE)
+                                          return_input = FALSE,
+                                          verbose = FALSE)
 
   testthat::expect_is(raster_random, "RasterLayer")
 })
@@ -44,7 +47,8 @@ testthat::test_that("simplify works for randomize_raster", {
 testthat::test_that("randomize_raster returns error of n_random < 1", {
 
   testthat::expect_error(shar::randomize_raster(raster = landscape_classified,
-                                                n_random = 0),
+                                                n_random = 0,
+                                                verbose = FALSE),
                          regexp = "n_random must be >= 1.")
 })
 
@@ -53,14 +57,14 @@ testthat::test_that("randomize_raster returns all warnings", {
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 1,
                                                   simplify = TRUE,
-                                                  verbose = TRUE),
+                                                  verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 2,
                                                   simplify = TRUE,
                                                   return_input = FALSE,
-                                                  verbose = TRUE),
+                                                  verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 })
 

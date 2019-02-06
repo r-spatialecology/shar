@@ -245,7 +245,9 @@ plot_randomized_pattern <- function(pattern,
            call. = FALSE)
     }
 
-    message("> Plotting observed pattern and 4 randomized patterns only")
+    if(verbose) {
+      message("> Plotting observed pattern and 4 randomized patterns only")
+    }
 
     # sample 3 randomized patterns
     random_ids <- sample(x = seq(from = 1, to = number_patterns - 1, by = 1),

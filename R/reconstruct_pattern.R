@@ -278,7 +278,7 @@ reconstruct_pattern <- function(pattern,
   # add input pattern to randomizations
   if(return_input){
 
-    if(verbose & simplify){
+    if(simplify){
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
@@ -292,7 +292,7 @@ reconstruct_pattern <- function(pattern,
 
     if(simplify) {
 
-      if(verbose & n_random > 1) {
+      if(n_random > 1) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }

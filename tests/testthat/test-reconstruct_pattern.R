@@ -3,7 +3,8 @@ testthat::context("reconstruct_pattern")
 pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
                                            n_random = 3,
                                            max_runs = 1,
-                                           fitting = TRUE)
+                                           fitting = TRUE,
+                                           verbose = FALSE)
 
 testthat::test_that("Output is a long as n_random for reconstruct_pattern", {
 
@@ -33,7 +34,8 @@ testthat::test_that("Input pattern can not be returned for reconstruct_pattern",
   pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_b,
                                              n_random = 2,
                                              max_runs = 1,
-                                             return_input = FALSE)
+                                             return_input = FALSE,
+                                             verbose = FALSE)
 
   testthat::expect_false(any(shar::species_a %in% pattern_recon))
 })
@@ -43,7 +45,8 @@ testthat::test_that("Argument comp_fast = TRUE is working", {
   pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
                                              n_random = 1,
                                              max_runs = 1,
-                                             comp_fast = 50)
+                                             comp_fast = 50,
+                                             verbose = FALSE)
 
   testthat::expect_type(pattern_recon, type = "list")
 
@@ -56,7 +59,8 @@ testthat::test_that("simplify works for reconstruct_pattern", {
                                              n_random = 1,
                                              max_runs = 1,
                                              return_input = FALSE,
-                                             simplify = TRUE)
+                                             simplify = TRUE,
+                                             verbose = FALSE)
 
   testthat::expect_is(pattern_recon, "ppp")
 })
@@ -64,7 +68,8 @@ testthat::test_that("simplify works for reconstruct_pattern", {
 testthat::test_that("reconstruct_pattern returns error if n_random < 1", {
 
   testthat::expect_error(shar::reconstruct_pattern(pattern = shar::species_b,
-                                                   n_random = -5),
+                                                   n_random = -5,
+                                                   verbose = FALSE),
                          regexp = "n_random must be >= 1.")
 })
 
@@ -75,13 +80,13 @@ testthat::test_that("reconstruct_pattern returns warnings", {
                                                      max_runs = 1,
                                                      return_input = FALSE,
                                                      simplify = TRUE,
-                                                     verbose = TRUE),
+                                                     verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
   testthat::expect_warning(shar::reconstruct_pattern(pattern = shar::species_a,
                                                      n_random = 1,
                                                      max_runs = 1,
                                                      simplify = TRUE,
-                                                     verbose = TRUE),
+                                                     verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 })
