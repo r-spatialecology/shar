@@ -1,3 +1,12 @@
+# shar 0.2.1
+* Improvements
+  * minor speed improvment for `reconstruct_pattern()`
+    * The starting pattern is now identical for all n_random and only the relocation process differs between randomizations
+    * All summary functions are only calculated for 250 steps from 0 to rmax
+* Bugfixes
+* New functionality
+  * `rcpp_sample()` as a faster Rcpp implementation of `sample()`
+
 # shar 0.2
 * Improvements
   * Replaced `cat()` with `message()` for all printing to console

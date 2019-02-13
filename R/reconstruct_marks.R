@@ -87,7 +87,7 @@ reconstruct_marks <- function(pattern,
   result <- lapply(seq_len(n_random), function(current_pattern){
 
     # assign shuffeld marks to pattern
-    spatstat::marks(pattern) <- sample(marked_pattern$marks, size = marked_pattern$n)
+    spatstat::marks(pattern) <- rcpp_sample(x = marked_pattern$marks, n = marked_pattern$n)
 
     # calculate summary functions
     kmmr_observed <- spatstat::markcorr(marked_pattern,
@@ -101,9 +101,9 @@ reconstruct_marks <- function(pattern,
 
 
     # get two random points to switch marks
-    rp_a <- sample(x = seq_len(pattern$n), size = max_runs, replace = TRUE)
+    rp_a <- rcpp_sample(x = seq_len(pattern$n), n = max_runs, replace = TRUE)
 
-    rp_b <- sample(x = seq_len(pattern$n), size = max_runs, replace = TRUE)
+    rp_b <- rcpp_sample(x = seq_len(pattern$n), n = max_runs, replace = TRUE)
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
     for(i in seq_len(max_runs)){

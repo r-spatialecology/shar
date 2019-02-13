@@ -53,16 +53,16 @@
 #'
 #' @export
 reconstruct_pattern <- function(pattern,
-                                n_random = 1,
-                                e_threshold = 0.01,
-                                max_runs = 1000,
-                                no_change = Inf,
-                                fitting = FALSE,
-                                comp_fast = 1000,
-                                return_input = TRUE,
-                                simplify = FALSE,
-                                verbose = TRUE,
-                                plot = FALSE){
+                                    n_random = 1,
+                                    e_threshold = 0.01,
+                                    max_runs = 1000,
+                                    no_change = Inf,
+                                    fitting = FALSE,
+                                    comp_fast = 1000,
+                                    return_input = TRUE,
+                                    simplify = FALSE,
+                                    verbose = TRUE,
+                                    plot = FALSE){
 
   # check if n_random is >= 1
   if(!n_random >= 1) {
@@ -89,108 +89,120 @@ reconstruct_pattern <- function(pattern,
 
   pattern <- spatstat::unmark(pattern) # only spatial points
 
+  # calculate r
+  r <- seq(from = 0,
+           to = spatstat::rmax.rule(W = pattern$window,
+                                    lambda = spatstat::intensity.ppp(pattern)),
+           length.out = 250)
+
   # start with fitted pattern
   if(fitting){
 
     # fit Thomas process
-    fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
-                                     statistic = "pcf",
-                                     statargs = list(divisor = "d",
-                                                     correction = "best"),
-                                     method = "mincon",
-                                     improve.type = "none")
+    fitted_process <- spatstat::kppm.ppp(pattern, cluster = "Thomas",
+                                         statistic = "pcf",
+                                         statargs = list(divisor = "d",
+                                                         correction = "best"),
+                                         method = "mincon",
+                                         improve.type = "none")
+
+    # simulte clustered pattern
+    simulated <- spatstat::simulate.kppm(fitted_process,
+                                         nsim = 1, drop = TRUE,
+                                         window = pattern$window,
+                                         verbose = FALSE)
+
+    # remove points because more points in simulated
+    if(pattern$n < simulated$n) {
+
+      # difference between patterns
+      difference <- simulated$n - pattern$n
+
+      # id of points to remove
+      remove_points <- rcpp_sample(x = seq_len(simulated$n), n = difference)
+
+      # remove points
+      simulated <- simulated[-remove_points]
+    }
+
+    # add points because less points in simulated
+    if(pattern$n > simulated$n) {
+
+      # difference between patterns
+      difference <- pattern$n - simulated$n
+
+      # create missing points
+      missing_points <- spatstat::runifpoint(n = difference,
+                                             nsim = 1, drop = TRUE,
+                                             win = pattern$window,
+                                             warn = FALSE)
+
+      # add missing points to simulated
+      simulated <- spatstat::superimpose.ppp(simulated, missing_points,
+                                             W = pattern$window, check = FALSE)
+    }
   }
 
+  # create Poisson simulation data
+  else {
+    simulated <- spatstat::runifpoint(n = pattern$n,
+                                      nsim = 1, drop = TRUE,
+                                      win = pattern$window,
+                                      warn = FALSE)
+  }
+
+  # fast computation of summary functions
+  if(comp_fast) {
+
+    gest_observed <- spatstat::Gest(pattern, correction = "none", r = r)
+
+    gest_simulated <- spatstat::Gest(simulated, correction = "none", r = r)
+
+    pcf_observed <- shar::estimate_pcf_fast(pattern,
+                                            correction = "none",
+                                            method = "c",
+                                            spar = 0.5,
+                                            r = r)
+
+    pcf_simulated <- shar::estimate_pcf_fast(simulated,
+                                             correction = "none",
+                                             method = "c",
+                                             spar = 0.5,
+                                             r = r)
+  }
+
+  # normal computation of summary functions
+  else {
+
+    gest_observed <- spatstat::Gest(X = pattern, correction = "han", r = r)
+
+    gest_simulated <- spatstat::Gest(X = simulated, correction = "han", r = r)
+
+    pcf_observed <- spatstat::pcf.ppp(X = pattern, correction = "best",
+                                      divisor = "d",
+                                      r = r)
+
+    pcf_simulated <- spatstat::pcf.ppp(X = simulated, correction = "best",
+                                       divisor = "d",
+                                       r = r)
+  }
+
+  # energy before reconstruction
+  energy <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
+    mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
+
   # create n_random recondstructed patterns
-  result <- lapply(seq_len(n_random), function(current_pattern){
-
-    # fit a Thomas process to the data
-    if(fitting){
-
-      # simulte clustered pattern
-      simulated <- spatstat::simulate.kppm(fitted_process,
-                                           nsim = 1, drop = TRUE,
-                                           window = pattern$window)
-
-      # remove points because more points in simulated
-      if(pattern$n < simulated$n) {
-
-        # difference between patterns
-        difference <- simulated$n - pattern$n
-
-        # id of points to remove
-        remove_points <- sample(seq_len(simulated$n), size = difference)
-
-        # remove points
-        simulated <- simulated[-remove_points]
-      }
-
-      # add points because less points in simulated
-      if(pattern$n > simulated$n) {
-
-        # difference between patterns
-        difference <- pattern$n - simulated$n
-
-        # create missing points
-        missing_points <- spatstat::runifpoint(n = difference,
-                                               nsim = 1, drop = TRUE,
-                                               win = pattern$window)
-
-        # add missing points to simulated
-        simulated <- spatstat::superimpose(simulated, missing_points,
-                                           W = pattern$window)
-      }
-    }
-
-    # create Poisson simulation data
-    else {
-      simulated <- spatstat::runifpoint(n = pattern$n,
-                                        nsim = 1, drop = TRUE,
-                                        win = pattern$window)
-    }
-
-    # fast computation of summary functions
-    if(comp_fast) {
-
-      gest_observed <- spatstat::Gest(pattern, correction = "none")
-
-      gest_simulated <- spatstat::Gest(simulated, correction = "none")
-
-      pcf_observed <- shar::estimate_pcf_fast(pattern,
-                                              correction = "none",
-                                              method = "c",
-                                              spar = 0.5)
-
-      pcf_simulated <- shar::estimate_pcf_fast(simulated,
-                                               correction = "none",
-                                               method = "c",
-                                               spar = 0.5)
-    }
-
-    # normal computation of summary functions
-    else {
-
-      gest_observed <- spatstat::Gest(X = pattern, correction = "han")
-
-      gest_simulated <- spatstat::Gest(X = simulated, correction = "han")
-
-      pcf_observed <- spatstat::pcf(X = pattern, correction = "best", divisor = "d")
-
-      pcf_simulated <- spatstat::pcf(X = simulated, correction = "best", divisor = "d")
-    }
-
-    # energy before reconstruction
-    energy <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
-      mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
+  result <- lapply(seq_len(n_random), function(current_pattern) {
 
     # random ids of pattern
-    rp_id <- sample(x = seq_len(pattern$n),
-                    size = max_runs, replace = TRUE)
+    rp_id <- rcpp_sample(x = seq_len(pattern$n),
+                         n = max_runs, replace = TRUE)
 
     # create random new points
     rp_coords <- spatstat::runifpoint(n = max_runs,
                                       nsim = 1, drop = TRUE,
-                                      win = pattern$window)
+                                      win = pattern$window,
+                                      warn = FALSE)
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
     for(i in seq_len(max_runs)) {
@@ -207,19 +219,22 @@ reconstruct_pattern <- function(pattern,
       # calculate summary functions after relocation
       if(comp_fast) {
 
-        gest_relocated <- spatstat::Gest(relocated, correction = "none")
+        gest_relocated <- spatstat::Gest(relocated, correction = "none", r = r)
 
         pcf_relocated <- shar::estimate_pcf_fast(relocated,
                                                  correction = "none",
                                                  method = "c",
-                                                 spar = 0.5)
+                                                 spar = 0.5,
+                                                 r = r)
       }
 
       else {
 
-        gest_relocated <- spatstat::Gest(X = relocated, correction = "han")
+        gest_relocated <- spatstat::Gest(X = relocated, correction = "han", r = r)
 
-        pcf_relocated <- spatstat::pcf(X = relocated, correction = "best", divisor = "d")
+        pcf_relocated <- spatstat::pcf.ppp(X = relocated, correction = "best",
+                                           divisor = "d",
+                                           r = r)
       }
 
       # energy after relocation
@@ -227,13 +242,13 @@ reconstruct_pattern <- function(pattern,
         mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE)
 
       # lower energy after relocation
-      if(e_relocated < energy){
+      if(e_relocated < energy) {
 
         simulated <- relocated # keep relocated pattern
 
         energy <- e_relocated # keep e_relocated as energy
 
-        energy_counter <- 0
+        energy_counter <- 0 # set counter since last change back to 0
 
         # plot observed vs reconstructed
         if(plot) {

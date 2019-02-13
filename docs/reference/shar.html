@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>translate_raster — translate_raster • shar | Species-habitat associations in R</title>
+<title>shar — shar • shar | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,13 @@
 
 
 
-<meta property="og:title" content="translate_raster — translate_raster" />
+<meta property="og:title" content="shar — shar" />
 
-<meta property="og:description" content="Torus translation" />
+<meta property="og:description" content="Analyse species-habitat associations in R. Therefore, information about the
+location of the species is needed and about the environmental conditions. To test
+for significance habitat associations, one of the two components is randomized.
+Methods are mainly based on Plotkin et al. (2000) &amp;lt;doi:10.1006/jtbi.2000.2158&amp;gt; and
+Harms et al. (2001) &amp;lt;doi:10.1111/j.1365-2745.2001.00615.x&amp;gt;." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,78 +116,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>translate_raster</h1>
+    <h1>shar</h1>
     
-    <div class="hidden name"><code>translate_raster.Rd</code></div>
+    <div class="hidden name"><code>shar.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Torus translation</p>
+    <p>Analyse species-habitat associations in R. Therefore, information about the
+location of the species is needed and about the environmental conditions. To test
+for significance habitat associations, one of the two components is randomized.
+Methods are mainly based on Plotkin et al. (2000) &lt;doi:10.1006/jtbi.2000.2158&gt; and
+Harms et al. (2001) &lt;doi:10.1111/j.1365-2745.2001.00615.x&gt;.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>translate_raster</span>(<span class='no'>raster</span>, <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>raster</th>
-      <td><p>RasterLayer.</p></td>
-    </tr>
-    <tr>
-      <th>return_input</th>
-      <td><p>The original input data is returned as last list entry.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Print progress report.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>list</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Torus translation test as described in Harms et al. (20001). The raster is shifted
-in all four cardinal directions by steps equal to the raste resolution. If a cell
-exits the extent on one side, it enters the extent on the opposite side.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Harms, K. E., Condit, R., Hubbell, S. P., &amp; Foster, R. B. (2001). Habitat associations
-of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.</p>
-    
+        
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='randomize_raster.html'>randomize_raster</a></code></p></div>
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://r-spatialecology.github.io/shar'>https://r-spatialecology.github.io/shar</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/r-spatialecology/shar/issues'>https://github.com/r-spatialecology/shar/issues</a></p></li>
+</ul></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>landscape_classified</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span>(<span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>landscape_random</span> <span class='kw'>&lt;-</span> <span class='fu'>translate_raster</span>(<span class='no'>landscape_classified</span>)
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
+
+    <h2>Author</h2>
+    <p><strong>Maintainer</strong>: Maximillian H.K. Hesselbarth <a href='mailto:maximilian.hesselbarth@uni-goettingen.de'>maximilian.hesselbarth@uni-goettingen.de</a> (0000-0003-1125-9918)</p>
+<p>Authors:</p><ul>
+<li><p>Marco Sciaini <a href='mailto:sciaini.marco@gmail.com'>sciaini.marco@gmail.com</a> (0000-0002-3042-5435)</p></li>
+</ul>
+
 
   </div>
 </div>

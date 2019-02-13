@@ -7,7 +7,7 @@ status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
-[![Project Status: Active – The project has reached a stable, usable
+[![Project Status: Active â€“ The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -105,10 +105,10 @@ plot_randomized_pattern(reconstruct, verbose = FALSE)
 ``` r
 
 calculate_energy(reconstruct, verbose = FALSE)
-#>  [1] 0.06946475 0.05652419 0.06131211 0.05674564 0.04543196 0.05823235
-#>  [7] 0.08188117 0.09577735 0.06980046 0.05246978 0.06385015 0.05848106
-#> [13] 0.06453171 0.07813714 0.05937555 0.07139397 0.07124605 0.05038522
-#> [19] 0.05815600
+#>  [1] 0.07575534 0.07262066 0.07812796 0.07431053 0.08821445 0.05723050
+#>  [7] 0.06807804 0.07043359 0.06667709 0.05919076 0.07124224 0.07177555
+#> [13] 0.08143564 0.06194196 0.06393897 0.07714563 0.06084325 0.05667099
+#> [19] 0.06350112
 ```
 
 The data was created that `species_a` has a negative association to
@@ -130,11 +130,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  0.45 14.55         n.s.
-#> 2       2    20 29.45 65.65     negative
-#> 3       3    31 48.45 80.55     negative
-#> 4       4    33 36.80 74.30     negative
-#> 5       5   109 15.45 49.85     positive
+#> 1       1     7  0.00 11.65         n.s.
+#> 2       2    20 26.80 51.95     negative
+#> 3       3    31 46.45 71.10     negative
+#> 4       4    33 49.95 79.20     negative
+#> 5       5   109 17.25 45.10     positive
 ```
 
 ## References
