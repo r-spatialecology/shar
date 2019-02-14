@@ -57,10 +57,12 @@ testthat::test_that("Reconstruction stops if e_threshold is reached", {
 
   pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_b,
                                              e_threshold = 0.5,
+                                             n_random = 19,
                                              verbose = FALSE)
 
-  testthat::expect_lt(object = shar::calculate_energy(pattern_recon, verbose = FALSE),
-                      expected = 0.5)
+  energy <- shar::calculate_energy(pattern_recon, verbose = FALSE)
+
+  testthat::expect_true(object = all(energy < 0.5))
 })
 
 
