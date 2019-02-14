@@ -96,7 +96,7 @@ reconstruct_pattern <- function(pattern,
            length.out = 250)
 
   # start with fitted pattern
-  if(fitting){
+  if(fitting) {
 
     # fit Thomas process
     fitted_process <- spatstat::kppm.ppp(pattern, cluster = "Thomas",
