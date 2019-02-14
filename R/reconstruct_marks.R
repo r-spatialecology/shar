@@ -83,15 +83,23 @@ reconstruct_marks <- function(pattern,
   # counter if energy changed
   energy_counter <- 0
 
+  # calculate r
+  r <- seq(from = 0,
+           to = spatstat::rmax.rule(W = pattern$window,
+                                    lambda = spatstat::intensity.ppp(pattern)),
+           length.out = 250)
+
   # assign shuffeld marks to pattern
   spatstat::marks(pattern) <- rcpp_sample(x = marked_pattern$marks, n = marked_pattern$n)
 
   # calculate summary functions
   kmmr_observed <- spatstat::markcorr(marked_pattern,
-                                      correction = "Ripley")
+                                      correction = "Ripley",
+                                      r = r)
 
   kmmr_simulated <- spatstat::markcorr(pattern,
-                                       correction = "Ripley")
+                                       correction = "Ripley",
+                                       r = r)
 
   # energy before reconstruction
   energy <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
@@ -126,7 +134,8 @@ reconstruct_marks <- function(pattern,
 
       # calculate summary functions after relocation
       kmmr_relocated <- spatstat::markcorr(relocated,
-                                           correction = "Ripley")
+                                           correction = "Ripley",
+                                           r = r)
 
       # energy after relocation
       e_relocated <- mean(abs(kmmr_observed[[3]] - kmmr_relocated[[3]]), na.rm = TRUE)

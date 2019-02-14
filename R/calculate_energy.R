@@ -46,8 +46,14 @@ calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = 1000, ver
          call. = FALSE)
   }
 
+  # extract observed pattern
+  pattern_observed <- pattern$observed
+
+  # extract randomized patterns
+  pattern_reconstructed <- pattern[names(pattern) != "observed"]
+
   # check if number of points exceed comp_fast limit
-  if(pattern$observed$n > comp_fast) {
+  if(pattern_observed$n > comp_fast) {
     comp_fast <- TRUE
   }
 
@@ -55,27 +61,36 @@ calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = 1000, ver
     comp_fast <- FALSE
   }
 
-  pattern_observed <- pattern[names(pattern) == "observed"] # extract observed pattern
-
-  pattern_reconstructed <- pattern[names(pattern) != "observed"] # extract randomized patterns
+  # calculate r sequence
+  r <- seq(from = 0,
+           to = spatstat::rmax.rule(W = pattern_observed$window,
+                                    lambda = spatstat::intensity.ppp(pattern_observed)),
+           length.out = 250)
 
   # calculate summary functions for observed pattern
   if(comp_fast) {
 
-    gest_observed <- spatstat::Gest(X = pattern_observed[[1]], correction = "none")
+    gest_observed <- spatstat::Gest(X = pattern_observed,
+                                    correction = "none",
+                                    r = r)
 
-    pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed[[1]],
+    pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed,
                                             correction = "none",
                                             method = "c",
-                                            spar = 0.5)
+                                            spar = 0.5,
+                                            r = r)
   }
 
   else{
 
-    gest_observed <- spatstat::Gest(X = pattern_observed[[1]], correction = "han")
+    gest_observed <- spatstat::Gest(X = pattern_observed,
+                                    correction = "han",
+                                    r = r)
 
-    pcf_observed <- spatstat::pcf(X = pattern_observed[[1]],
-                                  correction = "best", divisor = "d")
+    pcf_observed <- spatstat::pcf(X = pattern_observed,
+                                  correction = "best",
+                                  divisor = "d",
+                                  r = r)
   }
 
   # loop through all reconstructed patterns
@@ -84,21 +99,28 @@ calculate_energy <- function(pattern, return_mean = FALSE, comp_fast = 1000, ver
     # fast computation of summary stats
     if(comp_fast) {
 
-      gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]], correction = "none")
+      gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]],
+                                            correction = "none",
+                                            r = r)
 
       pcf_reconstruction <- shar::estimate_pcf_fast(pattern = pattern_reconstructed[[x]],
                                                     correction = "none",
                                                     method = "c",
-                                                    spar = 0.5)
+                                                    spar = 0.5,
+                                                    r = r)
     }
 
     # normal computation of summary stats
     else{
 
-      gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]], correction = "han")
+      gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]],
+                                            correction = "han",
+                                            r = r)
 
       pcf_reconstruction <- spatstat::pcf(X = pattern_reconstructed[[x]],
-                                          correction = "best", divisor = "d")
+                                          correction = "best",
+                                          divisor = "d",
+                                          r = r)
     }
 
     # difference between observed and reconstructed pattern
