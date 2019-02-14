@@ -1,3 +1,8 @@
+# shar 0.3
+* Improvements
+* Bugfixes
+* New functionality
+
 # shar 0.2.1
 * Improvements
   * minor speed improvment for `reconstruct_pattern()`, `reconstruct_marks()` and `calculate_energy()`
