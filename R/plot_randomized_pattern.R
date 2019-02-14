@@ -61,6 +61,12 @@ plot_randomized_pattern <- function(pattern,
 
     name_unit <- spatstat::unitname(pattern$observed)[[1]] # unit name for labels
 
+    # calculate r
+    r <- seq(from = 0,
+             to = spatstat::rmax.rule(W = pattern$observed$window,
+                                      lambda = spatstat::intensity.ppp(pattern$observed)),
+             length.out = 250)
+
     if(method == "spatial") {
 
       # loop through all input
@@ -69,18 +75,26 @@ plot_randomized_pattern <- function(pattern,
         # calculate summary functions
         if(comp_fast) {
 
-          gest_result <- spatstat::Gest(pattern[[x]], correction = "none")
+          gest_result <- spatstat::Gest(pattern[[x]],
+                                        correction = "none",
+                                        r = r)
 
           pcf_result <- shar::estimate_pcf_fast(pattern[[x]],
                                                 correction = "none",
                                                 method = "c",
-                                                spar = 0.5)
+                                                spar = 0.5,
+                                                r = r)
         }
 
         else{
-          gest_result <- spatstat::Gest(pattern[[x]], correction = "han")
+          gest_result <- spatstat::Gest(pattern[[x]],
+                                        correction = "han",
+                                        r = r)
 
-          pcf_result <- spatstat::pcf(pattern[[x]], divisor = "d", correction = "best")
+          pcf_result <- spatstat::pcf(pattern[[x]],
+                                      divisor = "d",
+                                      correction = "best",
+                                      r = r)
         }
 
         gest_df <- as.data.frame(gest_result) # conver to df
@@ -134,10 +148,20 @@ plot_randomized_pattern <- function(pattern,
       graphics::par(mfrow = c(1, 2)) # two plots next to each other
 
       # plot Gest
-      graphics::plot(x = result_nndf[, 2][result_nndf$type == "observed"],
-                     y = result_nndf[, 6][result_nndf$type == "observed"], type = "l",
+      graphics::plot(NULL,
+                     xlim = range(result_nndf[, 2]),
+                     ylim = c(min(result_nndf[, 4]), max(result_nndf[, 5])),
                      main = "Nearest Neighbour Distance Function",
                      xlab = paste0("r [",name_unit, "]"), ylab = "G(r)")
+
+      graphics::polygon(x = c(result_nndf[, 2][result_nndf$type == "randomized"],
+                              rev(result_nndf[, 2][result_nndf$type == "randomized"])),
+                        y = c(result_nndf[, 4][result_nndf$type == "randomized"],
+                              rev(result_nndf[, 5][result_nndf$type == "randomized"])),
+                        col = 'grey80', border = NA)
+
+      graphics::lines(x = result_nndf[, 2][result_nndf$type == "observed"],
+                      y = result_nndf[, 6][result_nndf$type == "observed"])
 
       graphics::lines(x = result_nndf[, 2][result_nndf$type == "randomized"],
                       y = result_nndf[, 4][result_nndf$type == "randomized"],
@@ -152,10 +176,20 @@ plot_randomized_pattern <- function(pattern,
                        col = c("black", "red"), lty = c(1,2), inset = 0.025)
 
       # plot pcf
-      graphics::plot(x = result_pcf[, 2][result_pcf$type == "observed"],
-                     y = result_pcf[, 6][result_pcf$type == "observed"], type = "l",
+      graphics::plot(NULL,
+                     xlim = range(result_pcf[, 2]),
+                     ylim = c(min(result_pcf[, 4]), max(result_pcf[, 5])),
                      main = "Pair Correlation Function",
                      xlab = paste0("r [",name_unit, "]"), ylab = "g(r)")
+
+      graphics::polygon(x = c(result_pcf[, 2][result_pcf$type == "randomized"],
+                              rev(result_pcf[, 2][result_pcf$type == "randomized"])),
+                        y = c(result_pcf[, 4][result_pcf$type == "randomized"],
+                              rev(result_pcf[, 5][result_pcf$type == "randomized"])),
+                        col = 'grey80', border = NA)
+
+      graphics::lines(x = result_pcf[, 2][result_pcf$type == "observed"],
+                      y = result_pcf[, 6][result_pcf$type == "observed"])
 
       graphics::lines(x = result_pcf[, 2][result_pcf$type == "randomized"],
                       y = result_pcf[, 4][result_pcf$type == "randomized"],
@@ -177,7 +211,8 @@ plot_randomized_pattern <- function(pattern,
       result_list <- lapply(seq_along(pattern), function(x){
 
         mark_corr <- as.data.frame(spatstat::markcorr(pattern[[x]],
-                                                      correction = "Ripley"))
+                                                      correction = "Ripley",
+                                                      r = r))
 
         # print progress
         if(verbose) {
@@ -210,10 +245,21 @@ plot_randomized_pattern <- function(pattern,
                                                                            hi = stats::quantile(x, probs = probs[2]),
                                                                            x_r = mean(x))}))
 
-      graphics::plot(x = result_df_summarised[, 1][result_df_summarised$type == "observed"],
-                     y = result_df_summarised[, 5][result_df_summarised$type == "observed"], type = "l",
+      # plot results
+      graphics::plot(NULL,
+                     xlim = range(result_df_summarised[, 1]),
+                     ylim = c(min(result_df_summarised[, 3]), max(result_df_summarised[, 4])),
                      main = "Mark correlation function",
                      xlab = paste0("r [",name_unit, "]"), ylab = "kmm(r)")
+
+      graphics::polygon(x = c(result_df_summarised[, 1][result_df_summarised$type == "randomized"],
+                              rev(result_df_summarised[, 1][result_df_summarised$type == "randomized"])),
+                        y = c(result_df_summarised[, 3][result_df_summarised$type == "randomized"],
+                              rev(result_df_summarised[, 4][result_df_summarised$type == "randomized"])),
+                        col = 'grey80', border = NA)
+
+      graphics::lines(x = result_df_summarised[, 1][result_df_summarised$type == "observed"],
+                      y = result_df_summarised[, 5][result_df_summarised$type == "observed"])
 
       graphics::lines(x = result_df_summarised[, 1][result_df_summarised$type == "randomized"],
                       y = result_df_summarised[, 3][result_df_summarised$type == "randomized"],
