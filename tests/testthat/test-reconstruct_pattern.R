@@ -45,13 +45,24 @@ testthat::test_that("Argument comp_fast = TRUE is working", {
   pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
                                              n_random = 1,
                                              max_runs = 1,
-                                             comp_fast = 50,
+                                             comp_fast = 0,
                                              verbose = FALSE)
 
   testthat::expect_type(pattern_recon, type = "list")
 
   testthat::expect_length(pattern_recon, n = 2)
 })
+
+testthat::test_that("Reconstruction stops if e_threshold is reached", {
+
+  pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_b,
+                                             e_threshold = 0.5,
+                                             verbose = FALSE)
+
+  testthat::expect_lt(object = shar::calculate_energy(pattern_recon, verbose = FALSE),
+                      expected = 0.5)
+})
+
 
 testthat::test_that("simplify works for reconstruct_pattern", {
 

@@ -288,7 +288,7 @@ reconstruct_pattern <- function(pattern,
       }
 
       # exit loop if e threshold or no_change counter max is reached
-      if(energy <= e_threshold || energy_counter > no_change){
+      if(energy <= e_threshold || energy_counter > no_change) {
         break
       }
     }
