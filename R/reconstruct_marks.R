@@ -17,7 +17,7 @@
 #' The function randomizes the numeric marks of a point pattern using pattern reconstruction
 #' as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). Therefore,
 #' an unmarked as well as a marked pattern must be provided. The unmarked pattern must have
-#' the spatial characteristics but the same observation window and number of points
+#' the spatial characteristics and the same observation window and number of points
 #' as the marked one (see `reconstruct_pattern` or `fit_point_process`). Marks must be
 #' numeric because the mark-correlation function is used as summary function. Two
 #' randomly chosen marks are switch each iterations and changes only kept if the
