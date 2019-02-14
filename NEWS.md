@@ -1,6 +1,6 @@
 # shar 0.2.1
 * Improvements
-  * minor speed improvment for `reconstruct_pattern()`
+  * minor speed improvment for `reconstruct_pattern()`, `reconstruct_marks()` and `calculate_energy()`
     * The starting pattern is now identical for all n_random and only the relocation process differs between randomizations
     * All summary functions are only calculated for 250 steps from 0 to rmax
 * Bugfixes
