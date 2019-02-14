@@ -53,16 +53,16 @@
 #'
 #' @export
 reconstruct_pattern <- function(pattern,
-                                    n_random = 1,
-                                    e_threshold = 0.01,
-                                    max_runs = 1000,
-                                    no_change = Inf,
-                                    fitting = FALSE,
-                                    comp_fast = 1000,
-                                    return_input = TRUE,
-                                    simplify = FALSE,
-                                    verbose = TRUE,
-                                    plot = FALSE){
+                                n_random = 1,
+                                e_threshold = 0.01,
+                                max_runs = 1000,
+                                no_change = Inf,
+                                fitting = FALSE,
+                                comp_fast = 1000,
+                                return_input = TRUE,
+                                simplify = FALSE,
+                                verbose = TRUE,
+                                plot = FALSE){
 
   # check if n_random is >= 1
   if(!n_random >= 1) {
@@ -207,9 +207,11 @@ reconstruct_pattern <- function(pattern,
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
     for(i in seq_len(max_runs)) {
 
-      relocated <- simulated # data for relocation
+      # data for relocation
+      relocated <- simulated
 
-      rp_id_current <- rp_id[[i]] # get current point id
+      # get current point id
+      rp_id_current <- rp_id[[i]]
 
       # relocate point
       relocated$x[[rp_id_current]] <- rp_coords$x[[i]]
@@ -244,16 +246,20 @@ reconstruct_pattern <- function(pattern,
       # lower energy after relocation
       if(e_relocated < energy) {
 
-        simulated <- relocated # keep relocated pattern
+        # keep relocated pattern
+        simulated <- relocated
 
-        energy <- e_relocated # keep e_relocated as energy
+        # keep e_relocated as energy
+        energy <- e_relocated
 
-        energy_counter <- 0 # set counter since last change back to 0
+        # set counter since last change back to 0
+        energy_counter <- 0
 
         # plot observed vs reconstructed
         if(plot) {
 
-          Sys.sleep(0.1) # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
+          # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
+          Sys.sleep(0.1)
 
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
                          type = "l", col = "black",
@@ -293,32 +299,40 @@ reconstruct_pattern <- function(pattern,
   # add input pattern to randomizations
   if(return_input){
 
+    # simplify not possible if input pattern should be returned
     if(simplify){
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
 
-    result[[n_random + 1]] <- pattern # add input pattern as last list entry
+    # add input pattern as last list entry
+    result[[n_random + 1]] <- pattern
 
-    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
+    # set names
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed")
   }
 
+  # don't add input pattern
   else{
 
+    # don't return list
     if(simplify) {
 
+      # simplify not possible if more than one random pattern is present
       if(n_random > 1) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
 
+      # return only pattern not as list
       else {
         result <- result[[1]]
       }
     }
 
+    # set names of list to return
     else{
-      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+      names(result) <- paste0("randomized_", seq_len(n_random))
     }
   }
 
