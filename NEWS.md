@@ -6,6 +6,7 @@
   * `calculate_engery()` can also calculate the energy for marked reconstructions
   * Improved warning messages
 * Bugfixes
+  * Explicitly C++11 compiler
 * New functionality
 
 # shar 0.2.1
