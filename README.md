@@ -90,25 +90,28 @@ Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
 gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 19, verbose = FALSE)
 
 reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 500, n_random = 19, verbose = FALSE) # takes some time
+#> Warning: Unmarked provided input pattern. For marked pattern, see
+#> reconstruct_marks().
 ```
 
 Of coures, there are several utility functions. For example, you can
 plot a randomized pattern or calculate the differences between the
-observed pattern and the randomized patterns (using summary functions).
+observed pattern and the randomized patterns (using summary
+functions).
 
 ``` r
 plot_randomized_pattern(reconstruct, verbose = FALSE)
 ```
 
-<img src="man/figures/README-plot_random_pattern-1.png" width="100%" />
+<img src="man/figures/README-plot_random_pattern-1.png" width="100%" /><img src="man/figures/README-plot_random_pattern-2.png" width="100%" />
 
 ``` r
 
 calculate_energy(reconstruct, verbose = FALSE)
-#>  [1] 0.07575534 0.07262066 0.07812796 0.07431053 0.08821445 0.05723050
-#>  [7] 0.06807804 0.07043359 0.06667709 0.05919076 0.07124224 0.07177555
-#> [13] 0.08143564 0.06194196 0.06393897 0.07714563 0.06084325 0.05667099
-#> [19] 0.06350112
+#>  [1] 0.04234398 0.04396717 0.04463376 0.05826385 0.05002665 0.06573376
+#>  [7] 0.03923143 0.06414235 0.04531366 0.05682915 0.04498647 0.05126521
+#> [13] 0.04646242 0.06439584 0.05801337 0.06085057 0.06175074 0.05064068
+#> [19] 0.04731581
 ```
 
 The data was created that `species_a` has a negative association to
@@ -130,11 +133,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  0.00 11.65         n.s.
-#> 2       2    20 26.80 51.95     negative
-#> 3       3    31 46.45 71.10     negative
-#> 4       4    33 49.95 79.20     negative
-#> 5       5   109 17.25 45.10     positive
+#> 1       1     7  1.90 14.20         n.s.
+#> 2       2    20 22.00 35.30     negative
+#> 3       3    31 45.45 72.65     negative
+#> 4       4    33 51.15 71.30     negative
+#> 5       5   109 35.90 51.55     positive
 ```
 
 ## References
