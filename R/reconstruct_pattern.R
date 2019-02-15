@@ -92,8 +92,10 @@ reconstruct_pattern <- function(pattern,
 
     pattern <- spatstat::unmark(pattern)
 
-    warning("Unmarked provided input pattern. For marked pattern, see reconstruct_marks().",
-            call. = FALSE)
+    if(verbose) {
+      warning("Unmarked provided input pattern. For marked pattern, see reconstruct_marks().",
+              call. = FALSE)
+    }
   }
 
   # calculate r
@@ -307,7 +309,7 @@ reconstruct_pattern <- function(pattern,
   if(return_input){
 
     # simplify not possible if input pattern should be returned
-    if(simplify){
+    if(simplify && verbose){
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
@@ -326,7 +328,7 @@ reconstruct_pattern <- function(pattern,
     if(simplify) {
 
       # simplify not possible if more than one random pattern is present
-      if(n_random > 1) {
+      if(n_random > 1 && verbose) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }

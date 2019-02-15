@@ -119,20 +119,18 @@ testthat::test_that("All errors are returned for reconstruct_marks", {
                          regexp = "marks must be 'numeric'")
 })
 
-test_that("All warnings are returned for reconstruct_marks", {
+testthat::test_that("All warnings are returned for reconstruct_marks", {
 
-  expect_warning(shar::reconstruct_marks(pattern = pattern_recon,
-                                         marked_pattern = marks_sub,
-                                         n_random = 2, max_runs = 1,
-                                         return_input = FALSE,
-                                         simplify = TRUE,
-                                         verbose = FALSE),
-                 regexp = "'simplify = TRUE' not possible for 'n_random > 1'")
+  testthat::expect_warning(shar::reconstruct_marks(pattern = pattern_recon,
+                                                   marked_pattern = marks_sub,
+                                                   n_random = 2, max_runs = 1,
+                                                   return_input = FALSE,
+                                                   simplify = TRUE),
+                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'")
 
-  expect_warning(shar::reconstruct_marks(pattern = pattern_recon,
-                                         marked_pattern = marks_sub,
-                                         n_random = 1, max_runs = 1,
-                                         simplify = TRUE,
-                                         verbose = FALSE),
-                 regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'")
+  testthat::expect_warning(shar::reconstruct_marks(pattern = pattern_recon,
+                                                   marked_pattern = marks_sub,
+                                                   n_random = 1, max_runs = 1,
+                                                   simplify = TRUE),
+                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'")
 })

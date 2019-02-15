@@ -160,7 +160,7 @@ randomize_raster <- function(raster,
   # add input pattern to randomizations
   if(return_input){
 
-    if(simplify){
+    if(simplify && verbose){
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
@@ -174,7 +174,7 @@ randomize_raster <- function(raster,
 
     if(simplify) {
 
-      if(n_random > 1) {
+      if(n_random > 1 && verbose) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }

@@ -212,7 +212,7 @@ reconstruct_marks <- function(pattern,
     if(simplify) {
 
       # not possible if more than one pattern is present
-      if(n_random > 1) {
+      if(n_random > 1 && verbose) {
         cat("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
       }

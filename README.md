@@ -80,7 +80,7 @@ torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
 
-<img src="man/figures/README-plot_habitat_random-1.png" width="100%" />
+<img src="man/figures/README-plot_habitat-random-1.png" width="100%" style="display: block; margin: auto;" />
 
 To randomize the point pattern, either use the Gamma test described by
 Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
@@ -90,8 +90,6 @@ Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
 gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 19, verbose = FALSE)
 
 reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 500, n_random = 19, verbose = FALSE) # takes some time
-#> Warning: Unmarked provided input pattern. For marked pattern, see
-#> reconstruct_marks().
 ```
 
 Of coures, there are several utility functions. For example, you can
@@ -103,15 +101,14 @@ functions).
 plot_randomized_pattern(reconstruct, verbose = FALSE)
 ```
 
-<img src="man/figures/README-plot_random_pattern-1.png" width="100%" /><img src="man/figures/README-plot_random_pattern-2.png" width="100%" />
+<img src="man/figures/README-plot-random_pattern-1.png" width="100%" style="display: block; margin: auto;" /><img src="man/figures/README-plot-random_pattern-2.png" width="100%" style="display: block; margin: auto;" />
 
 ``` r
-
 calculate_energy(reconstruct, verbose = FALSE)
-#>  [1] 0.04234398 0.04396717 0.04463376 0.05826385 0.05002665 0.06573376
-#>  [7] 0.03923143 0.06414235 0.04531366 0.05682915 0.04498647 0.05126521
-#> [13] 0.04646242 0.06439584 0.05801337 0.06085057 0.06175074 0.05064068
-#> [19] 0.04731581
+#>  [1] 0.05028734 0.05768020 0.05553838 0.06078123 0.03746757 0.07208986
+#>  [7] 0.06433953 0.05802454 0.04724177 0.04603655 0.06544002 0.05091503
+#> [13] 0.05446540 0.06791297 0.05251283 0.04978113 0.06417108 0.04863547
+#> [19] 0.04722748
 ```
 
 The data was created that `species_a` has a negative association to
@@ -133,11 +130,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
 #> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 #>   habitat count    lo    hi significance
-#> 1       1     7  1.90 14.20         n.s.
-#> 2       2    20 22.00 35.30     negative
-#> 3       3    31 45.45 72.65     negative
-#> 4       4    33 51.15 71.30     negative
-#> 5       5   109 35.90 51.55     positive
+#> 1       1     7  1.45 11.55         n.s.
+#> 2       2    20 21.90 51.10     negative
+#> 3       3    31 60.25 82.55     negative
+#> 4       4    33 44.15 69.30     negative
+#> 5       5   109 17.90 45.60     positive
 ```
 
 ## References

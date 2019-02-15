@@ -56,15 +56,13 @@ testthat::test_that("randomize_raster returns all warnings", {
 
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 1,
-                                                  simplify = TRUE,
-                                                  verbose = FALSE),
+                                                  simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 2,
                                                   simplify = TRUE,
-                                                  return_input = FALSE,
-                                                  verbose = FALSE),
+                                                  return_input = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 })
 

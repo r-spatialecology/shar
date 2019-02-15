@@ -41,7 +41,7 @@
 results_habitat_association <- function(pattern, raster,
                                         significance_level = 0.05, verbose = TRUE){
 
-  if(significance_level < 0.01 || significance_level > 0.1) {
+  if(significance_level < 0.01 || significance_level > 0.1 && verbose) {
     warning("Make sure signifcance_level is meaningful (e.g. 'significance_level = 0.05').",
             call. = FALSE)
   }

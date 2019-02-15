@@ -92,14 +92,12 @@ testthat::test_that("reconstruct_pattern returns warnings", {
                                                      n_random = 2,
                                                      max_runs = 1,
                                                      return_input = FALSE,
-                                                     simplify = TRUE,
-                                                     verbose = FALSE),
+                                                     simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
   testthat::expect_warning(shar::reconstruct_pattern(pattern = shar::species_a,
                                                      n_random = 1,
                                                      max_runs = 1,
-                                                     simplify = TRUE,
-                                                     verbose = FALSE),
+                                                     simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 })
