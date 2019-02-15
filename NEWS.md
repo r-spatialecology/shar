@@ -1,6 +1,7 @@
 # shar 0.3
 * Improvements
   * `plot_randomized_pattern()` now uses envelopes to plot randomized summary functions
+  * `plot_randomized_pattern()` includes a quantum bar
   * `calculate_engery()` can also calculate the energy for marked reconstructions
 * Bugfixes
 * New functionality
