@@ -87,7 +87,14 @@ reconstruct_pattern <- function(pattern,
   # counter if energy changed
   energy_counter <- 0
 
-  pattern <- spatstat::unmark(pattern) # only spatial points
+  # unmark pattern
+  if(spatstat::is.marked(pattern)) {
+
+    pattern <- spatstat::unmark(pattern)
+
+    warning("Unmarked provided input pattern. For marked pattern, see reconstruct_marks().",
+            call. = FALSE)
+  }
 
   # calculate r
   r <- seq(from = 0,

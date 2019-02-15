@@ -4,6 +4,7 @@
   * `plot_randomized_pattern()` includes a quantum bar
   * `plot_randomized_pattern()` now returns plot after each other
   * `calculate_engery()` can also calculate the energy for marked reconstructions
+  * Improved warning messages
 * Bugfixes
 * New functionality
 
