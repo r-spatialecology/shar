@@ -157,8 +157,7 @@ plot_randomized_pattern <- function(pattern,
                         yes =  "#1f78b4",
                         no = "#b2df8a")
 
-      # two plots next to each other
-      graphics::par(mfrow = c(1, 2))
+      # plot results G(r)
 
       # plot Gest
       graphics::plot(NULL,
@@ -188,9 +187,12 @@ plot_randomized_pattern <- function(pattern,
                       y = summarised_nndf[, 4],
                       col = "#1f78b4", lty = 2)
 
-      graphics::legend(x = "right",
+      graphics::legend(x = "topright",
                        legend = c("observed", "randomized"),
                        col = c("black", "#1f78b4"), lty = c(1,2), inset = 0.025)
+
+      # ask user to hit enter
+      graphics::par(ask = TRUE)
 
       # plot pcf
       graphics::plot(NULL,
@@ -220,9 +222,9 @@ plot_randomized_pattern <- function(pattern,
 
       graphics::legend(x = "topright",
                        legend = c("observed", "randomized"),
-                       col = c("black", "red"), lty = c(1,2), inset = 0.025)
+                       col = c("black", "#1f78b4"), lty = c(1,2), inset = 0.025)
 
-      graphics::par(mfrow = c(1, 1))
+      graphics::par(ask = FALSE)
     }
 
     else if (method == "marks") {
@@ -282,7 +284,7 @@ plot_randomized_pattern <- function(pattern,
 
       graphics::polygon(x = c(result_randomized[, 1], rev(result_randomized[, 1])),
                         y = c(result_randomized[, 2], rev(result_randomized[, 3])),
-                        col = 'grey80', border = NA)
+                        col = "grey80", border = NA)
 
       graphics::lines(x = result_observed[, 1], y = result_observed[, 3])
 
@@ -299,7 +301,7 @@ plot_randomized_pattern <- function(pattern,
     }
 
     else{
-      stop("'method' must be either 'method = 'spatial'' or 'method = 'marks''",
+      stop("'method' must be either 'method = 'spatial' or 'method = 'marks'.",
            call. =FALSE)
     }
   }
@@ -311,7 +313,7 @@ plot_randomized_pattern <- function(pattern,
 
     # check if at least 4 patterns are present, i.e. 3 randomized & observed
     if(number_patterns < 4) {
-      stop("Please provide at least 3 randomizations and the observed pattern",
+      stop("Please provide at least 3 randomizations and the observed pattern.",
            call. = FALSE)
     }
 
