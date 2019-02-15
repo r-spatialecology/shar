@@ -1,3 +1,14 @@
+# shar 0.3
+* Improvements
+  * `plot_randomized_pattern()` now uses envelopes to plot randomized summary functions
+  * `plot_randomized_pattern()` includes a quantum bar
+  * `plot_randomized_pattern()` now returns plot after each other
+  * `calculate_engery()` can also calculate the energy for marked reconstructions
+  * Improved warning messages
+* Bugfixes
+  * Explicitly C++11 compiler
+* New functionality
+
 # shar 0.2.1
 * Improvements
   * minor speed improvment for `reconstruct_pattern()`, `reconstruct_marks()` and `calculate_energy()`

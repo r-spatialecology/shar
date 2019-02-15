@@ -19,6 +19,8 @@ marks_recon <- shar::reconstruct_marks(pattern = pattern_random_marks,
 
 testthat::test_that("plot_randomized_pattern returns plot", {
 
+  par(ask = F)
+
   shar::plot_randomized_pattern(pattern_random_a,
                                 verbose = FALSE)
 
@@ -52,7 +54,7 @@ testthat::test_that("plot_randomized_patterns returns error if method is wrong",
   testthat::expect_error(shar::plot_randomized_pattern(marks_recon,
                                                        method = "wrong",
                                                        verbose = FALSE),
-                         regexp = "'method' must be either 'method = 'spatial'' or 'method = 'marks''")
+                         regexp = "'method' must be either 'method = 'spatial' or 'method = 'marks'.")
   })
 
 testthat::test_that("plot_randomized_patterns returns error if what is wrong", {
