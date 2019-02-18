@@ -17,6 +17,8 @@
 #'
 #' @return vector
 #'
+#' @name rcpp_sample
+#' @export
 rcpp_sample <- function(x, n, replace = FALSE) {
     .Call(`_shar_rcpp_sample`, x, n, replace)
 }

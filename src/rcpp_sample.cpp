@@ -17,6 +17,8 @@ using namespace Rcpp;
 //'
 //' @return vector
 //'
+//' @name rcpp_sample
+//' @export
 // [[Rcpp::export]]
 Rcpp::NumericVector rcpp_sample(Rcpp::NumericVector x, int n, bool replace = false) {
 
