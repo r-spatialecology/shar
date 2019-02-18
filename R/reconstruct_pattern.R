@@ -128,7 +128,7 @@ reconstruct_pattern <- function(pattern,
       difference <- simulated$n - pattern$n
 
       # id of points to remove
-      remove_points <- rcpp_sample(x = seq_len(simulated$n), n = difference)
+      remove_points <- shar::rcpp_sample(x = seq_len(simulated$n), n = difference)
 
       # remove points
       simulated <- simulated[-remove_points]
@@ -204,8 +204,8 @@ reconstruct_pattern <- function(pattern,
   result <- lapply(seq_len(n_random), function(current_pattern) {
 
     # random ids of pattern
-    rp_id <- rcpp_sample(x = seq_len(pattern$n),
-                         n = max_runs, replace = TRUE)
+    rp_id <- shar::rcpp_sample(x = seq_len(pattern$n),
+                               n = max_runs, replace = TRUE)
 
     # create random new points
     rp_coords <- spatstat::runifpoint(n = max_runs,

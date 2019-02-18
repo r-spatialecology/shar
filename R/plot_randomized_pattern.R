@@ -322,8 +322,8 @@ plot_randomized_pattern <- function(pattern,
     }
 
     # sample 3 randomized patterns
-    random_ids <- rcpp_sample(x = seq(from = 1, to = number_patterns - 1, by = 1),
-                              n = 3)
+    random_ids <- shar::rcpp_sample(x = seq(from = 1, to = number_patterns - 1, by = 1),
+                                    n = 3)
 
     # get randomized and observed patterns
     pattern <- pattern[c(random_ids, number_patterns)]
