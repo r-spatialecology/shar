@@ -38,7 +38,16 @@ fit_point_process <- function(pattern,
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
-  pattern <- spatstat::unmark(pattern) # only spatial points
+  # unmark pattern
+  if(spatstat::is.marked(pattern)) {
+
+    pattern <- spatstat::unmark(pattern)
+
+    if(verbose) {
+      warning("Unmarked provided input pattern.",
+              call. = FALSE)
+    }
+  }
 
   if(process == "poisson"){
 
