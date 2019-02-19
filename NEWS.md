@@ -2,7 +2,7 @@
 * Improvements
   * `plot_randomized_pattern()` now uses envelopes to plot randomized summary functions
   * `plot_randomized_pattern()` includes a quantum bar
-  * `plot_randomized_pattern()` now returns plot after each other
+  * `plot_randomized_pattern()` now can return plots after each other (Press <Enter>)
   * `calculate_engery()` can also calculate the energy for marked reconstructions
   * Improved warning messages
 * Bugfixes

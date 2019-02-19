@@ -5,18 +5,22 @@
 \title{plot_randomized_pattern}
 \usage{
 plot_randomized_pattern(pattern, what = "sf", method = "spatial",
-  probs = c(0.025, 0.975), comp_fast = 1000, verbose = TRUE)
+  probs = c(0.025, 0.975), comp_fast = 1000, ask = TRUE,
+  verbose = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
 
 \item{what}{Plot summary functions of point patterns (\code{what = "sf"}) or acutal patterns (\code{what = "pp"}).}
 
-\item{method}{String to specifiy if spatial pattern or marks were reconstructed}
+\item{method}{String to specifiy if spatial pattern or marks were reconstructed.}
 
 \item{probs}{Quantiles of randomized data used for envelope construction.}
 
 \item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
+
+\item{ask}{If TRUE the user is asked to press <RETURN> before second summary function
+is plotted (only has influence if \code{what = "sf"} and \code{method = "spatial"}).}
 
 \item{verbose}{Print progress report.}
 }

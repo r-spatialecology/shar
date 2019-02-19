@@ -19,13 +19,13 @@ marks_recon <- shar::reconstruct_marks(pattern = pattern_random_marks,
 
 testthat::test_that("plot_randomized_pattern returns plot", {
 
-  par(ask = F)
-
   shar::plot_randomized_pattern(pattern_random_a,
-                                verbose = FALSE)
+                                verbose = FALSE,
+                                ask = FALSE)
 
   shar::plot_randomized_pattern(pattern_random_a, what = "pp",
-                                verbose = FALSE)
+                                verbose = FALSE,
+                                ask = FALSE)
 })
 
 testthat::test_that("plot_randomized_pattern returns error if input is named wrong", {

@@ -4,9 +4,11 @@
 #'
 #' @param pattern List with reconstructed patterns.
 #' @param what Plot summary functions of point patterns (\code{what = "sf"}) or acutal patterns (\code{what = "pp"}).
-#' @param method String to specifiy if spatial pattern or marks were reconstructed
+#' @param method String to specifiy if spatial pattern or marks were reconstructed.
 #' @param probs Quantiles of randomized data used for envelope construction.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
+#' @param ask If TRUE the user is asked to press <RETURN> before second summary function
+#' is plotted (only has influence if \code{what = "sf"} and \code{method = "spatial"}).
 #' @param verbose Print progress report.
 #'
 #' @details
@@ -40,6 +42,7 @@ plot_randomized_pattern <- function(pattern,
                                     method = "spatial",
                                     probs = c(0.025, 0.975),
                                     comp_fast = 1000,
+                                    ask = TRUE,
                                     verbose = TRUE){
 
   # check if randomized and observed is present
@@ -192,7 +195,7 @@ plot_randomized_pattern <- function(pattern,
                        col = c("black", "#1f78b4"), lty = c(1,2), inset = 0.025)
 
       # ask user to hit enter
-      graphics::par(ask = TRUE)
+      graphics::par(ask = ask)
 
       # plot pcf
       graphics::plot(NULL,
