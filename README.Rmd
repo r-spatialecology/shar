@@ -74,7 +74,7 @@ reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 500, n_random
 Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions). 
 
 ```{r plot-random_pattern, fig.width = 5.5, fig.height = 4, fig.align = "center"}
-plot_randomized_pattern(reconstruct, verbose = FALSE)
+plot_randomized_pattern(reconstruct, verbose = FALSE, ask = FALSE)
 ```
 
 ```{r calculate-energy}
