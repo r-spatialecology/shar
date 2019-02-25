@@ -19,7 +19,7 @@ v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/li
 
 # shar
 
-**S**ecies-**H**abitat **A**ssociations in **R** is a `R` package to
+**S**pecies-**H**abitat **A**ssociations in **R** is a `R` package to
 analyze species-habitat associations. Therefore, information about the
 location of the species is needed (as a point pattern) and about the
 environmental conditions (as a raster map). In order to analyse the data
@@ -112,10 +112,10 @@ plot_randomized_pattern(reconstruct, verbose = FALSE)
 calculate_energy(reconstruct, verbose = FALSE)
 ```
 
-    ##  [1] 0.04867232 0.06053444 0.07761378 0.06506166 0.05452457 0.04686906
-    ##  [7] 0.06114468 0.07712652 0.06803046 0.05862077 0.05816057 0.05595087
-    ## [13] 0.06834504 0.03692585 0.05498298 0.06146226 0.05307179 0.05412026
-    ## [19] 0.06204802
+    ##  [1] 0.04456600 0.06075778 0.04664212 0.05894477 0.04771050 0.07436839
+    ##  [7] 0.05776385 0.05297235 0.06346885 0.05556091 0.07061876 0.05718945
+    ## [13] 0.04422082 0.04877680 0.06859868 0.05990151 0.05487688 0.04674527
+    ## [19] 0.05719054
 
 The data was created that `species_a` has a negative association to
 habitat 4 and `species_b` has a positive association to habitat 5. At
@@ -143,12 +143,12 @@ results_habitat_association(pattern = reconstruct, raster = landscape_classified
 
     ## > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 
-    ##   habitat count    lo     hi significance
-    ## 1       1    17  7.90  26.55         n.s.
-    ## 2       2    48 23.80  53.65         n.s.
-    ## 3       3    29 42.90  63.75     negative
-    ## 4       4    64 57.35 101.80         n.s.
-    ## 5       5    42  5.90  27.30     positive
+    ##   habitat count    lo    hi significance
+    ## 1       1    17  5.90 22.00         n.s.
+    ## 2       2    48 36.80 66.10         n.s.
+    ## 3       3    29 37.90 74.30     negative
+    ## 4       4    64 56.35 83.10         n.s.
+    ## 5       5    42  4.00 13.55     positive
 
 ## References
 
