@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 # shar
 
-**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
+**S**ecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
 
 ## Installation
 
@@ -50,7 +50,7 @@ library(raster)
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
 
-There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one.
+There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click [here](https://r-spatialecology.github.io/shar/articles/background.html).
 
 ```{r habitat_random}
 torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
@@ -60,7 +60,7 @@ random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, ve
 
 ```{r plot_habitat-random, echo = FALSE, fig.width = 5.5, fig.height = 4, fig.align = "center"}
 plot(raster::stack(random_walk)[[c(20, 1, 2, 3)]], legend = FALSE, cex = 0.5,
-     col = c("#2B83BA", "#ABDDA4", "#FFFFBF", "#FDAE61", "#D7191C"))
+     col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF"))
 ```
 
 To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan 2006). 

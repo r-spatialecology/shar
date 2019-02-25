@@ -19,7 +19,7 @@ v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/li
 
 # shar
 
-**Sp**ecies-**H**abitat **A**ssociations in **R** is a `R` package to
+**S**ecies-**H**abitat **A**ssociations in **R** is a `R` package to
 analyze species-habitat associations. Therefore, information about the
 location of the species is needed (as a point pattern) and about the
 environmental conditions (as a raster map). In order to analyse the data
@@ -67,12 +67,17 @@ first.
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
 
+    ## Warning in classInt::classIntervals(var = raster_values, n = classes,
+    ## style = style): n same as number of different finite values\neach different
+    ## finite value is a separate class
+
 There are two possibilities to randomize the environmental data, both
 described in Harms et al. (2001). The first shifts the habitat map in
 all 4 cardinal directions around a torus. The second one assigns the
 habitat values to an empty map using a random walk algorithm. Both
-functions return a list with randomized rasters and the observed
-one.
+functions return a list with randomized rasters and the observed one.
+For more information on the methods, please click
+[here](https://r-spatialecology.github.io/shar/articles/background.html).
 
 ``` r
 torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
@@ -80,7 +85,7 @@ torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
 
-<img src="man/figures/README-plot_habitat-random-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-plot_habitat-random-1.png" style="display: block; margin: auto;" />
 
 To randomize the point pattern, either use the Gamma test described by
 Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
@@ -101,41 +106,49 @@ functions).
 plot_randomized_pattern(reconstruct, verbose = FALSE)
 ```
 
-<img src="man/figures/README-plot-random_pattern-1.png" width="100%" style="display: block; margin: auto;" /><img src="man/figures/README-plot-random_pattern-2.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-plot-random_pattern-1.png" style="display: block; margin: auto;" /><img src="man/figures/README-plot-random_pattern-2.png" style="display: block; margin: auto;" />
 
 ``` r
 calculate_energy(reconstruct, verbose = FALSE)
-#>  [1] 0.06201174 0.04820687 0.04298647 0.03627923 0.06117961 0.05616538
-#>  [7] 0.05819237 0.06423023 0.05744888 0.07365148 0.04947035 0.07123176
-#> [13] 0.04042031 0.05529653 0.04623356 0.05980419 0.04354170 0.06583320
-#> [19] 0.04970986
 ```
+
+    ##  [1] 0.04867232 0.06053444 0.07761378 0.06506166 0.05452457 0.04686906
+    ##  [7] 0.06114468 0.07712652 0.06803046 0.05862077 0.05816057 0.05595087
+    ## [13] 0.06834504 0.03692585 0.05498298 0.06146226 0.05307179 0.05412026
+    ## [19] 0.06204802
 
 The data was created that `species_a` has a negative association to
 habitat 4 and `species_b` has a positive association to habitat 5. At
 one point a posititive association to one habitat leads consequently to
 a negative association to another habitat (and vice versa). All this can
-be seen in the results.
+be seen in the
+    results.
 
 ``` r
 results_habitat_association(pattern = species_a, raster = torus_trans)
-#> > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count lo hi significance
-#> 1       1    10  0  8     positive
-#> 2       2    14  8 24         n.s.
-#> 3       3    30 14 29     positive
-#> 4       4     0 10 26     negative
-#> 5       5    14  4 17         n.s.
-
-results_habitat_association(pattern = reconstruct, raster = landscape_classified)
-#> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count    lo    hi significance
-#> 1       1     7  3.45 14.75         n.s.
-#> 2       2    20 35.00 56.55     negative
-#> 3       3    31 50.45 73.30     negative
-#> 4       4    33 49.90 67.65     negative
-#> 5       5   109 13.45 36.20     positive
 ```
+
+    ## > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
+
+    ##   habitat count lo hi significance
+    ## 1       1     5  0  9         n.s.
+    ## 2       2     8  7 23         n.s.
+    ## 3       3    19  7 23         n.s.
+    ## 4       4    30 17 37         n.s.
+    ## 5       5     6  3 15         n.s.
+
+``` r
+results_habitat_association(pattern = reconstruct, raster = landscape_classified)
+```
+
+    ## > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
+
+    ##   habitat count    lo     hi significance
+    ## 1       1    17  7.90  26.55         n.s.
+    ## 2       2    48 23.80  53.65         n.s.
+    ## 3       3    29 42.90  63.75     negative
+    ## 4       4    64 57.35 101.80         n.s.
+    ## 5       5    42  5.90  27.30     positive
 
 ## References
 
