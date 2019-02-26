@@ -11,21 +11,21 @@ vignette: >
 In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code.
 
 ```{r load-packages, message = FALSE}
-library(tidyverse)
+# library(tidyverse)
 library(shar)
 library(spatstat)
 ```
 
-In case you want to only create the spatial characteristics, this is straightforward using `purrr::map()`. 
+In case you want to only create the spatial characteristics, this is straightforward using `lapply()`. 
 
 ```{r several-patterns}
 # create list with patterns
 list_pattern <- list(species_a, species_b)
 
 # reconstruct all patterns in list
-result <- purrr::map(list_pattern, function(x) reconstruct_pattern(pattern = x, 
-                                                                   n_random = 3, 
-                                                                   verbose = FALSE))
+result <- lapply(list_pattern, function(x) reconstruct_pattern(pattern = x, 
+                                                               n_random = 3, 
+                                                               verbose = FALSE))
 
 ```
 
@@ -33,8 +33,8 @@ The result will be a nested list including all *m* randomization (including the 
 
 ```{r result-spatial}
 # get mean energy
-purrr::map(result, function(x) calculate_energy(pattern = x, 
-                                                verbose = FALSE))
+lapply(result, function(x) calculate_energy(pattern = x,
+                                            verbose = FALSE))
 ```
 
 Another possible would be to first reconstruct *n* times the spatial characteristics and afterwards reconstruct the marks *m* times for each of the *n* spatial reconstructions.
@@ -49,23 +49,23 @@ reconstructed_pattern <- reconstruct_pattern(species_a,
                                              verbose = FALSE)
 ```
 
-Secondly, to reconstruct the (numeric) marks of the observed pattern for each of the spatially reconstructed patterns, just use `purrr::map()` in combination with `reconstruct_marks()`.
+Secondly, to reconstruct the (numeric) marks of the observed pattern for each of the spatially reconstructed patterns, just use `lapply()` in combination with `reconstruct_marks()`.
 
 ```{r reconstruct-marks}
 # get only selected marks of input (numeric marks)
 species_a_marks <- spatstat::subset.ppp(species_a, select = dbh)
 
 # reconstruct marks 3 times for each input pattern
-result_marks <- purrr::map(reconstructed_pattern, 
-                           function(x) reconstruct_marks(pattern = x, 
-                                                         marked_pattern = species_a_marks, 
-                                                         n_random = 3, verbose = FALSE))
+result_marks <- lapply(reconstructed_pattern, 
+                       function(x) reconstruct_marks(pattern = x, 
+                                                     marked_pattern = species_a_marks, 
+                                                     n_random = 3, verbose = FALSE))
 ```
 
 Again, the result is a nested list with the same dimensions as provided input patterns and reconstructions.
 
 ```{r result-marks}
 # get energy
-purrr::map(result_marks, function(x) calculate_energy(pattern = x, 
-                                                      method = "marks", verbose = FALSE))
+lapply(result_marks, function(x) calculate_energy(pattern = x, 
+                                                  method = "marks", verbose = FALSE))
 ```
