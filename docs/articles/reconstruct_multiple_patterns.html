@@ -81,7 +81,7 @@
     <div class="page-header toc-ignore">
       <h1>How to reconstruct multiple patterns</h1>
             
-            <h4 class="date">2019-02-26</h4>
+            <h4 class="date">2019-02-28</h4>
       
       
       <div class="hidden name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -107,10 +107,10 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x,</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-## [1] 0.06113343 0.05371202 0.07270482
+## [1] 0.04799855 0.06070875 0.05544398
 ## 
 ## [[2]]
-## [1] 0.03216758 0.03061551 0.02919874</code></pre>
+## [1] 0.03580434 0.03500364 0.03510883</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># reconstruct spatial strucutre</span></a>
@@ -132,13 +132,13 @@
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result_marks, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x, </a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">                                                  <span class="dt">method =</span> <span class="st">"marks"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
-## [1] 0.01929681 0.01399277 0.01998880
+## [1] 0.01828473 0.01967240 0.01984451
 ## 
 ## $randomized_2
-## [1] 0.01928531 0.01979033 0.01991996
+## [1] 0.01981852 0.01979014 0.01955417
 ## 
 ## $randomized_3
-## [1] 0.01990080 0.01970525 0.01988477</code></pre>
+## [1] 0.01946311 0.01931315 0.01995718</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

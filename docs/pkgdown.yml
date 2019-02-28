@@ -4,5 +4,5 @@ pkgdown_sha: ~
 articles:
   background: background.html
   publication_record: publication_record.html
-  reconstruct_list_of_patterns: reconstruct_list_of_patterns.html
+  reconstruct_multiple_patterns: reconstruct_multiple_patterns.html
 

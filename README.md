@@ -35,7 +35,7 @@ Methods are mainly described in Plotkin et al. (2000), Harms et al.
 ## Installation
 
 You can install the released version of **shar** from
-[CRAN](https://CRAN.R-project.org) with:
+[CRAN](https://cran.r-project.org/web/packages/shar/index.html) with:
 
 ``` r
 install.packages("shar")
@@ -66,10 +66,6 @@ first.
 ``` r
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
-
-    ## Warning in classInt::classIntervals(var = raster_values, n = classes,
-    ## style = style): n same as number of different finite values\neach different
-    ## finite value is a separate class
 
 There are two possibilities to randomize the environmental data, both
 described in Harms et al. (2001). The first shifts the habitat map in
@@ -103,7 +99,7 @@ observed pattern and the randomized patterns (using summary
 functions).
 
 ``` r
-plot_randomized_pattern(reconstruct, verbose = FALSE)
+plot_randomized_pattern(reconstruct, verbose = FALSE, ask = FALSE)
 ```
 
 <img src="man/figures/README-plot-random_pattern-1.png" style="display: block; margin: auto;" /><img src="man/figures/README-plot-random_pattern-2.png" style="display: block; margin: auto;" />
@@ -112,10 +108,8 @@ plot_randomized_pattern(reconstruct, verbose = FALSE)
 calculate_energy(reconstruct, verbose = FALSE)
 ```
 
-    ##  [1] 0.04456600 0.06075778 0.04664212 0.05894477 0.04771050 0.07436839
-    ##  [7] 0.05776385 0.05297235 0.06346885 0.05556091 0.07061876 0.05718945
-    ## [13] 0.04422082 0.04877680 0.06859868 0.05990151 0.05487688 0.04674527
-    ## [19] 0.05719054
+    ##  [1] 0.05466079 0.05691795 0.07273102 0.05258555 0.04835521 0.03688952 0.04172061 0.05272703 0.06877212 0.05079050 0.04569044
+    ## [12] 0.07600530 0.04997626 0.04574796 0.05884596 0.06559402 0.06293930 0.06222483 0.04067297
 
 The data was created that `species_a` has a negative association to
 habitat 4 and `species_b` has a positive association to habitat 5. At
@@ -131,11 +125,11 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
     ## > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
 
     ##   habitat count lo hi significance
-    ## 1       1     5  0  9         n.s.
-    ## 2       2     8  7 23         n.s.
-    ## 3       3    19  7 23         n.s.
-    ## 4       4    30 17 37         n.s.
-    ## 5       5     6  3 15         n.s.
+    ## 1       1    10  0  8     positive
+    ## 2       2    14  8 24         n.s.
+    ## 3       3    30 14 29     positive
+    ## 4       4     0 10 26     negative
+    ## 5       5    14  4 17         n.s.
 
 ``` r
 results_habitat_association(pattern = reconstruct, raster = landscape_classified)
@@ -144,11 +138,11 @@ results_habitat_association(pattern = reconstruct, raster = landscape_classified
     ## > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 
     ##   habitat count    lo    hi significance
-    ## 1       1    17  5.90 22.00         n.s.
-    ## 2       2    48 36.80 66.10         n.s.
-    ## 3       3    29 37.90 74.30     negative
-    ## 4       4    64 56.35 83.10         n.s.
-    ## 5       5    42  4.00 13.55     positive
+    ## 1       1     7  6.80 20.65         n.s.
+    ## 2       2    20 48.90 65.00     negative
+    ## 3       3    31 52.90 75.00     negative
+    ## 4       4    33 34.90 56.75     negative
+    ## 5       5   109 14.45 34.00     positive
 
 ## References
 
