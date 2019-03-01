@@ -24,9 +24,6 @@ is plotted (only has influence if \code{what = "sf"} and \code{method = "spatial
 
 \item{verbose}{Print progress report.}
 }
-\value{
-ggplot
-}
 \description{
 Plot randomized pattern
 }

@@ -8,6 +8,7 @@
 * Bugfixes
   * Explicitly C++11 compiler
 * New functionality
+  * `plot_randomized_pattern()` to plot randomized rasters
 
 # shar 0.2.1
 * Improvements

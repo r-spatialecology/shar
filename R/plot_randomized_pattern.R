@@ -19,8 +19,6 @@
 #' K-function. For more information see \code{\link{estimate_pcf_fast}}. It is also
 #' possible to plot 3 randomized patterns and the observed pattern using \code{what = "pp"}.
 #'
-#' @return ggplot
-#'
 #' @examples
 #' pattern_random <- fit_point_process(species_a, n_random = 19, process = "cluster")
 #' plot_randomized_pattern(pattern_random)
