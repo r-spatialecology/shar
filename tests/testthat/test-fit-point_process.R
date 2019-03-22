@@ -84,14 +84,12 @@ testthat::test_that("fit_point_process returns warnings", {
   testthat::expect_warning(shar::fit_point_process(pattern = shar::species_a,
                                                    n_random = 3,
                                                    return_input = FALSE,
-                                                   simplify = TRUE,
-                                                   verbose = FALSE),
+                                                   simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
   testthat::expect_warning(shar::fit_point_process(pattern = shar::species_a,
                                                    n_random = 1,
-                                                   simplify = TRUE,
-                                                   verbose = FALSE),
+                                                   simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 })
 

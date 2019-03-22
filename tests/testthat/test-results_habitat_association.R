@@ -52,8 +52,7 @@ testthat::test_that("results_habitat_association returns warning if significance
 
   testthat::expect_warning(shar::results_habitat_association(raster = landscape_classified,
                                                              pattern = random_a,
-                                                             significance_level = 0.75,
-                                                             verbose = FALSE))
+                                                             significance_level = 0.75))
 })
 
 testthat::test_that("results_habitat_association returns error if input is named wrong", {

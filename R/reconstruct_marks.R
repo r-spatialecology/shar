@@ -17,7 +17,7 @@
 #' The function randomizes the numeric marks of a point pattern using pattern reconstruction
 #' as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). Therefore,
 #' an unmarked as well as a marked pattern must be provided. The unmarked pattern must have
-#' the spatial characteristics but the same observation window and number of points
+#' the spatial characteristics and the same observation window and number of points
 #' as the marked one (see `reconstruct_pattern` or `fit_point_process`). Marks must be
 #' numeric because the mark-correlation function is used as summary function. Two
 #' randomly chosen marks are switch each iterations and changes only kept if the
@@ -83,30 +83,37 @@ reconstruct_marks <- function(pattern,
   # counter if energy changed
   energy_counter <- 0
 
+  # calculate r
+  r <- seq(from = 0,
+           to = spatstat::rmax.rule(W = pattern$window,
+                                    lambda = spatstat::intensity.ppp(pattern)),
+           length.out = 250)
+
+  # assign shuffeld marks to pattern
+  spatstat::marks(pattern) <- rcpp_sample(x = marked_pattern$marks, n = marked_pattern$n)
+
+  # calculate summary functions
+  kmmr_observed <- spatstat::markcorr(marked_pattern,
+                                      correction = "Ripley",
+                                      r = r)
+
+  kmmr_simulated <- spatstat::markcorr(pattern,
+                                       correction = "Ripley",
+                                       r = r)
+
+  # energy before reconstruction
+  energy <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
+
   # create n_random recondstructed patterns
-  result <- lapply(seq_len(n_random), function(current_pattern){
-
-    # assign shuffeld marks to pattern
-    spatstat::marks(pattern) <- sample(marked_pattern$marks, size = marked_pattern$n)
-
-    # calculate summary functions
-    kmmr_observed <- spatstat::markcorr(marked_pattern,
-                                        correction = "Ripley")
-
-    kmmr_simulated <- spatstat::markcorr(pattern,
-                                         correction = "Ripley")
-
-    # energy before reconstruction
-    energy <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
-
+  result <- lapply(seq_len(n_random), function(current_pattern) {
 
     # get two random points to switch marks
-    rp_a <- sample(x = seq_len(pattern$n), size = max_runs, replace = TRUE)
+    rp_a <- rcpp_sample(x = seq_len(pattern$n), n = max_runs, replace = TRUE)
 
-    rp_b <- sample(x = seq_len(pattern$n), size = max_runs, replace = TRUE)
+    rp_b <- rcpp_sample(x = seq_len(pattern$n), n = max_runs, replace = TRUE)
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
-    for(i in seq_len(max_runs)){
+    for(i in seq_len(max_runs)) {
 
       relocated <- pattern # data for relocation
 
@@ -127,7 +134,8 @@ reconstruct_marks <- function(pattern,
 
       # calculate summary functions after relocation
       kmmr_relocated <- spatstat::markcorr(relocated,
-                                           correction = "Ripley")
+                                           correction = "Ripley",
+                                           r = r)
 
       # energy after relocation
       e_relocated <- mean(abs(kmmr_observed[[3]] - kmmr_relocated[[3]]), na.rm = TRUE)
@@ -135,14 +143,17 @@ reconstruct_marks <- function(pattern,
       # lower energy after relocation
       if(e_relocated < energy){
 
-        pattern <- relocated # keep relocated pattern
+        # keep relocated pattern
+        pattern <- relocated
 
-        energy <- e_relocated # keep e_relocated as energy
+        # keep e_relocated as energy
+        energy <- e_relocated
 
         # plot observed vs reconstructed
         if(plot) {
 
-          Sys.sleep(0.1) # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
+          # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
+          Sys.sleep(0.1)
 
           graphics::plot(x = kmmr_observed[[1]], y = kmmr_observed[[3]],
                          type = "l", col = "black",
@@ -181,32 +192,42 @@ reconstruct_marks <- function(pattern,
   # add input pattern to randomizations
   if(return_input){
 
+    # simplify not possible if return pattern should be included
     if(simplify){
       cat("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'", call. = FALSE)
     }
 
-    result[[n_random + 1]] <- marked_pattern # add input pattern as last list entry
+    # add input pattern as last list entry
+    result[[n_random + 1]] <- marked_pattern
 
-    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
+    # set names
+    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed")
   }
 
+  # do not include input pattern
   else{
 
+    # only return pattern as ppp (and not as list)
     if(simplify) {
 
-      if(n_random > 1) {
+      # not possible if more than one pattern is present
+      if(n_random > 1 && verbose) {
         cat("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
       }
 
+      # only randomized pattern
       else {
         result <- result[[1]]
       }
     }
 
+    # return as list
     else{
-      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+
+      # set names
+      names(result) <- paste0("randomized_", seq_len(n_random))
     }
   }
 

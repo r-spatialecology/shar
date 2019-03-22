@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
       </span>
     </div>
 
@@ -58,6 +58,9 @@
     <li>
       <a href="../articles/publication_record.html">Publication record</a>
     </li>
+    <li>
+      <a href="../articles/reconstruct_multiple_patterns.html">How to reconstruct multiple patterns</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -78,7 +81,7 @@
     <div class="page-header toc-ignore">
       <h1>Background</h1>
             
-            <h4 class="date">2019-02-06</h4>
+            <h4 class="date">2019-02-28</h4>
       
       
       <div class="hidden name"><code>background.Rmd</code></div>
@@ -90,11 +93,11 @@
 <p>Species-habitat associations are present if species are specialized to small-scale environmental conditions (Tilman &amp; Pacala, 1993) and are more common within suitable habitats (Comita et al., 2007; Harms et al., 2001). Following, species-habitat associations show the importance of abiotic processes on the spatial patterning of plant populations (Garzon-Lopez et al., 2014).</p>
 <p>There are mainly two methods that can be found in the literature to analyse such small-scale species-habitat associations, namely the gamma-test (Plotkin et al., 2000) and the torus-translation test (Harms et al., 2001). Both methods require data on the locations of plants (as <code><a href="https://www.rdocumentation.org/packages/spatstat/topics/ppp">spatstat::ppp</a></code> point pattern) and on the environmental conditions (classified into discrete habitats as <code><a href="https://www.rdocumentation.org/packages/raster/topics/raster">raster::raster</a></code>). To show significance species-habitat associations, both methods randomize one of the components. Because the locations of plants as well as the habitats are most likely auto-correlated, the spatial structure must be kept while randomizing the data (Wiegand &amp; Moloney, 2014).</p>
 <p>All methods compare the abundance within a habitat between the observed data and the randomized null model data. If the count is below or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles), negative or positive associations, respectively, are present.</p>
-<div id="gamma-test" class="section level3">
-<h3 class="hasAnchor">
-<a href="#gamma-test" class="anchor"></a>Gamma-test</h3>
-<p>The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code>.</p>
-</div>
+<p><img src="methods_overview.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
+<div id="randomize-environmental-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#randomize-environmental-data" class="anchor"></a>Randomize environmental data</h2>
+<p>The following two methods randomize the environmental data, i.e. the RasterLayer data, while keeping the point pattern data fixed.</p>
 <div id="torus-translation-test" class="section level3">
 <h3 class="hasAnchor">
 <a href="#torus-translation-test" class="anchor"></a>Torus-translation-test</h3>
@@ -104,12 +107,24 @@
 <h3 class="hasAnchor">
 <a href="#randomized-habitats-procedure" class="anchor"></a>Randomized-habitats procedure</h3>
 <p>The randomze-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in <strong>shar</strong> use <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>.</p>
+<p><img src="random_walk.gif" width="35%" height="35%" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="randomize-point-pattern-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#randomize-point-pattern-data" class="anchor"></a>Randomize point pattern data</h2>
+<p>Contrastingly to the two methods described above, the following two methods randomize the point pattern data, while keeping the environmental data fixed.</p>
+<p><img src="gamma_vs_reconstruction.png" width="75%" height="75%" style="display: block; margin: auto;"></p>
+<div id="gamma-test" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gamma-test" class="anchor"></a>Gamma-test</h3>
+<p>The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code>.</p>
 </div>
 <div id="pattern-reconstruction" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pattern-reconstruction" class="anchor"></a>Pattern reconstruction</h3>
-<p>Pattern reconstruction (Tscheschel &amp; Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code></p>
-<p><img src="methods.png" align="center" width="700" height="150"></p>
+<p>Pattern reconstruction (Tscheschel &amp; Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code>.</p>
+<p><img src="pattern_reconstruction.gif" width="75%" height="75%" style="display: block; margin: auto;"></p>
 <div id="references" class="section level4">
 <h4 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h4>
@@ -123,9 +138,18 @@
 <p>Wiegand, T., &amp; Moloney, K. A. (2014). Handbook of spatial point-pattern analysis in ecology. Boca Raton: Chapman and Hall/CRC Press.</p>
 </div>
 </div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#randomize-environmental-data">Randomize environmental data</a></li>
+      <li><a href="#randomize-point-pattern-data">Randomize point pattern data</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

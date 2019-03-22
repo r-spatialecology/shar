@@ -38,7 +38,16 @@ fit_point_process <- function(pattern,
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
-  pattern <- spatstat::unmark(pattern) # only spatial points
+  # unmark pattern
+  if(spatstat::is.marked(pattern)) {
+
+    pattern <- spatstat::unmark(pattern)
+
+    if(verbose) {
+      warning("Unmarked provided input pattern.",
+              call. = FALSE)
+    }
+  }
 
   if(process == "poisson"){
 
@@ -80,7 +89,7 @@ fit_point_process <- function(pattern,
         difference <- simulated$n - pattern$n
 
         # id of points to remove
-        remove_points <- sample(seq_len(simulated$n), size = difference)
+        remove_points <- shar::rcpp_sample(x = seq_len(simulated$n), n = difference)
 
         # remove points
         simulated <- simulated[-remove_points]
@@ -117,7 +126,7 @@ fit_point_process <- function(pattern,
   # add input pattern to randomizations
   if(return_input){
 
-    if(simplify){
+    if(simplify && verbose){
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
@@ -131,7 +140,7 @@ fit_point_process <- function(pattern,
 
     if(simplify) {
 
-      if(n_random > 1) {
+      if(n_random > 1 && verbose) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
