@@ -37,37 +37,61 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+  <a href="../reference/index.html">
+    <span class="fa fa-gears"></span>
      
+    Functions
   </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    <span class="fa fa-graduation-cap"></span>
+     
+    More
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/background.html">Background</a>
+      <a href="../articles/background.html">
+        <span class="fa fa-book"></span>
+         
+        General Background
+      </a>
     </li>
     <li>
-      <a href="../articles/publication_record.html">Publication record</a>
+      <a href="../articles/reconstruct_multiple_patterns.html">
+        <span class="fa fa-book"></span>
+         
+        Reconstruct multiple pattern
+      </a>
     </li>
     <li>
-      <a href="../articles/reconstruct_multiple_patterns.html">How to reconstruct multiple patterns</a>
+      <a href="../articles/publication_record.html">
+        <span class="fa fa-file-text-o"></span>
+         
+        Publication Record
+      </a>
     </li>
   </ul>
 </li>
+      </ul>
+<ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    news
+  </a>
+</li>
+<li>
+  <a href="https://github.com/r-spatialecology/shar">
+    <span class="fa fa-github fa-lg"></span>
+     
+    github
+  </a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -107,10 +131,10 @@
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x,</a>
 <a class="sourceLine" id="cb3-3" title="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-## [1] 0.05362194 0.06927709 0.05838513
+## [1] 0.08248770 0.04389690 0.06127208
 ## 
 ## [[2]]
-## [1] 0.03392639 0.02950383 0.03060779</code></pre>
+## [1] 0.03635053 0.02858677 0.03354431</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># reconstruct spatial strucutre</span></a>
@@ -132,13 +156,13 @@
 <a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result_marks, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x, </a>
 <a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">method =</span> <span class="st">"marks"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
-## [1] 0.01924850 0.01956473 0.01998020
+## [1] 0.01965972 0.01946252 0.01995734
 ## 
 ## $randomized_2
-## [1] 0.01973147 0.01984389 0.01905541
+## [1] 0.01980274 0.01920165 0.01986286
 ## 
 ## $randomized_3
-## [1] 0.01973478 0.01980956 0.01993697</code></pre>
+## [1] 0.01926451 0.01955593 0.01898460</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
