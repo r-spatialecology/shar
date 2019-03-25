@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • shar | Species-habitat associations in R</title>
+<title>plot_randomized_raster — plot_randomized_raster • shar | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="plot_randomized_raster — plot_randomized_raster" />
+
+<meta property="og:description" content="Plot randomized raster" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -47,7 +50,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -110,144 +113,81 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>plot_randomized_raster</h1>
+    
+    <div class="hidden name"><code>plot_randomized_raster.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Plot randomized raster</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="calculate_energy.html">calculate_energy()</a></code> </p>
-        </td>
-        <td><p>calculate_energy</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="classify_habitats.html">classify_habitats()</a></code> </p>
-        </td>
-        <td><p>classify_habitats</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_neighbourhood.html">create_neighbourhood()</a></code> </p>
-        </td>
-        <td><p>create_neighbourhood</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="estimate_pcf_fast.html">estimate_pcf_fast()</a></code> </p>
-        </td>
-        <td><p>estimate_pcf_fast</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_points.html">extract_points()</a></code> </p>
-        </td>
-        <td><p>extract_points</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fit_point_process.html">fit_point_process()</a></code> </p>
-        </td>
-        <td><p>fit_point_process</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="landscape.html">landscape</a></code> </p>
-        </td>
-        <td><p>Example landscape (random cluster neutral landscape model).</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_randomized_pattern.html">plot_randomized_pattern()</a></code> </p>
-        </td>
-        <td><p>plot_randomized_pattern</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_randomized_raster.html">plot_randomized_raster()</a></code> </p>
-        </td>
-        <td><p>plot_randomized_raster</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="randomize_raster.html">randomize_raster()</a></code> </p>
-        </td>
-        <td><p>randomize_raster</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rcpp_sample.html">rcpp_sample()</a></code> </p>
-        </td>
-        <td><p>rcpp_sample</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reconstruct_marks.html">reconstruct_marks()</a></code> </p>
-        </td>
-        <td><p>reconstruct_marks</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reconstruct_pattern.html">reconstruct_pattern()</a></code> </p>
-        </td>
-        <td><p>reconstruct_pattern</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="results_habitat_association.html">results_habitat_association()</a></code> </p>
-        </td>
-        <td><p>results_habitat_association</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="shar.html">shar</a></code> </p>
-        </td>
-        <td><p>shar</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="species_a.html">species_a</a></code> </p>
-        </td>
-        <td><p>Species a</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="species_b.html">species_b</a></code> </p>
-        </td>
-        <td><p>Species b</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="translate_raster.html">translate_raster()</a></code> </p>
-        </td>
-        <td><p>translate_raster</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>plot_randomized_raster</span>(<span class='no'>raster</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>col</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>nrow</span>,
+  <span class='no'>ncol</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>raster</th>
+      <td><p>List with randomized raster</p></td>
+    </tr>
+    <tr>
+      <th>n</th>
+      <td><p>Number of randomized rasters to plot. See details for more information.</p></td>
+    </tr>
+    <tr>
+      <th>col</th>
+      <td><p>Color palette used for plotting.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Print messages.</p></td>
+    </tr>
+    <tr>
+      <th>nrow, ncol</th>
+      <td><p>Number of rows and columns.</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>plot</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Function to plot randomized rasters. If n is only a single number, n randomized
+rasters will be sampled. If n is a vector, the corresponding rasters will be plotted.</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='no'>landscape_classes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+<span class='no'>landscape_random</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='randomize_raster.html'>randomize_raster</a></span>(<span class='kw'>raster</span> <span class='kw'>=</span> <span class='no'>landscape_classes</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>)
+
+<span class='fu'>plot_randomized_raster</span>(<span class='no'>landscape_random</span>)
+
+<span class='no'>palette</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>viridis</span><span class='kw ns'>::</span><span class='fu'>viridis</span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+<span class='fu'>plot_randomized_raster</span>(<span class='no'>landscape_random</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>palette</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 
