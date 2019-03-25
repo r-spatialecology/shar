@@ -3,7 +3,7 @@ title: "How to reconstruct multiple patterns"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Background}
+  %\VignetteIndexEntry{How to reconstruct multiple patterns}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
