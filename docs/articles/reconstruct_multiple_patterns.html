@@ -37,6 +37,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="../index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">
     <span class="fa fa-gears"></span>
      
@@ -81,14 +88,21 @@
   <a href="../news/index.html">
     <span class="fa fa-newspaper-o"></span>
      
-    news
+    News
   </a>
 </li>
 <li>
   <a href="https://github.com/r-spatialecology/shar">
     <span class="fa fa-github fa-lg"></span>
      
-    github
+    Github
+  </a>
+</li>
+<li>
+  <a href="https://mhesselbarth.rbind.io">
+    <span class="fa fa-user"></span>
+     
+    Contact
   </a>
 </li>
       </ul>
@@ -105,7 +119,7 @@
     <div class="page-header toc-ignore">
       <h1>How to reconstruct multiple patterns</h1>
             
-            <h4 class="date">2019-03-25</h4>
+            <h4 class="date">2019-03-26</h4>
       
       
       <div class="hidden name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -131,10 +145,10 @@
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x,</a>
 <a class="sourceLine" id="cb3-3" title="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-## [1] 0.08248770 0.04389690 0.06127208
+## [1] 0.07826828 0.06014346 0.06075778
 ## 
 ## [[2]]
-## [1] 0.03635053 0.02858677 0.03354431</code></pre>
+## [1] 0.04120542 0.03692947 0.03123675</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># reconstruct spatial strucutre</span></a>
@@ -156,13 +170,13 @@
 <a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result_marks, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x, </a>
 <a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">method =</span> <span class="st">"marks"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
-## [1] 0.01965972 0.01946252 0.01995734
+## [1] 0.01975767 0.01995005 0.01999132
 ## 
 ## $randomized_2
-## [1] 0.01980274 0.01920165 0.01986286
+## [1] 0.01882471 0.01955133 0.01988820
 ## 
 ## $randomized_3
-## [1] 0.01926451 0.01955593 0.01898460</code></pre>
+## [1] 0.01977422 0.01993908 0.01976776</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

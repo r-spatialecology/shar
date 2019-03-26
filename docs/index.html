@@ -42,6 +42,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
   <a href="reference/index.html">
     <span class="fa fa-gears"></span>
      
@@ -86,14 +93,21 @@
   <a href="news/index.html">
     <span class="fa fa-newspaper-o"></span>
      
-    news
+    News
   </a>
 </li>
 <li>
   <a href="https://github.com/r-spatialecology/shar">
     <span class="fa fa-github fa-lg"></span>
      
-    github
+    Github
+  </a>
+</li>
+<li>
+  <a href="https://mhesselbarth.rbind.io">
+    <span class="fa fa-user"></span>
+     
+    Contact
   </a>
 </li>
       </ul>
@@ -146,10 +160,10 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-plot-random_pattern-1.png" width="528" style="display: block; margin: auto;"><img src="reference/figures/README-plot-random_pattern-2.png" width="528" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>##  [1] 0.05895135 0.05993352 0.04968895 0.04519003 0.05280351 0.05225092
-##  [7] 0.05969866 0.05664271 0.04789039 0.07276040 0.05591805 0.05232213
-## [13] 0.05555066 0.07377536 0.06108333 0.04598448 0.07239940 0.04972481
-## [19] 0.05380917</code></pre>
+<pre><code>##  [1] 0.06481940 0.05696884 0.06572132 0.04225834 0.06207212 0.05561145
+##  [7] 0.05911484 0.05469347 0.05282574 0.05706153 0.06895346 0.04771577
+## [13] 0.05538624 0.05152341 0.04403389 0.06767094 0.06159933 0.05397989
+## [19] 0.04975226</code></pre>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a></code></pre></div>
 <pre><code>## &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
@@ -162,11 +176,11 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a></code></pre></div>
 <pre><code>## &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
 <pre><code>##   habitat count    lo    hi significance
-## 1       1     7  0.00 10.55         n.s.
-## 2       2    20 26.45 48.55     negative
-## 3       3    31 53.00 81.30     negative
-## 4       4    33 42.90 68.55     negative
-## 5       5   109 23.35 52.00     positive</code></pre>
+## 1       1     7  1.00  6.00     positive
+## 2       2    20 38.70 61.30     negative
+## 3       3    31 55.35 84.95     negative
+## 4       4    33 39.35 61.65     negative
+## 5       5   109 14.35 37.60     positive</code></pre>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">

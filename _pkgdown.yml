@@ -32,6 +32,9 @@ reference:
 navbar:
   title: shar
   left:
+    - icon: fa-home
+      text: "Home"
+      href: index.html
     - icon: fa-gears
       text: "Functions"
       href: reference/index.html
@@ -49,8 +52,12 @@ navbar:
          href: articles/publication_record.html
   right:
     - icon: fa-newspaper-o
-      text: "news"
+      text: "News"
       href: news/index.html
     - icon: fa-github fa-lg
-      text: "github"
+      text: "Github"
       href: https://github.com/r-spatialecology/shar
+    - icon: fa-user
+      text: "Contact"
+      hreft: https://mhesselbarth.rbind.io
+
