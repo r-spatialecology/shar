@@ -160,10 +160,10 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-plot-random_pattern-1.png" width="528" style="display: block; margin: auto;"><img src="reference/figures/README-plot-random_pattern-2.png" width="528" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>##  [1] 0.04998927 0.05125504 0.05130111 0.05699854 0.04803680 0.05192120
-##  [7] 0.05975039 0.06558699 0.06697203 0.04634520 0.06593938 0.04910086
-## [13] 0.08850285 0.05098925 0.05166077 0.05585936 0.05790684 0.05014921
-## [19] 0.05431987</code></pre>
+<pre><code>##  [1] 0.05470888 0.06134297 0.06223819 0.05323382 0.04684945 0.04328508
+##  [7] 0.05774665 0.07790363 0.05877554 0.04851389 0.05348055 0.05682565
+## [13] 0.06009963 0.04108562 0.04635172 0.07695098 0.05214654 0.05882062
+## [19] 0.08011327</code></pre>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a></code></pre></div>
 <pre><code>## &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
@@ -176,11 +176,11 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a></code></pre></div>
 <pre><code>## &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
 <pre><code>##   habitat count    lo    hi significance
-## 1       1     7  7.00 24.15         n.s.
-## 2       2    20 26.80 45.55     negative
-## 3       3    31 53.60 76.65     negative
-## 4       4    33 56.90 83.10     negative
-## 5       5   109 10.45 21.10     positive</code></pre>
+## 1       1     7  1.90 12.65         n.s.
+## 2       2    20 40.90 70.75     negative
+## 3       3    31 63.80 88.85     negative
+## 4       4    33 36.90 57.60     negative
+## 5       5   109  8.45 25.75     positive</code></pre>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">

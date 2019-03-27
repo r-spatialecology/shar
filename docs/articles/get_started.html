@@ -136,7 +136,7 @@
 <div id="preprocessing-of-input-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preprocessing-of-input-data" class="anchor"></a>Preprocessing of input data</h2>
-<p>All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. <code>classify_habitats</code> provides several ways to classify the data such as the Jenks-Caspall algorithm (Jenks &amp; Caspall 1971)</p>
+<p>All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. <code>classify_habitats</code> provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks &amp; Caspall 1971)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"></a>
 <a class="sourceLine" id="cb1-2" title="2">landscape_discrete &lt;-<span class="st"> </span><span class="kw"><a href="../reference/classify_habitats.html">classify_habitats</a></span>(<span class="dt">raster =</span> landscape, <span class="dt">classes =</span> <span class="dv">5</span>)</a></code></pre></div>
 </div>
@@ -166,20 +166,20 @@
 <a class="sourceLine" id="cb4-2" title="2"><span class="kw"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> landscape_random)</a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 1       1    10  1.00  9.10     positive</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 2       2    14  9.45 18.55         n.s.</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 3       3    30 16.00 30.20         n.s.</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 4       4     0 11.00 22.55     negative</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 5       5    14  4.90 15.55         n.s.</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 1       1    10  1.00  5.00     positive</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 2       2    14 12.00 23.55         n.s.</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 3       3    30 13.90 27.55     positive</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 4       4     0 11.45 23.00     negative</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 5       5    14  5.45 13.55     positive</span></a>
 <a class="sourceLine" id="cb4-10" title="10"></a>
 <a class="sourceLine" id="cb4-11" title="11"><span class="kw"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstructed, <span class="dt">raster =</span> landscape_discrete)</a>
 <a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;   habitat count   lo    hi significance</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 1       1    10  1.9  8.55     positive</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 2       2    14 14.9 24.55     negative</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; 3       3    30 16.0 25.55     positive</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; 4       4     0 10.0 21.20     negative</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 5       5    14  4.0 11.10     positive</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 1       1    10  0.00  6.00     positive</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 2       2    14  8.35 20.75         n.s.</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; 3       3    30 18.00 28.10     positive</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; 4       4     0 15.45 23.00     negative</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 5       5    14  4.00 12.00     positive</span></a></code></pre></div>
 <p>There is also the possibility to visualize the randomized data using <code><a href="../reference/plot_randomized_raster.html">plot_randomized_raster()</a></code> or <code><a href="../reference/plot_randomized_pattern.html">plot_randomized_pattern()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"></a>
 <a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="../reference/plot_randomized_raster.html">plot_randomized_raster</a></span>(landscape_random)</a>
@@ -188,13 +188,14 @@
 <p>For the randomized point pattern data, it is also possible to show the “difference” in terms of the energy (Tscheschel &amp; Stoyan 2006) between the patterns.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"></a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> fitted, <span class="dt">return_mean =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; [1] 0.3499886</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; [1] 0.3654218</span></a>
 <a class="sourceLine" id="cb6-4" title="4"></a>
 <a class="sourceLine" id="cb6-5" title="5"><span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> reconstructed, <span class="dt">return_mean =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; [1] 0.0775147</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; [1] 0.07341204</span></a></code></pre></div>
 <div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>
+<p>Fisher, W. D. 1958 “On grouping for maximum homogeneity”, Journal of the American Statistical Association, 53, 789-798</p>
 <p>Harms, K. E., Condit, R., Hubbell, S. P., &amp; Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.</p>
 <p>Jenks, G. F., Caspall, F. C., (1971). Error on choroplethic maps: definition, measurement, reduction. Annals, Association of American Geographers, 61(2), 217–244;</p>
 <p>Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., &amp; Ashton, P. S. (2000). Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology, 207(1), 81-99.</p>

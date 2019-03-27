@@ -29,7 +29,7 @@ library(raster)
 The core of **shar** are functions to to simulate null model data by randomizing either the environmental data (i.e. raster data) or the locations of species (i.e. point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000) and Wiegand & Moloney (2014). The methods are not neessary complementary, but are rather different approaches for the same result.
 
 ## Preprocessing of input data
-All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data such as the Jenks-Caspall algorithm (Jenks & Caspall 1971)
+All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks & Caspall 1971)
 
 ```{r classify_habitats}
 
@@ -91,6 +91,8 @@ calculate_energy(pattern = reconstructed, return_mean = TRUE)
 ```
 
 ### References 
+Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American Statistical Association, 53, 789-798
+
 Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
 
 Jenks, G. F., Caspall, F. C., (1971). Error on choroplethic maps: definition, measurement, reduction. Annals, Association of American Geographers, 61(2), 217–244;

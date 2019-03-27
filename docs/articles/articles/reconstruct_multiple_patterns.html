@@ -145,10 +145,10 @@
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x,</a>
 <a class="sourceLine" id="cb3-3" title="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-## [1] 0.07934091 0.06415676 0.06555541
+## [1] 0.06554273 0.06479118 0.06159383
 ## 
 ## [[2]]
-## [1] 0.03349245 0.03624081 0.03483417</code></pre>
+## [1] 0.03316648 0.02887749 0.03342250</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># reconstruct spatial strucutre</span></a>
@@ -170,13 +170,13 @@
 <a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result_marks, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x, </a>
 <a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">method =</span> <span class="st">"marks"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
-## [1] 0.01958438 0.01912979 0.01987940
+## [1] 0.01923192 0.01994564 0.01969831
 ## 
 ## $randomized_2
-## [1] 0.01944146 0.01994277 0.01876939
+## [1] 0.01910949 0.01904750 0.01956887
 ## 
 ## $randomized_3
-## [1] 0.01935061 0.01930552 0.01973224</code></pre>
+## [1] 0.01886156 0.01973976 0.01966077</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
