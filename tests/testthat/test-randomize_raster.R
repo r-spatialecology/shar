@@ -26,11 +26,17 @@ testthat::test_that("Output includes randomizations and original pattern for ran
 testthat::test_that("Input raster can not be returned for randomize_raster", {
 
   landscape_random <- shar::randomize_raster(raster = landscape_classified,
-                                             n_random = 1,
+                                             n_random = 2,
                                              return_input = FALSE,
                                              verbose = FALSE)
 
-  testthat::expect_false(any(list(landscape_classified) %in% landscape_random))
+  classified_df <- raster::as.data.frame(landscape_classified, xy = TRUE)
+  random_df <- raster::as.data.frame(raster::stack(landscape_random), xy = TRUE)
+
+  check <- any(c(all(random_df$randomized_1 == classified_df$layer),
+                 all(random_df$randomized_2 == classified_df$layer)))
+
+  testthat::expect_false(check)
 })
 
 testthat::test_that("simplify works for randomize_raster", {

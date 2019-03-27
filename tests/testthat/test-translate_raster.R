@@ -33,7 +33,13 @@ testthat::test_that("Input raster can not be returned for translate_raster", {
                                              return_input = FALSE,
                                              verbose = FALSE)
 
-  testthat::expect_false(any(list(landscape_classified) %in% landscape_random))
+  random_stack <- raster::stack(landscape_random)
+
+  comparison <- as.matrix(raster::values(abs(random_stack - landscape_classified)))
+
+  check <- any(apply(comparison, 2, function(x) all(x == 0)))
+
+  testthat::expect_false(check)
 })
 
 testthat::test_that("Error if nrow != ncol for translate_raster", {
