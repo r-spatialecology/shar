@@ -37,11 +37,11 @@ results_habitat_association(pattern = species_a_random, raster = landscape_class
 }
 \references{
 Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
-of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
 
 Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000).
 Species-area curves, spatial aggregation, and habitat specialization in tropical forests.
-Journal of Theoretical Biology, 207(1), 81–99.
+Journal of Theoretical Biology, 207(1), 81-99.
 }
 \seealso{
 \code{\link{randomize_raster}} \cr

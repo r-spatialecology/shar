@@ -28,13 +28,14 @@ reference:
       - create_neighbourhood
       - estimate_pcf_fast
       - extract_points
+      - rcpp_sample
 
 navbar:
   title: shar
   left:
-    - icon: fa-home
-      text: "Home"
-      href: index.html
+    - text: "Get Started"
+      icon: fa fa-magic
+      href: articles/getstarted.html
     - icon: fa-gears
       text: "Functions"
       href: reference/index.html
@@ -43,13 +44,13 @@ navbar:
       menu:
        - text: "General Background"
          icon: fa-book
-         href: articles/background.html
+         href: articles/articles/background.html
        - text: "Reconstruct multiple pattern"
          icon: fa-book
-         href: articles/reconstruct_multiple_patterns.html
+         href: articles/articles/reconstruct_multiple_patterns.html
        - text: "Publication Record"
          icon: fa-file-text-o
-         href: articles/publication_record.html
+         href: articlesarticles/publication_record.html
   right:
     - icon: fa-newspaper-o
       text: "News"

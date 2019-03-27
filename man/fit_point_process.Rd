@@ -37,5 +37,5 @@ pattern_fitted <- fit_point_process(species_a, n_random = 39)
 \references{
 Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000).
 Species-area curves, spatial aggregation, and habitat specialization in tropical forests.
-Journal of Theoretical Biology, 207(1), 81–99.
+Journal of Theoretical Biology, 207(1), 81-99.
 }

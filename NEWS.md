@@ -1,3 +1,7 @@
+# shar 0.3.1
+* Improvements
+  * Better structure of vignettes
+
 # shar 0.3
 * Improvements
   * `plot_randomized_pattern()` now uses envelopes to plot randomized summary functions

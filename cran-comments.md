@@ -1,3 +1,6 @@
+## shar 0.3.1
+Some minor bugfixes
+
 ## shar 0.3
 Some bugfixes and improvements of existing functions as well as new functions
 

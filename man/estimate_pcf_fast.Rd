@@ -28,7 +28,7 @@ pcf_species_b <- estimate_pcf_fast(species_a)
 }
 \references{
 Ripley, B.D. (1977) Modelling spatial patterns (with discussion). Journal of
-the Royal Statistical Society, Series B, 39, 172 – 212.
+the Royal Statistical Society, Series B, 39, 172-212.
 
 Stoyan, D, Kendall, W.S. and Mecke, J. (1995) Stochastic geometry and its
 applications. 2nd edition. Springer Verlag.

@@ -42,7 +42,7 @@ landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 }
 \references{
 Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
-of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
 }
 \seealso{
 \code{\link{translate_raster}} \cr

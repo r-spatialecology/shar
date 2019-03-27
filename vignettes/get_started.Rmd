@@ -1,0 +1,102 @@
+---
+title: "Get started"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get started}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r load_libraries_hidden, eval = TRUE, echo = FALSE, message = FALSE, results = "hide"}
+library(dplyr)
+library(shar)
+library(spatstat)
+library(raster)
+```
+
+## Design
+
+The core of **shar** are functions to to simulate null model data by randomizing either the environmental data (i.e. raster data) or the locations of species (i.e. point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000) and Wiegand & Moloney (2014). The methods are not neessary complementary, but are rather different approaches for the same result.
+
+## Preprocessing of input data
+All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data such as the Jenks-Caspall algorithm (Jenks & Caspall 1971)
+
+```{r classify_habitats}
+
+landscape_discrete <- classify_habitats(raster = landscape, classes = 5)
+
+```
+
+## Randomize environmental data
+There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `n_random <- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4` randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the `n_random` argument.
+
+```{r randomize_raster, message = FALSE}
+
+landscape_torus <- translate_raster(raster = landscape_discrete)
+
+landscape_random <- randomize_raster(raster = landscape_discrete, n_random = 19)
+
+```
+
+## Randomize location data
+To randomize the location data (i.e. the point pattern) either `fit_point_process()` or `reconstruct_pattern()` are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the `spatstat` package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel & Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the `n_random` argument. 
+
+```{r randomize_pp, message = FALSE, warning = FALSE}
+
+fitted <- fit_point_process(pattern = species_a, n_random = 19, process = "cluster")
+
+reconstructed <- reconstruct_pattern(pattern = species_a, max_runs = 500, n_random = 19) # takes some time
+
+``` 
+
+## Analyse results 
+The most important function to analyse results is `results_habitat_association()`. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data. 
+
+``` {r results}
+
+results_habitat_association(pattern = species_a, raster = landscape_random)
+
+results_habitat_association(pattern = reconstructed, raster = landscape_discrete)
+
+```
+
+There is also the possibility to visualize the randomized data using `plot_randomized_raster()` or `plot_randomized_pattern()`. 
+
+```{r plotting, eval = FALSE}
+
+plot_randomized_raster(landscape_random)
+
+plot_randomized_pattern(reconstructed)
+
+```
+
+For the randomized point pattern data, it is also possible to show the "difference" in terms of the energy (Tscheschel & Stoyan 2006) between the patterns.
+
+```{r energy, message = FALSE}
+
+calculate_energy(pattern = fitted, return_mean = TRUE)
+
+calculate_energy(pattern = reconstructed, return_mean = TRUE)
+
+```
+
+### References 
+Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
+
+Jenks, G. F., Caspall, F. C., (1971). Error on choroplethic maps: definition, measurement, reduction. Annals, Association of American Geographers, 61(2), 217–244;
+
+Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000). Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology, 207(1), 81-99.
+
+Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis, 51(2), 859-871.
+
+Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis in ecology. Boca Raton: Chapman and Hall/CRC Press.

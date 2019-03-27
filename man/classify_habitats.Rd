@@ -4,7 +4,7 @@
 \alias{classify_habitats}
 \title{classify_habitats}
 \usage{
-classify_habitats(raster, classes = 5, style = "fisher")
+classify_habitats(raster, classes = 5, style = "jenks")
 }
 \arguments{
 \item{raster}{RasterLayer.}
@@ -30,17 +30,17 @@ landscape_classified <- classify_habitats(landscape, classes = 5)
 \references{
 Armstrong, M. P., Xiao, N., Bennett, D. A., 2003. "Using genetic algorithms
 to create multicriteria class intervals for choropleth maps". Annals,
-Association of American Geographers, 93 (3), 595–623;
+Association of American Geographers, 93 (3), 595-623;
 
 Jenks, G. F., Caspall, F. C., 1971. "Error on choroplethic maps: definition,
-measurement, reduction". Annals, Association of American Geographers, 61 (2), 217–244;
+measurement, reduction". Annals, Association of American Geographers, 61 (2), 217-244;
 
 Dent, B. D., 1999, Cartography: thematic map design. McGraw-Hill, Boston, 417 pp.;
 Slocum TA, McMaster RB, Kessler FC, Howard HH 2005 Thematic Cartography and
 Geographic Visualization, Prentice Hall, Upper Saddle River NJ.;
 
 Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American
-Statistical Association, 53, pp. 789–798 (http://lib.stat.cmu.edu/cmlib/src/cluster/fish.f)
+Statistical Association, 53, pp. 789-798 (http://lib.stat.cmu.edu/cmlib/src/cluster/fish.f)
 }
 \seealso{
 \code{\link{classIntervals}}
