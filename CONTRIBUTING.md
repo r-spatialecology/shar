@@ -6,7 +6,7 @@ We love collaboration. This includes the suggestion of general improvements to t
 
 ### Bugs?
 
-* Submit an issue on the Issues page [here](https://github.com/r-spatialecology/shar/issues).
+* Submit an issue on the Issues page [here](https://github.com/r-spatialecology/shar/issues). Please try to describe the bug as precise and possible and add a reproducible example. This helps us a lot to quickly fix it.
 
 ### Code contributions
 
