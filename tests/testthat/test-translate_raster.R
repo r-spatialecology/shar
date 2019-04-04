@@ -18,6 +18,17 @@ testthat::test_that("Output is a long as n_random for translate_raster", {
                           n = 2598)
 })
 
+testthat::test_that("Providing steps is working for translate_raster", {
+
+  landscape_random <- shar::translate_raster(raster = landscape_classified,
+                                             steps_x = 1:5, steps_y = 1:5,
+                                             verbose = FALSE,
+                                             return_input = FALSE)
+
+  testthat::expect_length(landscape_random,
+                          n = 25)
+})
+
 testthat::test_that("Output includes randomizations and original pattern for translate_raster", {
 
   testthat::expect_named(landscape_random,

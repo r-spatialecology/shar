@@ -3,6 +3,8 @@
 #' @description Torus translation
 #'
 #' @param raster RasterLayer.
+#' @param steps_x,steps_y Number of steps (cells) the raster is translated into
+#' the corresponding direction. If both are null, all possible combinations are used.
 #' @param return_input The original input data is returned as last list entry.
 #' @param verbose Print progress report.
 #'
@@ -19,7 +21,9 @@
 #' @examples
 #' \dontrun{
 #' landscape_classified <- classify_habitats(landscape, classes = 5)
+#'
 #' landscape_random <- translate_raster(landscape_classified)
+#' landscape_random_sub <- translate_raster(landscape_classified, steps_x = 1:10, steps_y = 1:5)
 #' }
 #'
 #' @aliases translate_raster
@@ -30,21 +34,44 @@
 #' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
 
 #' @export
-translate_raster <- function(raster, return_input = TRUE, verbose = TRUE){
+translate_raster <- function(raster, steps_x = NULL, steps_y = NULL, return_input = TRUE, verbose = TRUE){
 
   # check if dim of raster are equal
   if(!raster::nrow(raster) == raster::ncol(raster)) {
     stop("Torus translation only works for raster with nrow == ncol.", call. = FALSE)
   }
 
-  steps_x <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in x-direction
+  # use all possible combinations
+  if(is.null(steps_x) & is.null(steps_y)) {
 
-  steps_y <- seq(from = 0, to = raster::ncol(raster), by = 1) # all steps in y-direction
+    steps_x <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in x-direction
 
-  steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
+    steps_y <- seq(from = 0, to = raster::ncol(raster), by = 1) # all steps in y-direction
 
-  # remove combinations identical to original raster
-  steps_xy <- steps_xy[-c(1, length(steps_x), max(steps_x) * length(steps_y) + 1, length(steps_x)*length(steps_y)),]
+    steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
+
+    # remove combinations identical to original raster
+    steps_xy <- steps_xy[-c(1, length(steps_x), max(steps_x) * length(steps_y) + 1, length(steps_x) * length(steps_y)),]
+  }
+
+  else {
+
+    if(is.null(steps_x)) {steps_x <- 0}
+
+    if(is.null(steps_y)) {steps_y <- 0}
+
+    steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
+
+    # remove combinations identical to original raster
+    remove_id <- c(which(steps_xy[, 1] + steps_xy[, 2] == 0),
+                   which(steps_xy[, 1] + steps_xy[, 2] ==  raster::nrow(raster) + raster::ncol(raster)),
+                   which(steps_xy[, 1] == 0 & steps_xy[, 2] == raster::nrow(raster)),
+                   which(steps_xy[, 2] == 0 & steps_xy[, 1] == raster::ncol(raster)))
+
+    if(length(remove_id) > 0) {
+      steps_xy <- steps_xy[-remove_id, ]
+    }
+  }
 
   matrix_raster <- raster::as.matrix(raster) # convert to matrix
 
