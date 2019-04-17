@@ -3,6 +3,8 @@
   * Better structure of vignettes
   * Adding CONTRIBUTING.md
   * Trying to fix some failing tests for older R versions
+ * New functionality
+  * Allowing to translate raster only in n steps
 
 # shar 0.3
 * Improvements
