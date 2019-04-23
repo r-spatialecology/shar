@@ -2,4 +2,63 @@ title: shar | Species-habitat associations in R
 
 template:
   params:
-   bootswatch: sandstone
+    bootswatch: sandstone
+
+reference:
+  - title: Data sets
+    contents:
+      - species_a
+      - species_b
+  - title: Randomize data
+    contents:
+      - fit_point_process
+      - randomize_raster
+      - reconstruct_marks
+      - reconstruct_pattern
+      - translate_raster
+  - title: Analyse results
+    contents:
+      - calculate_energy
+      - plot_randomized_pattern
+      - plot_randomized_raster
+      - results_habitat_association
+  - title: Various
+    contents:
+      - classify_habitats
+      - create_neighbourhood
+      - estimate_pcf_fast
+      - extract_points
+      - rcpp_sample
+
+navbar:
+  title: shar
+  left:
+    - text: "Get Started"
+      icon: fa fa-magic
+      href: articles/getstarted.html
+    - icon: fa-gears
+      text: "Functions"
+      href: reference/index.html
+    - text: "More"
+      icon: fa-graduation-cap
+      menu:
+       - text: "General Background"
+         icon: fa-book
+         href: articles/articles/background.html
+       - text: "Reconstruct multiple pattern"
+         icon: fa-book
+         href: articles/articles/reconstruct_multiple_patterns.html
+       - text: "Publication Record"
+         icon: fa-file-text-o
+         href: articlesarticles/publication_record.html
+  right:
+    - icon: fa-newspaper-o
+      text: "News"
+      href: news/index.html
+    - icon: fa-github fa-lg
+      text: "Github"
+      href: https://github.com/r-spatialecology/shar
+    - icon: fa-user
+      text: "Contact"
+      hreft: https://mhesselbarth.rbind.io
+

@@ -56,7 +56,7 @@ marks_recon <- reconstruct_marks(pattern_recon, marks_sub, n_random = 19, max_ru
 }
 \references{
 Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
-patterns. Computational Statistics and Data Analysis, 51(2), 859–871.
+patterns. Computational Statistics and Data Analysis, 51(2), 859-871.
 
 Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
 in ecology. Boca Raton: Chapman and Hall/CRC Press.

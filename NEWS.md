@@ -1,3 +1,9 @@
+# shar 0.3.1
+* Improvements
+  * Better structure of vignettes
+  * Adding CONTRIBUTING.md
+  * Trying to fix some failing tests for older R versions
+
 # shar 0.3
 * Improvements
   * `plot_randomized_pattern()` now uses envelopes to plot randomized summary functions

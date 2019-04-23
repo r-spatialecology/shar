@@ -7,8 +7,10 @@
 ^CODE_OF_CONDUCT.*$
 ^LICENSE.*$
 ^vignettes/articles$
+vignettes/articles
 ^data-raw$
 ^_pkgdown\.yml$
 ^appveyor\.yml$
 ^\.travis\.yml$
 ^codecov\.yml$
+^CONTRIBUTING.*$

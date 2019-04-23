@@ -35,44 +35,82 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+  <a href="articles/getstarted.html">
+    <span class="fa fa fa fa-magic"></span>
      
+    Get Started
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    Functions
+  </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    <span class="fa fa-graduation-cap"></span>
+     
+    More
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/background.html">Background</a>
+      <a href="articles/articles/background.html">
+        <span class="fa fa-book"></span>
+         
+        General Background
+      </a>
     </li>
     <li>
-      <a href="articles/publication_record.html">Publication record</a>
+      <a href="articles/articles/reconstruct_multiple_patterns.html">
+        <span class="fa fa-book"></span>
+         
+        Reconstruct multiple pattern
+      </a>
     </li>
     <li>
-      <a href="articles/reconstruct_multiple_patterns.html">How to reconstruct multiple patterns</a>
+      <a href="articlesarticles/publication_record.html">
+        <span class="fa fa-file-text-o"></span>
+         
+        Publication Record
+      </a>
     </li>
   </ul>
 </li>
+      </ul>
+<ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    News
+  </a>
+</li>
+<li>
+  <a href="https://github.com/r-spatialecology/shar">
+    <span class="fa fa-github fa-lg"></span>
+     
+    Github
+  </a>
+</li>
+<li>
+  <a href="https://mhesselbarth.rbind.io">
+    <span class="fa fa-user"></span>
+     
+    Contact
+  </a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -122,10 +160,10 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-plot-random_pattern-1.png" width="528" style="display: block; margin: auto;"><img src="reference/figures/README-plot-random_pattern-2.png" width="528" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>##  [1] 0.04379567 0.04354470 0.04666518 0.06078146 0.03928310 0.07229993
-##  [7] 0.05034346 0.04494400 0.04553354 0.05970037 0.06794061 0.06848288
-## [13] 0.03506921 0.04488517 0.06492939 0.06485651 0.06556182 0.06510912
-## [19] 0.05736829</code></pre>
+<pre><code>##  [1] 0.05470888 0.06134297 0.06223819 0.05323382 0.04684945 0.04328508
+##  [7] 0.05774665 0.07790363 0.05877554 0.04851389 0.05348055 0.05682565
+## [13] 0.06009963 0.04108562 0.04635172 0.07695098 0.05214654 0.05882062
+## [19] 0.08011327</code></pre>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a></code></pre></div>
 <pre><code>## &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
@@ -138,11 +176,11 @@
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a></code></pre></div>
 <pre><code>## &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
 <pre><code>##   habitat count    lo    hi significance
-## 1       1     7  1.45  7.00         n.s.
-## 2       2    20 31.90 60.20     negative
-## 3       3    31 72.35 89.10     negative
-## 4       4    33 43.70 64.65     negative
-## 5       5   109  7.90 24.00     positive</code></pre>
+## 1       1     7  1.90 12.65         n.s.
+## 2       2    20 40.90 70.75     negative
+## 3       3    31 63.80 88.85     negative
+## 4       4    33 36.90 57.60     negative
+## 5       5   109  8.45 25.75     positive</code></pre>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
