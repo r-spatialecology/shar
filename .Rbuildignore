@@ -13,3 +13,4 @@ vignettes/articles
 ^appveyor\.yml$
 ^\.travis\.yml$
 ^codecov\.yml$
+^CONTRIBUTING.*$
