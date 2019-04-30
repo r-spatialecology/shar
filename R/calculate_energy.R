@@ -74,16 +74,6 @@ calculate_energy <- function(pattern,
 
   if (class(pattern) == "rd_pat") {
 
-    if (verbose) {
-      # check if pattern is marked
-      if (spatstat::is.marked(pattern_observed) || all(vapply(pattern_reconstructed,
-                                                              spatstat::is.marked,
-                                                              FUN.VALUE = logical(1)))) {
-
-        warning("Only energy of spatial summary functions are considered.", call. = FALSE)
-      }
-    }
-
     # check if number of points exceed comp_fast limit
     if (pattern_observed$n > comp_fast) {
       comp_fast <- TRUE
