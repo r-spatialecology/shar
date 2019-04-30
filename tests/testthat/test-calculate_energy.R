@@ -13,6 +13,8 @@ marks_recon <- reconstruct_marks(pattern_random_a[[1]],
                                  marks_sub,
                                  n_random = 3, max_runs = 10)
 
+################################################################################
+
 testthat::test_that("calculate_energy returns energy for all randomizations", {
 
   testthat::expect_length(shar::calculate_energy(pattern_random_a, verbose = FALSE),
@@ -21,7 +23,7 @@ testthat::test_that("calculate_energy returns energy for all randomizations", {
 
 testthat::test_that("calculate_energy returns mean ", {
 
-  mean_energy <- mean( shar::calculate_energy(pattern_random_a, verbose = FALSE))
+  mean_energy <- mean(shar::calculate_energy(pattern_random_a, verbose = FALSE))
 
   testthat::expect_equal(shar::calculate_energy(pattern_random_a,
                                                 return_mean = TRUE,
@@ -32,8 +34,9 @@ testthat::test_that("calculate_energy returns mean ", {
 testthat::test_that("calculate_energy can use comp_fast ", {
 
   testthat::expect_length(shar::calculate_energy(pattern_random_a,
-                                       comp_fast = 50,
-                                       verbose = FALSE), n = 3)
+                                                 comp_fast = 50,
+                                                 verbose = FALSE),
+                          n = 3)
 })
 
 testthat::test_that("calculate_energy returns works for reconstructed marks", {
@@ -54,7 +57,7 @@ testthat::test_that("calculate_energy returns works for reconstructed marks", {
 testthat::test_that("calculate_energy returns error if observed not included", {
 
   testthat::expect_error(shar::calculate_energy(pattern_random_b, verbose = FALSE),
-                         grep = "Input must include 'observed' pattern.",
+                         regexp = "Input must include 'observed' pattern.",
                          fixed = TRUE)
 })
 
@@ -62,8 +65,6 @@ testthat::test_that("calculate_energy returns error if wrong class ", {
 
   testthat::expect_error(shar::calculate_energy(list(shar::species_a,
                                                      shar::species_b), verbose = FALSE),
-                         regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.")
+                         regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
+                         fixed = TRUE)
 })
-
-
-

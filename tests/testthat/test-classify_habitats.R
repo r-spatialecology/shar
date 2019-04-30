@@ -1,5 +1,7 @@
 testthat::context("test-classify_habitats")
 
+################################################################################
+
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 3)
 

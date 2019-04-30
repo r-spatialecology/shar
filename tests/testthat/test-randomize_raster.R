@@ -3,9 +3,25 @@ testthat::context("randomize_raster")
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 3)
 
+# normal random
 landscape_random <- shar::randomize_raster(raster = landscape_classified,
                                            n_random = 3,
                                            verbose = FALSE)
+
+# no input
+landscape_random_ni <- shar::randomize_raster(raster = landscape_classified,
+                                              n_random = 2,
+                                              return_input = FALSE,
+                                              verbose = FALSE)
+
+# simplify output
+raster_random_simple <- shar::randomize_raster(raster = landscape_classified,
+                                               n_random = 1,
+                                               simplify = TRUE,
+                                               return_input = FALSE,
+                                               verbose = FALSE)
+
+################################################################################
 
 testthat::test_that("Output is as long as n_random for randomize_raster", {
 
@@ -25,12 +41,8 @@ testthat::test_that("Output includes randomizations and original pattern for ran
 
 testthat::test_that("Input raster can not be returned for randomize_raster", {
 
-  landscape_random <- shar::randomize_raster(raster = landscape_classified,
-                                             n_random = 2,
-                                             return_input = FALSE,
-                                             verbose = FALSE)
-
-  random_df <- raster::as.data.frame(raster::stack(lapply(landscape_random, function(x) x)),
+  random_df <- raster::as.data.frame(raster::stack(lapply(landscape_random_ni,
+                                                          function(x) x)),
                                      xy = TRUE)
 
   classified_df <- raster::as.data.frame(landscape_classified, xy = TRUE)
@@ -43,13 +55,7 @@ testthat::test_that("Input raster can not be returned for randomize_raster", {
 
 testthat::test_that("simplify works for randomize_raster", {
 
-  raster_random <- shar::randomize_raster(raster = landscape_classified,
-                                          n_random = 1,
-                                          simplify = TRUE,
-                                          return_input = FALSE,
-                                          verbose = FALSE)
-
-  testthat::expect_is(raster_random, "RasterLayer")
+  testthat::expect_is(raster_random_simple, "RasterLayer")
 })
 
 testthat::test_that("randomize_raster returns error of n_random < 1", {
@@ -57,7 +63,7 @@ testthat::test_that("randomize_raster returns error of n_random < 1", {
   testthat::expect_error(shar::randomize_raster(raster = landscape_classified,
                                                 n_random = 0,
                                                 verbose = FALSE),
-                         grep = "n_random must be >= 1.",
+                         regexp = "n_random must be >= 1.",
                          fixed = TRUE)
 })
 
@@ -66,14 +72,13 @@ testthat::test_that("randomize_raster returns all warnings", {
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 1,
                                                   simplify = TRUE),
-                           grep = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
+                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
                            fixed = TRUE)
 
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 2,
                                                   simplify = TRUE,
                                                   return_input = FALSE),
-                           grep = "'simplify = TRUE' not possible for 'n_random > 1'.",
+                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
                            fixed = TRUE)
 })
-

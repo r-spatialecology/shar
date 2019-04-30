@@ -7,6 +7,13 @@ raster_random <- shar::randomize_raster(raster = landscape_classified,
                                         n_random = 3,
                                         verbose = FALSE)
 
+raster_random_ni <- shar::randomize_raster(raster = landscape_classified,
+                                           n_random = 3,
+                                           return_input = FALSE,
+                                           verbose = FALSE)
+
+################################################################################
+
 testthat::test_that("plot_randomized_raster returns plot", {
 
   shar::plot_randomized_raster(raster_random,
@@ -22,21 +29,17 @@ testthat::test_that("plot_randomized_raster returns plot if n vector is specifie
 
 testthat::test_that("plot_randomized_raster returns error if observed is missing", {
 
-  raster_random <- shar::randomize_raster(raster = landscape_classified,
-                                          n_random = 3,
-                                          return_input = FALSE,
-                                          verbose = FALSE)
-
-  testthat::expect_error(shar::plot_randomized_raster(raster_random,
+  testthat::expect_error(shar::plot_randomized_raster(raster_random_ni,
                                                       verbose = FALSE),
-                         regexp = "Input must include 'observed' raster.")
+                         regexp = "Input must include 'observed' raster.",
+                         fixed = TRUE)
 })
-
 
 testthat::test_that("plot_randomized_rasters returns error if wrong class ", {
 
   testthat::expect_error(shar::plot_randomized_raster(list(shar::species_a,
                                                            shar::species_b),
                                                        verbose = FALSE),
-                         regexp = "Class of 'raster' must be 'rd_ras'.",)
+                         regexp = "Class of 'raster' must be 'rd_ras'.",
+                         fixed = TRUE)
 })

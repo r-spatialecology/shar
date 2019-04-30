@@ -1,68 +1,74 @@
 testthat::context("Fit point process")
 
-pattern_random_b <- shar::fit_point_process(pattern = shar::species_b,
-                                            n_random = 3,
-                                            verbose = FALSE)
+# normal
+pattern_random <- shar::fit_point_process(pattern = shar::species_b,
+                                          n_random = 3,
+                                          verbose = FALSE)
 
-pattern_random_b_cluster <- shar::fit_point_process(pattern = shar::species_b,
-                                                    n_random = 3,
-                                                    process = "cluster",
-                                                    verbose = FALSE)
+# cluster process
+pattern_random_cluster <- shar::fit_point_process(pattern = shar::species_b,
+                                                  n_random = 3,
+                                                  process = "cluster",
+                                                  verbose = FALSE)
+
+# no input
+pattern_random_ni <- shar::fit_point_process(pattern = shar::species_a,
+                                             n_random = 3,
+                                             return_input = FALSE,
+                                             verbose = FALSE)
+
+# simple output
+pattern_random_simple <- shar::fit_point_process(pattern = shar::species_a,
+                                                 n_random = 1,
+                                                 return_input = FALSE,
+                                                 simplify = TRUE,
+                                                 verbose = FALSE)
+
+################################################################################
 
 testthat::test_that("Output is a long as n_random for fit_point_process", {
 
-  testthat::expect_length(pattern_random_b,
+  testthat::expect_length(pattern_random,
                           n = 4)
 
-  testthat::expect_length(pattern_random_b_cluster,
+  testthat::expect_length(pattern_random,
                           n = 4)
 })
 
 testthat::test_that("Output includes randomizations and original pattern for fit_point_process", {
 
-  testthat::expect_named(pattern_random_b,
+  testthat::expect_named(pattern_random,
                          expected = c(paste0("randomized_", 1:3), "observed"))
 
-  testthat::expect_equal(pattern_random_b[[4]],
+  testthat::expect_equal(pattern_random[[4]],
                          expected = spatstat::unmark(shar::species_b))
 
-  testthat::expect_named(pattern_random_b_cluster,
+  testthat::expect_named(pattern_random_cluster,
                          expected = c(paste0("randomized_", 1:3), "observed"))
 
-  testthat::expect_equal(pattern_random_b_cluster[[4]],
+  testthat::expect_equal(pattern_random_cluster[[4]],
                          expected = spatstat::unmark(shar::species_b))
 })
 
 testthat::test_that("Fitted patterns have same number of points for cluster process", {
 
-  testthat::expect_true(all(vapply(pattern_random_b,
+  testthat::expect_true(all(vapply(pattern_random,
                                    FUN.VALUE = logical(1),
                                    function(x) x$n == shar::species_b$n)))
 
-  testthat::expect_true(all(vapply(pattern_random_b_cluster,
+  testthat::expect_true(all(vapply(pattern_random_cluster,
                                    FUN.VALUE = logical(1),
                                    function(x) x$n == shar::species_b$n)))
 })
 
 testthat::test_that("Input pattern can not be returned for fit_point_process", {
 
-  pattern_random_a <- shar::fit_point_process(pattern = shar::species_a,
-                                              n_random = 3,
-                                              return_input = FALSE,
-                                              verbose = FALSE)
-
-  testthat::expect_false(any(shar::species_a %in% pattern_random_a))
+  testthat::expect_false(any(shar::species_a %in% pattern_random_ni))
 })
 
 testthat::test_that("simplify works for fit_point_process", {
 
-  pattern_random <- shar::fit_point_process(pattern = shar::species_a,
-                                            n_random = 1,
-                                            return_input = FALSE,
-                                            simplify = TRUE,
-                                            verbose = FALSE)
-
-  testthat::expect_is(pattern_random, "ppp")
+  testthat::expect_is(pattern_random_simple, "ppp")
 })
 
 testthat::test_that("fit_point_process returns errors", {
@@ -70,13 +76,15 @@ testthat::test_that("fit_point_process returns errors", {
   testthat::expect_error(shar::fit_point_process(pattern = shar::species_b,
                                                  n_random = -10,
                                                  verbose = FALSE),
-                         regexp = "n_random must be >= 1.")
+                         regexp = "n_random must be >= 1.",
+                         fixed = TRUE)
 
   testthat::expect_error(shar::fit_point_process(pattern = shar::species_b,
                                                  n_random = 19,
                                                  process = "not_valid",
                                                  verbose = FALSE),
-                         regexp = "Please select either 'poisson' or 'cluster'.")
+                         regexp = "Please select either 'poisson' or 'cluster'.",
+                         fixed = TRUE)
 })
 
 testthat::test_that("fit_point_process returns warnings", {
@@ -85,11 +93,13 @@ testthat::test_that("fit_point_process returns warnings", {
                                                    n_random = 3,
                                                    return_input = FALSE,
                                                    simplify = TRUE),
-                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
+                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
+                           fixed = TRUE)
 
   testthat::expect_warning(shar::fit_point_process(pattern = shar::species_a,
                                                    n_random = 1,
                                                    simplify = TRUE),
-                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
+                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
+                           fixed = TRUE)
 })
 
