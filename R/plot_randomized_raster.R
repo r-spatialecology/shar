@@ -35,7 +35,6 @@ plot_randomized_raster <- function(raster,
                                    verbose = TRUE,
                                    nrow, ncol){
 
-
   # check if class is correct
   if (class(raster) != "rd_ras") {
     stop("Class of 'raster' must be 'rd_ras'.", call. = FALSE)
@@ -62,7 +61,7 @@ plot_randomized_raster <- function(raster,
     }
 
     # more than 3 randomized rasters
-    else{
+    else {
 
       # set n to 3
       n <- 3
