@@ -3,7 +3,10 @@
 #' @description Torus translation
 #'
 #' @param raster RasterLayer.
+#' @param steps_x,steps_y Number of steps (cells) the raster is translated into
+#' the corresponding direction. If both are null, all possible combinations are used.
 #' @param return_input The original input data is returned as last list entry.
+#' @param simplify If n_random = 1 and return_input = FALSE only raster will be returned.
 #' @param verbose Print progress report.
 #'
 #' @details
@@ -19,7 +22,9 @@
 #' @examples
 #' \dontrun{
 #' landscape_classified <- classify_habitats(landscape, classes = 5)
+#'
 #' landscape_random <- translate_raster(landscape_classified)
+#' landscape_random_sub <- translate_raster(landscape_classified, steps_x = 1:10, steps_y = 1:5)
 #' }
 #'
 #' @aliases translate_raster
@@ -30,36 +35,61 @@
 #' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
 
 #' @export
-translate_raster <- function(raster, return_input = TRUE, verbose = TRUE){
+translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
+                             return_input = TRUE, simplify = FALSE,
+                             verbose = TRUE) {
 
   # check if dim of raster are equal
-  if(!raster::nrow(raster) == raster::ncol(raster)) {
+  if (!raster::nrow(raster) == raster::ncol(raster)) {
     stop("Torus translation only works for raster with nrow == ncol.", call. = FALSE)
   }
 
-  steps_x <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in x-direction
+  # use all possible combinations
+  if (is.null(steps_x) & is.null(steps_y)) {
 
-  steps_y <- seq(from = 0, to = raster::ncol(raster), by = 1) # all steps in y-direction
+    steps_x <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in x-direction
 
-  steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
+    steps_y <- seq(from = 0, to = raster::ncol(raster), by = 1) # all steps in y-direction
 
-  # remove combinations identical to original raster
-  steps_xy <- steps_xy[-c(1, length(steps_x), max(steps_x) * length(steps_y) + 1, length(steps_x)*length(steps_y)),]
+    steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
+
+    # remove combinations identical to original raster
+    steps_xy <- steps_xy[-c(1, length(steps_x), max(steps_x) * length(steps_y) + 1, length(steps_x) * length(steps_y)),]
+  }
+
+  else {
+
+    if (is.null(steps_x)) {steps_x <- 0}
+
+    if (is.null(steps_y)) {steps_y <- 0}
+
+    steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
+
+    # remove combinations identical to original raster
+    remove_id <- c(which(steps_xy[, 1] + steps_xy[, 2] == 0),
+                   which(steps_xy[, 1] + steps_xy[, 2] ==  raster::nrow(raster) + raster::ncol(raster)),
+                   which(steps_xy[, 1] == 0 & steps_xy[, 2] == raster::nrow(raster)),
+                   which(steps_xy[, 2] == 0 & steps_xy[, 1] == raster::ncol(raster)))
+
+    if (length(remove_id) > 0) {
+      steps_xy <- steps_xy[-remove_id, ]
+    }
+  }
 
   matrix_raster <- raster::as.matrix(raster) # convert to matrix
 
   # loop through all possible steps
-  result <- lapply(seq_len(nrow(steps_xy)), function(current_row){
+  result <- lapply(seq_len(nrow(steps_xy)), function(current_row) {
 
     x_shift <- steps_xy[current_row, 1] - (nrow(matrix_raster) * (steps_xy[current_row, 1] %/% nrow(matrix_raster)))
 
     y_shift <- steps_xy[current_row, 2] - (ncol(matrix_raster) * (steps_xy[current_row, 2] %/% ncol(matrix_raster)))
 
-    if(x_shift == 0){matrix_shifted <- matrix_raster}
+    if (x_shift == 0) {matrix_shifted <- matrix_raster}
 
-    else{matrix_shifted <- cbind(matrix_raster[, (x_shift + 1):dim(matrix_raster)[2]], matrix_raster[, seq_len(x_shift)])}
+    else {matrix_shifted <- cbind(matrix_raster[, (x_shift + 1):dim(matrix_raster)[2]], matrix_raster[, seq_len(x_shift)])}
 
-    if(y_shift == 0){matrix_shifted <- matrix_shifted}
+    if (y_shift == 0) {matrix_shifted <- matrix_shifted}
 
     else{matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1], ], matrix_shifted[seq_len(y_shift), ])}
 
@@ -69,26 +99,51 @@ translate_raster <- function(raster, return_input = TRUE, verbose = TRUE){
                                      ymn = raster::ymin(raster), ymx = raster::ymax(raster))
 
     # print progress
-    if(verbose) {
+    if (verbose) {
       message("\r> Progress: n_random: ", current_row, "/", nrow(steps_xy), appendLF = FALSE)
     }
 
     return(raster_shifted)
   })
 
+  n_random <- length(result)
+
   # return input raster
-  if(return_input){
-    result[[length(result) + 1]] <- raster # add input raster as last list entry
+  if (return_input) {
+    result[[n_random + 1]] <- raster # add input raster as last list entry
     names(result) <- c(paste0("randomized_", seq_len(length(result) - 1)), "observed") # set names
   }
 
   else{
-    names(result) <- paste0("randomized_", seq_len(length(result))) # set names
+
+    if (simplify) {
+
+      if (n_random > 1 && verbose) {
+
+        message("\n")
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+      }
+
+      else {
+
+        result <- result[[1]]
+      }
+    }
+
+    else{
+
+      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+    }
   }
 
   # write result in new line if progress was printed
-  if(verbose) {
+  if (verbose) {
+
     message("\r")
+  }
+
+  if(!simplify) {
+    class(result) <- "rd_ras"
   }
 
   return(result)

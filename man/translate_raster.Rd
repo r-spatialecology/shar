@@ -4,12 +4,18 @@
 \alias{translate_raster}
 \title{translate_raster}
 \usage{
-translate_raster(raster, return_input = TRUE, verbose = TRUE)
+translate_raster(raster, steps_x = NULL, steps_y = NULL,
+  return_input = TRUE, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{raster}{RasterLayer.}
 
+\item{steps_x, steps_y}{Number of steps (cells) the raster is translated into
+the corresponding direction. If both are null, all possible combinations are used.}
+
 \item{return_input}{The original input data is returned as last list entry.}
+
+\item{simplify}{If n_random = 1 and return_input = FALSE only raster will be returned.}
 
 \item{verbose}{Print progress report.}
 }
@@ -27,7 +33,9 @@ exits the extent on one side, it enters the extent on the opposite side.
 \examples{
 \dontrun{
 landscape_classified <- classify_habitats(landscape, classes = 5)
+
 landscape_random <- translate_raster(landscape_classified)
+landscape_random_sub <- translate_raster(landscape_classified, steps_x = 1:10, steps_y = 1:5)
 }
 
 }

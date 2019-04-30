@@ -33,5 +33,14 @@ testthat::test_that("calculate_energy can use comp_fast ", {
 testthat::test_that("calculate_energy returns error if observed not included ", {
 
   testthat::expect_error(shar::calculate_energy(pattern_random_b, verbose = FALSE),
-                         regexp = "Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.")
+                         grep = "Input must include 'observed' pattern.",
+                         fixed = TRUE)
+})
+
+testthat::test_that("calculate_energy returns error if wrong class ", {
+
+  testthat::expect_error(shar::calculate_energy(list(shar::species_a,
+                                                     shar::species_b), verbose = FALSE),
+                         grep = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
+                         fixed = TRUE)
 })
