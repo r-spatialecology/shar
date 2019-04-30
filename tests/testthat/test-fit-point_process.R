@@ -31,7 +31,7 @@ testthat::test_that("Output is a long as n_random for fit_point_process", {
   testthat::expect_length(pattern_random,
                           n = 4)
 
-  testthat::expect_length(pattern_random,
+  testthat::expect_length(pattern_random_cluster,
                           n = 4)
 })
 
