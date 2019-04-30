@@ -155,14 +155,6 @@ calculate_energy <- function(pattern,
 
   else if (class(pattern) == "rd_mar") {
 
-    # check if pattern is marked
-    if (!spatstat::is.marked(pattern_observed) || !all(vapply(pattern_reconstructed,
-                                                              spatstat::is.marked,
-                                                              FUN.VALUE = logical(1)))) {
-
-      stop("Please provide pattern with reconstruced marks.", call. = FALSE)
-    }
-
     # calculate summary functions
     kmmr_observed <- spatstat::markcorr(pattern_observed,
                                         correction = "Ripley",
@@ -176,8 +168,7 @@ calculate_energy <- function(pattern,
                                                 r = r)
 
       # difference between observed and reconstructed pattern
-      energy <- mean(abs(kmmr_observed[[3]] - kmmr_reconstruction[[3]]), na.rm = TRUE) +
-        mean(abs(kmmr_observed[[3]] - kmmr_reconstruction[[3]]), na.rm = TRUE)
+      energy <- mean(abs(kmmr_observed[[3]] - kmmr_reconstruction[[3]]), na.rm = TRUE)
 
       # print progress
       if (verbose) {

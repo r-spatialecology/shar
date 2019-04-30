@@ -81,12 +81,12 @@ testthat::test_that("All optional arguments can be used for reconstruct_marks", 
   testthat::expect_length(marks_recon_args, n = 4)
 })
 
-# testthat::test_that("Reconstruction stops if e_threshold is reached", {
-#
-#   energy <- shar::calculate_energy(marks_recon_energy, verbose = FALSE)
-#
-#   testthat::expect_true(all(energy < 0.1))
-# })
+testthat::test_that("Reconstruction stops if e_threshold is reached", {
+
+  energy <- shar::calculate_energy(marks_recon_energy, verbose = FALSE)
+
+  testthat::expect_true(all(energy < 0.1 & energy > 0.01))
+})
 
 testthat::test_that("All errors are returned for reconstruct_marks", {
 
