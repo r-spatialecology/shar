@@ -5,7 +5,7 @@
 \title{translate_raster}
 \usage{
 translate_raster(raster, steps_x = NULL, steps_y = NULL,
-  return_input = TRUE, verbose = TRUE)
+  return_input = TRUE, simplify = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{raster}{RasterLayer.}
@@ -14,6 +14,8 @@ translate_raster(raster, steps_x = NULL, steps_y = NULL,
 the corresponding direction. If both are null, all possible combinations are used.}
 
 \item{return_input}{The original input data is returned as last list entry.}
+
+\item{simplify}{If n_random = 1 and return_input = FALSE only raster will be returned.}
 
 \item{verbose}{Print progress report.}
 }

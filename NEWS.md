@@ -1,3 +1,7 @@
+# shar 0.4
+* Improvements
+  * Easier user experience because classes are used to specify provided input
+
 # shar 0.3.1
 * Improvements
   * Better structure of vignettes

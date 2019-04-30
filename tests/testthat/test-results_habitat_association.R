@@ -13,6 +13,11 @@ raster_random <- shar::randomize_raster(landscape_classified,
                                         n_random = 3,
                                         verbose = FALSE)
 
+raster_random_ni <- shar::randomize_raster(landscape_classified,
+                                           n_random = 3,
+                                           return_input = FALSE,
+                                           verbose = FALSE)
+
 result_pattern <- shar::results_habitat_association(raster = landscape_classified,
                                                     pattern = random_a,
                                                     verbose = FALSE)
@@ -52,27 +57,36 @@ testthat::test_that("results_habitat_association returns warning if significance
 
   testthat::expect_warning(shar::results_habitat_association(raster = landscape_classified,
                                                              pattern = random_a,
-                                                             significance_level = 0.75))
+                                                             significance_level = 0.75),
+                           grep = "Make sure 'signifcance_level' is meaningful (e.g. 'significance_level = 0.05').",
+                           fixed = TRUE)
 })
 
-testthat::test_that("results_habitat_association returns error if input is named wrong", {
-
-  testthat::expect_error(shar::results_habitat_association(raster = landscape_classified,
-                                                           pattern = unname(random_a),
-                                                           verbose = FALSE),
-                         regexp = "Input must named 'randomized_1' to 'randomized_n' and includ 'observed' raster.")
-
-  testthat::expect_error(shar::results_habitat_association(raster = raster_random[1:3],
-                                                           pattern = shar::species_a,
-                                                           verbose = FALSE),
-                         regexp = "Input must named 'randomized_1' to 'randomized_n' and includ 'observed' raster.")
-})
-
-testthat::test_that("results_habitat_association returns error if wrong input is provided", {
+testthat::test_that("results_habitat_association returns error if input is wrong", {
 
   testthat::expect_error(shar::results_habitat_association(raster = landscape_classified,
                                                            pattern = random_a[[1]],
                                                            verbose = FALSE),
-                         regexp = "Please provide either randomized point patterns or randomized rasters.")
+                         grep = "Please provide either randomized point patterns or randomized rasters.",
+                         fixed = TRUE)
+
+  testthat::expect_error(shar::results_habitat_association(raster = raster_random,
+                                                           pattern = random_a,
+                                                           verbose = FALSE),
+                         grep = " Please provide only one randomized input.",
+                         fixed = TRUE)
+
+  testthat::expect_error(shar::results_habitat_association(raster = landscape_classified,
+                                                           pattern = unname(random_a),
+                                                           verbose = FALSE),
+                         grep = "Input must include 'observed' pattern.",
+                         fixed = TRUE)
+
+
+  testthat::expect_error(shar::results_habitat_association(raster = raster_random_ni,
+                                                           pattern = shar::species_a,
+                                                           verbose = FALSE),
+                         grep = "Input must include 'observed' pattern.",
+                         fixed = TRUE)
 })
 

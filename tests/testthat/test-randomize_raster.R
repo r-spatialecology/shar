@@ -30,8 +30,10 @@ testthat::test_that("Input raster can not be returned for randomize_raster", {
                                              return_input = FALSE,
                                              verbose = FALSE)
 
+  random_df <- raster::as.data.frame(raster::stack(lapply(landscape_random, function(x) x)),
+                                     xy = TRUE)
+
   classified_df <- raster::as.data.frame(landscape_classified, xy = TRUE)
-  random_df <- raster::as.data.frame(raster::stack(landscape_random), xy = TRUE)
 
   check <- any(c(all(random_df$randomized_1 == classified_df$layer),
                  all(random_df$randomized_2 == classified_df$layer)))
@@ -55,7 +57,8 @@ testthat::test_that("randomize_raster returns error of n_random < 1", {
   testthat::expect_error(shar::randomize_raster(raster = landscape_classified,
                                                 n_random = 0,
                                                 verbose = FALSE),
-                         regexp = "n_random must be >= 1.")
+                         grep = "n_random must be >= 1.",
+                         fixed = TRUE)
 })
 
 testthat::test_that("randomize_raster returns all warnings", {
@@ -63,12 +66,14 @@ testthat::test_that("randomize_raster returns all warnings", {
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 1,
                                                   simplify = TRUE),
-                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
+                           grep = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
+                           fixed = TRUE)
 
   testthat::expect_warning(shar::randomize_raster(raster = landscape_classified,
                                                   n_random = 2,
                                                   simplify = TRUE,
                                                   return_input = FALSE),
-                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
+                           grep = "'simplify = TRUE' not possible for 'n_random > 1'.",
+                           fixed = TRUE)
 })
 

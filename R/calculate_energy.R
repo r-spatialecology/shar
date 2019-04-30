@@ -4,7 +4,6 @@
 #'
 #' @param pattern List with reconstructed patterns.
 #' @param return_mean Return the mean energy.
-#' @param method String to specifiy if spatial pattern or marks were reconstructed.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param verbose Print progress report.
 #'
@@ -31,7 +30,7 @@
 #' \dontrun{
 #' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_marks(pattern_random[[1]], marks_sub, n_random = 19, max_runs = 1000)
-#' calculate_energy(marks_recon, return_mean = FALSE, method = "marks")
+#' calculate_energy(marks_recon, return_mean = FALSE)
 #' }
 #'
 #' @aliases calculate_energy
@@ -47,14 +46,18 @@
 #' @export
 calculate_energy <- function(pattern,
                              return_mean = FALSE,
-                             method = "spatial",
                              comp_fast = 1000,
                              verbose = TRUE){
 
-  # check if randomized and observed is present
-  if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
-    stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.",
+  # check if class is correct
+  if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+    stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
          call. = FALSE)
+  }
+
+  # check if observed pattern is present
+  if (!"observed" %in% names(pattern)) {
+    stop("Input must include 'observed' pattern.", call. = FALSE)
   }
 
   # extract observed pattern
@@ -69,20 +72,20 @@ calculate_energy <- function(pattern,
                                     lambda = spatstat::intensity.ppp(pattern_observed)),
            length.out = 250)
 
-  if (method == "spatial") {
+  if (class(pattern) == "rd_pat") {
 
-    if(verbose) {
+    if (verbose) {
       # check if pattern is marked
-      if(spatstat::is.marked(pattern_observed) || all(vapply(pattern_reconstructed,
-                                                             spatstat::is.marked,
-                                                             FUN.VALUE = logical(1)))) {
+      if (spatstat::is.marked(pattern_observed) || all(vapply(pattern_reconstructed,
+                                                              spatstat::is.marked,
+                                                              FUN.VALUE = logical(1)))) {
 
         warning("Only energy of spatial summary functions are considered.", call. = FALSE)
       }
     }
 
     # check if number of points exceed comp_fast limit
-    if(pattern_observed$n > comp_fast) {
+    if (pattern_observed$n > comp_fast) {
       comp_fast <- TRUE
     }
 
@@ -91,7 +94,7 @@ calculate_energy <- function(pattern,
     }
 
     # calculate summary functions for observed pattern
-    if(comp_fast) {
+    if (comp_fast) {
 
       gest_observed <- spatstat::Gest(X = pattern_observed,
                                       correction = "none",
@@ -120,7 +123,7 @@ calculate_energy <- function(pattern,
     result <- vapply(seq_along(pattern_reconstructed), function(x) {
 
       # fast computation of summary stats
-      if(comp_fast) {
+      if (comp_fast) {
 
         gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]],
                                               correction = "none",
@@ -151,7 +154,7 @@ calculate_energy <- function(pattern,
         mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE)
 
       # print progress
-      if(verbose) {
+      if (verbose) {
         message("\r> Progress: ", x, "/", length(pattern_reconstructed), appendLF = FALSE)
       }
 
@@ -160,12 +163,12 @@ calculate_energy <- function(pattern,
     }, FUN.VALUE = numeric(1))
   }
 
-  else if( method == "marks") {
+  else if (class(pattern) == "rd_mar") {
 
     # check if pattern is marked
-    if(!spatstat::is.marked(pattern_observed) || !all(vapply(pattern_reconstructed,
-                                                             spatstat::is.marked,
-                                                             FUN.VALUE = logical(1)))) {
+    if (!spatstat::is.marked(pattern_observed) || !all(vapply(pattern_reconstructed,
+                                                              spatstat::is.marked,
+                                                              FUN.VALUE = logical(1)))) {
 
       stop("Please provide pattern with reconstruced marks.", call. = FALSE)
     }
@@ -187,7 +190,7 @@ calculate_energy <- function(pattern,
         mean(abs(kmmr_observed[[3]] - kmmr_reconstruction[[3]]), na.rm = TRUE)
 
       # print progress
-      if(verbose) {
+      if (verbose) {
         message("\r> Progress: ", x, "/", length(pattern_reconstructed), appendLF = FALSE)
       }
 
@@ -196,18 +199,13 @@ calculate_energy <- function(pattern,
     }, FUN.VALUE = numeric(1))
   }
 
-  else {
-    stop("Please select either 'method = spatial' or 'method = marks'.",
-         call. = FALSE)
-  }
-
   # return mean for all reconstructed patterns
-  if(return_mean) {
+  if (return_mean) {
     result <- mean(result)
   }
 
   # write result in new line if progress was printed
-  if(verbose) {
+  if (verbose) {
     message("\r")
   }
 

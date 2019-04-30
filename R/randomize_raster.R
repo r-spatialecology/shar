@@ -44,7 +44,7 @@ randomize_raster <- function(raster,
                              verbose = TRUE){
 
   # check if n_random is >= 1
-  if(!n_random >= 1) {
+  if (!n_random >= 1) {
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
@@ -60,7 +60,7 @@ randomize_raster <- function(raster,
     random_matrix[!is.na(random_matrix)] <- -999 # set all non-NAs to unique number
 
     # loop through habitats but last one (all remaining cells will be last)
-    for(current_habitat in seq_len(length(habitats) - 1)){
+    for (current_habitat in seq_len(length(habitats) - 1)) {
 
       k <- 0 # counter since last jump
 
@@ -71,7 +71,7 @@ randomize_raster <- function(raster,
       random_matrix[random_cell] <- habitat_id # assign habitat to cell
 
       # loop until same number as number in original raster are assigned (break criterion within loop)
-      for(i in seq_len(habitats[current_habitat] - 1)) {
+      for (i in seq_len(habitats[current_habitat] - 1)) {
 
         # increases as loop continious and increases prob to jump to non-neighbouring cell
         ratio <- k / n_cells
@@ -79,7 +79,7 @@ randomize_raster <- function(raster,
         r <- stats::runif(n = 1, min = 0, max = 1) # random number
 
         # assign value to neighbouring patch
-        if(r >= ratio){
+        if (r >= ratio) {
 
           # cells already assigned to habitat
           cells_habitat <- which(random_matrix == habitat_id,
@@ -95,7 +95,7 @@ randomize_raster <- function(raster,
                                     arr.ind = TRUE, useNames = FALSE)
 
           # neighbours without habitat and inside plot present
-          if(length(empty_neighbours) > 0){
+          if (length(empty_neighbours) > 0) {
 
             # sample random neighbour
             random_neighbour <- shar::rcpp_sample(x = empty_neighbours, n = 1)
@@ -135,7 +135,7 @@ randomize_raster <- function(raster,
         }
 
         # print progess
-        if(verbose) {
+        if (verbose) {
           message("\r> Progress: n_random: ", current_raster, "/", n_random,
                   " || habitats: " , current_habitat, "/", length(habitats),
                   appendLF = FALSE) # add habitat and number empty cells
@@ -158,9 +158,9 @@ randomize_raster <- function(raster,
   })
 
   # add input pattern to randomizations
-  if(return_input){
+  if (return_input) {
 
-    if(simplify && verbose){
+    if (simplify && verbose) {
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
@@ -172,9 +172,9 @@ randomize_raster <- function(raster,
 
   else{
 
-    if(simplify) {
+    if (simplify) {
 
-      if(n_random > 1 && verbose) {
+      if (n_random > 1 && verbose) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
@@ -190,8 +190,12 @@ randomize_raster <- function(raster,
   }
 
   # write result in new line if progress was printed
-  if(verbose) {
+  if (verbose) {
     message("\r")
+  }
+
+  if (!simplify) {
+    class(result) <- "rd_ras"
   }
 
   return(result)
