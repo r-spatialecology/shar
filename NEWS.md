@@ -1,6 +1,8 @@
 # shar 0.4
 * Improvements
   * Easier user experience because classes are used to specify provided input
+* Bugfixes
+  * Bug in `calculate_energy()` for reconstructed marks
 
 # shar 0.3.1
 * Improvements
