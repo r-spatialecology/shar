@@ -3,6 +3,6 @@
 
 # nocov start
 
-.onUnload <- function(libpath) {library.dynam.unload("landscapemetrics", libpath)}
+.onUnload <- function(libpath) {library.dynam.unload("shar", libpath)}
 
 # nocov end
