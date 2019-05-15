@@ -30,14 +30,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../../articles/getstarted.html">
+  <a href="../../articles/get_started.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
@@ -119,7 +119,7 @@
     <div class="page-header toc-ignore">
       <h1>How to reconstruct multiple patterns</h1>
             
-            <h4 class="date">2019-03-27</h4>
+            <h4 class="date">2019-05-15</h4>
       
       
       <div class="hidden name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -129,54 +129,54 @@
     
     
 <p>In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># library(tidyverse)</span></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shar)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(spatstat)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># library(tidyverse)</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shar)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(spatstat)</a></code></pre></div>
 <p>In case you want to only create the spatial characteristics, this is straightforward using <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply()</a></code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># create list with patterns</span></a>
-<a class="sourceLine" id="cb2-2" title="2">list_pattern &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(species_a, species_b)</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="co"># reconstruct all patterns in list</span></a>
-<a class="sourceLine" id="cb2-5" title="5">result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(list_pattern, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> x, </a>
-<a class="sourceLine" id="cb2-6" title="6">                                                               <span class="dt">n_random =</span> <span class="dv">3</span>, </a>
-<a class="sourceLine" id="cb2-7" title="7">                                                               <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># create list with patterns</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">list_pattern &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(species_a, species_b)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># reconstruct all patterns in list</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">result &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(list_pattern, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> x, </a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">                                                               <span class="dt">n_random =</span> <span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">                                                               <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <p>The result will be a nested list including all <em>m</em> randomization (including the observed pattern) of the <em>n</em> provided input patterns.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># get mean energy</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x,</a>
-<a class="sourceLine" id="cb3-3" title="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># get mean energy</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x,</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-## [1] 0.06554273 0.06479118 0.06159383
+## [1] 0.06473929 0.06114814 0.08730693
 ## 
 ## [[2]]
-## [1] 0.03316648 0.02887749 0.03342250</code></pre>
+## [1] 0.02616507 0.02647350 0.02673224</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># reconstruct spatial strucutre</span></a>
-<a class="sourceLine" id="cb5-2" title="2">reconstructed_pattern &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(species_a, </a>
-<a class="sourceLine" id="cb5-3" title="3">                                             <span class="dt">n_random =</span> <span class="dv">3</span>, </a>
-<a class="sourceLine" id="cb5-4" title="4">                                             <span class="dt">return_input =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb5-5" title="5">                                             <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># reconstruct spatial strucutre</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">reconstructed_pattern &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(species_a, </a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">                                             <span class="dt">n_random =</span> <span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">                                             <span class="dt">return_input =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">                                             <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Secondly, to reconstruct the (numeric) marks of the observed pattern for each of the spatially reconstructed patterns, just use <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply()</a></code> in combination with <code><a href="../../reference/reconstruct_marks.html">reconstruct_marks()</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># get only selected marks of input (numeric marks)</span></a>
-<a class="sourceLine" id="cb6-2" title="2">species_a_marks &lt;-<span class="st"> </span>spatstat<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/spatstat/topics/subset.ppp">subset.ppp</a></span>(species_a, <span class="dt">select =</span> dbh)</a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co"># reconstruct marks 3 times for each input pattern</span></a>
-<a class="sourceLine" id="cb6-5" title="5">result_marks &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(reconstructed_pattern, </a>
-<a class="sourceLine" id="cb6-6" title="6">                       <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/reconstruct_marks.html">reconstruct_marks</a></span>(<span class="dt">pattern =</span> x, </a>
-<a class="sourceLine" id="cb6-7" title="7">                                                     <span class="dt">marked_pattern =</span> species_a_marks, </a>
-<a class="sourceLine" id="cb6-8" title="8">                                                     <span class="dt">n_random =</span> <span class="dv">3</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># get only selected marks of input (numeric marks)</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">species_a_marks &lt;-<span class="st"> </span>spatstat<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/spatstat/topics/subset.ppp">subset.ppp</a></span>(species_a, <span class="dt">select =</span> dbh)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># reconstruct marks 3 times for each input pattern</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">result_marks &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(reconstructed_pattern, </a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">                       <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/reconstruct_marks.html">reconstruct_marks</a></span>(<span class="dt">pattern =</span> x, </a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">                                                     <span class="dt">marked_pattern =</span> species_a_marks, </a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">                                                     <span class="dt">n_random =</span> <span class="dv">3</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <p>Again, the result is a nested list with the same dimensions as provided input patterns and reconstructions.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># get energy</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result_marks, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x, </a>
-<a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">method =</span> <span class="st">"marks"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># get energy</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result_marks, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x, </a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">                                                  <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
-## [1] 0.01923192 0.01994564 0.01969831
+## [1] 0.009768913 0.009758640 0.009579107
 ## 
 ## $randomized_2
-## [1] 0.01910949 0.01904750 0.01956887
+## [1] 0.009581238 0.009705235 0.009793942
 ## 
 ## $randomized_3
-## [1] 0.01886156 0.01973976 0.01966077</code></pre>
+## [1] 0.009302304 0.009696121 0.009988699</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

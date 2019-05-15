@@ -30,14 +30,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../articles/getstarted.html">
+  <a href="../articles/get_started.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
@@ -119,7 +119,7 @@
     <div class="page-header toc-ignore">
       <h1>Get started</h1>
             
-            <h4 class="date">2019-03-27</h4>
+            <h4 class="date">2019-05-15</h4>
       
       
       <div class="hidden name"><code>get_started.Rmd</code></div>
@@ -131,67 +131,67 @@
 <div id="design" class="section level2">
 <h2 class="hasAnchor">
 <a href="#design" class="anchor"></a>Design</h2>
-<p>The core of <strong>shar</strong> are functions to to simulate null model data by randomizing either the environmental data (i.e. raster data) or the locations of species (i.e. point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000) and Wiegand &amp; Moloney (2014). The methods are not neessary complementary, but are rather different approaches for the same result.</p>
+<p>The core of <strong>shar</strong> are functions to to simulate null model data by randomizing either the environmental data (i.e. raster data) or the locations of species (i.e. point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000) and Wiegand &amp; Moloney (2014). The methods are not neessary complementary, but are rather different approaches for the same result.</p>
 </div>
 <div id="preprocessing-of-input-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preprocessing-of-input-data" class="anchor"></a>Preprocessing of input data</h2>
 <p>All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. <code>classify_habitats</code> provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks &amp; Caspall 1971)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"></a>
-<a class="sourceLine" id="cb1-2" title="2">landscape_discrete &lt;-<span class="st"> </span><span class="kw"><a href="../reference/classify_habitats.html">classify_habitats</a></span>(<span class="dt">raster =</span> landscape, <span class="dt">classes =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">landscape_discrete &lt;-<span class="st"> </span><span class="kw"><a href="../reference/classify_habitats.html">classify_habitats</a></span>(<span class="dt">raster =</span> landscape, <span class="dt">classes =</span> <span class="dv">5</span>)</a></code></pre></div>
 </div>
 <div id="randomize-environmental-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#randomize-environmental-data" class="anchor"></a>Randomize environmental data</h2>
 <p>There are two functions to randomize the environmental data: <code><a href="../reference/translate_raster.html">translate_raster()</a></code> and <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in <code>n_random &lt;- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4</code> randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the <code>n_random</code> argument.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"></a>
-<a class="sourceLine" id="cb2-2" title="2">landscape_torus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/translate_raster.html">translate_raster</a></span>(<span class="dt">raster =</span> landscape_discrete)</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4">landscape_random &lt;-<span class="st"> </span><span class="kw"><a href="../reference/randomize_raster.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_discrete, <span class="dt">n_random =</span> <span class="dv">19</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">landscape_torus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/translate_raster.html">translate_raster</a></span>(<span class="dt">raster =</span> landscape_discrete)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">landscape_random &lt;-<span class="st"> </span><span class="kw"><a href="../reference/randomize_raster.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_discrete, <span class="dt">n_random =</span> <span class="dv">19</span>)</a></code></pre></div>
 </div>
 <div id="randomize-location-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#randomize-location-data" class="anchor"></a>Randomize location data</h2>
 <p>To randomize the location data (i.e. the point pattern) either <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> or <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code> are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the <code>spatstat</code> package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel &amp; Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the <code>n_random</code> argument.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"></a>
-<a class="sourceLine" id="cb3-2" title="2">fitted &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_point_process.html">fit_point_process</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">process =</span> <span class="st">"cluster"</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4">reconstructed &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">max_runs =</span> <span class="dv">500</span>, <span class="dt">n_random =</span> <span class="dv">19</span>) <span class="co"># takes some time</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">fitted &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_point_process.html">fit_point_process</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">process =</span> <span class="st">"cluster"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">reconstructed &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">max_runs =</span> <span class="dv">500</span>, <span class="dt">n_random =</span> <span class="dv">19</span>) <span class="co"># takes some time</span></a></code></pre></div>
 </div>
 <div id="analyse-results" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analyse-results" class="anchor"></a>Analyse results</h2>
 <p>The most important function to analyse results is <code><a href="../reference/results_habitat_association.html">results_habitat_association()</a></code>. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> landscape_random)</a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 1       1    10  1.00  5.00     positive</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 2       2    14 12.00 23.55         n.s.</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 3       3    30 13.90 27.55     positive</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 4       4     0 11.45 23.00     negative</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; 5       5    14  5.45 13.55     positive</span></a>
-<a class="sourceLine" id="cb4-10" title="10"></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="kw"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstructed, <span class="dt">raster =</span> landscape_discrete)</a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 1       1    10  0.00  6.00     positive</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 2       2    14  8.35 20.75         n.s.</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; 3       3    30 18.00 28.10     positive</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; 4       4     0 15.45 23.00     negative</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 5       5    14  4.00 12.00     positive</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> landscape_random)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 1       1    10  1.00  9.55     positive</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 2       2    14 11.45 22.55         n.s.</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3       3    30 13.70 31.30         n.s.</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4       4     0  7.80 22.55     negative</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 5       5    14  5.00 13.00     positive</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="kw"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstructed, <span class="dt">raster =</span> landscape_discrete)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;   habitat count    lo    hi significance</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; 1       1    10  1.45  6.55     positive</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; 2       2    14 10.00 21.00         n.s.</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 3       3    30 15.45 27.55     positive</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 4       4     0 12.45 26.00     negative</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 5       5    14  3.90 12.00     positive</span></a></code></pre></div>
 <p>There is also the possibility to visualize the randomized data using <code><a href="../reference/plot_randomized_raster.html">plot_randomized_raster()</a></code> or <code><a href="../reference/plot_randomized_pattern.html">plot_randomized_pattern()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw"><a href="../reference/plot_randomized_raster.html">plot_randomized_raster</a></span>(landscape_random)</a>
-<a class="sourceLine" id="cb5-3" title="3"></a>
-<a class="sourceLine" id="cb5-4" title="4"><span class="kw"><a href="../reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstructed)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/plot_randomized_raster.html">plot_randomized_raster</a></span>(landscape_random)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw"><a href="../reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstructed)</a></code></pre></div>
 <p>For the randomized point pattern data, it is also possible to show the “difference” in terms of the energy (Tscheschel &amp; Stoyan 2006) between the patterns.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> fitted, <span class="dt">return_mean =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; [1] 0.3654218</span></a>
-<a class="sourceLine" id="cb6-4" title="4"></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> reconstructed, <span class="dt">return_mean =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; [1] 0.07341204</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> fitted, <span class="dt">return_mean =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; [1] 0.3679113</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> reconstructed, <span class="dt">return_mean =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; [1] 0.07307083</span></a></code></pre></div>
 <div id="references" class="section level3">
 <h3 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h3>

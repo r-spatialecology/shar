@@ -58,9 +58,8 @@ torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
 
-```{r plot_habitat-random, echo = FALSE, fig.width = 5.5, fig.height = 4, fig.align = "center"}
-plot(raster::stack(random_walk)[[c(20, 1, 2, 3)]], legend = FALSE, cex = 0.5,
-     col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF"))
+```{r plot_habitat-random, fig.width = 5.5, fig.height = 4, fig.align = "center"}
+plot_randomized_raster(torus_trans, n = 3)
 ```
 
 To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan 2006). 

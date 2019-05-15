@@ -35,7 +35,7 @@ navbar:
   left:
     - text: "Get Started"
       icon: fa fa-magic
-      href: articles/getstarted.html
+      href: articles/get_started.html
     - icon: fa-gears
       text: "Functions"
       href: reference/index.html

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Species a — species_a • shar | Species-habitat associations in R</title>
+<title>CONTRIBUTING • shar | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -25,15 +25,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
 
 
 
-<meta property="og:title" content="Species a — species_a" />
-
-<meta property="og:description" content="A species with negative associations to habitat 4 of `landscape`." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="CONTRIBUTING" />
 
 
 
@@ -50,7 +47,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -62,7 +59,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
+        <a class="navbar-link" href="index.html">shar | Species-habitat associations in R</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
@@ -70,14 +67,14 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/get_started.html">
+  <a href="articles/get_started.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">
+  <a href="reference/index.html">
     <span class="fa fa-gears"></span>
      
     Functions
@@ -93,21 +90,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/articles/background.html">
+      <a href="articles/articles/background.html">
         <span class="fa fa-book"></span>
          
         General Background
       </a>
     </li>
     <li>
-      <a href="../articles/articles/reconstruct_multiple_patterns.html">
+      <a href="articles/articles/reconstruct_multiple_patterns.html">
         <span class="fa fa-book"></span>
          
         Reconstruct multiple pattern
       </a>
     </li>
     <li>
-      <a href="../articlesarticles/publication_record.html">
+      <a href="articlesarticles/publication_record.html">
         <span class="fa fa-file-text-o"></span>
          
         Publication Record
@@ -119,7 +116,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../news/index.html">
+  <a href="news/index.html">
     <span class="fa fa-newspaper-o"></span>
      
     News
@@ -149,36 +146,56 @@
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Species a</h1>
-    
-    <div class="hidden name"><code>species_a.Rd</code></div>
+      <h1>CONTRIBUTING</h1>
     </div>
 
-    <div class="ref-description">
-    
-    <p>A species with negative associations to habitat 4 of `landscape`.</p>
-    
-    </div>
+<div id="contributing" class="section level1">
 
-    <pre class="usage"><span class='no'>species_a</span></pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A spatstat ppp object</p>
-    
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#format">Format</a></li>
-          </ul>
-
-  </div>
+<div id="please-contribute" class="section level3">
+<h3 class="hasAnchor">
+<a href="#please-contribute" class="anchor"></a>Please contribute!</h3>
+<p>We love collaboration. This includes the suggestion of general improvements to the package structure or functionality, bug reports, typos, or code contributions. We appreciate and welcome <strong>everything</strong> helping to improve the package!</p>
 </div>
+<div id="bugs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bugs" class="anchor"></a>Bugs?</h3>
+<ul>
+<li>Submit an issue on the Issues page <a href="https://github.com/r-spatialecology/shar/issues">here</a>. Please try to describe the bug as precise and possible and add a reproducible example. This helps us a lot to quickly fix it.</li>
+</ul>
+</div>
+<div id="code-contributions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#code-contributions" class="anchor"></a>Code contributions</h3>
+<p>Generally, we suggest to first open an <a href="https://github.com/r-spatialecology/shar/issues">issue</a> to shortly discuss new functionality.</p>
+<ul>
+<li>Fork this repo to your Github account</li>
+<li>Clone your version on your account down to your machine from your account, e.g,. <code>git clone https://github.com/r-spatialecology/shar.git</code>
+</li>
+<li>Make sure to track progress upstream (i.e., on our version of <code>shar</code> at <code>r-spatialecology/shar</code>) by doing <code>git remote add upstream https://github.com/r-spatialecology/shar.git</code>. Before making changes make sure to pull changes in from upstream by e.g. <code>git pull upstream</code> to fetch and merge in one step</li>
+<li>Make your changes. We suggest creating a new branch for this</li>
+<li>If you alter package functionality at all (e.g., the code itself, not just documentation), it would be great to write some tests to cover the new functionality</li>
+<li>Push up everything to your account</li>
+<li>Submit a pull request to home base at <code>r-spatialecology/shar</code>
+</li>
+</ul>
+</div>
+<div id="questions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#questions" class="anchor"></a>Questions?</h3>
+<p>Just drop an <a href="mailto:maximilian.hesselbarth@uni-goettingen.de">e-mail</a> or open an <a href="https://github.com/r-spatialecology/shar/issues">issue</a>.</p>
+</div>
+<div id="thanks-for-contributing" class="section level3">
+<h3 class="hasAnchor">
+<a href="#thanks-for-contributing" class="anchor"></a>Thanks for contributing!</h3>
+</div>
+</div>
+
+  </div>
+
+</div>
+
 
       <footer>
       <div class="copyright">
