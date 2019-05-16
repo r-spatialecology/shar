@@ -45,6 +45,16 @@ plot_randomized_raster <- function(raster,
     stop("Input must include 'observed' raster.", call. = FALSE)
   }
 
+  habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
+
+  # print warning if more than 10 classes are present
+  if (verbose) {
+    if (length(habitats) > 10) {
+      warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+              call. = FALSE)
+    }
+  }
+
   # set n if not provided by user
   if (is.null(n)) {
 
@@ -56,7 +66,7 @@ plot_randomized_raster <- function(raster,
 
       # print message
       if (verbose) {
-        message("> Setting n = ", n, appendLF = FALSE)
+        message("> Setting n = ", n)
       }
     }
 
@@ -68,7 +78,7 @@ plot_randomized_raster <- function(raster,
 
       # print message
       if (verbose) {
-        message("> Setting n = ", n, appendLF = FALSE)
+        message("> Setting n = ", n)
       }
     }
   }

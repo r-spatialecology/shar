@@ -81,4 +81,9 @@ testthat::test_that("randomize_raster returns all warnings", {
                                                   return_input = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
                            fixed = TRUE)
+
+  testthat::expect_warning(shar::randomize_raster(raster = landscape,
+                                                  n_random = 2),
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
+                           fixed = TRUE)
 })

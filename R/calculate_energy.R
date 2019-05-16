@@ -145,7 +145,8 @@ calculate_energy <- function(pattern,
 
       # print progress
       if (verbose) {
-        message("\r> Progress: ", x, "/", length(pattern_reconstructed), appendLF = FALSE)
+        message("\r> Progress: ", x, "/", length(pattern_reconstructed), "\t\t",
+                appendLF = FALSE)
       }
 
       return(energy)
@@ -172,7 +173,8 @@ calculate_energy <- function(pattern,
 
       # print progress
       if (verbose) {
-        message("\r> Progress: ", x, "/", length(pattern_reconstructed), appendLF = FALSE)
+        message("\r> Progress: ", x, "/", length(pattern_reconstructed), "\t\t",
+                appendLF = FALSE)
       }
 
       return(energy)

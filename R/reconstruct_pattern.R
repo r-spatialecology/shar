@@ -292,7 +292,7 @@ reconstruct_pattern <- function(pattern,
       if (verbose) {
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", i, "/", max_runs,
-                " || energy = ", round(energy, 5),
+                " || energy = ", round(energy, 5), "\t\t",
                 appendLF = FALSE)
       }
 

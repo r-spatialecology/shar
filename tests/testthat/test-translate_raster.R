@@ -81,3 +81,11 @@ testthat::test_that("Error if nrow != ncol for translate_raster", {
                          regexp  = "Torus translation only works for raster with nrow == ncol.",
                          fixed = TRUE)
 })
+
+testthat::test_that("Warning if more than 10 classes are present for translate_raster", {
+
+  testthat::expect_warning(shar::translate_raster(raster = landscape,
+                                                  steps_x = 1:5, steps_y = 1:5),
+                           regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
+                           fixed = TRUE)
+})

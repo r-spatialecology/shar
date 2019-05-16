@@ -12,6 +12,10 @@ raster_random_ni <- shar::randomize_raster(raster = landscape_classified,
                                            return_input = FALSE,
                                            verbose = FALSE)
 
+raster_random_cont <- shar::randomize_raster(raster = landscape,
+                                             n_random = 3,
+                                             verbose = FALSE)
+
 ################################################################################
 
 testthat::test_that("plot_randomized_raster returns plot", {
@@ -43,3 +47,12 @@ testthat::test_that("plot_randomized_rasters returns error if wrong class ", {
                          regexp = "Class of 'raster' must be 'rd_ras'.",
                          fixed = TRUE)
 })
+
+testthat::test_that("plot_randomized_rasters returns warning if more than 10 classes are present", {
+
+  testthat::expect_warning(shar::plot_randomized_raster(raster = raster_random_cont),
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
+                           fixed = TRUE)
+})
+
+

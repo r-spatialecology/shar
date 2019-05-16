@@ -79,6 +79,16 @@ results_habitat_association <- function(pattern, raster,
       stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
     }
 
+    habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
+
+    # print warning if more than 10 classes are present
+    if (verbose) {
+      if (length(habitats) > 10) {
+        warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+                call. = FALSE)
+      }
+    }
+
     # print quantiles
     if (verbose) {
       message("> Input: randomized raster | Quantile thresholds: negative < ",
@@ -109,6 +119,16 @@ results_habitat_association <- function(pattern, raster,
     # error if extent is not identical
     if (!same_extent) {
       stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
+    }
+
+    habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
+
+    # print warning if more than 10 classes are present
+    if (verbose) {
+      if (length(habitats) > 10) {
+        warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+                call. = FALSE)
+      }
     }
 
     # print quantiles

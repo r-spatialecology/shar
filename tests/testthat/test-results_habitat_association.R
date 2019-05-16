@@ -23,6 +23,10 @@ raster_random_ni <- shar::randomize_raster(landscape_classified,
                                            return_input = FALSE,
                                            verbose = FALSE)
 
+raster_random_cont <- shar::randomize_raster(landscape,
+                                             n_random = 3,
+                                             verbose = FALSE)
+
 result_pattern <- shar::results_habitat_association(raster = landscape_classified,
                                                     pattern = random_a,
                                                     verbose = FALSE)
@@ -79,6 +83,19 @@ testthat::test_that("results_habitat_association returns warning if significance
                                                              pattern = random_a,
                                                              significance_level = 0.75),
                            regexp = "Make sure 'signifcance_level' is meaningful (e.g. 'significance_level = 0.05').",
+                           fixed = TRUE)
+})
+
+testthat::test_that("results_habitat_association returns warning if more than 10 classes are present", {
+
+  testthat::expect_warning(shar::results_habitat_association(raster = landscape,
+                                                             pattern = random_a),
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
+                           fixed = TRUE)
+
+  testthat::expect_warning(shar::results_habitat_association(raster = raster_random_cont,
+                                                             pattern = shar::species_a),
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
                            fixed = TRUE)
 })
 

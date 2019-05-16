@@ -44,6 +44,16 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
     stop("Torus translation only works for raster with nrow == ncol.", call. = FALSE)
   }
 
+  habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
+
+  # print warning if more than 10 classes are present
+  if (verbose) {
+    if (length(habitats) > 10) {
+      warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+              call. = FALSE)
+    }
+  }
+
   # use all possible combinations
   if (is.null(steps_x) & is.null(steps_y)) {
 
@@ -100,7 +110,8 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
 
     # print progress
     if (verbose) {
-      message("\r> Progress: n_random: ", current_row, "/", nrow(steps_xy), appendLF = FALSE)
+      message("\r> Progress: n_random: ", current_row, "/", nrow(steps_xy),  "\t\t",
+              appendLF = FALSE)
     }
 
     return(raster_shifted)

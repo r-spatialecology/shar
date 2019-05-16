@@ -50,6 +50,14 @@ randomize_raster <- function(raster,
 
   habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
 
+  # print warning if more than 10 classes are present
+  if (verbose) {
+    if (length(habitats) > 10) {
+      warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+              call. = FALSE)
+    }
+  }
+
   n_cells <- sum(habitats) # number of cells
 
   # create n_random rasters
@@ -137,7 +145,7 @@ randomize_raster <- function(raster,
         # print progess
         if (verbose) {
           message("\r> Progress: n_random: ", current_raster, "/", n_random,
-                  " || habitats: " , current_habitat, "/", length(habitats),
+                  " || habitats: " , current_habitat, "/", length(habitats), "\t\t",
                   appendLF = FALSE) # add habitat and number empty cells
         }
       }

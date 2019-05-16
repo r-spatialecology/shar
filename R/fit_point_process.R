@@ -58,7 +58,8 @@ fit_point_process <- function(pattern,
 
 
       if (verbose) {
-        message("\r> Progress: n_random: ", x, "/", n_random, appendLF = FALSE)
+        message("\r> Progress: n_random: ", x, "/", n_random, "\t\t",
+                appendLF = FALSE)
       }
 
       return(simulated)
@@ -112,7 +113,8 @@ fit_point_process <- function(pattern,
       }
 
       if (verbose) {
-        message("\r> Progress: n_random: ", x, "/", n_random, appendLF = FALSE)
+        message("\r> Progress: n_random: ", x, "/", n_random,  "\t\t",
+                appendLF = FALSE)
       }
 
       return(simulated)

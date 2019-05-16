@@ -119,7 +119,8 @@ plot_randomized_pattern <- function(pattern,
 
         # print progress
         if (verbose) {
-          message("\r> Progress: ", x, "/", length(pattern), appendLF = FALSE)
+          message("\r> Progress: ", x, "/", length(pattern), "\t\t",
+                  appendLF = FALSE)
         }
 
         return(summary_stats)
@@ -243,7 +244,8 @@ plot_randomized_pattern <- function(pattern,
 
         # print progress
         if (verbose) {
-          message("\r> Progress: ", x, "/", length(pattern), appendLF = FALSE)
+          message("\r> Progress: ", x, "/", length(pattern),  "\t\t",
+                  appendLF = FALSE)
         }
 
         return(mark_corr)
