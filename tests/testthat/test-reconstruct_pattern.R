@@ -20,8 +20,8 @@ pattern_recon_comp_fast <- shar::reconstruct_pattern(pattern = shar::species_a,
                                                      verbose = FALSE)
 
 pattern_recon_energy <- shar::reconstruct_pattern(pattern = shar::species_b,
-                                                  e_threshold = 0.5,
-                                                  n_random = 19,
+                                                  e_threshold = 0.2,
+                                                  n_random = 9,
                                                   verbose = FALSE)
 
 pattern_recon_simple <- shar::reconstruct_pattern(pattern = shar::species_a,
@@ -72,7 +72,7 @@ testthat::test_that("Reconstruction stops if e_threshold is reached", {
 
   energy <- shar::calculate_energy(pattern_recon_energy, verbose = FALSE)
 
-  testthat::expect_true(object = all(energy < 0.5 & energy > 0.4))
+  testthat::expect_true(object = all(energy < 0.2 & energy > 0.1))
 })
 
 
@@ -87,6 +87,21 @@ testthat::test_that("reconstruct_pattern returns error if n_random < 1", {
                                                    n_random = -5,
                                                    verbose = FALSE),
                          regexp = "n_random must be >= 1.",
+                         fixed = TRUE)
+})
+
+testthat::test_that("reconstruct_pattern returns error if weights are wrong ", {
+
+  testthat::expect_error(shar::reconstruct_pattern(pattern = shar::species_b,
+                                                   weights = c(0, 0),
+                                                   verbose = FALSE),
+                         regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
+                         fixed = TRUE)
+
+  testthat::expect_error(shar::reconstruct_pattern(pattern = shar::species_b,
+                                                   weights = c(1, 1),
+                                                   verbose = FALSE),
+                         regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
                          fixed = TRUE)
 })
 

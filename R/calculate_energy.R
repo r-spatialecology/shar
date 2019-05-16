@@ -3,6 +3,7 @@
 #' @description Calculate mean energy
 #'
 #' @param pattern List with reconstructed patterns.
+#' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
 #' @param return_mean Return the mean energy.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param verbose Print progress report.
@@ -45,6 +46,7 @@
 
 #' @export
 calculate_energy <- function(pattern,
+                             weights = c(0.5, 0.5),
                              return_mean = FALSE,
                              comp_fast = 1000,
                              verbose = TRUE){
@@ -73,6 +75,11 @@ calculate_energy <- function(pattern,
            length.out = 250)
 
   if (class(pattern) == "rd_pat") {
+
+    # check if weights make sense
+    if (sum(weights) > 1 || sum(weights) == 0) {
+      stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
+    }
 
     # check if number of points exceed comp_fast limit
     if (pattern_observed$n > comp_fast) {
@@ -140,8 +147,8 @@ calculate_energy <- function(pattern,
       }
 
       # difference between observed and reconstructed pattern
-      energy <- mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) +
-        mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE)
+      energy <- (mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) * weights[[1]]) +
+        (mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE) * weights[[2]])
 
       # print progress
       if (verbose) {

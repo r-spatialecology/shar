@@ -11,7 +11,8 @@ marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 
 marks_recon <- reconstruct_marks(pattern_random_a[[1]],
                                  marks_sub,
-                                 n_random = 3, max_runs = 10)
+                                 n_random = 3, max_runs = 10,
+                                 verbose = FALSE)
 
 ################################################################################
 
@@ -20,6 +21,21 @@ testthat::test_that("calculate_energy returns energy for all randomizations", {
   testthat::expect_length(shar::calculate_energy(pattern_random_a, verbose = FALSE),
                           n = 3)
 })
+
+testthat::test_that("calculate_energy uses weights", {
+
+  unweighted <- shar::calculate_energy(pattern_random_a,
+                                       return_mean = TRUE,
+                                       verbose = FALSE)
+
+  weighted <- shar::calculate_energy(pattern_random_a,
+                                     weights = c(0, 1),
+                                     return_mean = TRUE,
+                                     verbose = FALSE)
+
+  testthat::expect_false(unweighted == weighted)
+})
+
 
 testthat::test_that("calculate_energy returns mean ", {
 
@@ -66,5 +82,22 @@ testthat::test_that("calculate_energy returns error if wrong class ", {
   testthat::expect_error(shar::calculate_energy(list(shar::species_a,
                                                      shar::species_b), verbose = FALSE),
                          regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
+                         fixed = TRUE)
+})
+
+testthat::test_that("calculate_energy returns error if weights are wrong ", {
+
+  testthat::expect_error(shar::calculate_energy(pattern_random_a,
+                                                weights = c(0, 0),
+                                                return_mean = TRUE,
+                                                verbose = FALSE),
+                         regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
+                         fixed = TRUE)
+
+  testthat::expect_error(shar::calculate_energy(pattern_random_a,
+                                                weights = c(1, 1),
+                                                return_mean = TRUE,
+                                                verbose = FALSE),
+                         regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
                          fixed = TRUE)
 })
