@@ -26,6 +26,19 @@ result_raster <- shar::results_habitat_association(raster = raster_random,
                                                    pattern = shar::species_a,
                                                    verbose = FALSE)
 
+landscape_wrong <- raster::crop(x = landscape_classified,
+                                y = raster::extent(c(0, 500, 0, 500)))
+
+landscape_wrong <- shar::randomize_raster(landscape_wrong,
+                                          n_random = 3,
+                                          verbose = FALSE)
+
+pattern_wrong <- shar::species_b[, spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))]
+
+pattern_wrong <- shar::fit_point_process(pattern = pattern_wrong,
+                                         n_random = 199,
+                                         verbose = FALSE)
+
 ################################################################################
 
 testthat::test_that("results_habitat_association returns one row for each habitat", {
@@ -77,16 +90,22 @@ testthat::test_that("results_habitat_association returns error if input is wrong
                                                            verbose = FALSE),
                          regexp = "Please provide only one randomized input.",
                          fixed = TRUE)
-
-  testthat::expect_error(shar::results_habitat_association(raster = landscape_classified,
-                                                           pattern = unname(random_a),
-                                                           verbose = FALSE),
-                         regexp = "Input must include 'observed' pattern.",
-                         fixed = TRUE)
-
-  testthat::expect_error(shar::results_habitat_association(raster = raster_random_ni,
-                                                           pattern = shar::species_a,
-                                                           verbose = FALSE),
-                         grep = "Input must include 'observed' pattern.",
-                         fixed = TRUE)
 })
+
+testthat::test_that("results_habitat_association returns error if extent is not identical", {
+
+
+  testthat::expect_error(shar::results_habitat_association(pattern = shar::species_a,
+                                                           raster = landscape_wrong,
+                                                           verbose = FALSE),
+                         regexp = "Extent of 'pattern' and 'raster' must be identical.",
+                         fixed = TRUE)
+
+  testthat::expect_error(shar::results_habitat_association(pattern = pattern_wrong,
+                                                           raster = landscape_classified,
+                                                           verbose = FALSE),
+                         regexp = "Extent of 'pattern' and 'raster' must be identical.",
+                         fixed = TRUE)
+
+})
+

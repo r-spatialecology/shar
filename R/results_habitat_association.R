@@ -64,10 +64,13 @@ results_habitat_association <- function(pattern, raster,
   # randomized rasters as input
   if (class(raster) == "rd_ras") {
 
-    # check if randomized and observed is present
-    if (!"observed" %in% names(raster)) {
-      stop("Input must include 'observed' raster.",
-           call. = FALSE)
+    # check if extent is identical
+    same_extent <- raster::extent(raster$observed) == raster::extent(pattern$window$xrange,
+                                                                     pattern$window$yrange)
+
+    # error if extent is not identical
+    if (!same_extent) {
+      stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
     }
 
     # print quantiles
@@ -87,10 +90,13 @@ results_habitat_association <- function(pattern, raster,
   # randomized patterns as input
   else if (class(pattern) == "rd_pat") {
 
-    # check if randomized and observed is present
-    if (!"observed" %in% names(pattern)) {
-      stop("Input must include 'observed' pattern.",
-           call. = FALSE)
+    # check if extent is identical
+    same_extent <- raster::extent(raster) == raster::extent(pattern$observed$window$xrange,
+                                                            pattern$observed$window$yrange)
+
+    # error if extent is not identical
+    if (!same_extent) {
+      stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
     }
 
     # print quantiles
