@@ -6,6 +6,11 @@ random_a <- shar::fit_point_process(pattern = shar::species_a,
                                     n_random = 199,
                                     verbose = FALSE)
 
+random_a_ni <- shar::fit_point_process(pattern = shar::species_a,
+                                       n_random = 199,
+                                       return_input = FALSE,
+                                       verbose = FALSE)
+
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 5)
 
@@ -80,7 +85,7 @@ testthat::test_that("results_habitat_association returns warning if significance
 testthat::test_that("results_habitat_association returns error if input is wrong", {
 
   testthat::expect_error(shar::results_habitat_association(raster = landscape_classified,
-                                                           pattern = random_a[[1]],
+                                                           pattern = shar::species_a,
                                                            verbose = FALSE),
                          regexp = "Class of 'pattern' or 'raster' must be either 'rd_pat' or 'rd_ras'.",
                          fixed = TRUE)
@@ -90,6 +95,18 @@ testthat::test_that("results_habitat_association returns error if input is wrong
                                                            verbose = FALSE),
                          regexp = "Please provide only one randomized input.",
                          fixed = TRUE)
+
+  testthat::expect_error(shar::results_habitat_association(raster = raster_random_ni,
+                                                           pattern = shar::species_a,
+                                                           verbose = FALSE),
+                         regexp = "The observed raster needs to be included in the input 'raster'.",
+                         fixed = TRUE)
+
+testthat::expect_error(shar::results_habitat_association(raster = landscape_classified,
+                                                         pattern = random_a_ni,
+                                                         verbose = FALSE),
+                       regexp = "The observed pattern needs to be included in the input 'pattern'.",
+                       fixed = TRUE)
 })
 
 testthat::test_that("results_habitat_association returns error if extent is not identical", {

@@ -39,7 +39,7 @@
 
 #' @export
 results_habitat_association <- function(pattern, raster,
-                                        significance_level = 0.05, verbose = TRUE){
+                                        significance_level = 0.05, verbose = TRUE) {
 
   if (class(pattern) != "rd_pat" & class(raster) != "rd_ras") {
 
@@ -63,6 +63,12 @@ results_habitat_association <- function(pattern, raster,
 
   # randomized rasters as input
   if (class(raster) == "rd_ras") {
+
+    # check if randomized and observed is present
+    if (!"observed" %in% names(raster)) {
+      stop("The observed raster needs to be included in the input 'raster'.",
+           call. = FALSE)
+    }
 
     # check if extent is identical
     same_extent <- raster::extent(raster$observed) == raster::extent(pattern$window$xrange,
@@ -89,6 +95,12 @@ results_habitat_association <- function(pattern, raster,
 
   # randomized patterns as input
   else if (class(pattern) == "rd_pat") {
+
+    # check if randomized and observed is present
+    if (!"observed" %in% names(pattern)) {
+      stop("The observed pattern needs to be included in the input 'pattern'.",
+           call. = FALSE)
+    }
 
     # check if extent is identical
     same_extent <- raster::extent(raster) == raster::extent(pattern$observed$window$xrange,
