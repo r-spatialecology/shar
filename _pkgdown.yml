@@ -50,7 +50,7 @@ navbar:
          href: articles/articles/reconstruct_multiple_patterns.html
        - text: "Publication Record"
          icon: fa-file-text-o
-         href: articlesarticles/publication_record.html
+         href: articles/articles/publication_record.html
   right:
     - icon: fa-newspaper-o
       text: "News"

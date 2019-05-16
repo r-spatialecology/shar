@@ -19,7 +19,7 @@
 #' landscape_classes <- classify_habitats(raster = landscape, classes = 5)
 #' landscape_random <- randomize_raster(raster = landscape_classes, n_random = 19)
 #'
-#' plot_randomized_raster(landscape_random)
+#' plot_randomized_raster(landscape_random, col = col)
 #'
 #' palette <- viridis::viridis(n = 5)
 #' plot_randomized_raster(landscape_random, n = 5, col = palette, nrow = 3, ncol = 2)
