@@ -306,6 +306,8 @@ plot_randomized_pattern <- function(pattern,
       graphics::legend(x = "topright",
                        legend = c("observed", "randomized"),
                        col = c("black", "#1f78b4"), lty = c(1, 2), inset = 0.025)
+
+      invisible()
     }
 
     else{

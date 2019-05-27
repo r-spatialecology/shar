@@ -1,19 +1,19 @@
 testthat::context("test-plot_randomized_raster")
 
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
-                                                classes = 2)
+                                                classes = 5)
 
 raster_random <- shar::randomize_raster(raster = landscape_classified,
-                                        n_random = 3,
+                                        n_random = 1,
                                         verbose = FALSE)
 
 raster_random_ni <- shar::randomize_raster(raster = landscape_classified,
-                                           n_random = 3,
+                                           n_random = 1,
                                            return_input = FALSE,
                                            verbose = FALSE)
 
 raster_random_cont <- shar::randomize_raster(raster = landscape,
-                                             n_random = 3,
+                                             n_random = 1,
                                              verbose = FALSE)
 
 ################################################################################
@@ -27,7 +27,7 @@ testthat::test_that("plot_randomized_raster returns plot", {
 testthat::test_that("plot_randomized_raster returns plot if n vector is specified", {
 
   testthat::expect_null(shar::plot_randomized_raster(raster_random,
-                                                     n = c(2, 3),
+                                                     n = c(1, 2),
                                                      verbose = FALSE))
 })
 
