@@ -1,7 +1,7 @@
 # shar 0.4
 * Improvements
   * Easier user experience because classes are used to specify provided input
-  * `results_habitat_associations()` checks if extent if input is identical
+  * `results_habitat_associations()` checks if extent of inputs is identical
   * `reconstruct_marks()` and `calculate_energy()` use now weights for the summary functions
 * Bugfixes
   * Bug in `calculate_energy()` for reconstructed marks
