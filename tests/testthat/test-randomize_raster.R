@@ -1,18 +1,12 @@
 testthat::context("randomize_raster")
 
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
-                                                classes = 3)
+                                                classes = 5)
 
 # normal random
 landscape_random <- shar::randomize_raster(raster = landscape_classified,
-                                           n_random = 3,
+                                           n_random = 1,
                                            verbose = FALSE)
-
-# no input
-landscape_random_ni <- shar::randomize_raster(raster = landscape_classified,
-                                              n_random = 2,
-                                              return_input = FALSE,
-                                              verbose = FALSE)
 
 # simplify output
 raster_random_simple <- shar::randomize_raster(raster = landscape_classified,
@@ -27,28 +21,24 @@ testthat::test_that("Output is as long as n_random for randomize_raster", {
 
   testthat::expect_type(landscape_random, type = "list")
 
-  testthat::expect_length(landscape_random, n = 4)
+  testthat::expect_length(landscape_random, n = 2)
 })
 
 testthat::test_that("Output includes randomizations and original pattern for randomize_raster", {
 
   testthat::expect_named(landscape_random,
-                         expected = c(paste0("randomized_", 1:3), "observed"))
+                         expected = c("randomized_1", "observed"))
 
-  testthat::expect_equal(landscape_random[[4]],
+  testthat::expect_equal(landscape_random[[2]],
                          expected = landscape_classified)
 })
 
 testthat::test_that("Input raster can not be returned for randomize_raster", {
 
-  random_df <- raster::as.data.frame(raster::stack(lapply(landscape_random_ni,
-                                                          function(x) x)),
-                                     xy = TRUE)
 
-  classified_df <- raster::as.data.frame(landscape_classified, xy = TRUE)
+  landscape_diff <- landscape_classified - raster_random_simple
 
-  check <- any(c(all(random_df$randomized_1 == classified_df$layer),
-                 all(random_df$randomized_2 == classified_df$layer)))
+  check <- all(raster::values(landscape_diff) == 0)
 
   testthat::expect_false(check)
 })
@@ -83,7 +73,7 @@ testthat::test_that("randomize_raster returns all warnings", {
                            fixed = TRUE)
 
   testthat::expect_warning(shar::randomize_raster(raster = landscape,
-                                                  n_random = 2),
+                                                  n_random = 1),
                            regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
                            fixed = TRUE)
 })
