@@ -150,40 +150,44 @@
 <p>There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click <a href="https://r-spatialecology.github.io/shar/articles/background.html">here</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">torus_trans &lt;-<span class="st"> </span><span class="kw"><a href="reference/translate_raster.html">translate_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb5-2" title="2"></a>
-<a class="sourceLine" id="cb5-3" title="3">random_walk &lt;-<span class="st"> </span><span class="kw"><a href="reference/randomize_raster.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb5-3" title="3">random_walk &lt;-<span class="st"> </span><span class="kw"><a href="reference/randomize_raster.html">randomize_raster</a></span>(<span class="dt">raster =</span> landscape_classified, <span class="dt">n_random =</span> <span class="dv">39</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">col =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"#440154FF"</span>, <span class="st">"#3B528BFF"</span>, <span class="st">"#21908CFF"</span>, <span class="st">"#5DC863FF"</span>, <span class="st">"#FDE725FF"</span>)</a>
 <a class="sourceLine" id="cb6-2" title="2"></a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="kw"><a href="reference/plot_randomized_raster.html">plot_randomized_raster</a></span>(torus_trans, <span class="dt">n =</span> <span class="dv">3</span>, <span class="dt">col =</span> col)</a></code></pre></div>
 <p><img src="reference/figures/README-plot_habitat-random-1.png" width="528" style="display: block; margin: auto;"></p>
 <p>To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Tscheschel &amp; Stoyan 2006).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">gamma_test &lt;-<span class="st"> </span><span class="kw"><a href="reference/fit_point_process.html">fit_point_process</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">process =</span> <span class="st">"cluster"</span>, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">gamma_test &lt;-<span class="st"> </span><span class="kw"><a href="reference/fit_point_process.html">fit_point_process</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">process =</span> <span class="st">"cluster"</span>, <span class="dt">n_random =</span> <span class="dv">39</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb7-2" title="2"></a>
-<a class="sourceLine" id="cb7-3" title="3">reconstruct &lt;-<span class="st"> </span><span class="kw"><a href="reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_b, <span class="dt">max_runs =</span> <span class="dv">500</span>, <span class="dt">n_random =</span> <span class="dv">19</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="co"># takes some time</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-3" title="3">reconstruction &lt;-<span class="st"> </span><span class="kw"><a href="reference/reconstruct_pattern.html">reconstruct_pattern</a></span>(<span class="dt">pattern =</span> species_b, <span class="dt">n_random =</span> <span class="dv">39</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="co"># takes some time</span></a></code></pre></div>
 <p>Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruction, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-plot-random_pattern-1.png" width="528" style="display: block; margin: auto;"><img src="reference/figures/README-plot-random_pattern-2.png" width="528" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruct, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>##  [1] 0.06218152 0.04426752 0.04114180 0.05303123 0.06810874 0.03833550
-##  [7] 0.05609031 0.04891328 0.07311525 0.05283056 0.04126732 0.05077356
-## [13] 0.06143471 0.05989819 0.03844407 0.06053775 0.07168211 0.05257117
-## [19] 0.05733638</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruction, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">##  [1] 0.01356462 0.01867389 0.01455831 0.01754614 0.01858267 0.02008615</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">##  [7] 0.01544740 0.01470591 0.01255234 0.01837727 0.01622154 0.01765028</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">## [13] 0.01517141 0.02075634 0.01836698 0.01523319 0.01832501 0.02072956</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">## [19] 0.01845929 0.01733616 0.01639753 0.01887276 0.01738685 0.01361427</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">## [25] 0.01619153 0.01695853 0.01856459 0.01692591 0.01986748 0.01604911</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">## [31] 0.01972613 0.01518272 0.01681647 0.02010567 0.01472619 0.01794340</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">## [37] 0.01740046 0.01531350 0.01869501</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a></code></pre></div>
-<pre><code>## &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
-<pre><code>##   habitat count lo hi significance
-## 1       1    10  0  8     positive
-## 2       2    14  8 24         n.s.
-## 3       3    30 14 29     positive
-## 4       4     0 10 26     negative
-## 5       5    14  4 17         n.s.</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruct, <span class="dt">raster =</span> landscape_classified)</a></code></pre></div>
-<pre><code>## &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</code></pre>
-<pre><code>##   habitat count    lo    hi significance
-## 1       1     7 10.35 27.65     negative
-## 2       2    20 31.80 56.85     negative
-## 3       3    31 46.50 79.25     negative
-## 4       4    33 40.00 62.20     negative
-## 5       5   109 16.80 35.55     positive</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">## &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">##   habitat count lo hi significance</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">## 1       1     9  2 14         n.s.</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">## 2       2    25  9 24     positive</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">## 3       3    27 11 26     positive</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">## 4       4     0 11 29     negative</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">## 5       5    12  5 18         n.s.</span></a>
+<a class="sourceLine" id="cb10-9" title="9"></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruction, <span class="dt">raster =</span> landscape_classified)</a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">## &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="co">##   habitat count    lo    hi significance</span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="co">## 1       1     8  4.85 43.15         n.s.</span></a>
+<a class="sourceLine" id="cb10-14" title="14"><span class="co">## 2       2    22 26.80 68.10     negative</span></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="co">## 3       3    33 46.80 74.10     negative</span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="co">## 4       4    19 29.80 69.10     negative</span></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="co">## 5       5   118  9.95 37.05     positive</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">

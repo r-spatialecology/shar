@@ -4,7 +4,7 @@
 \name{species_a}
 \alias{species_a}
 \title{Species a}
-\format{A spatstat ppp object}
+\format{A spatstat ppp object.}
 \usage{
 species_a
 }

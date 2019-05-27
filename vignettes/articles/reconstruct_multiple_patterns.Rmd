@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code.
+In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code. Please be aware that the maximum number of iterations was set to `max_runs = 10` to keep the computational time low for this example. For an applied case, this value should be increased.
 
 ```{r load-packages, message = FALSE}
 # library(tidyverse)
@@ -25,6 +25,7 @@ list_pattern <- list(species_a, species_b)
 # reconstruct all patterns in list
 result <- lapply(list_pattern, function(x) reconstruct_pattern(pattern = x, 
                                                                n_random = 3, 
+                                                               max_runs = 10,
                                                                verbose = FALSE))
 
 ```
@@ -45,6 +46,7 @@ Firstly, reconstruct only the spatial characteristics *n* times. The observed pa
 # reconstruct spatial strucutre
 reconstructed_pattern <- reconstruct_pattern(species_a, 
                                              n_random = 3, 
+                                             max_runs = 10,
                                              return_input = FALSE,
                                              verbose = FALSE)
 ```
@@ -59,6 +61,7 @@ species_a_marks <- spatstat::subset.ppp(species_a, select = dbh)
 result_marks <- lapply(reconstructed_pattern, 
                        function(x) reconstruct_marks(pattern = x, 
                                                      marked_pattern = species_a_marks, 
+                                                     max_runs = 10,
                                                      n_random = 3, verbose = FALSE))
 ```
 
