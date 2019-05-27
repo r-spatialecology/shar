@@ -41,8 +41,6 @@ plot_randomized_pattern <- function(pattern,
                                     ask = TRUE,
                                     verbose = TRUE){
 
-
-
   # check if class is correct
   if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
@@ -232,6 +230,8 @@ plot_randomized_pattern <- function(pattern,
                        col = c("black", "#1f78b4"), lty = c(1,2), inset = 0.025)
 
       graphics::par(ask = FALSE)
+
+      invisible()
     }
 
     else if (class(pattern) == "rd_mar") {
@@ -306,11 +306,13 @@ plot_randomized_pattern <- function(pattern,
       graphics::legend(x = "topright",
                        legend = c("observed", "randomized"),
                        col = c("black", "#1f78b4"), lty = c(1, 2), inset = 0.025)
+
+      invisible()
     }
 
     else{
       stop("'method' must be either 'method = 'spatial' or 'method = 'marks'.",
-           call. =FALSE)
+           call. = FALSE)
     }
   }
 
@@ -368,6 +370,8 @@ plot_randomized_pattern <- function(pattern,
 
     # reset plotting window settings
     graphics::par(mfrow = c(1, 1))
+
+    invisible()
   }
 
   else{

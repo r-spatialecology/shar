@@ -164,8 +164,8 @@
 
     <pre class="usage"><span class='fu'>reconstruct_pattern</span>(<span class='no'>pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>e_threshold</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
   <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>no_change</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>fitting</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>0.5</span>), <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,6 +197,10 @@
     <tr>
       <th>comp_fast</th>
       <td><p>If pattern contains more points than threshold, summary functions are estimated in a computational fast way.</p></td>
+    </tr>
+    <tr>
+      <th>weights</th>
+      <td><p>Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).</p></td>
     </tr>
     <tr>
       <th>return_input</th>
@@ -234,6 +238,8 @@ time. For more information see <code><a href='estimate_pcf_fast.html'>estimate_p
 <p>The reconstruction can be stopped automatically if for n steps the energy does not
 decrease. The number of steps can be controlled by <code>no_change</code> and is set to
 <code>no_change = Inf</code> as default to never stop automatically.</p>
+<p>The weights must be 0 &lt; sum(weights) &lt;= 1. To weight both summary functions identical,
+use <code>weights = c(0.5, 0.5)</code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

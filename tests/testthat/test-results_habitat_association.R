@@ -15,16 +15,16 @@ landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 5)
 
 raster_random <- shar::randomize_raster(landscape_classified,
-                                        n_random = 3,
+                                        n_random = 1,
                                         verbose = FALSE)
 
 raster_random_ni <- shar::randomize_raster(landscape_classified,
-                                           n_random = 3,
+                                           n_random = 1,
                                            return_input = FALSE,
                                            verbose = FALSE)
 
 raster_random_cont <- shar::randomize_raster(landscape,
-                                             n_random = 3,
+                                             n_random = 1,
                                              verbose = FALSE)
 
 result_pattern <- shar::results_habitat_association(raster = landscape_classified,
@@ -39,7 +39,7 @@ landscape_wrong <- raster::crop(x = landscape_classified,
                                 y = raster::extent(c(0, 500, 0, 500)))
 
 landscape_wrong <- shar::randomize_raster(landscape_wrong,
-                                          n_random = 3,
+                                          n_random = 1,
                                           verbose = FALSE)
 
 pattern_wrong <- shar::species_b[, spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))]
@@ -59,9 +59,9 @@ testthat::test_that("results_habitat_association returns one row for each habita
 
 testthat::test_that("results_habitat_association lo is < hi", {
 
-  testthat::expect_true(all(result_pattern$lo < result_pattern$hi))
+  testthat::expect_true(all(result_pattern$lo <= result_pattern$hi))
 
-  testthat::expect_true(all(result_raster$lo < result_raster$hi))
+  testthat::expect_true(all(result_raster$lo <= result_raster$hi))
 })
 
 testthat::test_that("results_habitat_association returns correct association", {

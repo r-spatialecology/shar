@@ -1,6 +1,7 @@
 testthat::context("test-plot_randomized_pattern")
 
-pattern_random <- shar::fit_point_process(shar::species_a, n_random = 3,
+pattern_random <- shar::fit_point_process(shar::species_a,
+                                          n_random = 3,
                                           verbose = FALSE)
 
 pattern_random_ni <- shar::fit_point_process(shar::species_b,
@@ -21,13 +22,13 @@ marks_recon <- shar::reconstruct_marks(pattern = pattern_random_marks,
 
 testthat::test_that("plot_randomized_pattern returns plot", {
 
-  shar::plot_randomized_pattern(pattern_random,
-                                verbose = FALSE,
-                                ask = FALSE)
+  testthat::expect_null(shar::plot_randomized_pattern(pattern_random,
+                                                      verbose = FALSE,
+                                                      ask = FALSE))
 
-  shar::plot_randomized_pattern(pattern_random, what = "pp",
-                                verbose = FALSE,
-                                ask = FALSE)
+  testthat::expect_null(shar::plot_randomized_pattern(pattern_random, what = "pp",
+                                                      verbose = FALSE,
+                                                      ask = FALSE))
 })
 
 testthat::test_that("plot_randomized_pattern returns error if observed is missing", {
@@ -40,15 +41,16 @@ testthat::test_that("plot_randomized_pattern returns error if observed is missin
 
 testthat::test_that("plot_randomized_pattern uses comp_fast", {
 
-  shar::plot_randomized_pattern(pattern_random,
-                                comp_fast = 50,
-                                verbose = FALSE)
+  testthat::expect_null(shar::plot_randomized_pattern(pattern_random,
+                                                      comp_fast = 50,
+                                                      verbose = FALSE,
+                                                      ask = FALSE))
 })
 
 testthat::test_that("plot_randomized_patterns works for reconstructed marks", {
 
-  shar::plot_randomized_pattern(marks_recon,
-                                verbose = FALSE)
+  testthat::expect_null(shar::plot_randomized_pattern(marks_recon,
+                                                      verbose = FALSE))
 })
 
 testthat::test_that("plot_randomized_patterns returns error if what is wrong", {

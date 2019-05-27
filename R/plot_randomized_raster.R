@@ -141,4 +141,6 @@ plot_randomized_raster <- function(raster,
   # plot result
   raster::plot(raster_stack, col = col, nc = ncol, nr = nrow,
                colNA = "grey")
+
+  invisible()
 }
