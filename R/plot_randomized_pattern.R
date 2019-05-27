@@ -4,7 +4,6 @@
 #'
 #' @param pattern List with reconstructed patterns.
 #' @param what Plot summary functions of point patterns (\code{what = "sf"}) or acutal patterns (\code{what = "pp"}).
-#' @param method String to specifiy if spatial pattern or marks were reconstructed.
 #' @param probs Quantiles of randomized data used for envelope construction.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param ask If TRUE the user is asked to press <RETURN> before second summary function
@@ -28,7 +27,7 @@
 #' \dontrun{
 #' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_marks(pattern_random[[1]], marks_sub, n_random = 19, max_runs = 1000)
-#' plot_randomized_pattern(marks_recon, method = "marks")
+#' plot_randomized_pattern(marks_recon)
 #' }
 #'
 #' @aliases plot_randomized_pattern
@@ -37,22 +36,28 @@
 #' @export
 plot_randomized_pattern <- function(pattern,
                                     what = "sf",
-                                    method = "spatial",
                                     probs = c(0.025, 0.975),
                                     comp_fast = 1000,
                                     ask = TRUE,
                                     verbose = TRUE){
 
-  # check if randomized and observed is present
-  if(!all(c(paste0("randomized_", seq_len(length(pattern) - 1)), "observed") == names(pattern)) || is.null(names(pattern))) {
-    stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.",
+
+
+  # check if class is correct
+  if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+    stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
          call. = FALSE)
   }
 
-  if(what == "sf") {
+  # check if observed pattern is present
+  if (!"observed" %in% names(pattern)) {
+    stop("Input must include 'observed' pattern.", call. = FALSE)
+  }
+
+  if (what == "sf") {
 
     # check if number of points exceed comp_fast limit
-    if(pattern$observed$n > comp_fast) {
+    if (pattern$observed$n > comp_fast) {
       comp_fast <- TRUE
     }
 
@@ -68,13 +73,13 @@ plot_randomized_pattern <- function(pattern,
                                       lambda = spatstat::intensity.ppp(pattern$observed)),
              length.out = 250)
 
-    if(method == "spatial") {
+    if (class(pattern) == "rd_pat") {
 
       # loop through all input
-      result <- lapply(seq_along(pattern), function(x){
+      result <- lapply(seq_along(pattern), function(x) {
 
         # calculate summary functions
-        if(comp_fast) {
+        if (comp_fast) {
 
           gest_result <- spatstat::Gest(pattern[[x]],
                                         correction = "none",
@@ -87,7 +92,7 @@ plot_randomized_pattern <- function(pattern,
                                                 r = r)
         }
 
-        else{
+        else {
           gest_result <- spatstat::Gest(pattern[[x]],
                                         correction = "han",
                                         r = r)
@@ -113,8 +118,9 @@ plot_randomized_pattern <- function(pattern,
         summary_stats <- rbind(gest_df, pcf_df)
 
         # print progress
-        if(verbose) {
-          message("\r> Progress: ", x, "/", length(pattern), appendLF = FALSE)
+        if (verbose) {
+          message("\r> Progress: ", x, "/", length(pattern), "\t\t",
+                  appendLF = FALSE)
         }
 
         return(summary_stats)
@@ -228,17 +234,18 @@ plot_randomized_pattern <- function(pattern,
       graphics::par(ask = FALSE)
     }
 
-    else if (method == "marks") {
+    else if (class(pattern) == "rd_mar") {
 
-      result <- lapply(seq_along(pattern), function(x){
+      result <- lapply(seq_along(pattern), function(x) {
 
         mark_corr <- as.data.frame(spatstat::markcorr(pattern[[x]],
                                                       correction = "Ripley",
                                                       r = r))
 
         # print progress
-        if(verbose) {
-          message("\r> Progress: ", x, "/", length(pattern), appendLF = FALSE)
+        if (verbose) {
+          message("\r> Progress: ", x, "/", length(pattern),  "\t\t",
+                  appendLF = FALSE)
         }
 
         return(mark_corr)
@@ -307,18 +314,18 @@ plot_randomized_pattern <- function(pattern,
     }
   }
 
-  else if(what == "pp") {
+  else if (what == "pp") {
 
     # get number of patterns
     number_patterns <- length(pattern)
 
     # check if at least 4 patterns are present, i.e. 3 randomized & observed
-    if(number_patterns < 4) {
+    if (number_patterns < 4) {
       stop("Please provide at least 3 randomizations and the observed pattern.",
            call. = FALSE)
     }
 
-    if(verbose) {
+    if (verbose) {
       message("> Plotting observed pattern and 4 randomized patterns only")
     }
 

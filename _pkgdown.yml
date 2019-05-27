@@ -35,7 +35,7 @@ navbar:
   left:
     - text: "Get Started"
       icon: fa fa-magic
-      href: articles/getstarted.html
+      href: articles/get_started.html
     - icon: fa-gears
       text: "Functions"
       href: reference/index.html
@@ -50,7 +50,7 @@ navbar:
          href: articles/articles/reconstruct_multiple_patterns.html
        - text: "Publication Record"
          icon: fa-file-text-o
-         href: articlesarticles/publication_record.html
+         href: articles/articles/publication_record.html
   right:
     - icon: fa-newspaper-o
       text: "News"

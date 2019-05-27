@@ -1,8 +1,18 @@
+# shar 0.4
+* Improvements
+  * Easier user experience because classes are used to specify provided input
+  * `results_habitat_associations()` checks if extent of inputs is identical
+  * `reconstruct_marks()` and `calculate_energy()` use now weights for the summary functions
+* Bugfixes
+  * Bug in `calculate_energy()` for reconstructed marks
+
 # shar 0.3.1
 * Improvements
   * Better structure of vignettes
   * Adding CONTRIBUTING.md
   * Trying to fix some failing tests for older R versions
+ * New functionality
+  * Allowing to translate raster only in n steps
 
 # shar 0.3
 * Improvements

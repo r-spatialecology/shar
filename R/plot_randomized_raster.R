@@ -19,7 +19,7 @@
 #' landscape_classes <- classify_habitats(raster = landscape, classes = 5)
 #' landscape_random <- randomize_raster(raster = landscape_classes, n_random = 19)
 #'
-#' plot_randomized_raster(landscape_random)
+#' plot_randomized_raster(landscape_random, col = col)
 #'
 #' palette <- viridis::viridis(n = 5)
 #' plot_randomized_raster(landscape_random, n = 5, col = palette, nrow = 3, ncol = 2)
@@ -35,54 +35,68 @@ plot_randomized_raster <- function(raster,
                                    verbose = TRUE,
                                    nrow, ncol){
 
-  # check if randomized and observed is present
-  if(!all(c(paste0("randomized_", seq_len(length(raster) - 1)), "observed") == names(raster)) || is.null(names(raster))) {
-    stop("Input must named 'randomized_1' to 'randomized_n' and includ 'observed' pattern.",
-         call. = FALSE)
+  # check if class is correct
+  if (class(raster) != "rd_ras") {
+    stop("Class of 'raster' must be 'rd_ras'.", call. = FALSE)
+  }
+
+  # check if observed is present
+  if (!"observed" %in% names(raster)) {
+    stop("Input must include 'observed' raster.", call. = FALSE)
+  }
+
+  habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
+
+  # print warning if more than 10 classes are present
+  if (verbose) {
+    if (length(habitats) > 10) {
+      warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+              call. = FALSE)
+    }
   }
 
   # set n if not provided by user
-  if(is.null(n)) {
+  if (is.null(n)) {
 
     # check if less than 3 randomized raster are present
-    if(length(raster) < 4) {
+    if (length(raster) < 4) {
 
       # set n to numer of randomized raster
       n <- length(raster) - 1
 
       # print message
-      if(verbose) {
-        message("> Setting n = ", n, appendLF = FALSE)
+      if (verbose) {
+        message("> Setting n = ", n)
       }
     }
 
     # more than 3 randomized rasters
-    else{
+    else {
 
       # set n to 3
       n <- 3
 
       # print message
-      if(verbose) {
-        message("> Setting n = ", n, appendLF = FALSE)
+      if (verbose) {
+        message("> Setting n = ", n)
       }
     }
   }
 
   # vector provided, subset rasters with corresponding ID
-  if(length(n) > 1) {
+  if (length(n) > 1) {
 
     # check if any ID is larger than length of list
-    if(any(n > length(raster))) {
+    if (any(n > length(raster))) {
 
       # remove not valid IDs
       n <- n[n < length(raster)]
 
-      if(length(n) == 0) {
+      if (length(n) == 0) {
         stop("Please provide at least on valid ID for n.", call. = FALSE)
       }
 
-      if(verbose) {
+      if (verbose) {
         warning("Using only n IDs that are present in randomized data.", call. = FALSE)
       }
 
@@ -95,10 +109,10 @@ plot_randomized_raster <- function(raster,
   else {
 
     # n larger than number of randomized rasters
-    if(n > length(raster) - 1) {
+    if (n > length(raster) - 1) {
 
       # check if less than 3 randomized raster present
-      if(length(raster) < 4) {
+      if (length(raster) < 4) {
         n <- length(raster) - 1
       }
 
@@ -108,7 +122,7 @@ plot_randomized_raster <- function(raster,
       }
 
       # print warning
-      if(verbose) {
+      if (verbose) {
         warning("'n' larger than number of randomized rasters - setting n = ", n, ".",
                 call. = FALSE)
       }

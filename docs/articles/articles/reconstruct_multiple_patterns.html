@@ -30,14 +30,14 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../../articles/getstarted.html">
+  <a href="../../articles/get_started.html">
     <span class="fa fa fa fa-magic"></span>
      
     Get Started
@@ -74,7 +74,7 @@
       </a>
     </li>
     <li>
-      <a href="../../articlesarticles/publication_record.html">
+      <a href="../../articles/articles/publication_record.html">
         <span class="fa fa-file-text-o"></span>
          
         Publication Record
@@ -119,7 +119,7 @@
     <div class="page-header toc-ignore">
       <h1>How to reconstruct multiple patterns</h1>
             
-            <h4 class="date">2019-03-27</h4>
+            <h4 class="date">2019-05-16</h4>
       
       
       <div class="hidden name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -145,10 +145,10 @@
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x,</a>
 <a class="sourceLine" id="cb3-3" title="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
-## [1] 0.06554273 0.06479118 0.06159383
+## [1] 0.05403264 0.08632810 0.07536946
 ## 
 ## [[2]]
-## [1] 0.03316648 0.02887749 0.03342250</code></pre>
+## [1] 0.02724406 0.03385927 0.03290368</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># reconstruct spatial strucutre</span></a>
@@ -168,15 +168,15 @@
 <p>Again, the result is a nested list with the same dimensions as provided input patterns and reconstructions.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># get energy</span></a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(result_marks, <span class="cf">function</span>(x) <span class="kw"><a href="../../reference/calculate_energy.html">calculate_energy</a></span>(<span class="dt">pattern =</span> x, </a>
-<a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">method =</span> <span class="st">"marks"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
-## [1] 0.01923192 0.01994564 0.01969831
+## [1] 0.009981068 0.009814587 0.009953576
 ## 
 ## $randomized_2
-## [1] 0.01910949 0.01904750 0.01956887
+## [1] 0.009918640 0.009537514 0.009738609
 ## 
 ## $randomized_3
-## [1] 0.01886156 0.01973976 0.01966077</code></pre>
+## [1] 0.009782301 0.009915771 0.009963221</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

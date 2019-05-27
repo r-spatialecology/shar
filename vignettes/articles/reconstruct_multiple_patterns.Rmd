@@ -67,5 +67,5 @@ Again, the result is a nested list with the same dimensions as provided input pa
 ```{r result-marks}
 # get energy
 lapply(result_marks, function(x) calculate_energy(pattern = x, 
-                                                  method = "marks", verbose = FALSE))
+                                                  verbose = FALSE))
 ```

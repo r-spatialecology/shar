@@ -1,3 +1,6 @@
+## shar 0.4
+Improvments of general package structure
+
 ## shar 0.3.1
 Some minor bugfixes
 

@@ -4,15 +4,15 @@
 \alias{calculate_energy}
 \title{calculate_energy}
 \usage{
-calculate_energy(pattern, return_mean = FALSE, method = "spatial",
+calculate_energy(pattern, weights = c(0.5, 0.5), return_mean = FALSE,
   comp_fast = 1000, verbose = TRUE)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
 
-\item{return_mean}{Return the mean energy.}
+\item{weights}{Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).}
 
-\item{method}{String to specifiy if spatial pattern or marks were reconstructed.}
+\item{return_mean}{Return the mean energy.}
 
 \item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 
@@ -41,7 +41,7 @@ calculate_energy(pattern_random, return_mean = TRUE)
 \dontrun{
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 marks_recon <- reconstruct_marks(pattern_random[[1]], marks_sub, n_random = 19, max_runs = 1000)
-calculate_energy(marks_recon, return_mean = FALSE, method = "marks")
+calculate_energy(marks_recon, return_mean = FALSE)
 }
 
 }

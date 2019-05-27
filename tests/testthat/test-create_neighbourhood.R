@@ -8,6 +8,7 @@ neighbourhood_4 <- shar::create_neighbourhood(cell_id, mat, directions = 4)
 
 neighbourhood_8 <- shar::create_neighbourhood(cell_id, mat, directions = 8)
 
+################################################################################
 
 testthat::test_that("create_neighbourhood returns right dimension for directions = 4", {
 
@@ -26,5 +27,6 @@ testthat::test_that("create_neighbourhood returns right dimension for directions
 testthat::test_that("create_neighbourhood returns error", {
 
   testthat::expect_error(shar::create_neighbourhood(cell_id, mat, directions = 12),
-                         regexp = "'directions must be 'directions = 4' or 'directions = 8'.")
+                         regexp = "'directions must be 'directions = 4' or 'directions = 8'.",
+                         fixed = TRUE)
 })

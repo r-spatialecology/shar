@@ -34,22 +34,22 @@ fit_point_process <- function(pattern,
                               verbose = TRUE){
 
   # check if n_random is >= 1
-  if(!n_random >= 1) {
+  if (!n_random >= 1) {
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
   # unmark pattern
-  if(spatstat::is.marked(pattern)) {
+  if (spatstat::is.marked(pattern)) {
 
     pattern <- spatstat::unmark(pattern)
 
-    if(verbose) {
+    if (verbose) {
       warning("Unmarked provided input pattern.",
               call. = FALSE)
     }
   }
 
-  if(process == "poisson"){
+  if (process == "poisson") {
 
     result <- lapply(seq_len(n_random), function(x) {
 
@@ -57,15 +57,16 @@ fit_point_process <- function(pattern,
                                         win = pattern$window) # simulate poisson process
 
 
-      if(verbose) {
-        message("\r> Progress: n_random: ", x, "/", n_random, appendLF = FALSE)
+      if (verbose) {
+        message("\r> Progress: n_random: ", x, "/", n_random, "\t\t",
+                appendLF = FALSE)
       }
 
       return(simulated)
     })
   }
 
-  else if(process == "cluster"){
+  else if (process == "cluster") {
 
     # fit cluster process
     fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
@@ -83,7 +84,7 @@ fit_point_process <- function(pattern,
                                            nsim = 1, drop = TRUE)
 
       # remove points because more points in simulated
-      if(pattern$n < simulated$n) {
+      if (pattern$n < simulated$n) {
 
         # difference between patterns
         difference <- simulated$n - pattern$n
@@ -96,7 +97,7 @@ fit_point_process <- function(pattern,
       }
 
       # add points because less points in simulated
-      else if(pattern$n > simulated$n) {
+      else if (pattern$n > simulated$n) {
 
         # difference between patterns
         difference <- pattern$n - simulated$n
@@ -111,8 +112,9 @@ fit_point_process <- function(pattern,
                                            W = pattern$window)
       }
 
-      if(verbose) {
-        message("\r> Progress: n_random: ", x, "/", n_random, appendLF = FALSE)
+      if (verbose) {
+        message("\r> Progress: n_random: ", x, "/", n_random,  "\t\t",
+                appendLF = FALSE)
       }
 
       return(simulated)
@@ -124,9 +126,9 @@ fit_point_process <- function(pattern,
   }
 
   # add input pattern to randomizations
-  if(return_input){
+  if (return_input) {
 
-    if(simplify && verbose){
+    if (simplify && verbose) {
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
@@ -138,9 +140,9 @@ fit_point_process <- function(pattern,
 
   else{
 
-    if(simplify) {
+    if (simplify) {
 
-      if(n_random > 1 && verbose) {
+      if (n_random > 1 && verbose) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
@@ -156,8 +158,12 @@ fit_point_process <- function(pattern,
   }
 
   # write result in new line if progress was printed
-  if(verbose) {
+  if (verbose) {
     message("\r")
+  }
+
+  if (!simplify) {
+    class(result) <- "rd_pat"
   }
 
   return(result)

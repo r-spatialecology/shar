@@ -9,6 +9,7 @@
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
+#' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
@@ -29,6 +30,9 @@
 #' The reconstruction can be stopped automatically if for n steps the energy does not
 #' decrease. The number of steps can be controlled by \code{no_change} and is set to
 #' \code{no_change = Inf} as default to never stop automatically.
+#'
+#' The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
+#' use \code{weights = c(0.5, 0.5)}.
 #'
 #' @seealso
 #' \code{\link{calculate_energy}} \cr
@@ -59,21 +63,22 @@ reconstruct_pattern <- function(pattern,
                                 no_change = Inf,
                                 fitting = FALSE,
                                 comp_fast = 1000,
+                                weights = c(0.5, 0.5),
                                 return_input = TRUE,
                                 simplify = FALSE,
                                 verbose = TRUE,
                                 plot = FALSE){
 
   # check if n_random is >= 1
-  if(!n_random >= 1) {
+  if (!n_random >= 1) {
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
   # check if number of points exceed comp_fast limit
-  if(pattern$n > comp_fast) {
+  if (pattern$n > comp_fast) {
 
     # Print message that summary functions will be computed fast
-    if(verbose) {
+    if (verbose) {
       message("> Using fast compuation of summary functions.")
     }
 
@@ -87,12 +92,17 @@ reconstruct_pattern <- function(pattern,
   # counter if energy changed
   energy_counter <- 0
 
+  # check if weights make sense
+  if (sum(weights) > 1 || sum(weights) == 0) {
+    stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
+  }
+
   # unmark pattern
-  if(spatstat::is.marked(pattern)) {
+  if (spatstat::is.marked(pattern)) {
 
     pattern <- spatstat::unmark(pattern)
 
-    if(verbose) {
+    if (verbose) {
       warning("Unmarked provided input pattern. For marked pattern, see reconstruct_marks().",
               call. = FALSE)
     }
@@ -105,7 +115,7 @@ reconstruct_pattern <- function(pattern,
            length.out = 250)
 
   # start with fitted pattern
-  if(fitting) {
+  if (fitting) {
 
     # fit Thomas process
     fitted_process <- spatstat::kppm.ppp(pattern, cluster = "Thomas",
@@ -122,7 +132,7 @@ reconstruct_pattern <- function(pattern,
                                          verbose = FALSE)
 
     # remove points because more points in simulated
-    if(pattern$n < simulated$n) {
+    if (pattern$n < simulated$n) {
 
       # difference between patterns
       difference <- simulated$n - pattern$n
@@ -135,7 +145,7 @@ reconstruct_pattern <- function(pattern,
     }
 
     # add points because less points in simulated
-    if(pattern$n > simulated$n) {
+    if (pattern$n > simulated$n) {
 
       # difference between patterns
       difference <- pattern$n - simulated$n
@@ -161,7 +171,7 @@ reconstruct_pattern <- function(pattern,
   }
 
   # fast computation of summary functions
-  if(comp_fast) {
+  if (comp_fast) {
 
     gest_observed <- spatstat::Gest(pattern, correction = "none", r = r)
 
@@ -197,8 +207,8 @@ reconstruct_pattern <- function(pattern,
   }
 
   # energy before reconstruction
-  energy <- mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) +
-    mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE)
+  energy <- (mean(abs(gest_observed[[3]] - gest_simulated[[3]]), na.rm = TRUE) * weights[[1]]) +
+    (mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE) * weights[[2]])
 
   # create n_random recondstructed patterns
   result <- lapply(seq_len(n_random), function(current_pattern) {
@@ -214,7 +224,7 @@ reconstruct_pattern <- function(pattern,
                                       warn = FALSE)
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
-    for(i in seq_len(max_runs)) {
+    for (i in seq_len(max_runs)) {
 
       # data for relocation
       relocated <- simulated
@@ -228,7 +238,7 @@ reconstruct_pattern <- function(pattern,
       relocated$y[[rp_id_current]] <- rp_coords$y[[i]]
 
       # calculate summary functions after relocation
-      if(comp_fast) {
+      if (comp_fast) {
 
         gest_relocated <- spatstat::Gest(relocated, correction = "none", r = r)
 
@@ -249,11 +259,11 @@ reconstruct_pattern <- function(pattern,
       }
 
       # energy after relocation
-      e_relocated <- mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) +
-        mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE)
+      e_relocated <- (mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) * weights[[1]]) +
+        (mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE) * weights[[2]])
 
       # lower energy after relocation
-      if(e_relocated < energy) {
+      if (e_relocated < energy) {
 
         # keep relocated pattern
         simulated <- relocated
@@ -265,7 +275,7 @@ reconstruct_pattern <- function(pattern,
         energy_counter <- 0
 
         # plot observed vs reconstructed
-        if(plot) {
+        if (plot) {
 
           # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
           Sys.sleep(0.1)
@@ -289,15 +299,15 @@ reconstruct_pattern <- function(pattern,
       }
 
       # print progress
-      if(verbose) {
+      if (verbose) {
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", i, "/", max_runs,
-                " || energy = ", round(energy, 5),
+                " || energy = ", round(energy, 5), "\t\t",
                 appendLF = FALSE)
       }
 
       # exit loop if e threshold or no_change counter max is reached
-      if(energy <= e_threshold || energy_counter > no_change) {
+      if (energy <= e_threshold || energy_counter > no_change) {
         break
       }
     }
@@ -306,10 +316,10 @@ reconstruct_pattern <- function(pattern,
   })
 
   # add input pattern to randomizations
-  if(return_input){
+  if (return_input) {
 
     # simplify not possible if input pattern should be returned
-    if(simplify && verbose){
+    if (simplify && verbose) {
       message("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
@@ -325,10 +335,10 @@ reconstruct_pattern <- function(pattern,
   else{
 
     # don't return list
-    if(simplify) {
+    if (simplify) {
 
       # simplify not possible if more than one random pattern is present
-      if(n_random > 1 && verbose) {
+      if (n_random > 1 && verbose) {
         message("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
       }
@@ -346,8 +356,12 @@ reconstruct_pattern <- function(pattern,
   }
 
   # write result in new line if progress was printed
-  if(verbose) {
+  if (verbose) {
     message("\r")
+  }
+
+  if (!simplify) {
+    class(result) <- "rd_pat"
   }
 
   return(result)

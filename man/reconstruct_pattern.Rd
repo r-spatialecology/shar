@@ -6,8 +6,8 @@
 \usage{
 reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
   max_runs = 1000, no_change = Inf, fitting = FALSE,
-  comp_fast = 1000, return_input = TRUE, simplify = FALSE,
-  verbose = TRUE, plot = FALSE)
+  comp_fast = 1000, weights = c(0.5, 0.5), return_input = TRUE,
+  simplify = FALSE, verbose = TRUE, plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}
@@ -23,6 +23,8 @@ reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
 \item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process.}
 
 \item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
+
+\item{weights}{Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).}
 
 \item{return_input}{The original input data is returned as last list entry}
 
@@ -53,6 +55,9 @@ time. For more information see \code{\link{estimate_pcf_fast}}.
 The reconstruction can be stopped automatically if for n steps the energy does not
 decrease. The number of steps can be controlled by \code{no_change} and is set to
 \code{no_change = Inf} as default to never stop automatically.
+
+The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
+use \code{weights = c(0.5, 0.5)}.
 }
 \examples{
 \dontrun{

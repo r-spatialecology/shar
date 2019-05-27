@@ -59,24 +59,24 @@ reconstruct_marks <- function(pattern,
                               plot = FALSE){
 
   # check if n_random is >= 1
-  if(!n_random >= 1) {
+  if (!n_random >= 1) {
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
   # check if pattern is marked
-  if(spatstat::is.marked(pattern) || !spatstat::is.marked(marked_pattern)) {
+  if (spatstat::is.marked(pattern) || !spatstat::is.marked(marked_pattern)) {
     stop("'pattern' must be unmarked and 'marked_pattern' marked", call. = FALSE)
   }
 
-  if(any(pattern$window$xrange != marked_pattern$window$xrange) ||
-     any(pattern$window$yrange != marked_pattern$window$yrange) ||
-     pattern$n != marked_pattern$n) {
+  if (any(pattern$window$xrange != marked_pattern$window$xrange) ||
+      any(pattern$window$yrange != marked_pattern$window$yrange) ||
+      pattern$n != marked_pattern$n) {
     stop("'pattern' and 'pattern' must have same window and number of points",
          call. = FALSE)
   }
 
   # check if marks are numeric
-  if(class(marked_pattern$marks) != "numeric") {
+  if (class(marked_pattern$marks) != "numeric") {
     stop("marks must be 'numeric'", call. = FALSE)
   }
 
@@ -113,7 +113,7 @@ reconstruct_marks <- function(pattern,
     rp_b <- rcpp_sample(x = seq_len(pattern$n), n = max_runs, replace = TRUE)
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
-    for(i in seq_len(max_runs)) {
+    for (i in seq_len(max_runs)) {
 
       relocated <- pattern # data for relocation
 
@@ -141,7 +141,7 @@ reconstruct_marks <- function(pattern,
       e_relocated <- mean(abs(kmmr_observed[[3]] - kmmr_relocated[[3]]), na.rm = TRUE)
 
       # lower energy after relocation
-      if(e_relocated < energy){
+      if (e_relocated < energy) {
 
         # keep relocated pattern
         pattern <- relocated
@@ -150,7 +150,7 @@ reconstruct_marks <- function(pattern,
         energy <- e_relocated
 
         # plot observed vs reconstructed
-        if(plot) {
+        if (plot) {
 
           # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
           Sys.sleep(0.1)
@@ -174,14 +174,15 @@ reconstruct_marks <- function(pattern,
       }
 
       # print progress
-      if(verbose) {
+      if (verbose) {
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", i, "/", max_runs,
-                " || energy = ", round(energy, 5), appendLF = FALSE)
+                " || energy = ", round(energy, 5), "\t\t",
+                appendLF = FALSE)
       }
 
       # exit loop if e threshold or no_change counter max is reached
-      if(energy <= e_threshold|| energy_counter > no_change){
+      if (energy <= e_threshold || energy_counter > no_change) {
         break
       }
     }
@@ -190,10 +191,10 @@ reconstruct_marks <- function(pattern,
   })
 
   # add input pattern to randomizations
-  if(return_input){
+  if (return_input) {
 
     # simplify not possible if return pattern should be included
-    if(simplify){
+    if (simplify) {
       cat("\n")
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'", call. = FALSE)
     }
@@ -209,10 +210,10 @@ reconstruct_marks <- function(pattern,
   else{
 
     # only return pattern as ppp (and not as list)
-    if(simplify) {
+    if (simplify) {
 
       # not possible if more than one pattern is present
-      if(n_random > 1 && verbose) {
+      if (n_random > 1 && verbose) {
         cat("\n")
         warning("'simplify = TRUE' not possible for 'n_random > 1'", call. = FALSE)
       }
@@ -232,8 +233,12 @@ reconstruct_marks <- function(pattern,
   }
 
   # write result in new line if progress was printed
-  if(verbose) {
+  if (verbose) {
     message("\r")
+  }
+
+  if (!simplify) {
+    class(result) <- "rd_mar"
   }
 
   return(result)

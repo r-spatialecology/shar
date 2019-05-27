@@ -28,9 +28,10 @@ environmental data is randomized n-times. Then, counts within the
 habitats are compared between the randomized data and the observed data.
 Positive or negative associations are present if the observed counts is
 higher or lower than the randomized counts (using quantile thresholds).
-Methods are mainly described in Plotkin et al. (2000), Harms et al.
-(2001) and Wiegand & Moloney (2014). **shar** is mainly based on the
-`spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017) package.
+Methods are mainly described in Plotkin et al. (2000), Harms et
+al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on
+the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017)
+package.
 
 ## Installation
 
@@ -60,15 +61,14 @@ library(raster)
 `species_b` are examplary location of species, e.g. trees, as
 `ppp`-objects from the `spatstat` package. `landscape` contains
 examplary continious environmental data. However, all methods depend on
-discrete data. Therefore we need to classify the data
-first.
+discrete data. Therefore we need to classify the data first.
 
 ``` r
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
 
 There are two possibilities to randomize the environmental data, both
-described in Harms et al. (2001). The first shifts the habitat map in
+described in Harms et al. (2001). The first shifts the habitat map in
 all 4 cardinal directions around a torus. The second one assigns the
 habitat values to an empty map using a random walk algorithm. Both
 functions return a list with randomized rasters and the observed one.
@@ -81,10 +81,16 @@ torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 19, verbose = FALSE)
 ```
 
+``` r
+col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
+
+plot_randomized_raster(torus_trans, n = 3, col = col)
+```
+
 <img src="man/figures/README-plot_habitat-random-1.png" style="display: block; margin: auto;" />
 
 To randomize the point pattern, either use the Gamma test described by
-Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
+Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
 2006).
 
 ``` r
@@ -95,8 +101,7 @@ reconstruct <- reconstruct_pattern(pattern = species_b, max_runs = 500, n_random
 
 Of coures, there are several utility functions. For example, you can
 plot a randomized pattern or calculate the differences between the
-observed pattern and the randomized patterns (using summary
-functions).
+observed pattern and the randomized patterns (using summary functions).
 
 ``` r
 plot_randomized_pattern(reconstruct, verbose = FALSE, ask = FALSE)
@@ -108,15 +113,16 @@ plot_randomized_pattern(reconstruct, verbose = FALSE, ask = FALSE)
 calculate_energy(reconstruct, verbose = FALSE)
 ```
 
-    ##  [1] 0.05466079 0.05691795 0.07273102 0.05258555 0.04835521 0.03688952 0.04172061 0.05272703 0.06877212 0.05079050 0.04569044
-    ## [12] 0.07600530 0.04997626 0.04574796 0.05884596 0.06559402 0.06293930 0.06222483 0.04067297
+    ##  [1] 0.06296249 0.04206978 0.05765356 0.04559935 0.07282586 0.05059367
+    ##  [7] 0.04891124 0.06394066 0.04618339 0.05240480 0.05701905 0.07678296
+    ## [13] 0.05384696 0.05210462 0.06433170 0.04546687 0.03842786 0.04996899
+    ## [19] 0.05361466
 
 The data was created that `species_a` has a negative association to
 habitat 4 and `species_b` has a positive association to habitat 5. At
 one point a posititive association to one habitat leads consequently to
 a negative association to another habitat (and vice versa). All this can
-be seen in the
-    results.
+be seen in the results.
 
 ``` r
 results_habitat_association(pattern = species_a, raster = torus_trans)
@@ -138,11 +144,11 @@ results_habitat_association(pattern = reconstruct, raster = landscape_classified
     ## > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
 
     ##   habitat count    lo    hi significance
-    ## 1       1     7  6.80 20.65         n.s.
-    ## 2       2    20 48.90 65.00     negative
-    ## 3       3    31 52.90 75.00     negative
-    ## 4       4    33 34.90 56.75     negative
-    ## 5       5   109 14.45 34.00     positive
+    ## 1       1     7 10.45 26.75     negative
+    ## 2       2    20 31.35 49.10     negative
+    ## 3       3    31 50.45 73.55     negative
+    ## 4       4    33 36.45 59.65     negative
+    ## 5       5   109 23.45 43.65     positive
 
 ## References
 
