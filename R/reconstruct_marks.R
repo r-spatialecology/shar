@@ -8,6 +8,7 @@
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
+#' @param annealing Probability to keep relocated point even if energy did not decrease.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
@@ -53,6 +54,7 @@ reconstruct_marks <- function(pattern,
                               e_threshold = 0.01,
                               max_runs = 10000,
                               no_change = Inf,
+                              annealing = 0,
                               return_input = TRUE,
                               simplify = FALSE,
                               verbose = TRUE,
@@ -112,6 +114,17 @@ reconstruct_marks <- function(pattern,
 
     rp_b <- rcpp_sample(x = seq_len(pattern$n), n = max_runs, replace = TRUE)
 
+    # create random number for annealing prob
+    if (annealing != 0) {
+
+      random_annealing <- stats::runif(n = max_runs, min = 0, max = 1)
+    }
+
+    else {
+
+      random_annealing <- rep(0, max_runs)
+    }
+
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
     for (i in seq_len(max_runs)) {
 
@@ -141,7 +154,7 @@ reconstruct_marks <- function(pattern,
       e_relocated <- mean(abs(kmmr_observed[[3]] - kmmr_relocated[[3]]), na.rm = TRUE)
 
       # lower energy after relocation
-      if (e_relocated < energy) {
+      if (e_relocated < energy || random_annealing[i] < annealing) {
 
         # keep relocated pattern
         pattern <- relocated
@@ -185,6 +198,10 @@ reconstruct_marks <- function(pattern,
       if (energy <= e_threshold || energy_counter > no_change) {
         break
       }
+    }
+
+    if (plot) {
+      grDevices::dev.off()
     }
 
     return(pattern)

@@ -7,6 +7,7 @@
 #' @param e_threshold Minimum energy to stop reconstruction.
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
+#' @param annealing Probability to keep relocated point even if energy did not decrease.
 #' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
@@ -62,6 +63,7 @@ reconstruct_pattern <- function(pattern,
                                 max_runs = 1000,
                                 no_change = Inf,
                                 fitting = FALSE,
+                                annealing = 0,
                                 comp_fast = 1000,
                                 weights = c(0.5, 0.5),
                                 return_input = TRUE,
@@ -223,6 +225,17 @@ reconstruct_pattern <- function(pattern,
                                       win = pattern$window,
                                       warn = FALSE)
 
+    # create random number for annealing prob
+    if (annealing != 0) {
+
+      random_annealing <- stats::runif(n = max_runs, min = 0, max = 1)
+    }
+
+    else {
+
+      random_annealing <- rep(0, max_runs)
+    }
+
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
     for (i in seq_len(max_runs)) {
 
@@ -263,7 +276,7 @@ reconstruct_pattern <- function(pattern,
         (mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE) * weights[[2]])
 
       # lower energy after relocation
-      if (e_relocated < energy) {
+      if (e_relocated < energy || random_annealing[i] < annealing) {
 
         # keep relocated pattern
         simulated <- relocated
@@ -310,6 +323,10 @@ reconstruct_pattern <- function(pattern,
       if (energy <= e_threshold || energy_counter > no_change) {
         break
       }
+    }
+
+    if (plot) {
+      grDevices::dev.off()
     }
 
     return(simulated)
