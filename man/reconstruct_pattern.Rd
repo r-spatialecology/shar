@@ -5,7 +5,7 @@
 \title{reconstruct_pattern}
 \usage{
 reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
-  max_runs = 1000, no_change = Inf, fitting = FALSE,
+  max_runs = 1000, no_change = Inf, fitting = FALSE, annealing = 0,
   comp_fast = 1000, weights = c(0.5, 0.5), return_input = TRUE,
   simplify = FALSE, verbose = TRUE, plot = FALSE)
 }
@@ -21,6 +21,8 @@ reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
 \item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
 
 \item{fitting}{It true, the pattern reconstruction starts with a fitting of a Thomas process.}
+
+\item{annealing}{Probability to keep relocated point even if energy did not decrease.}
 
 \item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 

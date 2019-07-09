@@ -1,3 +1,6 @@
+## shar 0.5
+Improvments of existing functions
+
 ## shar 0.4
 Improvments of general package structure
 

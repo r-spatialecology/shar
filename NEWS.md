@@ -1,3 +1,7 @@
+# shar 0.5
+* Improvements
+  * Annealing probability can be specified for reconstruction
+
 # shar 0.4
 * Improvements
   * Easier user experience because classes are used to specify provided input

@@ -6,8 +6,8 @@
 \usage{
 reconstruct_marks(pattern, marked_pattern, n_random = 1,
   e_threshold = 0.01, max_runs = 10000, no_change = Inf,
-  return_input = TRUE, simplify = FALSE, verbose = TRUE,
-  plot = FALSE)
+  annealing = 0, return_input = TRUE, simplify = FALSE,
+  verbose = TRUE, plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}
@@ -21,6 +21,8 @@ reconstruct_marks(pattern, marked_pattern, n_random = 1,
 \item{max_runs}{Maximum number of iterations of e_threshold is not reached.}
 
 \item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
+
+\item{annealing}{Probability to keep relocated point even if energy did not decrease.}
 
 \item{return_input}{The original input data is returned as last list entry}
 

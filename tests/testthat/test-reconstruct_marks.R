@@ -33,14 +33,6 @@ marks_recon_simple <- shar::reconstruct_marks(pattern = pattern_recon,
                                               simplify = TRUE,
                                               verbose = FALSE)
 
-# all other arguments
-marks_recon_args <- shar::reconstruct_marks(pattern = pattern_recon,
-                                            marked_pattern = marks_sub,
-                                            n_random = 3,
-                                            max_runs = 1,
-                                            plot = TRUE,
-                                            verbose = FALSE)
-
 marks_recon_energy <- shar::reconstruct_marks(pattern = pattern_recon,
                                               marked_pattern = marks_sub,
                                               n_random = 3,
@@ -72,13 +64,6 @@ testthat::test_that("Input pattern can not be returned for reconstruct_marks", {
 testthat::test_that("Only pattern can be returned for simplify = TRUE", {
 
   testthat::expect_is(marks_recon_simple, "ppp")
-})
-
-testthat::test_that("All optional arguments can be used for reconstruct_marks", {
-
-  testthat::expect_type(marks_recon_args, type = "list")
-
-  testthat::expect_length(marks_recon_args, n = 4)
 })
 
 testthat::test_that("Reconstruction stops if e_threshold is reached", {
