@@ -1,4 +1,4 @@
-testthat::context("reconstruct_marks")
+testthat::context("test-gcreconstruct_marks")
 
 pattern_recon <- shar::reconstruct_pattern(shar::species_a,
                                            n_random = 1,
@@ -43,22 +43,25 @@ marks_recon_energy <- shar::reconstruct_marks(pattern = pattern_recon,
 
 testthat::test_that("Output is a long as n_random for reconstruct_marks", {
 
-  testthat::expect_type(marks_recon, type = "list")
+  testthat::expect_is(marks_recon, class = "rd_mar")
 
-  testthat::expect_length(marks_recon, n = 4)
+  testthat::expect_type(marks_recon$randomized, type = "list")
+
+  testthat::expect_length(marks_recon$randomized, n = 3)
 })
 
 testthat::test_that("Output includes randomizations and original pattern for reconstruct_marks", {
 
-  testthat::expect_named(marks_recon,
-                         expected = c(paste0("randomized_", c(1:3)), "observed"))
+  testthat::expect_named(marks_recon$randomized,
+                         expected = paste0("randomized_", c(1:3)))
 
-  testthat::expect_equal(marks_recon[[4]], expected = marks_sub)
+  testthat::expect_equal(marks_recon$observed, expected = marks_sub)
 })
 
 testthat::test_that("Input pattern can not be returned for reconstruct_marks", {
 
-  testthat::expect_false(any(marks_sub %in% marks_recon_ni))
+  testthat::expect_equal(object = marks_recon_ni$observed,
+                         expected = "NA")
 })
 
 testthat::test_that("Only pattern can be returned for simplify = TRUE", {
@@ -71,6 +74,8 @@ testthat::test_that("Reconstruction stops if e_threshold is reached", {
   energy <- shar::calculate_energy(marks_recon_energy, verbose = FALSE)
 
   testthat::expect_true(all(energy < 0.1 & energy > 0.01))
+
+  testthat::expect_true(all(marks_recon_energy$stop_criterion == "e_threshold/no_change"))
 })
 
 testthat::test_that("All errors are returned for reconstruct_marks", {

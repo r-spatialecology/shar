@@ -89,7 +89,7 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
   matrix_raster <- raster::as.matrix(raster) # convert to matrix
 
   # loop through all possible steps
-  result <- lapply(seq_len(nrow(steps_xy)), function(current_row) {
+  result_list <- lapply(seq_len(nrow(steps_xy)), function(current_row) {
 
     x_shift <- steps_xy[current_row, 1] - (nrow(matrix_raster) * (steps_xy[current_row, 1] %/% nrow(matrix_raster)))
 
@@ -117,45 +117,57 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
     return(raster_shifted)
   })
 
-  n_random <- length(result)
+  n_random <- length(result_list)
 
-  # return input raster
-  if (return_input) {
-    result[[n_random + 1]] <- raster # add input raster as last list entry
-    names(result) <- c(paste0("randomized_", seq_len(length(result) - 1)), "observed") # set names
-  }
+  # set names of randomization randomized_1 ... randomized_n
+  names(result_list) <- paste0("randomized_", seq_along(result_list))
 
-  else{
+  # combine to one list
+  randomization <- list(randomized = result_list,
+                        observed = raster,
+                        method = "translate_raster()")
 
+
+  # set class of result
+  class(randomization) <- "rd_ras"
+
+  # remove input if return_input = FALSE
+  if (!return_input) {
+
+    # set observed to NA
+    randomization$observed <- "NA"
+
+    # check if output should be simplified
     if (simplify) {
 
+      # not possible if more than one raster is present
       if (n_random > 1 && verbose) {
 
-        message("\n")
-        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.",
+                call. = FALSE)
       }
 
-      else {
-
-        result <- result[[1]]
+      # only one random raster is present that should be returend
+      else if (n_random == 1) {
+        randomization <- randomization$randomized[[1]]
       }
     }
+  }
 
-    else{
+  # return input if return_input = TRUE
+  else {
 
-      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+    # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
+    if (simplify && verbose) {
+
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
   }
 
   # write result in new line if progress was printed
   if (verbose) {
-
     message("\r")
   }
 
-  if(!simplify) {
-    class(result) <- "rd_ras"
-  }
-
-  return(result)
+  return(randomization)
 }

@@ -9,7 +9,7 @@ pattern_random_ni <- shar::fit_point_process(shar::species_b,
                                              return_input = FALSE,
                                              verbose = FALSE)
 
-pattern_random_marks <- pattern_random[[1]]
+pattern_random_marks <- pattern_random$randomized[[1]]
 
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 

@@ -5,9 +5,10 @@
 \title{reconstruct_pattern}
 \usage{
 reconstruct_pattern(pattern, n_random = 1, e_threshold = 0.01,
-  max_runs = 1000, no_change = Inf, fitting = FALSE, annealing = 0,
-  comp_fast = 1000, weights = c(0.5, 0.5), return_input = TRUE,
-  simplify = FALSE, verbose = TRUE, plot = FALSE)
+  max_runs = 1000, no_change = Inf, fitting = FALSE,
+  annealing = 0.01, comp_fast = 1000, weights = c(0.5, 0.5),
+  return_input = TRUE, simplify = FALSE, verbose = TRUE,
+  plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}

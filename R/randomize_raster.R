@@ -48,6 +48,9 @@ randomize_raster <- function(raster,
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
+  # set names of randomization randomized_1 ... randomized_n
+  names_randomization <- paste0("randomized_", seq_len(n_random))
+
   habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
 
   # print warning if more than 10 classes are present
@@ -61,7 +64,7 @@ randomize_raster <- function(raster,
   n_cells <- sum(habitats) # number of cells
 
   # create n_random rasters
-  result <- lapply(seq_len(n_random), function(current_raster) {
+  result_list <- lapply(seq_len(n_random), function(current_raster) {
 
     random_matrix <- raster::as.matrix(raster) # new raster without values
 
@@ -165,35 +168,47 @@ randomize_raster <- function(raster,
     return(random_raster)
   })
 
-  # add input pattern to randomizations
-  if (return_input) {
+  names(result_list) <- names_randomization
 
-    if (simplify && verbose) {
-      message("\n")
-      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
-    }
+  # combine to one list
+  randomization <- list(randomized = result_list,
+                        observed = raster,
+                        method = "randomize_raster()")
 
-    result[[n_random + 1]] <- raster # add input pattern as last list entry
 
-    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
-  }
+  # set class of result
+  class(randomization) <- "rd_ras"
 
-  else{
+  # remove input if return_input = FALSE
+  if (!return_input) {
 
+    # set observed to NA
+    randomization$observed <- "NA"
+
+    # check if output should be simplified
     if (simplify) {
 
+      # not possible if more than one raster is present
       if (n_random > 1 && verbose) {
-        message("\n")
-        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.",
+                call. = FALSE)
       }
 
-      else {
-        result <- result[[1]]
+      # only one random raster is present that should be returend
+      else if (n_random == 1) {
+        randomization <- randomization$randomized[[1]]
       }
     }
+  }
 
-    else{
-      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+  # return input if return_input = TRUE
+  else {
+
+    # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
+    if (simplify && verbose) {
+
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
   }
 
@@ -202,9 +217,5 @@ randomize_raster <- function(raster,
     message("\r")
   }
 
-  if (!simplify) {
-    class(result) <- "rd_ras"
-  }
-
-  return(result)
+  return(randomization)
 }

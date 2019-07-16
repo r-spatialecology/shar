@@ -30,7 +30,8 @@
 #'
 #' \dontrun{
 #' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-#' marks_recon <- reconstruct_marks(pattern_random[[1]], marks_sub, n_random = 19, max_runs = 1000)
+#' marks_recon <- reconstruct_marks(pattern_random$randomized[[1]], marks_sub,
+#' n_random = 19, max_runs = 1000)
 #' calculate_energy(marks_recon, return_mean = FALSE)
 #' }
 #'
@@ -53,12 +54,14 @@ calculate_energy <- function(pattern,
 
   # check if class is correct
   if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
          call. = FALSE)
   }
 
   # check if observed pattern is present
-  if (!"observed" %in% names(pattern)) {
+  if (!spatstat::is.ppp(pattern$observed)) {
+
     stop("Input must include 'observed' pattern.", call. = FALSE)
   }
 
@@ -66,7 +69,7 @@ calculate_energy <- function(pattern,
   pattern_observed <- pattern$observed
 
   # extract randomized patterns
-  pattern_reconstructed <- pattern[names(pattern) != "observed"]
+  pattern_randomized <- pattern$randomized
 
   # calculate r sequence
   r <- seq(from = 0,
@@ -76,117 +79,144 @@ calculate_energy <- function(pattern,
 
   if (class(pattern) == "rd_pat") {
 
-    # check if weights make sense
-    if (sum(weights) > 1 || sum(weights) == 0) {
-      stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
-    }
+    # get energy from df
+    if (is.list(pattern$energy_df)) {
 
-    # check if number of points exceed comp_fast limit
-    if (pattern_observed$n > comp_fast) {
-      comp_fast <- TRUE
+      result <- vapply(pattern$energy_df, FUN = function(x) utils::tail(x, n = 1)[[2]],
+                       FUN.VALUE = numeric(1))
+
     }
 
     else {
-      comp_fast <- FALSE
-    }
 
-    # calculate summary functions for observed pattern
-    if (comp_fast) {
+      # check if weights make sense
+      if (sum(weights) > 1 || sum(weights) == 0) {
+        stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
+      }
 
-      gest_observed <- spatstat::Gest(X = pattern_observed,
-                                      correction = "none",
-                                      r = r)
+      # check if number of points exceed comp_fast limit
+      if (pattern_observed$n > comp_fast) {
+        comp_fast <- TRUE
+      }
 
-      pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed,
-                                              correction = "none",
-                                              method = "c",
-                                              spar = 0.5,
-                                              r = r)
-    }
+      else {
+        comp_fast <- FALSE
+      }
 
-    else{
-
-      gest_observed <- spatstat::Gest(X = pattern_observed,
-                                      correction = "han",
-                                      r = r)
-
-      pcf_observed <- spatstat::pcf(X = pattern_observed,
-                                    correction = "best",
-                                    divisor = "d",
-                                    r = r)
-    }
-
-    # loop through all reconstructed patterns
-    result <- vapply(seq_along(pattern_reconstructed), function(x) {
-
-      # fast computation of summary stats
+      # calculate summary functions for observed pattern
       if (comp_fast) {
 
-        gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]],
-                                              correction = "none",
-                                              r = r)
+        gest_observed <- spatstat::Gest(X = pattern_observed,
+                                        correction = "none",
+                                        r = r)
 
-        pcf_reconstruction <- shar::estimate_pcf_fast(pattern = pattern_reconstructed[[x]],
-                                                      correction = "none",
-                                                      method = "c",
-                                                      spar = 0.5,
-                                                      r = r)
+        pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed,
+                                                correction = "none",
+                                                method = "c",
+                                                spar = 0.5,
+                                                r = r)
       }
 
-      # normal computation of summary stats
       else{
 
-        gest_reconstruction <- spatstat::Gest(X = pattern_reconstructed[[x]],
-                                              correction = "han",
+        gest_observed <- spatstat::Gest(X = pattern_observed,
+                                        correction = "han",
+                                        r = r)
+
+        pcf_observed <- spatstat::pcf(X = pattern_observed,
+                                      correction = "best",
+                                      divisor = "d",
+                                      r = r)
+      }
+
+      # loop through all reconstructed patterns
+      result <- vapply(seq_along(pattern_randomized), function(x) {
+
+        # fast computation of summary stats
+        if (comp_fast) {
+
+          gest_reconstruction <- spatstat::Gest(X = pattern_randomized[[x]],
+                                                correction = "none",
+                                                r = r)
+
+          pcf_reconstruction <- shar::estimate_pcf_fast(pattern = pattern_randomized[[x]],
+                                                        correction = "none",
+                                                        method = "c",
+                                                        spar = 0.5,
+                                                        r = r)
+        }
+
+        # normal computation of summary stats
+        else{
+
+          gest_reconstruction <- spatstat::Gest(X = pattern_randomized[[x]],
+                                                correction = "han",
+                                                r = r)
+
+          pcf_reconstruction <- spatstat::pcf(X = pattern_randomized[[x]],
+                                              correction = "best",
+                                              divisor = "d",
                                               r = r)
+        }
 
-        pcf_reconstruction <- spatstat::pcf(X = pattern_reconstructed[[x]],
-                                            correction = "best",
-                                            divisor = "d",
-                                            r = r)
-      }
+        # difference between observed and reconstructed pattern
+        energy <- (mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) * weights[[1]]) +
+          (mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE) * weights[[2]])
 
-      # difference between observed and reconstructed pattern
-      energy <- (mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) * weights[[1]]) +
-        (mean(abs(pcf_observed[[3]] - pcf_reconstruction[[3]]), na.rm = TRUE) * weights[[2]])
+        # print progress
+        if (verbose) {
+          message("\r> Progress: ", x, "/", length(pattern_randomized), "\t\t",
+                  appendLF = FALSE)
+        }
 
-      # print progress
-      if (verbose) {
-        message("\r> Progress: ", x, "/", length(pattern_reconstructed), "\t\t",
-                appendLF = FALSE)
-      }
+        return(energy)
 
-      return(energy)
+      }, FUN.VALUE = numeric(1))
+    }
 
-    }, FUN.VALUE = numeric(1))
+    # set names
+    names(result) <- paste0("randomized_", seq_along(result))
   }
 
   else if (class(pattern) == "rd_mar") {
 
-    # calculate summary functions
-    kmmr_observed <- spatstat::markcorr(pattern_observed,
-                                        correction = "Ripley",
-                                        r = r)
+    # get energy from df
+    if (is.list(pattern$energy_df)) {
 
-    result <- vapply(seq_along(pattern_reconstructed), function(x) {
+      result <- vapply(pattern$energy_df, FUN = function(x) utils::tail(x, n = 1)[[2]],
+                       FUN.VALUE = numeric(1))
+    }
+
+    else {
 
       # calculate summary functions
-      kmmr_reconstruction <- spatstat::markcorr(pattern_reconstructed[[x]],
-                                                correction = "Ripley",
-                                                r = r)
+      kmmr_observed <- spatstat::markcorr(pattern_observed,
+                                          correction = "Ripley",
+                                          r = r)
 
-      # difference between observed and reconstructed pattern
-      energy <- mean(abs(kmmr_observed[[3]] - kmmr_reconstruction[[3]]), na.rm = TRUE)
+      result <- vapply(seq_along(pattern_randomized), function(x) {
 
-      # print progress
-      if (verbose) {
-        message("\r> Progress: ", x, "/", length(pattern_reconstructed), "\t\t",
-                appendLF = FALSE)
-      }
+        # calculate summary functions
+        kmmr_reconstruction <- spatstat::markcorr(pattern_randomized[[x]],
+                                                  correction = "Ripley",
+                                                  r = r)
 
-      return(energy)
+        # difference between observed and reconstructed pattern
+        energy <- mean(abs(kmmr_observed[[3]] - kmmr_reconstruction[[3]]), na.rm = TRUE)
 
-    }, FUN.VALUE = numeric(1))
+        # print progress
+        if (verbose) {
+          message("\r> Progress: ", x, "/", length(pattern_randomized), "\t\t",
+                  appendLF = FALSE)
+        }
+
+        return(energy)
+
+      }, FUN.VALUE = numeric(1))
+    }
+
+    # set names
+    names(result) <- paste0("randomized_", seq_along(result))
   }
 
   # return mean for all reconstructed patterns
