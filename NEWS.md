@@ -1,3 +1,9 @@
+# shar 0.6
+* Improvements
+  * Printing methods for most objects
+* New functionality
+  * `plot_energy()` to plot energy over iterations for reconstructed patterns
+
 # shar 0.5
 * Improvements
   * Annealing probability can be specified for reconstruction

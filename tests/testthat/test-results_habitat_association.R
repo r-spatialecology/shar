@@ -142,4 +142,3 @@ testthat::test_that("results_habitat_association returns error if extent is not 
                          fixed = TRUE)
 
 })
-

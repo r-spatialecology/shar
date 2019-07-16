@@ -1,4 +1,4 @@
-testthat::context("reconstruct_pattern")
+testthat::context("test-reconstruct_pattern")
 
 # normal reconstruction
 pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
@@ -21,7 +21,7 @@ pattern_recon_comp_fast <- shar::reconstruct_pattern(pattern = shar::species_a,
 
 pattern_recon_energy <- shar::reconstruct_pattern(pattern = shar::species_b,
                                                   e_threshold = 0.2,
-                                                  n_random = 9,
+                                                  n_random = 3,
                                                   verbose = FALSE)
 
 pattern_recon_simple <- shar::reconstruct_pattern(pattern = shar::species_a,
@@ -35,37 +35,38 @@ pattern_recon_simple <- shar::reconstruct_pattern(pattern = shar::species_a,
 
 testthat::test_that("Output is a long as n_random for reconstruct_pattern", {
 
-  testthat::expect_type(pattern_recon, type = "list")
+  testthat::expect_is(pattern_recon, class = "rd_pat")
 
-  testthat::expect_length(pattern_recon, n = 4)
+  testthat::expect_type(pattern_recon$randomized, type = "list")
+
+  testthat::expect_length(pattern_recon$randomized, n = 3)
 })
 
 testthat::test_that("Output includes randomizations and original pattern for reconstruct_pattern", {
 
-  testthat::expect_named(pattern_recon,
-                         expected = c(paste0("randomized_", c(1:3)), "observed"))
+  testthat::expect_named(pattern_recon$randomized,
+                         expected = paste0("randomized_", c(1:3)))
 
-  testthat::expect_equal(pattern_recon[[4]],
+  testthat::expect_equal(pattern_recon$observed,
                          expected = spatstat::unmark(shar::species_a))
 })
 
 testthat::test_that("Reconstructed patterns have same number of points", {
 
-  testthat::expect_true(all(vapply(pattern_recon,
+  testthat::expect_true(all(vapply(pattern_recon$randomized,
                                    FUN.VALUE = logical(1),
                                    function(x) x$n == shar::species_a$n)))
 })
 
 testthat::test_that("Input pattern can not be returned for reconstruct_pattern", {
 
-  testthat::expect_false(any(shar::species_a %in% pattern_recon_ni))
+  testthat::expect_equal(object = pattern_recon_ni$observed,
+                         expected = "NA")
 })
 
 testthat::test_that("Argument comp_fast = TRUE is working", {
 
-  testthat::expect_type(pattern_recon_comp_fast, type = "list")
-
-  testthat::expect_length(pattern_recon_comp_fast, n = 2)
+  testthat::expect_is(pattern_recon_comp_fast, "rd_pat")
 })
 
 testthat::test_that("Reconstruction stops if e_threshold is reached", {

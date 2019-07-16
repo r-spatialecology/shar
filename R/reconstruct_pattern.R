@@ -63,7 +63,7 @@ reconstruct_pattern <- function(pattern,
                                 max_runs = 1000,
                                 no_change = Inf,
                                 fitting = FALSE,
-                                annealing = 0,
+                                annealing = 0.01,
                                 comp_fast = 1000,
                                 weights = c(0.5, 0.5),
                                 return_input = TRUE,
@@ -91,11 +91,24 @@ reconstruct_pattern <- function(pattern,
     comp_fast <- FALSE
   }
 
-  # counter if energy changed
-  energy_counter <- 0
+  # set names of randomization randomized_1 ... randomized_n
+  names_randomization <- paste0("randomized_", seq_len(n_random))
+
+  # create empty lists for results
+  energy_list <- vector("list", length = n_random)
+  iterations_list <- vector("list", length = n_random)
+  stop_criterion_list <- as.list(rep("max_runs", times = n_random))
+  result_list <- vector("list", length = n_random)
+
+  # set names
+  names(energy_list) <- names_randomization
+  names(iterations_list) <- names_randomization
+  names(stop_criterion_list) <- names_randomization
+  names(result_list) <- names_randomization
 
   # check if weights make sense
   if (sum(weights) > 1 || sum(weights) == 0) {
+
     stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
   }
 
@@ -166,6 +179,7 @@ reconstruct_pattern <- function(pattern,
 
   # create Poisson simulation data
   else {
+
     simulated <- spatstat::runifpoint(n = pattern$n,
                                       nsim = 1, drop = TRUE,
                                       win = pattern$window,
@@ -213,16 +227,30 @@ reconstruct_pattern <- function(pattern,
     (mean(abs(pcf_observed[[3]] - pcf_simulated[[3]]), na.rm = TRUE) * weights[[2]])
 
   # create n_random recondstructed patterns
-  result <- lapply(seq_len(n_random), function(current_pattern) {
+  for (current_pattern in seq_len(n_random)) {
+
+    # current simulated
+    simulated_current <- simulated
+    energy_current <- energy
+
+    # counter of iterations
+    iterations <- 0
+
+    # counter if energy changed
+    energy_counter <- 0
+
+    # df for energy
+    energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1),
+                            energy = NA)
 
     # random ids of pattern
-    rp_id <- shar::rcpp_sample(x = seq_len(pattern$n),
+    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n),
                                n = max_runs, replace = TRUE)
 
     # create random new points
     rp_coords <- spatstat::runifpoint(n = max_runs,
                                       nsim = 1, drop = TRUE,
-                                      win = pattern$window,
+                                      win = simulated_current$window,
                                       warn = FALSE)
 
     # create random number for annealing prob
@@ -240,7 +268,7 @@ reconstruct_pattern <- function(pattern,
     for (i in seq_len(max_runs)) {
 
       # data for relocation
-      relocated <- simulated
+      relocated <- simulated_current
 
       # get current point id
       rp_id_current <- rp_id[[i]]
@@ -272,17 +300,17 @@ reconstruct_pattern <- function(pattern,
       }
 
       # energy after relocation
-      e_relocated <- (mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) * weights[[1]]) +
+      energy_relocated <- (mean(abs(gest_observed[[3]] - gest_relocated[[3]]), na.rm = TRUE) * weights[[1]]) +
         (mean(abs(pcf_observed[[3]] - pcf_relocated[[3]]), na.rm = TRUE) * weights[[2]])
 
       # lower energy after relocation
-      if (e_relocated < energy || random_annealing[i] < annealing) {
+      if (energy_relocated < energy_current || random_annealing[i] < annealing) {
 
         # keep relocated pattern
-        simulated <- relocated
+        simulated_current <- relocated
 
-        # keep e_relocated as energy
-        energy <- e_relocated
+        # keep energy_relocated as energy
+        energy_current <- energy_relocated
 
         # set counter since last change back to 0
         energy_counter <- 0
@@ -311,64 +339,90 @@ reconstruct_pattern <- function(pattern,
         energy_counter <- energy_counter + 1
       }
 
+      # count iterations
+      iterations <- iterations + 1
+
+      # save energy in data frame
+      energy_df[iterations, 2] <- energy_current
+
       # print progress
       if (verbose) {
+
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", i, "/", max_runs,
-                " || energy = ", round(energy, 5), "\t\t",
+                " || energy = ", round(energy_current, 5), "\t\t",
                 appendLF = FALSE)
       }
 
       # exit loop if e threshold or no_change counter max is reached
-      if (energy <= e_threshold || energy_counter > no_change) {
+      if (energy_current <= e_threshold || energy_counter > no_change) {
+
+        # set stop criterion due to energy
+        stop_criterion_list[[current_pattern]] <- "e_threshold/no_change"
+
         break
       }
     }
 
+    # close plotting device
     if (plot) {
+
       grDevices::dev.off()
     }
 
-    return(simulated)
-  })
+    # remove NAs if stopped due to energy
+    if (stop_criterion_list[[current_pattern]] == "e_threshold/no_change") {
 
-  # add input pattern to randomizations
-  if (return_input) {
-
-    # simplify not possible if input pattern should be returned
-    if (simplify && verbose) {
-      message("\n")
-      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+      energy_df <- energy_df[1:iterations, ]
     }
 
-    # add input pattern as last list entry
-    result[[n_random + 1]] <- pattern
-
-    # set names
-    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed")
+    # save results in lists
+    energy_list[[current_pattern]] <- energy_df
+    iterations_list[[current_pattern]] <- iterations
+    result_list[[current_pattern]] <- simulated_current
   }
 
-  # don't add input pattern
-  else{
+  # combine to one list
+  reconstruction <- list(randomized = result_list,
+                         observed = pattern,
+                         method = "reconstruct_pattern()",
+                         energy_df = energy_list,
+                         stop_criterion = stop_criterion_list,
+                         iterations = iterations_list)
 
-    # don't return list
+  # set class of result
+  class(reconstruction) <- "rd_pat"
+
+  # remove input if return_input = FALSE
+  if (!return_input) {
+
+    # set observed to NA
+    reconstruction$observed <- "NA"
+
+    # check if output should be simplified
     if (simplify) {
 
-      # simplify not possible if more than one random pattern is present
+      # not possible if more than one pattern is present
       if (n_random > 1 && verbose) {
-        message("\n")
-        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.",
+                call. = FALSE)
       }
 
-      # return only pattern not as list
-      else {
-        result <- result[[1]]
+      # only one random pattern is present that should be returend
+      else if (n_random == 1) {
+        reconstruction <- reconstruction$randomized[[1]]
       }
     }
+  }
 
-    # set names of list to return
-    else{
-      names(result) <- paste0("randomized_", seq_len(n_random))
+  # return input if return_input = TRUE
+  else {
+
+    # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
+    if (simplify && verbose) {
+
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
   }
 
@@ -377,9 +431,5 @@ reconstruct_pattern <- function(pattern,
     message("\r")
   }
 
-  if (!simplify) {
-    class(result) <- "rd_pat"
-  }
-
-  return(result)
+  return(reconstruction)
 }

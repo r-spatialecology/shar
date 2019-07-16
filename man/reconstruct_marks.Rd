@@ -6,7 +6,7 @@
 \usage{
 reconstruct_marks(pattern, marked_pattern, n_random = 1,
   e_threshold = 0.01, max_runs = 10000, no_change = Inf,
-  annealing = 0, return_input = TRUE, simplify = FALSE,
+  annealing = 0.01, return_input = TRUE, simplify = FALSE,
   verbose = TRUE, plot = FALSE)
 }
 \arguments{
@@ -50,7 +50,8 @@ deviation between the observed and the reconstructed pattern decreases.
 }
 \examples{
 \dontrun{
-pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000)[[1]]
+pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000,
+simplify = TRUE, return_input = FALSE)
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 marks_recon <- reconstruct_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
 }

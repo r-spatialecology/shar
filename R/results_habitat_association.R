@@ -41,13 +41,13 @@
 results_habitat_association <- function(pattern, raster,
                                         significance_level = 0.05, verbose = TRUE) {
 
-  if (class(pattern) != "rd_pat" & class(raster) != "rd_ras") {
+  if (class(pattern) != "rd_pat" && class(raster) != "rd_ras") {
 
     stop("Class of 'pattern' or 'raster' must be either 'rd_pat' or 'rd_ras'.",
          call. = FALSE)
   }
 
-  if (class(pattern) == "rd_pat" & class(raster) == "rd_ras") {
+  if (class(pattern) == "rd_pat" && class(raster) == "rd_ras") {
 
     stop("Please provide only one randomized input.",
          call. = FALSE)
@@ -65,7 +65,8 @@ results_habitat_association <- function(pattern, raster,
   if (class(raster) == "rd_ras") {
 
     # check if randomized and observed is present
-    if (!"observed" %in% names(raster)) {
+    if (!methods::is(raster$observed, "RasterLayer")) {
+
       stop("The observed raster needs to be included in the input 'raster'.",
            call. = FALSE)
     }
@@ -76,6 +77,7 @@ results_habitat_association <- function(pattern, raster,
 
     # error if extent is not identical
     if (!same_extent) {
+
       stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
     }
 
@@ -83,7 +85,9 @@ results_habitat_association <- function(pattern, raster,
 
     # print warning if more than 10 classes are present
     if (verbose) {
+
       if (length(habitats) > 10) {
+
         warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
                 call. = FALSE)
       }
@@ -91,9 +95,18 @@ results_habitat_association <- function(pattern, raster,
 
     # print quantiles
     if (verbose) {
+
       message("> Input: randomized raster | Quantile thresholds: negative < ",
               threshold[1], " - positive > ", threshold[2])
     }
+
+    # combine observed and randomized to one list again
+    raster <- c(raster$randomized, list(raster$observed))
+
+    names(raster) <- c(paste0("randomized_", seq(from = 1,
+                                                 to = length(raster) - 1,
+                                                 by = 1)),
+                             "observed")
 
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(raster, function(current_raster) {
@@ -107,7 +120,8 @@ results_habitat_association <- function(pattern, raster,
   else if (class(pattern) == "rd_pat") {
 
     # check if randomized and observed is present
-    if (!"observed" %in% names(pattern)) {
+    if (!spatstat::is.ppp(pattern$observed)) {
+
       stop("The observed pattern needs to be included in the input 'pattern'.",
            call. = FALSE)
     }
@@ -118,6 +132,7 @@ results_habitat_association <- function(pattern, raster,
 
     # error if extent is not identical
     if (!same_extent) {
+
       stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
     }
 
@@ -125,7 +140,9 @@ results_habitat_association <- function(pattern, raster,
 
     # print warning if more than 10 classes are present
     if (verbose) {
+
       if (length(habitats) > 10) {
+
         warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
                 call. = FALSE)
       }
@@ -136,6 +153,14 @@ results_habitat_association <- function(pattern, raster,
       message("> Input: randomized point pattern | Quantile thresholds: negative < ",
               threshold[1], " - positive > ", threshold[2])
     }
+
+    # combine observed and randomized to one list again
+    pattern <- c(pattern$randomized, list(pattern$observed))
+
+    names(pattern) <- c(paste0("randomized_", seq(from = 1,
+                                                  to = length(pattern) - 1,
+                                                  by = 1)),
+                             "observed")
 
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(pattern, function(current_pattern) {

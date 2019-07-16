@@ -1,7 +1,7 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 0.5
+Version: 0.6
 Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "maximilian.hesselbarth@uni-goettingen.de",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "sciaini.marco@gmail.com",
@@ -21,6 +21,7 @@ Imports:
     classInt,
     graphics,
     grDevices,
+    methods,
     raster,
     spatstat,
     stats,
@@ -30,7 +31,7 @@ RoxygenNote: 6.1.1
 Suggests:
     covr,
     dplyr,
-    testthat,
+    testthat (>= 2.1.0),
     knitr,
     rmarkdown
 VignetteBuilder: knitr

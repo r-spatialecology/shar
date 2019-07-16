@@ -40,7 +40,8 @@ calculate_energy(pattern_random, return_mean = TRUE)
 
 \dontrun{
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-marks_recon <- reconstruct_marks(pattern_random[[1]], marks_sub, n_random = 19, max_runs = 1000)
+marks_recon <- reconstruct_marks(pattern_random$randomized[[1]], marks_sub,
+n_random = 19, max_runs = 1000)
 calculate_energy(marks_recon, return_mean = FALSE)
 }
 
