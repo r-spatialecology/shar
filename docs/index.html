@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6</span>
       </span>
     </div>
 
@@ -163,13 +163,22 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruction, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="reference/figures/README-plot-random_pattern-1.png" width="528" style="display: block; margin: auto;"><img src="reference/figures/README-plot-random_pattern-2.png" width="528" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruction, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">##  [1] 0.01356462 0.01867389 0.01455831 0.01754614 0.01858267 0.02008615</span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="co">##  [7] 0.01544740 0.01470591 0.01255234 0.01837727 0.01622154 0.01765028</span></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="co">## [13] 0.01517141 0.02075634 0.01836698 0.01523319 0.01832501 0.02072956</span></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="co">## [19] 0.01845929 0.01733616 0.01639753 0.01887276 0.01738685 0.01361427</span></a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="co">## [25] 0.01619153 0.01695853 0.01856459 0.01692591 0.01986748 0.01604911</span></a>
-<a class="sourceLine" id="cb9-7" title="7"><span class="co">## [31] 0.01972613 0.01518272 0.01681647 0.02010567 0.01472619 0.01794340</span></a>
-<a class="sourceLine" id="cb9-8" title="8"><span class="co">## [37] 0.01740046 0.01531350 0.01869501</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 </span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">##    0.01716646    0.02080741    0.02469685    0.02252225    0.01905148 </span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">##  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 </span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">##    0.02317256    0.01467501    0.02009006    0.01796639    0.01742050 </span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">## randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 </span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">##    0.01967685    0.01531558    0.01429541    0.02049072    0.01755755 </span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">## randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 </span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">##    0.01672621    0.01993774    0.01695963    0.01949814    0.01368794 </span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">## randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 </span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">##    0.02298234    0.01629161    0.02034008    0.01466430    0.02274970 </span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">## randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 </span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">##    0.01857961    0.01489574    0.01694560    0.01860603    0.02151825 </span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="co">## randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 </span></a>
+<a class="sourceLine" id="cb9-15" title="15"><span class="co">##    0.01719001    0.01744145    0.01735466    0.01988854    0.02075585 </span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co">## randomized_36 randomized_37 randomized_38 randomized_39 </span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="co">##    0.02174524    0.02042854    0.01674873    0.01900174</span></a></code></pre></div>
 <p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5. At one point a posititive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> species_a, <span class="dt">raster =</span> torus_trans)</a>
 <a class="sourceLine" id="cb10-2" title="2"><span class="co">## &gt; Input: randomized raster | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
@@ -183,11 +192,11 @@
 <a class="sourceLine" id="cb10-10" title="10"><span class="kw"><a href="reference/results_habitat_association.html">results_habitat_association</a></span>(<span class="dt">pattern =</span> reconstruction, <span class="dt">raster =</span> landscape_classified)</a>
 <a class="sourceLine" id="cb10-11" title="11"><span class="co">## &gt; Input: randomized point pattern | Quantile thresholds: negative &lt; 0.025 - positive &gt; 0.975</span></a>
 <a class="sourceLine" id="cb10-12" title="12"><span class="co">##   habitat count    lo    hi significance</span></a>
-<a class="sourceLine" id="cb10-13" title="13"><span class="co">## 1       1     8  4.85 43.15         n.s.</span></a>
-<a class="sourceLine" id="cb10-14" title="14"><span class="co">## 2       2    22 26.80 68.10     negative</span></a>
-<a class="sourceLine" id="cb10-15" title="15"><span class="co">## 3       3    33 46.80 74.10     negative</span></a>
-<a class="sourceLine" id="cb10-16" title="16"><span class="co">## 4       4    19 29.80 69.10     negative</span></a>
-<a class="sourceLine" id="cb10-17" title="17"><span class="co">## 5       5   118  9.95 37.05     positive</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-13" title="13"><span class="co">## 1       1     8  1.00 23.35         n.s.</span></a>
+<a class="sourceLine" id="cb10-14" title="14"><span class="co">## 2       2    22 25.85 49.10     negative</span></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="co">## 3       3    33 40.80 68.05     negative</span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="co">## 4       4    19 44.00 71.10     negative</span></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="co">## 5       5   118 20.85 60.05     positive</span></a></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
@@ -232,10 +241,10 @@
 <li><a href="https://travis-ci.org/r-spatialecology/shar"><img src="https://travis-ci.org/r-spatialecology/shar.svg?branch=master" alt="Travis build status"></a></li>
 <li><a href="https://ci.appveyor.com/project/mhesselbarth/shar/branch/master"><img src="https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/gh/r-spatialecology/shar?branch=master"><img src="https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
+<li><a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://cran.r-project.org/package=shar"><img src="https://www.r-pkg.org/badges/version/shar" alt="CRAN status"></a></li>
-<li><a href="http://cran.rstudio.com/web/packages/shar/index.html"><img src="http://cranlogs.r-pkg.org/badges/grand-total/shar"></a></li>
+<li><a href="http://cran.rstudio.com/web/packages/shar/index.html"><img src="http://cranlogs.r-pkg.org/badges/grand-total/shar" alt="CRAN logs"></a></li>
 <li><a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a></li>
 </ul>
 </div>

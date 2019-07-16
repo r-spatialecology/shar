@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6</span>
       </span>
     </div>
 
@@ -210,7 +210,8 @@ possible to plot 3 randomized patterns and the observed pattern using <code>what
 <span class='fu'>plot_randomized_pattern</span>(<span class='no'>pattern_random</span>, <span class='kw'>what</span> <span class='kw'>=</span> <span class='st'>"pp"</span>)</div><div class='output co'>#&gt; <span class='message'>&gt; Plotting observed pattern and 4 randomized patterns only</span></div><div class='img'><img src='plot_randomized_pattern-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>marks_sub</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/subset.ppp'>subset.ppp</a></span>(<span class='no'>species_a</span>, <span class='kw'>select</span> <span class='kw'>=</span> <span class='no'>dbh</span>)
-<span class='no'>marks_recon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reconstruct_marks.html'>reconstruct_marks</a></span>(<span class='no'>pattern_random</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>marks_sub</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+<span class='no'>marks_recon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reconstruct_marks.html'>reconstruct_marks</a></span>(<span class='no'>pattern_random</span>$<span class='no'>randomized</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>marks_sub</span>,
+<span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 <span class='fu'>plot_randomized_pattern</span>(<span class='no'>marks_recon</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
