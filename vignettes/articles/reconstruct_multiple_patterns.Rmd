@@ -58,7 +58,7 @@ Secondly, to reconstruct the (numeric) marks of the observed pattern for each of
 species_a_marks <- spatstat::subset.ppp(species_a, select = dbh)
 
 # reconstruct marks 3 times for each input pattern
-result_marks <- lapply(reconstructed_pattern, 
+result_marks <- lapply(reconstructed_pattern$randomized, 
                        function(x) reconstruct_marks(pattern = x, 
                                                      marked_pattern = species_a_marks, 
                                                      max_runs = 10,
