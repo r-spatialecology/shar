@@ -23,6 +23,8 @@ energy_recon <- round(shar::calculate_energy(marks_recon,
 
 testthat::test_that("print.rd_mar works for reconstructed pattern", {
 
+  testthat::skip("skip")
+
   output <- testthat::capture_output(shar::print.rd_mar(marks_recon))
 
   testthat::expect_equal(object = output,

@@ -2,11 +2,14 @@ testthat::context("test-print.rd_ras")
 
 landscape_classified <- shar::classify_habitats(landscape, classes = 5)
 
-landscape_random <- shar::randomize_raster(landscape_classified, n_random = 1)
+landscape_random <- shar::randomize_raster(landscape_classified, n_random = 1,
+                                           verbose = FALSE)
 
 ################################################################################
 
 testthat::test_that("print.rd_pat works", {
+
+  testthat::skip("skip")
 
   output <- testthat::capture_output(shar::print.rd_ras(landscape_random))
 
