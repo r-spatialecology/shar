@@ -20,13 +20,20 @@ This can help to identify if enough max_runs where chosen for the reconstruction
 }
 \examples{
 \dontrun{
-pattern_recon <- reconstruct_pattern(species_a, n_random = 3, max_runs = 1000)
+pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 3, max_runs = 1000)
 plot_energy(pattern_recon)
 
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-marks_recon <- reconstruct_marks(pattern_recon$randomized[[1]], marks_sub,
+marks_recon <- reconstruct_pattern_marks(pattern_recon$randomized[[1]], marks_sub,
 n_random = 1, max_runs = 1000)
 plot_energy(marks_recon)
 }
 
+}
+\seealso{
+\code{\link{calculate_energy}} \cr
+\code{\link{reconstruct_pattern_homo}} \cr
+\code{\link{reconstruct_pattern_hetero}} \cr
+\code{\link{reconstruct_pattern_cluster}} \cr
+\code{\link{plot_randomized_pattern}}
 }

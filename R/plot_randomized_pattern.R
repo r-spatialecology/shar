@@ -26,7 +26,7 @@
 #'
 #' \dontrun{
 #' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-#' marks_recon <- reconstruct_marks(pattern_random$randomized[[1]], marks_sub,
+#' marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]], marks_sub,
 #' n_random = 19, max_runs = 1000)
 #' plot_randomized_pattern(marks_recon)
 #' }

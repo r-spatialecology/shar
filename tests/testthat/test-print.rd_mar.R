@@ -1,18 +1,18 @@
 testthat::context("test-print.rd_mar")
 
-pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
-                                           n_random = 1,
-                                           max_runs = 10,
-                                           return_input = FALSE,
-                                           simplify = TRUE,
-                                           verbose = FALSE)
+pattern_recon <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
+                                                n_random = 1,
+                                                max_runs = 10,
+                                                return_input = FALSE,
+                                                simplify = TRUE,
+                                                verbose = FALSE)
 
-marks_recon <- shar::reconstruct_marks(pattern = pattern_recon,
-                                       marked_pattern = spatstat::subset.ppp(shar::species_a,
-                                                                             select = dbh),
-                                       n_random = 3,
-                                       max_runs = 10,
-                                       verbose = FALSE)
+marks_recon <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
+                                               marked_pattern = spatstat::subset.ppp(shar::species_a,
+                                                                                     select = dbh),
+                                               n_random = 3,
+                                               max_runs = 10,
+                                               verbose = FALSE)
 
 energy_recon <- round(shar::calculate_energy(marks_recon,
                                              return_mean = TRUE,

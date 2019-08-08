@@ -1,4 +1,4 @@
-#' reconstruct_marks
+#' reconstruct_pattern_marks
 #'
 #' @description Pattern reconstruction of marks
 #'
@@ -25,21 +25,23 @@
 #' deviation between the observed and the reconstructed pattern decreases.
 #'
 #' @seealso
-#' \code{\link{reconstruct_pattern}} \cr
 #' \code{\link{fit_point_process}} \cr
+#' \code{\link{reconstruct_pattern_homo}} \cr
+#' \code{\link{reconstruct_pattern_hetero}} \cr
+#' \code{\link{reconstruct_pattern_cluster}}
 #'
 #' @return list
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000,
+#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
 #' simplify = TRUE, return_input = FALSE)
 #' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-#' marks_recon <- reconstruct_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
+#' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
 #' }
 #'
-#' @aliases reconstruct_marks
-#' @rdname reconstruct_marks
+#' @aliases reconstruct_pattern_marks
+#' @rdname reconstruct_pattern_marks
 #'
 #' @references
 #' Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
@@ -49,17 +51,17 @@
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 #'
 #' @export
-reconstruct_marks <- function(pattern,
-                              marked_pattern,
-                              n_random = 1,
-                              e_threshold = 0.01,
-                              max_runs = 10000,
-                              no_change = Inf,
-                              annealing = 0.01,
-                              return_input = TRUE,
-                              simplify = FALSE,
-                              verbose = TRUE,
-                              plot = FALSE){
+reconstruct_pattern_marks <- function(pattern,
+                                      marked_pattern,
+                                      n_random = 1,
+                                      e_threshold = 0.01,
+                                      max_runs = 10000,
+                                      no_change = Inf,
+                                      annealing = 0.01,
+                                      return_input = TRUE,
+                                      simplify = FALSE,
+                                      verbose = TRUE,
+                                      plot = FALSE){
 
   # check if n_random is >= 1
   if (!n_random >= 1) {
@@ -264,7 +266,7 @@ reconstruct_marks <- function(pattern,
   # combine to one list
   reconstruction <- list(randomized = result_list,
                          observed = marked_pattern,
-                         method = "reconstruct_marks()",
+                         method = "reconstruct_pattern_marks()",
                          energy_df = energy_list,
                          stop_criterion = stop_criterion,
                          iterations = iterations_list)

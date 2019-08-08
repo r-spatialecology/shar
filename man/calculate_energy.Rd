@@ -40,7 +40,7 @@ calculate_energy(pattern_random, return_mean = TRUE)
 
 \dontrun{
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-marks_recon <- reconstruct_marks(pattern_random$randomized[[1]], marks_sub,
+marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]], marks_sub,
 n_random = 19, max_runs = 1000)
 calculate_energy(marks_recon, return_mean = FALSE)
 }
@@ -54,6 +54,9 @@ Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
 in ecology. Boca Raton: Chapman and Hall/CRC Press.
 }
 \seealso{
-\code{\link{reconstruct_pattern}} \cr
+\code{\link{plot_energy}} \cr
+\code{\link{reconstruct_pattern_homo}} \cr
+\code{\link{reconstruct_pattern_hetero}} \cr
+\code{\link{reconstruct_pattern_cluster}} \cr
 \code{\link{plot_randomized_pattern}}
 }

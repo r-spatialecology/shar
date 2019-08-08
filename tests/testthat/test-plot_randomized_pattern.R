@@ -13,10 +13,10 @@ pattern_random_marks <- pattern_random$randomized[[1]]
 
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 
-marks_recon <- shar::reconstruct_marks(pattern = pattern_random_marks,
-                                       marked_pattern = marks_sub,
-                                       n_random = 3, max_runs = 1,
-                                       verbose = FALSE)
+marks_recon <- shar::reconstruct_pattern_marks(pattern = pattern_random_marks,
+                                               marked_pattern = marks_sub,
+                                               n_random = 3, max_runs = 1,
+                                               verbose = FALSE)
 
 ################################################################################
 

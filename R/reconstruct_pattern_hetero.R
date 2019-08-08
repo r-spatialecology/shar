@@ -1,6 +1,6 @@
-#' reconstruct_pattern
+#' reconstruct_pattern_hetero
 #'
-#' @description Pattern reconstruction
+#' @description Pattern reconstruction for heterogenous patterns
 #'
 #' @param pattern ppp.
 #' @param n_random Number of randomizations.
@@ -8,7 +8,6 @@
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
 #' @param annealing Probability to keep relocated point even if energy did not decrease.
-#' @param fitting It true, the pattern reconstruction starts with a fitting of a Thomas process.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
 #' @param return_input The original input data is returned as last list entry
@@ -19,10 +18,10 @@
 #' @details
 #' The functions randomizes the observed pattern by using pattern reconstruction
 #' as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). The
-#' algorithm starts with a random reconstructed pattern, shifts a point to a new location and
-#' keeps the change only, if the deviation between the observed and the reconstructed
-#' pattern decreases. The pair correlation function and the nearest neighbour
-#' distance function are used to describe the patterns.
+#' algorithm starts with a random but heterogenous pattern, shifts a
+#' point to a new location and keeps the change only, if the deviation between the
+#' observed and the reconstructed pattern decreases. The pair correlation function
+#' and the nearest neighbour distance function are used to describe the patterns.
 #'
 #' For large patterns (\code{n > comp_fast}) the pair correlation function can be estimated
 #' from Ripley's K-function without edge correction. This decreases the computational
@@ -38,16 +37,21 @@
 #' @seealso
 #' \code{\link{calculate_energy}} \cr
 #' \code{\link{plot_randomized_pattern}}
+#' \code{\link{reconstruct_pattern_homo}} \cr
+#' \code{\link{reconstruct_pattern_cluster}} \cr
+#' \code{\link{reconstruct_pattern_marks}}
 #'
 #' @return list
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000)
+#' input_pattern <- spatstat::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)}, nsim = 1)
+#'
+#' pattern_recon <- reconstruct_pattern_hetero(input_pattern, n_random = 19, max_runs = 1000)
 #' }
 #'
-#' @aliases reconstruct_pattern
-#' @rdname reconstruct_pattern
+#' @aliases reconstruct_pattern_hetero
+#' @rdname reconstruct_pattern_hetero
 #'
 #' @references
 #' Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
@@ -57,22 +61,21 @@
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 #'
 #' @export
-reconstruct_pattern <- function(pattern,
-                                n_random = 1,
-                                e_threshold = 0.01,
-                                max_runs = 1000,
-                                no_change = Inf,
-                                fitting = FALSE,
-                                annealing = 0.01,
-                                comp_fast = 1000,
-                                weights = c(0.5, 0.5),
-                                return_input = TRUE,
-                                simplify = FALSE,
-                                verbose = TRUE,
-                                plot = FALSE){
+reconstruct_pattern_hetero <- function(pattern,
+                                       n_random = 1,
+                                       e_threshold = 0.01,
+                                       max_runs = 1000,
+                                       no_change = Inf,
+                                       annealing = 0.01,
+                                       comp_fast = 1000,
+                                       weights = c(0.5, 0.5),
+                                       return_input = TRUE,
+                                       simplify = FALSE,
+                                       verbose = TRUE,
+                                       plot = FALSE){
 
   # check if n_random is >= 1
-  if (!n_random >= 1) {
+  if (n_random < 1) {
     stop("n_random must be >= 1.", call. = FALSE)
   }
 
@@ -81,6 +84,7 @@ reconstruct_pattern <- function(pattern,
 
     # Print message that summary functions will be computed fast
     if (verbose) {
+
       message("> Using fast compuation of summary functions.")
     }
 
@@ -88,6 +92,7 @@ reconstruct_pattern <- function(pattern,
   }
 
   else {
+
     comp_fast <- FALSE
   }
 
@@ -118,7 +123,7 @@ reconstruct_pattern <- function(pattern,
     pattern <- spatstat::unmark(pattern)
 
     if (verbose) {
-      warning("Unmarked provided input pattern. For marked pattern, see reconstruct_marks().",
+      warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
               call. = FALSE)
     }
   }
@@ -129,62 +134,14 @@ reconstruct_pattern <- function(pattern,
                                     lambda = spatstat::intensity.ppp(pattern)),
            length.out = 250)
 
-  # start with fitted pattern
-  if (fitting) {
+  # estimate lambda(x,y)
+  lambda <- spatstat::density.ppp(pattern)
 
-    # fit Thomas process
-    fitted_process <- spatstat::kppm.ppp(pattern, cluster = "Thomas",
-                                         statistic = "pcf",
-                                         statargs = list(divisor = "d",
-                                                         correction = "best"),
-                                         method = "mincon",
-                                         improve.type = "none")
+  # create starting pattern
+  simulated <- spatstat::rpoint(n = pattern$n,
+                                f = lambda,
+                                win = pattern$window)
 
-    # simulte clustered pattern
-    simulated <- spatstat::simulate.kppm(fitted_process,
-                                         nsim = 1, drop = TRUE,
-                                         window = pattern$window,
-                                         verbose = FALSE)
-
-    # remove points because more points in simulated
-    if (pattern$n < simulated$n) {
-
-      # difference between patterns
-      difference <- simulated$n - pattern$n
-
-      # id of points to remove
-      remove_points <- shar::rcpp_sample(x = seq_len(simulated$n), n = difference)
-
-      # remove points
-      simulated <- simulated[-remove_points]
-    }
-
-    # add points because less points in simulated
-    if (pattern$n > simulated$n) {
-
-      # difference between patterns
-      difference <- pattern$n - simulated$n
-
-      # create missing points
-      missing_points <- spatstat::runifpoint(n = difference,
-                                             nsim = 1, drop = TRUE,
-                                             win = pattern$window,
-                                             warn = FALSE)
-
-      # add missing points to simulated
-      simulated <- spatstat::superimpose.ppp(simulated, missing_points,
-                                             W = pattern$window, check = FALSE)
-    }
-  }
-
-  # create Poisson simulation data
-  else {
-
-    simulated <- spatstat::runifpoint(n = pattern$n,
-                                      nsim = 1, drop = TRUE,
-                                      win = pattern$window,
-                                      warn = FALSE)
-  }
 
   # fast computation of summary functions
   if (comp_fast) {
@@ -248,10 +205,9 @@ reconstruct_pattern <- function(pattern,
                                n = max_runs, replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat::runifpoint(n = max_runs,
-                                      nsim = 1, drop = TRUE,
-                                      win = simulated_current$window,
-                                      warn = FALSE)
+    rp_coords <- spatstat::rpoint(n = max_runs,
+                                  f = lambda,
+                                  win = pattern$window)
 
     # create random number for annealing prob
     if (annealing != 0) {
@@ -385,7 +341,7 @@ reconstruct_pattern <- function(pattern,
   # combine to one list
   reconstruction <- list(randomized = result_list,
                          observed = pattern,
-                         method = "reconstruct_pattern()",
+                         method = "reconstruct_pattern_hetero()",
                          energy_df = energy_list,
                          stop_criterion = stop_criterion_list,
                          iterations = iterations_list)

@@ -9,10 +9,10 @@ pattern_random_b <- shar::fit_point_process(pattern = shar::species_b,
 
 marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
 
-marks_recon <- reconstruct_marks(pattern_random_a$randomized[[1]],
-                                 marks_sub,
-                                 n_random = 3, max_runs = 10,
-                                 verbose = FALSE)
+marks_recon <- shar::reconstruct_pattern_marks(pattern_random_a$randomized[[1]],
+                                               marks_sub,
+                                               n_random = 3, max_runs = 10,
+                                               verbose = FALSE)
 
 ################################################################################
 

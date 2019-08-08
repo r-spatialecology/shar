@@ -46,5 +46,7 @@ Journal of Theoretical Biology, 207(1), 81-99.
 \seealso{
 \code{\link{randomize_raster}} \cr
 \code{\link{translate_raster}} \cr
-\code{\link{reconstruct_pattern}}
+\code{\link{reconstruct_pattern_homo}} \cr
+\code{\link{reconstruct_pattern_hetero}} \cr
+\code{\link{reconstruct_pattern_cluster}}
 }

@@ -70,7 +70,7 @@ To randomize the point pattern, either use the Gamma test described by Plotkin e
 ```{r pattern-random, eval = FALSE}
 gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 39, verbose = FALSE)
 
-reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
+reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
 ```
 
 Of coures, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions). 

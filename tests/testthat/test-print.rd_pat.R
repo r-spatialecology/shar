@@ -5,14 +5,14 @@ pattern_random <- shar::fit_point_process(pattern = shar::species_a,
                                           verbose = FALSE)
 
 energy_random <- round(shar::calculate_energy(pattern_random,
-                                        return_mean = TRUE,
-                                        verbose = FALSE),
+                                              return_mean = TRUE,
+                                              verbose = FALSE),
                        digits = 4)
 
-pattern_recon <- shar::reconstruct_pattern(pattern = shar::species_a,
-                                           n_random = 3,
-                                           max_runs = 10,
-                                           verbose = FALSE)
+pattern_recon <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
+                                                n_random = 3,
+                                                max_runs = 10,
+                                                verbose = FALSE)
 
 energy_recon <- round(shar::calculate_energy(pattern_recon,
                                              return_mean = TRUE,

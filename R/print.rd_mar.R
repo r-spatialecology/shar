@@ -8,17 +8,17 @@
 #' @param ... Arguments passed to cat
 #'
 #' @details
-#' Printing method for random patterns created with \code{\link{reconstruct_marks}}.
+#' Printing method for random patterns created with \code{\link{reconstruct_pattern_marks}}.
 #'
 #' @seealso
-#' \code{\link{reconstruct_marks}}
+#' \code{\link{reconstruct_pattern_marks}}
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000,
+#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
 #' simplify = TRUE, return_input = FALSE)
 #' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-#' marks_recon <- reconstruct_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
+#' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
 #' print(marks_recon)
 #' }
 #'
@@ -76,11 +76,21 @@ print.rd_mar <- function(x,
   mean_iterations <- round(mean(unlist(x$iterations)),
                            digits = digits)
 
+  # count stop criterions
+  stop_criterion <- tryCatch(expr = table(do.call(c, x$stop_criterion), useNA = "ifany"),
+                             error = function(e) NA)
+
+  if (!any(is.na(stop_criterion))) {
+
+    stop_criterion <- paste0(paste0(names(stop_criterion), ":", stop_criterion),
+                             collapse = " ")
+  }
+
   # print result
   cat(paste0("No. of pattern: ", number_patterns, "\n",
              "Mean energy: ", energy, "\n",
              "Method: ", x$method, "\n",
              "Observed pattern: ", includes_observed, "\n",
-             "Iterations (mean): ", mean_iterations, "\n"),
-        ...)
+             "Iterations (mean): ", mean_iterations, "\n",
+             "Stop criterion (no. of patterns): ", stop_criterion, "\n"), ...)
 }

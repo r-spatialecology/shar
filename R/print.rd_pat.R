@@ -10,11 +10,14 @@
 #' @param ... Arguments passed to cat
 #'
 #' @details
-#' Printing method for random patterns created with \code{\link{reconstruct_pattern}} or
+#' Printing method for random patterns created with \code{\link{reconstruct_pattern_homo}},
+#' \code{\link{reconstruct_pattern_hetero}}, \code{\link{reconstruct_pattern_cluster}} or
 #' \code{\link{fit_point_process}}.
 #'
 #' @seealso
-#' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{reconstruct_pattern_homo}} \cr
+#' \code{\link{reconstruct_pattern_hetero}} \cr
+#' \code{\link{reconstruct_pattern_cluster}} \cr
 #' \code{\link{fit_point_process}}
 #'
 #' @examples
@@ -22,7 +25,7 @@
 #' print(pattern_random)
 #'
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern_hetero(species_b, n_random = 19, max_runs = 1000)
 #' print(pattern_recon)
 #' }
 #'
@@ -68,24 +71,34 @@ print.rd_pat <- function(x,
                                                    return_mean = TRUE,
                                                    verbose = FALSE),
                                   digits = digits),
-                     error = function(e) "NA")
+                     error = function(e) NA)
   }
 
   # not calculate energy
   else {
 
-    energy <- "NA"
+    energy <- NA
   }
 
   # calculate mean iterations
   mean_iterations <- round(mean(unlist(x$iterations)),
                            digits = digits)
 
+  # count stop criterions
+  stop_criterion <- tryCatch(expr = table(do.call(c, x$stop_criterion), useNA = "ifany"),
+                             error = function(e) NA)
+
+  if (!any(is.na(stop_criterion))) {
+
+    stop_criterion <- paste0(paste0(names(stop_criterion), ":", stop_criterion),
+                             collapse = " ")
+  }
+
   # print result
   cat(paste0("No. of pattern: ", number_patterns, "\n",
              "Mean energy: ", energy, "\n",
              "Method: ", x$method, "\n",
              "Observed pattern: ", includes_observed, "\n",
-             "Iterations (mean): ", mean_iterations, "\n"),
-        ...)
+             "Iterations (mean): ", mean_iterations, "\n",
+             "Stop criterion (no. of patterns): ", stop_criterion, "\n"), ...)
 }
