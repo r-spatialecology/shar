@@ -6,8 +6,8 @@
 \usage{
 reconstruct_pattern_marks(pattern, marked_pattern, n_random = 1,
   e_threshold = 0.01, max_runs = 10000, no_change = Inf,
-  annealing = 0.01, return_input = TRUE, simplify = FALSE,
-  verbose = TRUE, plot = FALSE)
+  annealing = 0.01, r_length = 250, return_input = TRUE,
+  simplify = FALSE, verbose = TRUE, plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}
@@ -23,6 +23,8 @@ reconstruct_pattern_marks(pattern, marked_pattern, n_random = 1,
 \item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
 
 \item{annealing}{Probability to keep relocated point even if energy did not decrease.}
+
+\item{r_length}{Number of intervals from r = 0 to r = rmax the summary functions are evaluated.}
 
 \item{return_input}{The original input data is returned as last list entry}
 
@@ -47,6 +49,9 @@ as the marked one (see `reconstruct_pattern` or `fit_point_process`). Marks must
 numeric because the mark-correlation function is used as summary function. Two
 randomly chosen marks are switch each iterations and changes only kept if the
 deviation between the observed and the reconstructed pattern decreases.
+
+\code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
+the computational time while increasing the "bumpiness" of the summary function.
 }
 \examples{
 \dontrun{

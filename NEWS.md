@@ -1,6 +1,7 @@
 # shar 1.0
 * Improvements
   * Printing methods for most objects
+  * Possibility to specify intervals of r for all reconstruction functions
 * New functionality
   * `plot_energy()` to plot energy over iterations for reconstructed patterns
   * `reconstruct_pattern_hetero()` allows to reconstruct heterogeneous patterns

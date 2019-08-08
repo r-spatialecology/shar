@@ -6,8 +6,9 @@
 \usage{
 reconstruct_pattern_homo(pattern, n_random = 1, e_threshold = 0.01,
   max_runs = 1000, no_change = Inf, annealing = 0.01,
-  comp_fast = 1000, weights = c(0.5, 0.5), return_input = TRUE,
-  simplify = FALSE, verbose = TRUE, plot = FALSE)
+  comp_fast = 1000, weights = c(0.5, 0.5), r_length = 250,
+  return_input = TRUE, simplify = FALSE, verbose = TRUE,
+  plot = FALSE)
 }
 \arguments{
 \item{pattern}{ppp.}
@@ -25,6 +26,8 @@ reconstruct_pattern_homo(pattern, n_random = 1, e_threshold = 0.01,
 \item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 
 \item{weights}{Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).}
+
+\item{r_length}{Number of intervals from r = 0 to r = rmax the summary functions are evaluated.}
 
 \item{return_input}{The original input data is returned as last list entry}
 
@@ -58,10 +61,13 @@ decrease. The number of steps can be controlled by \code{no_change} and is set t
 
 The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
 use \code{weights = c(0.5, 0.5)}.
+
+\code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
+the computational time while increasing the "bumpiness" of the summary function.
 }
 \examples{
 \dontrun{
-pattern_recon <- reconstruct_pattern_homo(species_b, n_random = 19, max_runs = 1000)
+pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 19, max_runs = 1000)
 }
 
 }

@@ -9,6 +9,7 @@
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
 #' @param annealing Probability to keep relocated point even if energy did not decrease.
+#' @param r_length Number of intervals from r = 0 to r = rmax the summary functions are evaluated.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
@@ -23,6 +24,9 @@
 #' numeric because the mark-correlation function is used as summary function. Two
 #' randomly chosen marks are switch each iterations and changes only kept if the
 #' deviation between the observed and the reconstructed pattern decreases.
+#'
+#' \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
+#' the computational time while increasing the "bumpiness" of the summary function.
 #'
 #' @seealso
 #' \code{\link{fit_point_process}} \cr
@@ -58,6 +62,7 @@ reconstruct_pattern_marks <- function(pattern,
                                       max_runs = 10000,
                                       no_change = Inf,
                                       annealing = 0.01,
+                                      r_length = 250,
                                       return_input = TRUE,
                                       simplify = FALSE,
                                       verbose = TRUE,
@@ -108,7 +113,7 @@ reconstruct_pattern_marks <- function(pattern,
   r <- seq(from = 0,
            to = spatstat::rmax.rule(W = pattern$window,
                                     lambda = spatstat::intensity.ppp(pattern)),
-           length.out = 250)
+           length.out = r_length)
 
   # create random pattern
   simulated <- pattern

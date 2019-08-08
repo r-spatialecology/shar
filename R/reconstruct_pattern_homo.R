@@ -10,6 +10,7 @@
 #' @param annealing Probability to keep relocated point even if energy did not decrease.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
+#' @param r_length Number of intervals from r = 0 to r = rmax the summary functions are evaluated.
 #' @param return_input The original input data is returned as last list entry
 #' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
 #' @param verbose Print progress report.
@@ -34,6 +35,9 @@
 #' The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
 #' use \code{weights = c(0.5, 0.5)}.
 #'
+#' \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
+#' the computational time while increasing the "bumpiness" of the summary function.
+#'
 #' @seealso
 #' \code{\link{calculate_energy}} \cr
 #' \code{\link{plot_randomized_pattern}} \cr
@@ -45,7 +49,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern_homo(species_b, n_random = 19, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 19, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_pattern_homo
@@ -67,6 +71,7 @@ reconstruct_pattern_homo <- function(pattern,
                                      annealing = 0.01,
                                      comp_fast = 1000,
                                      weights = c(0.5, 0.5),
+                                     r_length = 250,
                                      return_input = TRUE,
                                      simplify = FALSE,
                                      verbose = TRUE,
@@ -128,7 +133,7 @@ reconstruct_pattern_homo <- function(pattern,
   r <- seq(from = 0,
            to = spatstat::rmax.rule(W = pattern$window,
                                     lambda = spatstat::intensity.ppp(pattern)),
-           length.out = 250)
+           length.out = r_length)
 
   # create Poisson simulation data
   simulated <- spatstat::runifpoint(n = pattern$n,
