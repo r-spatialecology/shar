@@ -26,7 +26,8 @@
 #'
 #' \dontrun{
 #' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-#' marks_recon <- reconstruct_marks(pattern_random[[1]], marks_sub, n_random = 19, max_runs = 1000)
+#' marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]], marks_sub,
+#' n_random = 19, max_runs = 1000)
 #' plot_randomized_pattern(marks_recon)
 #' }
 #'
@@ -43,19 +44,27 @@ plot_randomized_pattern <- function(pattern,
 
   # check if class is correct
   if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
          call. = FALSE)
   }
 
   # check if observed pattern is present
-  if (!"observed" %in% names(pattern)) {
+  if (!spatstat::is.ppp(pattern$observed)) {
+
     stop("Input must include 'observed' pattern.", call. = FALSE)
   }
+
+  pattern_names <- c(paste0("randomized_", seq(from = 1,
+                                               to = length(pattern$randomized),
+                                               by = 1)),
+                     "observed")
 
   if (what == "sf") {
 
     # check if number of points exceed comp_fast limit
     if (pattern$observed$n > comp_fast) {
+
       comp_fast <- TRUE
     }
 
@@ -72,6 +81,11 @@ plot_randomized_pattern <- function(pattern,
              length.out = 250)
 
     if (class(pattern) == "rd_pat") {
+
+      # combine observed and randomized to one list again
+      pattern <- c(pattern$randomized, list(pattern$observed))
+
+      names(pattern) <- pattern_names
 
       # loop through all input
       result <- lapply(seq_along(pattern), function(x) {
@@ -130,11 +144,10 @@ plot_randomized_pattern <- function(pattern,
 
       # combine results to one dataframe
       result <- cbind(do.call(rbind, result),
-                      pattern = rep(x = names(pattern), times = result_nrow))
+                      pattern = rep(pattern_names, times = result_nrow))
 
       # classify all observed and all randomized repetitions identical
       result_randomized <- result[result$pattern != "observed", ]
-
       result_observed <- result[result$pattern == "observed", ]
 
       # summarise randomized data
@@ -236,6 +249,11 @@ plot_randomized_pattern <- function(pattern,
 
     else if (class(pattern) == "rd_mar") {
 
+      # combine observed and randomized to one list again
+      pattern <- c(pattern$randomized, list(pattern$observed))
+
+      names(pattern) <- pattern_names
+
       result <- lapply(seq_along(pattern), function(x) {
 
         mark_corr <- as.data.frame(spatstat::markcorr(pattern[[x]],
@@ -257,11 +275,10 @@ plot_randomized_pattern <- function(pattern,
 
       # combine results to one dataframe
       result <- cbind(do.call(rbind, result),
-                      pattern = rep(x = names(pattern), times = result_nrow))
+                      pattern = rep(pattern_names, times = result_nrow))
 
       # classify all observed and all randomized repetitions identical
       result_observed <- result[result$pattern == "observed", ]
-
       result_randomized <- result[result$pattern != "observed", ]
 
       # calculate envelopes
@@ -318,34 +335,41 @@ plot_randomized_pattern <- function(pattern,
 
   else if (what == "pp") {
 
+    # check if observed pattern is present
+    if (!spatstat::is.ppp(pattern$observed)) {
+
+      stop("Input must include 'observed' pattern.", call. = FALSE)
+    }
+
     # get number of patterns
-    number_patterns <- length(pattern)
+    number_patterns <- length(pattern$randomized)
 
     # check if at least 4 patterns are present, i.e. 3 randomized & observed
-    if (number_patterns < 4) {
+    if (number_patterns < 3) {
+
       stop("Please provide at least 3 randomizations and the observed pattern.",
            call. = FALSE)
     }
 
     if (verbose) {
+
       message("> Plotting observed pattern and 4 randomized patterns only")
     }
 
     # sample 3 randomized patterns
-    random_ids <- shar::rcpp_sample(x = seq(from = 1, to = number_patterns - 1, by = 1),
+    random_ids <- shar::rcpp_sample(x = seq(from = 1, to = number_patterns, by = 1),
                                     n = 3)
 
     # get randomized and observed patterns
-    pattern <- pattern[c(random_ids, number_patterns)]
+    pattern_randomized <- pattern$randomized[random_ids]
+    pattern <- c(pattern_randomized, observed = list(pattern$observed))
 
     # get names for plot main title
     names_pattern <- names(pattern)
 
     # get range of observed pattern window
     x_range <- pattern$observed$window$xrange
-
     y_range <- pattern$observed$window$yrange
-
     current_window <- pattern$observed$window
 
     # plot 4 plots next to each other

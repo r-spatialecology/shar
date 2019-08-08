@@ -1,4 +1,4 @@
-testthat::context("randomize_raster")
+testthat::context("test-randomize_raster")
 
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 5)
@@ -19,22 +19,21 @@ raster_random_simple <- shar::randomize_raster(raster = landscape_classified,
 
 testthat::test_that("Output is as long as n_random for randomize_raster", {
 
-  testthat::expect_type(landscape_random, type = "list")
+  testthat::expect_is(landscape_random, class = "rd_ras")
 
-  testthat::expect_length(landscape_random, n = 2)
+  testthat::expect_length(landscape_random$randomized, n = 1)
 })
 
 testthat::test_that("Output includes randomizations and original pattern for randomize_raster", {
 
-  testthat::expect_named(landscape_random,
-                         expected = c("randomized_1", "observed"))
+  testthat::expect_named(landscape_random$randomized,
+                         expected = "randomized_1")
 
-  testthat::expect_equal(landscape_random[[2]],
+  testthat::expect_equal(landscape_random$observed,
                          expected = landscape_classified)
 })
 
 testthat::test_that("Input raster can not be returned for randomize_raster", {
-
 
   landscape_diff <- landscape_classified - raster_random_simple
 

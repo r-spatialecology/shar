@@ -31,7 +31,7 @@ The functions randomizes the observed pattern by fitting a point process to the 
 It is possible to choose between a Poisson process or a Thomas cluster process.
 }
 \examples{
-pattern_fitted <- fit_point_process(species_a, n_random = 39)
+pattern_fitted <- fit_point_process(pattern = species_a, n_random = 39)
 
 }
 \references{

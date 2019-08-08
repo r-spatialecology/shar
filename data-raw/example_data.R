@@ -64,8 +64,8 @@ gamma_test <- fit_point_process(pattern = species_b, process = "cluster",
                                 n_random = 39, verbose = FALSE)
 
 # use pattern reconstruction
-reconstruction <- reconstruct_pattern(pattern = species_b,
-                                      n_random = 39, verbose = FALSE)
+reconstruction <- reconstruct_pattern_cluster(pattern = species_b,
+                                              n_random = 39, verbose = FALSE)
 
 #### Save data ####
 

@@ -1,3 +1,8 @@
+For details changes, please see NEWS.md.
+
+## shar 1.0
+New functionality and renameing/splitting of some functions
+
 ## shar 0.5
 Improvments of existing functions
 

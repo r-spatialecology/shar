@@ -21,6 +21,7 @@ reference:
       - calculate_energy
       - plot_randomized_pattern
       - plot_randomized_raster
+      - plot_energy
       - results_habitat_association
   - title: Various
     contents:

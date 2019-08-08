@@ -1,3 +1,14 @@
+# shar 1.0
+* Improvements
+  * Printing methods for most objects
+  * Possibility to specify intervals of r for all reconstruction functions
+* New functionality
+  * `plot_energy()` to plot energy over iterations for reconstructed patterns
+  * `reconstruct_pattern_hetero()` allows to reconstruct heterogeneous patterns
+* Renameing/Structure
+  * `reconstruct_pattern()` was split to three functions: `reconstruct_pattern_homo()`, `reconstruct_pattern_hetero()`, `reconstruct_pattern_cluster()`,
+  * `reconstruct_marks()` is now called `reconstruct_pattern_marks()`
+
 # shar 0.5
 * Improvements
   * Annealing probability can be specified for reconstruction

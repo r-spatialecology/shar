@@ -16,7 +16,7 @@
 #' @return list
 #'
 #' @examples
-#' pattern_fitted <- fit_point_process(species_a, n_random = 39)
+#' pattern_fitted <- fit_point_process(pattern = species_a, n_random = 39)
 #'
 #' @aliases fit_point_process
 #' @rdname fit_point_process
@@ -28,15 +28,18 @@
 
 #' @export
 fit_point_process <- function(pattern,
-                              n_random = 1, process = 'poisson',
+                              n_random = 1, process = "poisson",
                               return_input = TRUE,
                               simplify = FALSE,
                               verbose = TRUE){
 
   # check if n_random is >= 1
   if (!n_random >= 1) {
+
     stop("n_random must be >= 1.", call. = FALSE)
   }
+
+  iterations_list <- as.list(rep(NA, times = n_random))
 
   # unmark pattern
   if (spatstat::is.marked(pattern)) {
@@ -125,45 +128,56 @@ fit_point_process <- function(pattern,
     stop("Please select either 'poisson' or 'cluster'.", call. = FALSE)
   }
 
-  # add input pattern to randomizations
-  if (return_input) {
+  # set names
+  names(result) <- paste0("randomized_", seq_len(n_random))
 
-    if (simplify && verbose) {
-      message("\n")
-      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
-    }
+  # combine to one list
+  result <- list(randomized = result,
+                 observed = pattern,
+                 method = "fit_point_process()",
+                 energy_df = "NA",
+                 stop_criterion = "NA",
+                 iterations = iterations_list)
 
-    result[[n_random + 1]] <- pattern # add input pattern as last list entry
+  # set class of result
+  class(result) <- "rd_pat"
 
-    names(result) <-  c(paste0("randomized_", seq_len(n_random)), "observed") # set names
-  }
+  # remove input if return_input = FALSE
+  if (!return_input) {
 
-  else{
+    # set observed to NA
+    result$observed <- "NA"
 
+    # check if output should be simplified
     if (simplify) {
 
+      # not possible if more than one pattern is present
       if (n_random > 1 && verbose) {
-        message("\n")
-        warning("'simplify = TRUE' not possible for 'n_random > 1'.", call. = FALSE)
+
+        warning("'simplify = TRUE' not possible for 'n_random > 1'.",
+                call. = FALSE)
       }
 
-      else {
-        result <- result[[1]]
+      # only one random pattern is present that should be returend
+      else if (n_random == 1) {
+        result <- result$randomized[[1]]
       }
     }
+  }
 
-    else{
-      names(result) <- paste0("randomized_", seq_len(n_random)) # set names
+  # return input if return_input = TRUE
+  else {
+
+    # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
+    if (simplify && verbose) {
+
+      warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
     }
   }
 
   # write result in new line if progress was printed
   if (verbose) {
     message("\r")
-  }
-
-  if (!simplify) {
-    class(result) <- "rd_pat"
   }
 
   return(result)
