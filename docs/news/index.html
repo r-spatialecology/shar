@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -152,27 +152,39 @@
       
     </div>
 
-    <div id="shar-0-6" class="section level1">
+    <div id="shar-10" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-6" class="anchor"></a>shar 0.6<small> Unreleased </small>
+<a href="#shar-10" class="anchor"></a>shar 1.0<small> 2019-08-08 </small>
 </h1>
 <ul>
 <li>Improvements
 <ul>
 <li>Printing methods for most objects</li>
+<li>Possibility to specify intervals of r for all reconstruction functions</li>
 </ul>
 </li>
 <li>New functionality
 <ul>
 <li>
 <code><a href="../reference/plot_energy.html">plot_energy()</a></code> to plot energy over iterations for reconstructed patterns</li>
+<li>
+<code><a href="../reference/reconstruct_pattern_hetero.html">reconstruct_pattern_hetero()</a></code> allows to reconstruct heterogeneous patterns</li>
+</ul>
+</li>
+<li>Renameing/Structure
+<ul>
+<li>
+<code>reconstruct_pattern()</code> was split to three functions: <code><a href="../reference/reconstruct_pattern_homo.html">reconstruct_pattern_homo()</a></code>, <code><a href="../reference/reconstruct_pattern_hetero.html">reconstruct_pattern_hetero()</a></code>, <code><a href="../reference/reconstruct_pattern_cluster.html">reconstruct_pattern_cluster()</a></code>,</li>
+<li>
+<code>reconstruct_marks()</code> is now called <code><a href="../reference/reconstruct_pattern_marks.html">reconstruct_pattern_marks()</a></code>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-    <div id="shar-0-5" class="section level1">
+    <div id="shar-05" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-5" class="anchor"></a>shar 0.5<small> 2019-07-09 </small>
+<a href="#shar-05" class="anchor"></a>shar 0.5<small> 2019-07-09 </small>
 </h1>
 <ul>
 <li>Improvements
@@ -182,9 +194,9 @@
 </li>
 </ul>
 </div>
-    <div id="shar-0-4" class="section level1">
+    <div id="shar-04" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-4" class="anchor"></a>shar 0.4<small> 2019-05-27 </small>
+<a href="#shar-04" class="anchor"></a>shar 0.4<small> 2019-05-27 </small>
 </h1>
 <ul>
 <li>Improvements
@@ -193,7 +205,7 @@
 <li>
 <code>results_habitat_associations()</code> checks if extent of inputs is identical</li>
 <li>
-<code><a href="../reference/reconstruct_marks.html">reconstruct_marks()</a></code> and <code><a href="../reference/calculate_energy.html">calculate_energy()</a></code> use now weights for the summary functions</li>
+<code>reconstruct_marks()</code> and <code><a href="../reference/calculate_energy.html">calculate_energy()</a></code> use now weights for the summary functions</li>
 </ul>
 </li>
 <li>Bugfixes
@@ -203,9 +215,9 @@
 </li>
 </ul>
 </div>
-    <div id="shar-0-3-1" class="section level1">
+    <div id="shar-031" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-3-1" class="anchor"></a>shar 0.3.1<small> 2019-04-23 </small>
+<a href="#shar-031" class="anchor"></a>shar 0.3.1<small> 2019-04-23 </small>
 </h1>
 <ul>
 <li>Improvements
@@ -219,9 +231,9 @@
 <li>Allowing to translate raster only in n steps</li>
 </ul>
 </div>
-    <div id="shar-0-3" class="section level1">
+    <div id="shar-03" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-3" class="anchor"></a>shar 0.3<small> 2019-03-25 </small>
+<a href="#shar-03" class="anchor"></a>shar 0.3<small> 2019-03-25 </small>
 </h1>
 <ul>
 <li>Improvements
@@ -251,14 +263,14 @@
 </li>
 </ul>
 </div>
-    <div id="shar-0-2-1" class="section level1">
+    <div id="shar-021" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-2-1" class="anchor"></a>shar 0.2.1<small> Unreleased </small>
+<a href="#shar-021" class="anchor"></a>shar 0.2.1<small> Unreleased </small>
 </h1>
 <ul>
 <li>Improvements
 <ul>
-<li>minor speed improvment for <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code>, <code><a href="../reference/reconstruct_marks.html">reconstruct_marks()</a></code> and <code><a href="../reference/calculate_energy.html">calculate_energy()</a></code>
+<li>minor speed improvment for <code>reconstruct_pattern()</code>, <code>reconstruct_marks()</code> and <code><a href="../reference/calculate_energy.html">calculate_energy()</a></code>
 <ul>
 <li>The starting pattern is now identical for all n_random and only the relocation process differs between randomizations</li>
 <li>All summary functions are only calculated for 250 steps from 0 to rmax</li>
@@ -276,9 +288,9 @@
 </li>
 </ul>
 </div>
-    <div id="shar-0-2" class="section level1">
+    <div id="shar-02" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-2" class="anchor"></a>shar 0.2<small> 2019-02-06 </small>
+<a href="#shar-02" class="anchor"></a>shar 0.2<small> 2019-02-06 </small>
 </h1>
 <ul>
 <li>Improvements
@@ -289,9 +301,9 @@
 <li>
 <code>comp_fast</code> argument equals TRUE if number of points exceed threshold</li>
 <li>
-<code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code> stops if energy did not decrease for n iterations</li>
+<code>reconstruct_pattern()</code> stops if energy did not decrease for n iterations</li>
 <li>
-<code><a href="../reference/reconstruct_marks.html">reconstruct_marks()</a></code> stops if energy did not decrease for n iterations</li>
+<code>reconstruct_marks()</code> stops if energy did not decrease for n iterations</li>
 <li>
 <code><a href="../reference/plot_randomized_pattern.html">plot_randomized_pattern()</a></code> can also plot point patterns</li>
 </ul>
@@ -299,14 +311,14 @@
 <li>Bugfixes
 <ul>
 <li>Bug in <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> that more points as present could be removed from simulated pattern</li>
-<li>Bug in <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code> that more points as present could be removed from simulated pattern</li>
+<li>Bug in <code>reconstruct_pattern()</code> that more points as present could be removed from simulated pattern</li>
 </ul>
 </li>
 </ul>
 </div>
-    <div id="shar-0-1" class="section level1">
+    <div id="shar-01" class="section level1">
 <h1 class="page-header">
-<a href="#shar-0-1" class="anchor"></a>shar 0.1<small> 2019-01-27 </small>
+<a href="#shar-01" class="anchor"></a>shar 0.1<small> 2019-01-27 </small>
 </h1>
 <ul>
 <li>First submission to CRAN</li>
@@ -318,14 +330,14 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#shar-0-6">0.6</a></li>
-        <li><a href="#shar-0-5">0.5</a></li>
-        <li><a href="#shar-0-4">0.4</a></li>
-        <li><a href="#shar-0-3-1">0.3.1</a></li>
-        <li><a href="#shar-0-3">0.3</a></li>
-        <li><a href="#shar-0-2-1">0.2.1</a></li>
-        <li><a href="#shar-0-2">0.2</a></li>
-        <li><a href="#shar-0-1">0.1</a></li>
+        <li><a href="#shar-10">1.0</a></li>
+        <li><a href="#shar-05">0.5</a></li>
+        <li><a href="#shar-04">0.4</a></li>
+        <li><a href="#shar-031">0.3.1</a></li>
+        <li><a href="#shar-03">0.3</a></li>
+        <li><a href="#shar-021">0.2.1</a></li>
+        <li><a href="#shar-02">0.2</a></li>
+        <li><a href="#shar-01">0.1</a></li>
       </ul>
     </div>
   </div>

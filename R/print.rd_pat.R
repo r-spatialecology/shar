@@ -90,7 +90,7 @@ print.rd_pat <- function(x,
 
   if (!any(is.na(stop_criterion))) {
 
-    stop_criterion <- paste0(paste0(names(stop_criterion), ":", stop_criterion),
+    stop_criterion <- paste0(paste0(names(stop_criterion), "=", stop_criterion),
                              collapse = " ")
   }
 

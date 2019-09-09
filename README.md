@@ -7,13 +7,14 @@ status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
 [![Coverage
 status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Project
+Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html)
+[![CRAN
+logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -96,7 +97,7 @@ Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
 ``` r
 gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 39, verbose = FALSE)
 
-reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
+reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
 ```
 
 Of coures, there are several utility functions. For example, you can
@@ -111,13 +112,22 @@ plot_randomized_pattern(reconstruction, verbose = FALSE, ask = FALSE)
 
 ``` r
 calculate_energy(reconstruction, verbose = FALSE)
-#>  [1] 0.01356462 0.01867389 0.01455831 0.01754614 0.01858267 0.02008615
-#>  [7] 0.01544740 0.01470591 0.01255234 0.01837727 0.01622154 0.01765028
-#> [13] 0.01517141 0.02075634 0.01836698 0.01523319 0.01832501 0.02072956
-#> [19] 0.01845929 0.01733616 0.01639753 0.01887276 0.01738685 0.01361427
-#> [25] 0.01619153 0.01695853 0.01856459 0.01692591 0.01986748 0.01604911
-#> [31] 0.01972613 0.01518272 0.01681647 0.02010567 0.01472619 0.01794340
-#> [37] 0.01740046 0.01531350 0.01869501
+##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
+##    0.01716646    0.02080741    0.02469685    0.02252225    0.01905148 
+##  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
+##    0.02317256    0.01467501    0.02009006    0.01796639    0.01742050 
+## randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
+##    0.01967685    0.01531558    0.01429541    0.02049072    0.01755755 
+## randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 
+##    0.01672621    0.01993774    0.01695963    0.01949814    0.01368794 
+## randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 
+##    0.02298234    0.01629161    0.02034008    0.01466430    0.02274970 
+## randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
+##    0.01857961    0.01489574    0.01694560    0.01860603    0.02151825 
+## randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 
+##    0.01719001    0.01744145    0.01735466    0.01988854    0.02075585 
+## randomized_36 randomized_37 randomized_38 randomized_39 
+##    0.02174524    0.02042854    0.01674873    0.01900174
 ```
 
 The data was created that `species_a` has a negative association to
@@ -128,22 +138,22 @@ be seen in the results.
 
 ``` r
 results_habitat_association(pattern = species_a, raster = torus_trans)
-#> > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count lo hi significance
-#> 1       1     9  2 14         n.s.
-#> 2       2    25  9 24     positive
-#> 3       3    27 11 26     positive
-#> 4       4     0 11 29     negative
-#> 5       5    12  5 18         n.s.
+## > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
+##   habitat count lo hi significance
+## 1       1     9  2 14         n.s.
+## 2       2    25  9 24     positive
+## 3       3    27 11 26     positive
+## 4       4     0 11 29     negative
+## 5       5    12  5 18         n.s.
 
 results_habitat_association(pattern = reconstruction, raster = landscape_classified)
-#> > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
-#>   habitat count    lo    hi significance
-#> 1       1     8  4.85 43.15         n.s.
-#> 2       2    22 26.80 68.10     negative
-#> 3       3    33 46.80 74.10     negative
-#> 4       4    19 29.80 69.10     negative
-#> 5       5   118  9.95 37.05     positive
+## > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
+##   habitat count    lo    hi significance
+## 1       1     8  1.00 23.35         n.s.
+## 2       2    22 25.85 49.10     negative
+## 3       3    33 40.80 68.05     negative
+## 4       4    19 44.00 71.10     negative
+## 5       5   118 20.85 60.05     positive
 ```
 
 ## References
