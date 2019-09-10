@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>randomize_raster — randomize_raster • shar | Species-habitat associations in R</title>
+<title>reconstruct_pattern_hetero — reconstruct_pattern_hetero • shar | Species-habitat associations in R</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="randomize_raster — randomize_raster" />
+<meta property="og:title" content="reconstruct_pattern_hetero — reconstruct_pattern_hetero" />
 
-<meta property="og:description" content="Randomization algorithm" />
+<meta property="og:description" content="Pattern reconstruction for heterogenous patterns" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -151,34 +151,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>randomize_raster</h1>
+    <h1>reconstruct_pattern_hetero</h1>
     
-    <div class="hidden name"><code>randomize_raster.Rd</code></div>
+    <div class="hidden name"><code>reconstruct_pattern_hetero.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Randomization algorithm</p>
+    <p>Pattern reconstruction for heterogenous patterns</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>randomize_raster</span>(<span class='no'>raster</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>reconstruct_pattern_hetero</span>(<span class='no'>pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>e_threshold</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>no_change</span> <span class='kw'>=</span> <span class='fl'>Inf</span>, <span class='kw'>annealing</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>comp_fast</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>0.5</span>), <span class='kw'>r_length</span> <span class='kw'>=</span> <span class='fl'>250</span>,
+  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>plot</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>raster</th>
-      <td><p>RasterLayer.</p></td>
+      <th>pattern</th>
+      <td><p>ppp.</p></td>
     </tr>
     <tr>
       <th>n_random</th>
       <td><p>Number of randomizations.</p></td>
     </tr>
     <tr>
-      <th>directions</th>
-      <td><p>Cells neighbour rule: 4 (rook's case), 8 (queen's case).</p></td>
+      <th>e_threshold</th>
+      <td><p>Minimum energy to stop reconstruction.</p></td>
+    </tr>
+    <tr>
+      <th>max_runs</th>
+      <td><p>Maximum number of iterations of e_threshold is not reached.</p></td>
+    </tr>
+    <tr>
+      <th>no_change</th>
+      <td><p>Reconstrucction will stop if energy does not decrease for this number of iterations.</p></td>
+    </tr>
+    <tr>
+      <th>annealing</th>
+      <td><p>Probability to keep relocated point even if energy did not decrease.</p></td>
+    </tr>
+    <tr>
+      <th>comp_fast</th>
+      <td><p>If pattern contains more points than threshold, summary functions are estimated in a computational fast way.</p></td>
+    </tr>
+    <tr>
+      <th>weights</th>
+      <td><p>Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).</p></td>
+    </tr>
+    <tr>
+      <th>r_length</th>
+      <td><p>Number of intervals from r = 0 to r = rmax the summary functions are evaluated.</p></td>
     </tr>
     <tr>
       <th>return_input</th>
@@ -186,11 +213,15 @@
     </tr>
     <tr>
       <th>simplify</th>
-      <td><p>If n_random = 1 and return_input = FALSE only raster will be returned.</p></td>
+      <td><p>If n_random = 1 and return_input = FALSE only pattern will be returned.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>Print progress report.</p></td>
+    </tr>
+    <tr>
+      <th>plot</th>
+      <td><p>Plot pcf function during optimization.</p></td>
     </tr>
     </table>
     
@@ -200,27 +231,44 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
-as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
-starts to assign random neighbouring cells to each habitat (in increasing order of
-abundance in observed map). We modified the procedure slightly by increasing a
-probability to jump to a non-neighbouring cell as the current patch becomes larger.</p>
+    <p>The functions randomizes the observed pattern by using pattern reconstruction
+as described in Tscheschel &amp; Stoyan (2006) and Wiegand &amp; Moloney (2014). The
+algorithm starts with a random but heterogenous pattern, shifts a
+point to a new location and keeps the change only, if the deviation between the
+observed and the reconstructed pattern decreases. The pair correlation function
+and the nearest neighbour distance function are used to describe the patterns.</p>
+<p>For large patterns (<code>n &gt; comp_fast</code>) the pair correlation function can be estimated
+from Ripley's K-function without edge correction. This decreases the computational
+time. For more information see <code><a href='estimate_pcf_fast.html'>estimate_pcf_fast</a></code>.</p>
+<p>The reconstruction can be stopped automatically if for n steps the energy does not
+decrease. The number of steps can be controlled by <code>no_change</code> and is set to
+<code>no_change = Inf</code> as default to never stop automatically.</p>
+<p>The weights must be 0 &lt; sum(weights) &lt;= 1. To weight both summary functions identical,
+use <code>weights = c(0.5, 0.5)</code>.</p>
+<p><code>spatstat</code> sets <code>r_length</code> to 513 by default. However, a lower value decreases
+the computational time while increasing the "bumpiness" of the summary function.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Harms, K. E., Condit, R., Hubbell, S. P., &amp; Foster, R. B. (2001). Habitat associations
-of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.</p>
+    <p>Tscheschel, A., &amp; Stoyan, D. (2006). Statistical reconstruction of random point
+patterns. Computational Statistics and Data Analysis, 51(2), 859-871.</p>
+<p>Wiegand, T., &amp; Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
+in ecology. Boca Raton: Chapman and Hall/CRC Press.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='translate_raster.html'>translate_raster</a></code> <br />
-<code>adjacent</code></p></div>
+    <div class='dont-index'><p><code><a href='calculate_energy.html'>calculate_energy</a></code> <br />
+<code><a href='plot_randomized_pattern.html'>plot_randomized_pattern</a></code>
+<code><a href='reconstruct_pattern_homo.html'>reconstruct_pattern_homo</a></code> <br />
+<code><a href='reconstruct_pattern_cluster.html'>reconstruct_pattern_cluster</a></code> <br />
+<code><a href='reconstruct_pattern_marks.html'>reconstruct_pattern_marks</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>landscape_classified</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span>(<span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>landscape_random</span> <span class='kw'>&lt;-</span> <span class='fu'>randomize_raster</span>(<span class='no'>landscape_classified</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>)
+<span class='no'>input_pattern</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/rpoispp'>rpoispp</a></span>(<span class='kw'>lambda</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>y</span>) {<span class='fl'>100</span> * <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(-<span class='fl'>3</span> * <span class='no'>x</span>)}, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+
+<span class='no'>pattern_recon</span> <span class='kw'>&lt;-</span> <span class='fu'>reconstruct_pattern_hetero</span>(<span class='no'>input_pattern</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

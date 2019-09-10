@@ -9,12 +9,20 @@ reference:
     contents:
       - species_a
       - species_b
+      - landscape
+      - gamma_test
+      - reconstruction
+      - reconstruct_pattern_marks
+      - random_walk
+      - torus_trans
   - title: Randomize data
     contents:
       - fit_point_process
       - randomize_raster
-      - reconstruct_marks
-      - reconstruct_pattern
+      - reconstruct_pattern_homo
+      - reconstruct_pattern_hetero
+      - reconstruct_pattern_cluster
+      - reconstruct_pattern_marks
       - translate_raster
   - title: Analyse results
     contents:
@@ -30,6 +38,9 @@ reference:
       - estimate_pcf_fast
       - extract_points
       - rcpp_sample
+      - print.rd_mar
+      - print.rd_pat
+      - print.rd_ras
 
 navbar:
   title: shar

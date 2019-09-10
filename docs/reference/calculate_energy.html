@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
@@ -213,7 +213,10 @@ in ecology. Boca Raton: Chapman and Hall/CRC Press.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='reconstruct_pattern.html'>reconstruct_pattern</a></code> <br />
+    <div class='dont-index'><p><code><a href='plot_energy.html'>plot_energy</a></code> <br />
+<code><a href='reconstruct_pattern_homo.html'>reconstruct_pattern_homo</a></code> <br />
+<code><a href='reconstruct_pattern_hetero.html'>reconstruct_pattern_hetero</a></code> <br />
+<code><a href='reconstruct_pattern_cluster.html'>reconstruct_pattern_cluster</a></code> <br />
 <code><a href='plot_randomized_pattern.html'>plot_randomized_pattern</a></code></p></div>
     
 
@@ -228,7 +231,7 @@ in ecology. Boca Raton: Chapman and Hall/CRC Press.</p>
 #&gt;    0.09027527    0.12308786    0.12778120    0.10954718 </div><div class='input'><span class='fu'>calculate_energy</span>(<span class='no'>pattern_random</span>, <span class='kw'>return_mean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 1/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 2/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 3/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 4/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 5/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 6/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 7/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 8/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 9/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 10/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 11/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 12/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 13/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 14/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 15/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 16/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 17/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 18/19		</span></div><div class='output co'>#&gt; <span class='message'>&gt; Progress: 19/19		</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; [1] 0.1235705</div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>marks_sub</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatstat/topics/subset.ppp'>subset.ppp</a></span>(<span class='no'>species_a</span>, <span class='kw'>select</span> <span class='kw'>=</span> <span class='no'>dbh</span>)
-<span class='no'>marks_recon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reconstruct_marks.html'>reconstruct_marks</a></span>(<span class='no'>pattern_random</span>$<span class='no'>randomized</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>marks_sub</span>,
+<span class='no'>marks_recon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reconstruct_pattern_marks.html'>reconstruct_pattern_marks</a></span>(<span class='no'>pattern_random</span>$<span class='no'>randomized</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>marks_sub</span>,
 <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>max_runs</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
 <span class='fu'>calculate_energy</span>(<span class='no'>marks_recon</span>, <span class='kw'>return_mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='co'># }</span><div class='input'>

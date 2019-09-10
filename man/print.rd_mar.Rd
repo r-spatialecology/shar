@@ -4,12 +4,10 @@
 \alias{print.rd_mar}
 \title{print.rd_mar}
 \usage{
-\method{print}{rd_mar}(x, calc_energy = TRUE, digits = 4, ...)
+\method{print}{rd_mar}(x, digits = 4, ...)
 }
 \arguments{
 \item{x}{Random patterns.}
-
-\item{calc_energy}{If TRUE energy is calculated.}
 
 \item{digits}{Number of decimal places (round).}
 
