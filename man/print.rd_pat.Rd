@@ -4,18 +4,12 @@
 \alias{print.rd_pat}
 \title{print.rd_pat}
 \usage{
-\method{print}{rd_pat}(x, calc_energy = TRUE, digits = 4,
-  weights = c(0.5, 0.5), ...)
+\method{print}{rd_pat}(x, digits = 4, ...)
 }
 \arguments{
 \item{x}{Random patterns.}
 
-\item{calc_energy}{If TRUE energy is calculated.}
-
 \item{digits}{Number of decimal places (round).}
-
-\item{weights}{Weights used to calculate energy. The first number refers to Gest(r),
-the second number to pcf(r).}
 
 \item{...}{Arguments passed to cat}
 }

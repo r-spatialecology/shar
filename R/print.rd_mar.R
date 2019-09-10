@@ -3,7 +3,6 @@
 #' @description Print method for rd_mar object
 #'
 #' @param x Random patterns.
-#' @param calc_energy If TRUE energy is calculated.
 #' @param digits Number of decimal places (round).
 #' @param ... Arguments passed to cat
 #'
@@ -27,16 +26,12 @@
 
 #' @export
 print.rd_mar <- function(x,
-                         calc_energy = TRUE,
                          digits = 4,
                          ...) {
 
   # set length observed pattern to 0 and
   # return warning that energy can't be calculated
   if (!spatstat::is.ppp(x$observed)) {
-
-    warning("Energy can not be calculated without observed pattern.",
-            call. = FALSE)
 
     number_patterns_obs <- 0
 
@@ -54,24 +49,6 @@ print.rd_mar <- function(x,
   # get number of randomized patterns plus observed pattern
   number_patterns <- length(x$randomized) + number_patterns_obs
 
-  # calculate energy
-  if (calc_energy) {
-
-    # try to calculate energy
-    energy <- tryCatch(expr = round(calculate_energy(x,
-                                                     return_mean = TRUE,
-                                                     verbose = FALSE),
-                                    digits = digits),
-                       error = function(e) "NA")
-  }
-
-  # not calculate energy
-  else {
-
-    energy <- NA
-  }
-
-
   # calculate mean iterations
   mean_iterations <- round(mean(unlist(x$iterations)),
                            digits = digits)
@@ -88,7 +65,6 @@ print.rd_mar <- function(x,
 
   # print result
   cat(paste0("No. of pattern: ", number_patterns, "\n",
-             "Mean energy: ", energy, "\n",
              "Method: ", x$method, "\n",
              "Observed pattern: ", includes_observed, "\n",
              "Iterations (mean): ", mean_iterations, "\n",
