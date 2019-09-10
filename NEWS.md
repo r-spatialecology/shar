@@ -1,3 +1,7 @@
+# shar 1.0.1
+* Improvements
+  * No calculation of energy for printig (too slow)
+
 # shar 1.0
 * Improvements
   * Printing methods for most objects
