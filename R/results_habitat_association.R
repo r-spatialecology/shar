@@ -80,7 +80,7 @@ results_habitat_association <- function(pattern, raster,
     # error if extent is not identical
     if (!same_extent) {
 
-      stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
+      warning("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
     }
 
     habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
@@ -135,7 +135,7 @@ results_habitat_association <- function(pattern, raster,
     # error if extent is not identical
     if (!same_extent) {
 
-      stop("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
+      warning("Extent of 'pattern' and 'raster' must be identical.", call. = FALSE)
     }
 
     habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
