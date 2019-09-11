@@ -43,14 +43,19 @@ print.rd_ras <- function(x,
     includes_observed <- "included"
   }
 
+  # get extent of window
+  extent_window <- paste0(c(raster::xmin(x$randomized[[1]]),
+                            raster::xmax(x$randomized[[1]]),
+                            raster::ymin(x$randomized[[1]]),
+                            raster::ymax(x$randomized[[1]])),
+                          collapse = " ")
+
   # get number of randomized patterns plus observed pattern
   number_raster <- length(x$randomized) + number_raster_obs
 
   # print result
   cat(paste0("No. of raster: ", number_raster, "\n",
-             # "Mean energy: ", energy, "\n",
              "Method: ", x$method, "\n",
-             "Observed pattern: ", includes_observed, "\n"),
-             # "Iterations (mean): ", mean_iterations, "\n"),
-      ...)
+             "Observed pattern: ", includes_observed, "\n",
+             "Extent: ", extent_window, " (xmin, xmax, ymin, ymax) \n"), ...)
 }

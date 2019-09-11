@@ -1,3 +1,8 @@
+# shar 1.1
+* Improvements
+  * Use energy_df to get energy for printing if available
+  + Updated tests
+
 # shar 1.0.1
 * Improvements
   * No calculation of energy for printig (too slow)

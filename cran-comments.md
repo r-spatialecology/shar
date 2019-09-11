@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md.
 
+## shar 1.1
+Improvments of existing functions
+
 ## shar 1.0.1
 Some minor improvments to existing functions
 

@@ -51,6 +51,10 @@ print.rd_pat <- function(x,
     includes_observed <- "included"
   }
 
+  # get extent of window
+  extent_window <- paste0(c(x$randomized[[1]]$window$xrange,
+                            x$randomized[[1]]$window$yrange), collapse = " ")
+
   # get number of randomized patterns plus observed pattern
   number_patterns <- length(x$randomized) + number_patterns_obs
 
@@ -68,10 +72,25 @@ print.rd_pat <- function(x,
                              collapse = " ")
   }
 
+  # check if eneergy_df is available
+  if (is.list(x$energy_df)) {
+
+    mean_energy <- round(mean(vapply(x$energy_df, function(x) {
+
+      tail(x, n = 1)[, 2]
+    }, FUN.VALUE = numeric(1))), digits = digits)
+  }
+
+  else {
+    mean_energy <- "NA"
+  }
+
   # print result
   cat(paste0("No. of pattern: ", number_patterns, "\n",
              "Method: ", x$method, "\n",
              "Observed pattern: ", includes_observed, "\n",
              "Iterations (mean): ", mean_iterations, "\n",
-             "Stop criterion (no. of patterns): ", stop_criterion, "\n"), ...)
+             "Energy (mean): ", mean_energy, "\n",
+             "Stop criterion (no. of patterns): ", stop_criterion, "\n",
+             "Extent: ", extent_window, " (xmin, xmax, ymin, ymax) \n"), ...)
 }

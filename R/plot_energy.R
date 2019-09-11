@@ -41,6 +41,12 @@ plot_energy <- function(pattern,
          call. = FALSE)
   }
 
+  if (all(pattern$energy_df == "NA")) {
+
+    stop("There is no 'energy_df' slot. Please use pattern reconstruction for valid input data.",
+         call. = FALSE)
+  }
+
   # get number of rows
   range_i <- range(vapply(X = pattern$energy_df,
                           FUN = function(x) range(x$i), FUN.VALUE = numeric(2)))
@@ -58,7 +64,7 @@ plot_energy <- function(pattern,
   graphics::plot(NULL,
                  xlim = range_i,
                  ylim = range_energy,
-                 main = "Energy over time",
+                 main = "Energy over iterations",
                  xlab = "Iterations",
                  ylab = "Energy")
 
