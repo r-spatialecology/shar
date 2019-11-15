@@ -1,7 +1,8 @@
 # shar 1.1
 * Improvements
   * Use energy_df to get energy for printing if available
-  + Updated tests
+  * Updated tests
+  * More stable progress printing
 
 # shar 1.0.1
 * Improvements

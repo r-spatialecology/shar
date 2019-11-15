@@ -274,13 +274,14 @@ reconstruct_pattern_homo <- function(pattern,
         if (plot) {
 
           # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
-          Sys.sleep(0.1)
+          Sys.sleep(0.01)
 
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
                          type = "l", col = "black",
                          xlab = "r", ylab = "g(r)")
 
-          graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
+          graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]],
+                          col = "red")
 
           graphics::legend("topright",
                            legend = c("observed", "reconstructed"),
@@ -303,8 +304,12 @@ reconstruct_pattern_homo <- function(pattern,
       # print progress
       if (verbose) {
 
+        if (!plot) {
+          Sys.sleep(0.01)
+        }
+
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
-                " || max_runs: ", i, "/", max_runs,
+                " || max_runs: ", floor(i / max_runs * 100), "%",
                 " || energy = ", round(energy_current, 5), "\t\t",
                 appendLF = FALSE)
       }

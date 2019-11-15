@@ -207,7 +207,7 @@ reconstruct_pattern_marks <- function(pattern,
         if (plot) {
 
           # https://support.rstudio.com/hc/en-us/community/posts/200661917-Graph-does-not-update-until-loop-completion
-          Sys.sleep(0.1)
+          Sys.sleep(0.01)
 
           graphics::plot(x = kmmr_observed[[1]], y = kmmr_observed[[3]],
                          type = "l", col = "black",
@@ -235,8 +235,13 @@ reconstruct_pattern_marks <- function(pattern,
 
       # print progress
       if (verbose) {
+
+        if (!plot) {
+          Sys.sleep(0.01)
+        }
+
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
-                " || max_runs: ", i, "/", max_runs,
+                " || max_runs: ", floor(i / max_runs * 100), "%",
                 " || energy = ", round(energy_current, 5), "\t\t",
                 appendLF = FALSE)
       }

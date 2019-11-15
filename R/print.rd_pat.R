@@ -77,7 +77,7 @@ print.rd_pat <- function(x,
 
     mean_energy <- round(mean(vapply(x$energy_df, function(x) {
 
-      tail(x, n = 1)[, 2]
+      utils::tail(x, n = 1)[, 2]
     }, FUN.VALUE = numeric(1))), digits = digits)
   }
 
