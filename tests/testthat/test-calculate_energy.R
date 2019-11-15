@@ -14,6 +14,10 @@ marks_recon <- shar::reconstruct_pattern_marks(pattern_random_a$randomized[[1]],
                                                n_random = 3, max_runs = 10,
                                                verbose = FALSE)
 
+marks_recon_NA  <- marks_recon
+
+marks_recon_NA$energy_df <- "NA"
+
 ################################################################################
 
 testthat::test_that("calculate_energy returns energy for all randomizations", {
@@ -67,7 +71,10 @@ testthat::test_that("calculate_energy returns works for reconstructed marks", {
                                                 verbose = FALSE),
                          expected = mean_energy)
 
-
+  testthat::expect_equal(shar::calculate_energy(marks_recon_NA,
+                                                return_mean = TRUE,
+                                                verbose = FALSE),
+                         expected = mean_energy)
   })
 
 testthat::test_that("calculate_energy returns error if observed not included", {

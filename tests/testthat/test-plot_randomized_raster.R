@@ -3,17 +3,21 @@ testthat::context("test-plot_randomized_raster")
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 5)
 
-raster_random <- shar::randomize_raster(raster = landscape_classified,
-                                        n_random = 2,
+raster_random <- shar::translate_raster(raster = landscape_classified,
+                                        steps_x = 1:2, steps_y = 1:1,
                                         verbose = FALSE)
 
-raster_random_ni <- shar::randomize_raster(raster = landscape_classified,
-                                           n_random = 1,
+raster_random_large <- shar::translate_raster(raster = landscape_classified,
+                                              steps_x = 1:2, steps_y = 1:2,
+                                              verbose = FALSE)
+
+raster_random_ni <- shar::translate_raster(raster = landscape_classified,
+                                           steps_x = 1:1, steps_y = 1:1,
                                            return_input = FALSE,
                                            verbose = FALSE)
 
-raster_random_cont <- shar::randomize_raster(raster = landscape,
-                                             n_random = 1,
+raster_random_cont <- shar::translate_raster(raster = landscape,
+                                             steps_x = 1:1, steps_y = 1:1,
                                              verbose = FALSE)
 
 ################################################################################
@@ -28,6 +32,17 @@ testthat::test_that("plot_randomized_raster returns plot if n vector is specifie
 
   testthat::expect_null(shar::plot_randomized_raster(raster_random,
                                                      n = c(1, 2, 5),
+                                                     verbose = FALSE))
+
+  testthat::expect_null(shar::plot_randomized_raster(raster_random_large,
+                                                     verbose = FALSE))
+
+  testthat::expect_null(shar::plot_randomized_raster(raster_random,
+                                                     n = 100,
+                                                     verbose = FALSE))
+
+  testthat::expect_null(shar::plot_randomized_raster(raster_random_large,
+                                                     n = 100,
                                                      verbose = FALSE))
 })
 
@@ -45,6 +60,15 @@ testthat::test_that("plot_randomized_rasters returns error if wrong class ", {
                                                            shar::species_b),
                                                        verbose = FALSE),
                          regexp = "Class of 'raster' must be 'rd_ras'.",
+                         fixed = TRUE)
+})
+
+testthat::test_that("plot_randomized_rasters returns error if wrong id are selected ", {
+
+  testthat::expect_error(shar::plot_randomized_raster(raster_random,
+                                                      n = c(100, 101, 102),
+                                                      verbose = FALSE),
+                         regexp = "Please provide at least on valid ID for n.",
                          fixed = TRUE)
 })
 

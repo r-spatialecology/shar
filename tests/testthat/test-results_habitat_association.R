@@ -129,16 +129,16 @@ testthat::expect_error(shar::results_habitat_association(raster = landscape_clas
 testthat::test_that("results_habitat_association returns error if extent is not identical", {
 
 
-  testthat::expect_error(shar::results_habitat_association(pattern = shar::species_a,
-                                                           raster = landscape_wrong,
-                                                           verbose = FALSE),
-                         regexp = "Extent of 'pattern' and 'raster' must be identical.",
+  testthat::expect_warning(shar::results_habitat_association(pattern = shar::species_a,
+                                                             raster = landscape_wrong,
+                                                             verbose = FALSE),
+                         regexp = "Extent of 'pattern' and 'raster' are not identical",
                          fixed = TRUE)
 
-  testthat::expect_error(shar::results_habitat_association(pattern = pattern_wrong,
-                                                           raster = landscape_classified,
-                                                           verbose = FALSE),
-                         regexp = "Extent of 'pattern' and 'raster' must be identical.",
+  testthat::expect_warning(shar::results_habitat_association(pattern = pattern_wrong,
+                                                             raster = landscape_classified,
+                                                             verbose = FALSE),
+                         regexp = "Extent of 'pattern' and 'raster' are not identical",
                          fixed = TRUE)
 
 })
