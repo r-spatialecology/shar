@@ -18,6 +18,8 @@ logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.co
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+# shar <img src="man/figures/logo.png" align="right" width="150" />
+
 # shar
 
 **S**pecies-**H**abitat **A**ssociations in **R** is a `R` package to
@@ -59,9 +61,9 @@ library(raster)
 ```
 
 **shar** comes with build-in example data sets. `species_a` and
-`species_b` are examplary location of species, e.g. trees, as
+`species_b` are exemplary location of species, e.g. trees, as
 `ppp`-objects from the `spatstat` package. `landscape` contains
-examplary continious environmental data. However, all methods depend on
+examplary continuous environmental data. However, all methods depend on
 discrete data. Therefore we need to classify the data first.
 
 ``` r
@@ -100,7 +102,7 @@ gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_rand
 reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
 ```
 
-Of coures, there are several utility functions. For example, you can
+Of course, there are several utility functions. For example, you can
 plot a randomized pattern or calculate the differences between the
 observed pattern and the randomized patterns (using summary functions).
 
@@ -112,28 +114,26 @@ plot_randomized_pattern(reconstruction, verbose = FALSE, ask = FALSE)
 
 ``` r
 calculate_energy(reconstruction, verbose = FALSE)
-##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-##    0.01716646    0.02080741    0.02469685    0.02252225    0.01905148 
-##  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-##    0.02317256    0.01467501    0.02009006    0.01796639    0.01742050 
-## randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-##    0.01967685    0.01531558    0.01429541    0.02049072    0.01755755 
-## randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 
-##    0.01672621    0.01993774    0.01695963    0.01949814    0.01368794 
-## randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 
-##    0.02298234    0.01629161    0.02034008    0.01466430    0.02274970 
-## randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
-##    0.01857961    0.01489574    0.01694560    0.01860603    0.02151825 
-## randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 
-##    0.01719001    0.01744145    0.01735466    0.01988854    0.02075585 
-## randomized_36 randomized_37 randomized_38 randomized_39 
-##    0.02174524    0.02042854    0.01674873    0.01900174
+##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5  randomized_6 
+##    0.01716646    0.02080741    0.02469685    0.02252225    0.01905148    0.02317256 
+##  randomized_7  randomized_8  randomized_9 randomized_10 randomized_11 randomized_12 
+##    0.01467501    0.02009006    0.01796639    0.01742050    0.01967685    0.01531558 
+## randomized_13 randomized_14 randomized_15 randomized_16 randomized_17 randomized_18 
+##    0.01429541    0.02049072    0.01755755    0.01672621    0.01993774    0.01695963 
+## randomized_19 randomized_20 randomized_21 randomized_22 randomized_23 randomized_24 
+##    0.01949814    0.01368794    0.02298234    0.01629161    0.02034008    0.01466430 
+## randomized_25 randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
+##    0.02274970    0.01857961    0.01489574    0.01694560    0.01860603    0.02151825 
+## randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 randomized_36 
+##    0.01719001    0.01744145    0.01735466    0.01988854    0.02075585    0.02174524 
+## randomized_37 randomized_38 randomized_39 
+##    0.02042854    0.01674873    0.01900174
 ```
 
 The data was created that `species_a` has a negative association to
 habitat 4 and `species_b` has a positive association to habitat 5. At
-one point a posititive association to one habitat leads consequently to
-a negative association to another habitat (and vice versa). All this can
+one point a positive association to one habitat leads consequently to a
+negative association to another habitat (and vice versa). All this can
 be seen in the results.
 
 ``` r
