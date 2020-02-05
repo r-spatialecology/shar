@@ -156,11 +156,11 @@
 <a class="sourceLine" id="cb3-3" title="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
 ## randomized_1 randomized_2 randomized_3 
-##   0.05657301   0.07113868   0.05939164 
+##    0.1103819    0.1279469    0.1331393 
 ## 
 ## [[2]]
 ## randomized_1 randomized_2 randomized_3 
-##    0.2626556    0.2572118    0.2641186</code></pre>
+##    0.2437576    0.2419493    0.2456381</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># reconstruct spatial strucutre</span></a>
@@ -185,15 +185,15 @@
 <a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
 ## randomized_1 randomized_2 randomized_3 
-##   0.08007576   0.10319373   0.09966718 
+##   0.07285046   0.08520999   0.05951135 
 ## 
 ## $randomized_2
 ## randomized_1 randomized_2 randomized_3 
-##   0.08160455   0.08251257   0.10046730 
+##   0.07251786   0.08311701   0.08832437 
 ## 
 ## $randomized_3
 ## randomized_1 randomized_2 randomized_3 
-##    0.1425557    0.1535486    0.1390555</code></pre>
+##    0.1257640    0.1338729    0.1208559</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

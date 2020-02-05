@@ -108,9 +108,6 @@ observed pattern and the randomized patterns (using summary functions).
 
 ``` r
 plot_randomized_pattern(reconstruction, verbose = FALSE, ask = FALSE)
-## Registered S3 method overwritten by 'spatstat':
-##   method     from
-##   print.boxx cli
 ```
 
 <img src="man/figures/README-plot-random_pattern-1.png" style="display: block; margin: auto;" /><img src="man/figures/README-plot-random_pattern-2.png" style="display: block; margin: auto;" />
