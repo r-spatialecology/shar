@@ -1,3 +1,7 @@
+# shar 1.1.1
+* Improvements
+   * Add logo
+
 # shar 1.1
 * Improvements
   * Use energy_df to get energy for printing if available
