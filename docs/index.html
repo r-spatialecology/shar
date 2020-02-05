@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -170,7 +170,10 @@
 <a class="sourceLine" id="cb7-2" title="2"></a>
 <a class="sourceLine" id="cb7-3" title="3">reconstruction &lt;-<span class="st"> </span><span class="kw"><a href="reference/reconstruct_pattern_cluster.html">reconstruct_pattern_cluster</a></span>(<span class="dt">pattern =</span> species_b, <span class="dt">n_random =</span> <span class="dv">39</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>) <span class="co"># takes some time</span></a></code></pre></div>
 <p>Of course, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruction, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_randomized_pattern.html">plot_randomized_pattern</a></span>(reconstruction, <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">## Registered S3 method overwritten by 'spatstat':</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">##   method     from</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">##   print.boxx cli</span></a></code></pre></div>
 <p><img src="reference/figures/README-plot-random_pattern-1.png" style="display: block; margin: auto;"><img src="reference/figures/README-plot-random_pattern-2.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="reference/calculate_energy.html">calculate_energy</a></span>(reconstruction, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb9-2" title="2"><span class="co">##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5  randomized_6 </span></a>

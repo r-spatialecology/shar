@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -156,11 +156,11 @@
 <a class="sourceLine" id="cb3-3" title="3">                                            <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [[1]]
 ## randomized_1 randomized_2 randomized_3 
-##   0.07556343   0.08178611   0.07221993 
+##   0.05657301   0.07113868   0.05939164 
 ## 
 ## [[2]]
 ## randomized_1 randomized_2 randomized_3 
-##    0.2713223    0.2722620    0.2638893</code></pre>
+##    0.2626556    0.2572118    0.2641186</code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># reconstruct spatial strucutre</span></a>
@@ -185,15 +185,15 @@
 <a class="sourceLine" id="cb7-3" title="3">                                                  <span class="dt">verbose =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## $randomized_1
 ## randomized_1 randomized_2 randomized_3 
-##   0.08583215   0.08634653   0.08234281 
+##   0.08007576   0.10319373   0.09966718 
 ## 
 ## $randomized_2
 ## randomized_1 randomized_2 randomized_3 
-##   0.14057023   0.07568929   0.13827585 
+##   0.08160455   0.08251257   0.10046730 
 ## 
 ## $randomized_3
 ## randomized_1 randomized_2 randomized_3 
-##   0.09931855   0.12601818   0.09829126</code></pre>
+##    0.1425557    0.1535486    0.1390555</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
