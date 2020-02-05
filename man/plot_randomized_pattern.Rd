@@ -4,8 +4,14 @@
 \alias{plot_randomized_pattern}
 \title{plot_randomized_pattern}
 \usage{
-plot_randomized_pattern(pattern, what = "sf", probs = c(0.025, 0.975),
-  comp_fast = 1000, ask = TRUE, verbose = TRUE)
+plot_randomized_pattern(
+  pattern,
+  what = "sf",
+  probs = c(0.025, 0.975),
+  comp_fast = 1000,
+  ask = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}

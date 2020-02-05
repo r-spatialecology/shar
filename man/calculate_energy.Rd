@@ -4,8 +4,13 @@
 \alias{calculate_energy}
 \title{calculate_energy}
 \usage{
-calculate_energy(pattern, weights = c(0.5, 0.5), return_mean = FALSE,
-  comp_fast = 1000, verbose = TRUE)
+calculate_energy(
+  pattern,
+  weights = c(0.5, 0.5),
+  return_mean = FALSE,
+  comp_fast = 1000,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}

@@ -27,7 +27,7 @@ Imports:
     stats,
     utils,
     Rcpp
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests:
     covr,
     dplyr,

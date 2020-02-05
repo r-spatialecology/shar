@@ -4,10 +4,20 @@
 \alias{reconstruct_pattern_marks}
 \title{reconstruct_pattern_marks}
 \usage{
-reconstruct_pattern_marks(pattern, marked_pattern, n_random = 1,
-  e_threshold = 0.01, max_runs = 10000, no_change = Inf,
-  annealing = 0.01, r_length = 250, return_input = TRUE,
-  simplify = FALSE, verbose = TRUE, plot = FALSE)
+reconstruct_pattern_marks(
+  pattern,
+  marked_pattern,
+  n_random = 1,
+  e_threshold = 0.01,
+  max_runs = 10000,
+  no_change = Inf,
+  annealing = 0.01,
+  r_length = 250,
+  return_input = TRUE,
+  simplify = FALSE,
+  verbose = TRUE,
+  plot = FALSE
+)
 }
 \arguments{
 \item{pattern}{ppp.}

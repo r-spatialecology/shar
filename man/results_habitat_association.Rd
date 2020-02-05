@@ -4,8 +4,12 @@
 \alias{results_habitat_association}
 \title{results_habitat_association}
 \usage{
-results_habitat_association(pattern, raster, significance_level = 0.05,
-  verbose = TRUE)
+results_habitat_association(
+  pattern,
+  raster,
+  significance_level = 0.05,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{pattern}{Point pattern or list with reconstructed patterns.}
