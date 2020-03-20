@@ -314,6 +314,8 @@ reconstruct_pattern_cluster <- function(pattern,
                          type = "l", col = "black",
                          xlab = "r", ylab = "g(r)")
 
+          graphics::abline(h = 1, lty = 2, col = "grey")
+
           graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
 
           graphics::legend("topright",

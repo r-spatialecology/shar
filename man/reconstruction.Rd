@@ -4,7 +4,9 @@
 \name{reconstruction}
 \alias{reconstruction}
 \title{Reconstruction}
-\format{rd_pat object.}
+\format{
+rd_pat object.
+}
 \usage{
 reconstruction
 }

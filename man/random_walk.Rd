@@ -4,7 +4,9 @@
 \name{random_walk}
 \alias{random_walk}
 \title{Random walk}
-\format{rd_ras object.}
+\format{
+rd_ras object.
+}
 \usage{
 random_walk
 }

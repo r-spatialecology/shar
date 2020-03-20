@@ -213,6 +213,8 @@ reconstruct_pattern_marks <- function(pattern,
                          type = "l", col = "black",
                          xlab = "r", ylab = "kmm(r)")
 
+          graphics::abline(h = 1, lty = 2, col = "grey")
+
           graphics::lines(x = kmmr_relocated[[1]], y = kmmr_relocated[[3]], col = "red")
 
           graphics::legend("topright",
