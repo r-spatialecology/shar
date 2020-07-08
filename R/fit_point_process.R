@@ -42,9 +42,9 @@ fit_point_process <- function(pattern,
   iterations_list <- as.list(rep(NA, times = n_random))
 
   # unmark pattern
-  if (spatstat::is.marked(pattern)) {
+  if (spatstat.core::is.marked(pattern)) {
 
-    pattern <- spatstat::unmark(pattern)
+    pattern <- spatstat.core::unmark(pattern)
 
     if (verbose) {
       warning("Unmarked provided input pattern.",
@@ -56,7 +56,7 @@ fit_point_process <- function(pattern,
 
     result <- lapply(seq_len(n_random), function(x) {
 
-      simulated <- spatstat::runifpoint(n = pattern$n,
+      simulated <- spatstat.core::runifpoint(n = pattern$n,
                                         win = pattern$window) # simulate poisson process
 
 
@@ -72,7 +72,7 @@ fit_point_process <- function(pattern,
   else if (process == "cluster") {
 
     # fit cluster process
-    fitted_process <- spatstat::kppm(pattern, cluster = "Thomas",
+    fitted_process <- spatstat.core::kppm(pattern, cluster = "Thomas",
                                      statistic = "pcf",
                                      statargs = list(divisor = "d",
                                                      correction = "best"),
@@ -82,7 +82,7 @@ fit_point_process <- function(pattern,
     result <- lapply(seq_len(n_random), function(x) {
 
       # simulte clustered pattern
-      simulated <- spatstat::simulate.kppm(fitted_process,
+      simulated <- spatstat.core::simulate.kppm(fitted_process,
                                            window = pattern$window,
                                            nsim = 1, drop = TRUE)
 
@@ -106,12 +106,12 @@ fit_point_process <- function(pattern,
         difference <- pattern$n - simulated$n
 
         # create missing points
-        missing_points <- spatstat::runifpoint(n = difference,
+        missing_points <- spatstat.core::runifpoint(n = difference,
                                                win = pattern$window,
                                                nsim = 1, drop = TRUE)
 
         # add missing points to simulated
-        simulated <- spatstat::superimpose(simulated, missing_points,
+        simulated <- spatstat.core::superimpose(simulated, missing_points,
                                            W = pattern$window)
       }
 

@@ -1,3 +1,7 @@
+# shar 1.1.2
+* Improvements
+  * Include new `spatstat` package structure
+
 # shar 1.1.1
 * Improvements
    * Add logo

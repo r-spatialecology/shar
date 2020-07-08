@@ -25,7 +25,7 @@
 #' plot_randomized_pattern(pattern_random, what = "pp")
 #'
 #' \dontrun{
-#' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
+#' marks_sub <- spatstat.core::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]], marks_sub,
 #' n_random = 19, max_runs = 1000)
 #' plot_randomized_pattern(marks_recon)
@@ -50,7 +50,7 @@ plot_randomized_pattern <- function(pattern,
   }
 
   # check if observed pattern is present
-  if (!spatstat::is.ppp(pattern$observed)) {
+  if (!spatstat.core::is.ppp(pattern$observed)) {
 
     stop("Input must include 'observed' pattern.", call. = FALSE)
   }
@@ -72,12 +72,12 @@ plot_randomized_pattern <- function(pattern,
       comp_fast <- FALSE
     }
 
-    name_unit <- spatstat::unitname(pattern$observed)[[1]] # unit name for labels
+    name_unit <- spatstat.core::unitname(pattern$observed)[[1]] # unit name for labels
 
     # calculate r
     r <- seq(from = 0,
-             to = spatstat::rmax.rule(W = pattern$observed$window,
-                                      lambda = spatstat::intensity.ppp(pattern$observed)),
+             to = spatstat.core::rmax.rule(W = pattern$observed$window,
+                                           lambda = spatstat.core::intensity.ppp(pattern$observed)),
              length.out = 250)
 
     if (class(pattern) == "rd_pat") {
@@ -93,9 +93,9 @@ plot_randomized_pattern <- function(pattern,
         # calculate summary functions
         if (comp_fast) {
 
-          gest_result <- spatstat::Gest(pattern[[x]],
-                                        correction = "none",
-                                        r = r)
+          gest_result <- spatstat.core::Gest(pattern[[x]],
+                                             correction = "none",
+                                             r = r)
 
           pcf_result <- shar::estimate_pcf_fast(pattern[[x]],
                                                 correction = "none",
@@ -105,14 +105,14 @@ plot_randomized_pattern <- function(pattern,
         }
 
         else {
-          gest_result <- spatstat::Gest(pattern[[x]],
-                                        correction = "han",
-                                        r = r)
+          gest_result <- spatstat.core::Gest(pattern[[x]],
+                                             correction = "han",
+                                             r = r)
 
-          pcf_result <- spatstat::pcf(pattern[[x]],
-                                      divisor = "d",
-                                      correction = "best",
-                                      r = r)
+          pcf_result <- spatstat.core::pcf(pattern[[x]],
+                                           divisor = "d",
+                                           correction = "best",
+                                           r = r)
         }
 
         gest_df <- as.data.frame(gest_result) # conver to df
@@ -256,9 +256,9 @@ plot_randomized_pattern <- function(pattern,
 
       result <- lapply(seq_along(pattern), function(x) {
 
-        mark_corr <- as.data.frame(spatstat::markcorr(pattern[[x]],
-                                                      correction = "Ripley",
-                                                      r = r))
+        mark_corr <- as.data.frame(spatstat.core::markcorr(pattern[[x]],
+                                                           correction = "Ripley",
+                                                           r = r))
 
         # print progress
         if (verbose) {
@@ -336,7 +336,7 @@ plot_randomized_pattern <- function(pattern,
   else if (what == "pp") {
 
     # check if observed pattern is present
-    if (!spatstat::is.ppp(pattern$observed)) {
+    if (!spatstat.core::is.ppp(pattern$observed)) {
 
       stop("Input must include 'observed' pattern.", call. = FALSE)
     }

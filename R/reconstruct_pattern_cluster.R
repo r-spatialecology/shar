@@ -119,9 +119,9 @@ reconstruct_pattern_cluster <- function(pattern,
   }
 
   # unmark pattern
-  if (spatstat::is.marked(pattern)) {
+  if (spatstat.core::is.marked(pattern)) {
 
-    pattern <- spatstat::unmark(pattern)
+    pattern <- spatstat.core::unmark(pattern)
 
     if (verbose) {
       warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
@@ -131,13 +131,13 @@ reconstruct_pattern_cluster <- function(pattern,
 
   # calculate r
   r <- seq(from = 0,
-           to = spatstat::rmax.rule(W = pattern$window,
-                                    lambda = spatstat::intensity.ppp(pattern)),
+           to = spatstat.core::rmax.rule(W = pattern$window,
+                                    lambda = spatstat.core::intensity.ppp(pattern)),
            length.out = r_length)
 
   # start with fitted pattern
   # fit Thomas process
-  fitted_process <- spatstat::kppm.ppp(pattern, cluster = "Thomas",
+  fitted_process <- spatstat.core::kppm.ppp(pattern, cluster = "Thomas",
                                        statistic = "pcf",
                                        statargs = list(divisor = "d",
                                                        correction = "best"),
@@ -145,7 +145,7 @@ reconstruct_pattern_cluster <- function(pattern,
                                        improve.type = "none")
 
   # simulte clustered pattern
-  simulated <- spatstat::simulate.kppm(fitted_process,
+  simulated <- spatstat.core::simulate.kppm(fitted_process,
                                        nsim = 1, drop = TRUE,
                                        window = pattern$window,
                                        verbose = FALSE)
@@ -166,21 +166,21 @@ reconstruct_pattern_cluster <- function(pattern,
     # difference between patterns
     difference <- pattern$n - simulated$n
     # create missing points
-    missing_points <- spatstat::runifpoint(n = difference,
+    missing_points <- spatstat.core::runifpoint(n = difference,
                                            nsim = 1, drop = TRUE,
                                            win = pattern$window,
                                            warn = FALSE)
     # add missing points to simulated
-    simulated <- spatstat::superimpose.ppp(simulated, missing_points,
+    simulated <- spatstat.core::superimpose.ppp(simulated, missing_points,
                                            W = pattern$window, check = FALSE)
   }
 
   # fast computation of summary functions
   if (comp_fast) {
 
-    gest_observed <- spatstat::Gest(pattern, correction = "none", r = r)
+    gest_observed <- spatstat.core::Gest(pattern, correction = "none", r = r)
 
-    gest_simulated <- spatstat::Gest(simulated, correction = "none", r = r)
+    gest_simulated <- spatstat.core::Gest(simulated, correction = "none", r = r)
 
     pcf_observed <- shar::estimate_pcf_fast(pattern,
                                             correction = "none",
@@ -198,15 +198,15 @@ reconstruct_pattern_cluster <- function(pattern,
   # normal computation of summary functions
   else {
 
-    gest_observed <- spatstat::Gest(X = pattern, correction = "han", r = r)
+    gest_observed <- spatstat.core::Gest(X = pattern, correction = "han", r = r)
 
-    gest_simulated <- spatstat::Gest(X = simulated, correction = "han", r = r)
+    gest_simulated <- spatstat.core::Gest(X = simulated, correction = "han", r = r)
 
-    pcf_observed <- spatstat::pcf.ppp(X = pattern, correction = "best",
+    pcf_observed <- spatstat.core::pcf.ppp(X = pattern, correction = "best",
                                       divisor = "d",
                                       r = r)
 
-    pcf_simulated <- spatstat::pcf.ppp(X = simulated, correction = "best",
+    pcf_simulated <- spatstat.core::pcf.ppp(X = simulated, correction = "best",
                                        divisor = "d",
                                        r = r)
   }
@@ -237,7 +237,7 @@ reconstruct_pattern_cluster <- function(pattern,
                                n = max_runs, replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat::runifpoint(n = max_runs,
+    rp_coords <- spatstat.core::runifpoint(n = max_runs,
                                       nsim = 1, drop = TRUE,
                                       win = simulated_current$window,
                                       warn = FALSE)
@@ -270,7 +270,7 @@ reconstruct_pattern_cluster <- function(pattern,
       # calculate summary functions after relocation
       if (comp_fast) {
 
-        gest_relocated <- spatstat::Gest(relocated, correction = "none", r = r)
+        gest_relocated <- spatstat.core::Gest(relocated, correction = "none", r = r)
 
         pcf_relocated <- shar::estimate_pcf_fast(relocated,
                                                  correction = "none",
@@ -281,9 +281,9 @@ reconstruct_pattern_cluster <- function(pattern,
 
       else {
 
-        gest_relocated <- spatstat::Gest(X = relocated, correction = "han", r = r)
+        gest_relocated <- spatstat.core::Gest(X = relocated, correction = "han", r = r)
 
-        pcf_relocated <- spatstat::pcf.ppp(X = relocated, correction = "best",
+        pcf_relocated <- spatstat.core::pcf.ppp(X = relocated, correction = "best",
                                            divisor = "d",
                                            r = r)
       }

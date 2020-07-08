@@ -32,7 +32,7 @@
 #' calculate_energy(pattern_random, return_mean = TRUE)
 #'
 #' \dontrun{
-#' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
+#' marks_sub <- spatstat.core::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]], marks_sub,
 #' n_random = 19, max_runs = 1000)
 #' calculate_energy(marks_recon, return_mean = FALSE)
@@ -63,7 +63,7 @@ calculate_energy <- function(pattern,
   }
 
   # check if observed pattern is present
-  if (!spatstat::is.ppp(pattern$observed)) {
+  if (!spatstat.core::is.ppp(pattern$observed)) {
 
     stop("Input must include 'observed' pattern.", call. = FALSE)
   }
@@ -76,8 +76,8 @@ calculate_energy <- function(pattern,
 
   # calculate r sequence
   r <- seq(from = 0,
-           to = spatstat::rmax.rule(W = pattern_observed$window,
-                                    lambda = spatstat::intensity.ppp(pattern_observed)),
+           to = spatstat.core::rmax.rule(W = pattern_observed$window,
+                                    lambda = spatstat.core::intensity.ppp(pattern_observed)),
            length.out = 250)
 
   if (class(pattern) == "rd_pat") {
@@ -109,7 +109,7 @@ calculate_energy <- function(pattern,
       # calculate summary functions for observed pattern
       if (comp_fast) {
 
-        gest_observed <- spatstat::Gest(X = pattern_observed,
+        gest_observed <- spatstat.core::Gest(X = pattern_observed,
                                         correction = "none",
                                         r = r)
 
@@ -122,11 +122,11 @@ calculate_energy <- function(pattern,
 
       else{
 
-        gest_observed <- spatstat::Gest(X = pattern_observed,
+        gest_observed <- spatstat.core::Gest(X = pattern_observed,
                                         correction = "han",
                                         r = r)
 
-        pcf_observed <- spatstat::pcf(X = pattern_observed,
+        pcf_observed <- spatstat.core::pcf(X = pattern_observed,
                                       correction = "best",
                                       divisor = "d",
                                       r = r)
@@ -138,7 +138,7 @@ calculate_energy <- function(pattern,
         # fast computation of summary stats
         if (comp_fast) {
 
-          gest_reconstruction <- spatstat::Gest(X = pattern_randomized[[x]],
+          gest_reconstruction <- spatstat.core::Gest(X = pattern_randomized[[x]],
                                                 correction = "none",
                                                 r = r)
 
@@ -152,11 +152,11 @@ calculate_energy <- function(pattern,
         # normal computation of summary stats
         else{
 
-          gest_reconstruction <- spatstat::Gest(X = pattern_randomized[[x]],
+          gest_reconstruction <- spatstat.core::Gest(X = pattern_randomized[[x]],
                                                 correction = "han",
                                                 r = r)
 
-          pcf_reconstruction <- spatstat::pcf(X = pattern_randomized[[x]],
+          pcf_reconstruction <- spatstat.core::pcf(X = pattern_randomized[[x]],
                                               correction = "best",
                                               divisor = "d",
                                               r = r)
@@ -193,14 +193,14 @@ calculate_energy <- function(pattern,
     else {
 
       # calculate summary functions
-      kmmr_observed <- spatstat::markcorr(pattern_observed,
+      kmmr_observed <- spatstat.core::markcorr(pattern_observed,
                                           correction = "Ripley",
                                           r = r)
 
       result <- vapply(seq_along(pattern_randomized), function(x) {
 
         # calculate summary functions
-        kmmr_reconstruction <- spatstat::markcorr(pattern_randomized[[x]],
+        kmmr_reconstruction <- spatstat.core::markcorr(pattern_randomized[[x]],
                                                   correction = "Ripley",
                                                   r = r)
 
