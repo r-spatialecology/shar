@@ -1,4 +1,4 @@
-# shar 1.1.2
+# shar 1.2
 * Improvements
   * Include new `spatstat` package structure
 
