@@ -8,7 +8,7 @@ on:
       - master
       - CRAN
 
-name: test-coverage
+name: Test-coverage
 
 jobs:
   test-coverage:

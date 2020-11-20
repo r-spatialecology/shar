@@ -5,7 +5,6 @@
 ^cran-comments\.md$
 ^docs$
 ^CODE_OF_CONDUCT.*$
-^LICENSE.*$
 ^vignettes/articles$
 vignettes/articles
 ^data-raw$
