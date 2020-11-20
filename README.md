@@ -1,22 +1,26 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis build
-status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://travis-ci.org/r-spatialecology/shar)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
-[![Coverage
-status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
+<!-- badges: start -->
+
 [![Project
 Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![R build
+status](https://github.com/r-spatialecology/shar/workflows/R-CMD-check/badge.svg)](https://github.com/r-spatialecology/shar/actions)
+[![Coverage
+status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
+
 [![CRAN
 status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)
 [![CRAN
 logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html)
+
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+<!-- badges: end -->
 
 # shar <img src="man/figures/logo.png" align="right" width="150" />
 
@@ -114,20 +118,22 @@ plot_randomized_pattern(reconstruction, verbose = FALSE, ask = FALSE)
 
 ``` r
 calculate_energy(reconstruction, verbose = FALSE)
-##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5  randomized_6 
-##    0.01716646    0.02080741    0.02469685    0.02252225    0.01905148    0.02317256 
-##  randomized_7  randomized_8  randomized_9 randomized_10 randomized_11 randomized_12 
-##    0.01467501    0.02009006    0.01796639    0.01742050    0.01967685    0.01531558 
-## randomized_13 randomized_14 randomized_15 randomized_16 randomized_17 randomized_18 
-##    0.01429541    0.02049072    0.01755755    0.01672621    0.01993774    0.01695963 
-## randomized_19 randomized_20 randomized_21 randomized_22 randomized_23 randomized_24 
-##    0.01949814    0.01368794    0.02298234    0.01629161    0.02034008    0.01466430 
-## randomized_25 randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
-##    0.02274970    0.01857961    0.01489574    0.01694560    0.01860603    0.02151825 
-## randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 randomized_36 
-##    0.01719001    0.01744145    0.01735466    0.01988854    0.02075585    0.02174524 
-## randomized_37 randomized_38 randomized_39 
-##    0.02042854    0.01674873    0.01900174
+##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
+##    0.01716646    0.02080741    0.02469685    0.02252225    0.01905148 
+##  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
+##    0.02317256    0.01467501    0.02009006    0.01796639    0.01742050 
+## randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
+##    0.01967685    0.01531558    0.01429541    0.02049072    0.01755755 
+## randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 
+##    0.01672621    0.01993774    0.01695963    0.01949814    0.01368794 
+## randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 
+##    0.02298234    0.01629161    0.02034008    0.01466430    0.02274970 
+## randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
+##    0.01857961    0.01489574    0.01694560    0.01860603    0.02151825 
+## randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 
+##    0.01719001    0.01744145    0.01735466    0.01988854    0.02075585 
+## randomized_36 randomized_37 randomized_38 randomized_39 
+##    0.02174524    0.02042854    0.01674873    0.01900174
 ```
 
 The data was created that `species_a` has a negative association to
