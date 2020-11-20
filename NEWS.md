@@ -1,6 +1,7 @@
 # shar 1.1.1
 * Improvements
    * Add logo
+   * Update to MIT License
 
 # shar 1.1
 * Improvements

@@ -1,7 +1,7 @@
 For details changes, please see NEWS.md.
 
 ## shar 1.1.1
-Minor improvments
+Minor improvments and new license
 
 ## shar 1.1
 Improvments of existing functions

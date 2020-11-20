@@ -16,3 +16,4 @@ vignettes/articles
 ^CONTRIBUTING.*$
 ^pkgdown$
 ^\.github$
+^LICENSE\.md$
