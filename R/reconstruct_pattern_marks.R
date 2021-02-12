@@ -40,7 +40,7 @@
 #' \dontrun{
 #' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
 #' simplify = TRUE, return_input = FALSE)
-#' marks_sub <- spatstat.core::subset.ppp(species_a, select = dbh)
+#' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
 #' }
 #'
@@ -75,7 +75,7 @@ reconstruct_pattern_marks <- function(pattern,
   }
 
   # check if pattern is marked
-  if (spatstat.core::is.marked(pattern) || !spatstat.core::is.marked(marked_pattern)) {
+  if (spatstat.geom::is.marked(pattern) || !spatstat.geom::is.marked(marked_pattern)) {
 
     stop("'pattern' must be unmarked and 'marked_pattern' marked", call. = FALSE)
   }
@@ -112,14 +112,14 @@ reconstruct_pattern_marks <- function(pattern,
   # calculate r
   r <- seq(from = 0,
            to = spatstat.core::rmax.rule(W = pattern$window,
-                                         lambda = spatstat.core::intensity.ppp(pattern)),
+                                         lambda = spatstat.geom::intensity.ppp(pattern)),
            length.out = r_length)
 
   # create random pattern
   simulated <- pattern
 
   # assign shuffled marks to pattern
-  spatstat.core::marks(simulated) <- rcpp_sample(x = marked_pattern$marks, n = marked_pattern$n)
+  spatstat.geom::marks(simulated) <- rcpp_sample(x = marked_pattern$marks, n = marked_pattern$n)
 
   # calculate summary functions
   kmmr_observed <- spatstat.core::markcorr(marked_pattern,

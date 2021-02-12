@@ -119,9 +119,9 @@ reconstruct_pattern_homo <- function(pattern,
   }
 
   # unmark pattern
-  if (spatstat.core::is.marked(pattern)) {
+  if (spatstat.geom::is.marked(pattern)) {
 
-    pattern <- spatstat.core::unmark(pattern)
+    pattern <- spatstat.geom::unmark(pattern)
 
     if (verbose) {
       warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
@@ -132,7 +132,7 @@ reconstruct_pattern_homo <- function(pattern,
   # calculate r
   r <- seq(from = 0,
            to = spatstat.core::rmax.rule(W = pattern$window,
-                                    lambda = spatstat.core::intensity.ppp(pattern)),
+                                         lambda = spatstat.geom::intensity.ppp(pattern)),
            length.out = r_length)
 
   # create Poisson simulation data

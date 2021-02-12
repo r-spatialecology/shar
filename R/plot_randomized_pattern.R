@@ -25,7 +25,7 @@
 #' plot_randomized_pattern(pattern_random, what = "pp")
 #'
 #' \dontrun{
-#' marks_sub <- spatstat.core::subset.ppp(species_a, select = dbh)
+#' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]],
 #' marks_sub, n_random = 19, max_runs = 1000)
 #' plot_randomized_pattern(marks_recon)
@@ -50,7 +50,7 @@ plot_randomized_pattern <- function(pattern,
   }
 
   # check if observed pattern is present
-  if (!spatstat.core::is.ppp(pattern$observed)) {
+  if (!spatstat.geom::is.ppp(pattern$observed)) {
 
     stop("Input must include 'observed' pattern.", call. = FALSE)
   }
@@ -72,12 +72,12 @@ plot_randomized_pattern <- function(pattern,
       comp_fast <- FALSE
     }
 
-    name_unit <- spatstat.core::unitname(pattern$observed)[[1]] # unit name for labels
+    name_unit <- spatstat.geom::unitname(pattern$observed)[[1]] # unit name for labels
 
     # calculate r
     r <- seq(from = 0,
              to = spatstat.core::rmax.rule(W = pattern$observed$window,
-                                           lambda = spatstat.core::intensity.ppp(pattern$observed)),
+                                           lambda = spatstat.geom::intensity.ppp(pattern$observed)),
              length.out = 250)
 
     if (class(pattern) == "rd_pat") {
@@ -336,7 +336,7 @@ plot_randomized_pattern <- function(pattern,
   else if (what == "pp") {
 
     # check if observed pattern is present
-    if (!spatstat.core::is.ppp(pattern$observed)) {
+    if (!spatstat.geom::is.ppp(pattern$observed)) {
 
       stop("Input must include 'observed' pattern.", call. = FALSE)
     }

@@ -42,9 +42,9 @@ fit_point_process <- function(pattern,
   iterations_list <- as.list(rep(NA, times = n_random))
 
   # unmark pattern
-  if (spatstat.core::is.marked(pattern)) {
+  if (spatstat.geom::is.marked(pattern)) {
 
-    pattern <- spatstat.core::unmark(pattern)
+    pattern <- spatstat.geom::unmark(pattern)
 
     if (verbose) {
       warning("Unmarked provided input pattern.",
@@ -111,8 +111,8 @@ fit_point_process <- function(pattern,
                                                nsim = 1, drop = TRUE)
 
         # add missing points to simulated
-        simulated <- spatstat.core::superimpose(simulated, missing_points,
-                                           W = pattern$window)
+        simulated <- spatstat.geom::superimpose(simulated, missing_points,
+                                                W = pattern$window)
       }
 
       if (verbose) {

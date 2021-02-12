@@ -67,7 +67,7 @@ the computational time while increasing the "bumpiness" of the summary function.
 \dontrun{
 pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
 simplify = TRUE, return_input = FALSE)
-marks_sub <- spatstat.core::subset.ppp(species_a, select = dbh)
+marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
 }
 

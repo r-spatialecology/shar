@@ -32,7 +32,7 @@
 #' calculate_energy(pattern_random, return_mean = TRUE)
 #'
 #' \dontrun{
-#' marks_sub <- spatstat.core::subset.ppp(species_a, select = dbh)
+#' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]], marks_sub,
 #' n_random = 19, max_runs = 1000)
 #' calculate_energy(marks_recon, return_mean = FALSE)
@@ -63,7 +63,7 @@ calculate_energy <- function(pattern,
   }
 
   # check if observed pattern is present
-  if (!spatstat.core::is.ppp(pattern$observed)) {
+  if (!spatstat.geom::is.ppp(pattern$observed)) {
 
     stop("Input must include 'observed' pattern.", call. = FALSE)
   }
@@ -77,7 +77,7 @@ calculate_energy <- function(pattern,
   # calculate r sequence
   r <- seq(from = 0,
            to = spatstat.core::rmax.rule(W = pattern_observed$window,
-                                    lambda = spatstat.core::intensity.ppp(pattern_observed)),
+                                         lambda = spatstat.geom::intensity.ppp(pattern_observed)),
            length.out = 250)
 
   if (class(pattern) == "rd_pat") {

@@ -119,9 +119,9 @@ reconstruct_pattern_cluster <- function(pattern,
   }
 
   # unmark pattern
-  if (spatstat.core::is.marked(pattern)) {
+  if (spatstat.geom::is.marked(pattern)) {
 
-    pattern <- spatstat.core::unmark(pattern)
+    pattern <- spatstat.geom::unmark(pattern)
 
     if (verbose) {
       warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
@@ -132,7 +132,7 @@ reconstruct_pattern_cluster <- function(pattern,
   # calculate r
   r <- seq(from = 0,
            to = spatstat.core::rmax.rule(W = pattern$window,
-                                    lambda = spatstat.core::intensity.ppp(pattern)),
+                                         lambda = spatstat.geom::intensity.ppp(pattern)),
            length.out = r_length)
 
   # start with fitted pattern
@@ -171,8 +171,8 @@ reconstruct_pattern_cluster <- function(pattern,
                                            win = pattern$window,
                                            warn = FALSE)
     # add missing points to simulated
-    simulated <- spatstat.core::superimpose.ppp(simulated, missing_points,
-                                           W = pattern$window, check = FALSE)
+    simulated <- spatstat.geom::superimpose.ppp(simulated, missing_points,
+                                                W = pattern$window, check = FALSE)
   }
 
   # fast computation of summary functions
