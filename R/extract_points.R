@@ -22,7 +22,7 @@ extract_points <- function(raster, pattern){
 
   habitat_levels <- sort(unique(raster::values(raster))) # get all habitats sorted
 
-  pattern <- spatstat::coords(pattern) # extract only coords of points
+  pattern <- spatstat.geom::coords(pattern) # extract only coords of points
 
   # get habitat points are located within
   pattern_extracted <- factor(raster::extract(x = raster,

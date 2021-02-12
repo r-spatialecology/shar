@@ -47,7 +47,7 @@ testthat::test_that("Output includes randomizations and original pattern for rec
                          expected = paste0("randomized_", c(1:3)))
 
   testthat::expect_equal(pattern_recon$observed,
-                         expected = spatstat::unmark(shar::species_a))
+                         expected = spatstat.geom::unmark(shar::species_a))
 })
 
 testthat::test_that("Reconstructed patterns have same number of points", {

@@ -41,13 +41,13 @@ testthat::test_that("Output includes randomizations and original pattern for fit
                          expected = paste0("randomized_", 1:3))
 
   testthat::expect_equal(pattern_random$observed,
-                         expected = spatstat::unmark(shar::species_b))
+                         expected = spatstat.geom::unmark(shar::species_b))
 
   testthat::expect_named(pattern_random_cluster$randomized,
                          expected = paste0("randomized_", 1:3))
 
   testthat::expect_equal(pattern_random_cluster$observed,
-                         expected = spatstat::unmark(shar::species_b))
+                         expected = spatstat.geom::unmark(shar::species_b))
 })
 
 testthat::test_that("Fitted patterns have same number of points for cluster process", {

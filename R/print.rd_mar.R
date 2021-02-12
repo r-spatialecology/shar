@@ -16,7 +16,7 @@
 #' \dontrun{
 #' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
 #' simplify = TRUE, return_input = FALSE)
-#' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
+#' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
 #' print(marks_recon)
 #' }
@@ -31,7 +31,7 @@ print.rd_mar <- function(x,
 
   # set length observed pattern to 0 and
   # return warning that energy can't be calculated
-  if (!spatstat::is.ppp(x$observed)) {
+  if (!spatstat.geom::is.ppp(x$observed)) {
 
     number_patterns_obs <- 0
 

@@ -42,7 +42,8 @@ landscape_wrong <- shar::randomize_raster(landscape_wrong,
                                           n_random = 1,
                                           verbose = FALSE)
 
-pattern_wrong <- shar::species_b[, spatstat::owin(xrange = c(0, 500), yrange = c(0, 500))]
+pattern_wrong <- shar::species_b[, spatstat.geom::owin(xrange = c(0, 500),
+                                                       yrange = c(0, 500))]
 
 pattern_wrong <- shar::fit_point_process(pattern = pattern_wrong,
                                          n_random = 199,

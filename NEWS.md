@@ -1,3 +1,8 @@
+# shar 1.2
+* Improvements
+  * Include new `spatstat` package structure
+  * Use GPL3 License
+
 # shar 1.1.1
 * Improvements
    * Add logo

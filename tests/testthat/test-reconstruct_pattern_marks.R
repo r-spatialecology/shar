@@ -7,7 +7,7 @@ pattern_recon <- shar::reconstruct_pattern_homo(shar::species_a,
                                                 max_runs = 1,
                                                 verbose = FALSE)
 
-marks_sub <- spatstat::subset.ppp(shar::species_a, select = dbh)
+marks_sub <- spatstat.geom::subset.ppp(shar::species_a, select = dbh)
 
 # normal reconstruction
 marks_recon <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
@@ -104,7 +104,7 @@ testthat::test_that("All errors are returned for reconstruct_pattern_marks", {
                          regexp = "'pattern' must be unmarked and 'marked_pattern' marked",
                          fixed = TRUE)
 
-  testthat::expect_error(shar::reconstruct_pattern_marks(pattern = spatstat::unmark(shar::species_b),
+  testthat::expect_error(shar::reconstruct_pattern_marks(pattern = spatstat.geom::unmark(shar::species_b),
                                                          marked_pattern = marks_sub,
                                                          n_random = 3,
                                                          max_runs = 1,
@@ -114,7 +114,7 @@ testthat::test_that("All errors are returned for reconstruct_pattern_marks", {
 
 
   testthat::expect_error(shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                         marked_pattern = spatstat::subset.ppp(shar::species_a,
+                                                         marked_pattern = spatstat.geom::subset.ppp(shar::species_a,
                                                                                                select = status),
                                                          n_random = 3, max_runs = 1),
                          regexp = "marks must be 'numeric'",

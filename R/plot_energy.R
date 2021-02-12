@@ -21,7 +21,7 @@
 #' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 3, max_runs = 1000)
 #' plot_energy(pattern_recon)
 #'
-#' marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
+#' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_recon$randomized[[1]], marks_sub,
 #' n_random = 1, max_runs = 1000)
 #' plot_energy(marks_recon)

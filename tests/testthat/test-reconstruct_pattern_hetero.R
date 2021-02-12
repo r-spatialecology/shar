@@ -1,6 +1,6 @@
 testthat::context("test-reconstruct_pattern_hetero")
 
-input_pattern <- spatstat::rpoispp(lambda = function(x, y) {500 * exp(-3 * x)}, nsim = 1)
+input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {500 * exp(-3 * x)}, nsim = 1)
 
 # normal reconstruction
 pattern_recon <- shar::reconstruct_pattern_hetero(pattern = input_pattern,
@@ -49,7 +49,7 @@ testthat::test_that("Output includes randomizations and original pattern for rec
                          expected = paste0("randomized_", c(1:3)))
 
   testthat::expect_equal(pattern_recon$observed,
-                         expected = spatstat::unmark(input_pattern))
+                         expected = spatstat.geom::unmark(input_pattern))
 })
 
 testthat::test_that("Reconstructed patterns have same number of points", {

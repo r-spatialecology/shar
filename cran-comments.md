@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md.
 
+## shar 1.2
+Update spatstat dependencies
+
 ## shar 1.1.1
 Minor improvments and new license
 
