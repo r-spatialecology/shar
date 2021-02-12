@@ -2,6 +2,7 @@
 * Improvements
    * Add logo
    * Update to MIT License
+   * renamed `master` to `main` branch
 
 # shar 1.1
 * Improvements
