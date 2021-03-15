@@ -4,8 +4,10 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{How to reconstruct multiple patterns}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code. Please be aware that the maximum number of iterations was set to `max_runs = 10` to keep the computational time low for this example. For an applied case, this value should be increased.
@@ -55,7 +57,7 @@ Secondly, to reconstruct the (numeric) marks of the observed pattern for each of
 
 ```{r reconstruct-marks}
 # get only selected marks of input (numeric marks)
-species_a_marks <- spatstat::subset.ppp(species_a, select = dbh)
+species_a_marks <- subset(species_a, select = dbh)
 
 # reconstruct marks 3 times for each input pattern
 result_marks <- lapply(reconstructed_pattern$randomized, 
