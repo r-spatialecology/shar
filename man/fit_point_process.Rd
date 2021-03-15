@@ -4,8 +4,14 @@
 \alias{fit_point_process}
 \title{fit_point_process}
 \usage{
-fit_point_process(pattern, n_random = 1, process = "poisson",
-  return_input = TRUE, simplify = FALSE, verbose = TRUE)
+fit_point_process(
+  pattern,
+  n_random = 1,
+  process = "poisson",
+  return_input = TRUE,
+  simplify = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}

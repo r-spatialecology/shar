@@ -119,9 +119,9 @@ reconstruct_pattern_homo <- function(pattern,
   }
 
   # unmark pattern
-  if (spatstat::is.marked(pattern)) {
+  if (spatstat.geom::is.marked(pattern)) {
 
-    pattern <- spatstat::unmark(pattern)
+    pattern <- spatstat.geom::unmark(pattern)
 
     if (verbose) {
       warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
@@ -131,12 +131,12 @@ reconstruct_pattern_homo <- function(pattern,
 
   # calculate r
   r <- seq(from = 0,
-           to = spatstat::rmax.rule(W = pattern$window,
-                                    lambda = spatstat::intensity.ppp(pattern)),
+           to = spatstat.core::rmax.rule(W = pattern$window,
+                                         lambda = spatstat.geom::intensity.ppp(pattern)),
            length.out = r_length)
 
   # create Poisson simulation data
-  simulated <- spatstat::runifpoint(n = pattern$n,
+  simulated <- spatstat.core::runifpoint(n = pattern$n,
                                     nsim = 1, drop = TRUE,
                                     win = pattern$window,
                                     warn = FALSE)
@@ -144,9 +144,9 @@ reconstruct_pattern_homo <- function(pattern,
   # fast computation of summary functions
   if (comp_fast) {
 
-    gest_observed <- spatstat::Gest(pattern, correction = "none", r = r)
+    gest_observed <- spatstat.core::Gest(pattern, correction = "none", r = r)
 
-    gest_simulated <- spatstat::Gest(simulated, correction = "none", r = r)
+    gest_simulated <- spatstat.core::Gest(simulated, correction = "none", r = r)
 
     pcf_observed <- shar::estimate_pcf_fast(pattern,
                                             correction = "none",
@@ -164,15 +164,15 @@ reconstruct_pattern_homo <- function(pattern,
   # normal computation of summary functions
   else {
 
-    gest_observed <- spatstat::Gest(X = pattern, correction = "han", r = r)
+    gest_observed <- spatstat.core::Gest(X = pattern, correction = "han", r = r)
 
-    gest_simulated <- spatstat::Gest(X = simulated, correction = "han", r = r)
+    gest_simulated <- spatstat.core::Gest(X = simulated, correction = "han", r = r)
 
-    pcf_observed <- spatstat::pcf.ppp(X = pattern, correction = "best",
+    pcf_observed <- spatstat.core::pcf.ppp(X = pattern, correction = "best",
                                       divisor = "d",
                                       r = r)
 
-    pcf_simulated <- spatstat::pcf.ppp(X = simulated, correction = "best",
+    pcf_simulated <- spatstat.core::pcf.ppp(X = simulated, correction = "best",
                                        divisor = "d",
                                        r = r)
   }
@@ -203,7 +203,7 @@ reconstruct_pattern_homo <- function(pattern,
                                n = max_runs, replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat::runifpoint(n = max_runs,
+    rp_coords <- spatstat.core::runifpoint(n = max_runs,
                                       nsim = 1, drop = TRUE,
                                       win = simulated_current$window,
                                       warn = FALSE)
@@ -236,7 +236,7 @@ reconstruct_pattern_homo <- function(pattern,
       # calculate summary functions after relocation
       if (comp_fast) {
 
-        gest_relocated <- spatstat::Gest(relocated, correction = "none", r = r)
+        gest_relocated <- spatstat.core::Gest(relocated, correction = "none", r = r)
 
         pcf_relocated <- shar::estimate_pcf_fast(relocated,
                                                  correction = "none",
@@ -247,9 +247,9 @@ reconstruct_pattern_homo <- function(pattern,
 
       else {
 
-        gest_relocated <- spatstat::Gest(X = relocated, correction = "han", r = r)
+        gest_relocated <- spatstat.core::Gest(X = relocated, correction = "han", r = r)
 
-        pcf_relocated <- spatstat::pcf.ppp(X = relocated, correction = "best",
+        pcf_relocated <- spatstat.core::pcf.ppp(X = relocated, correction = "best",
                                            divisor = "d",
                                            r = r)
       }
@@ -279,6 +279,8 @@ reconstruct_pattern_homo <- function(pattern,
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
                          type = "l", col = "black",
                          xlab = "r", ylab = "g(r)")
+
+          graphics::abline(h = 1, lty = 2, col = "grey")
 
           graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]],
                           col = "red")

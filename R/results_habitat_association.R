@@ -122,7 +122,7 @@ results_habitat_association <- function(pattern, raster,
   else if (class(pattern) == "rd_pat") {
 
     # check if randomized and observed is present
-    if (!spatstat::is.ppp(pattern$observed)) {
+    if (!spatstat.geom::is.ppp(pattern$observed)) {
 
       stop("The observed pattern needs to be included in the input 'pattern'.",
            call. = FALSE)

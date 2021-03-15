@@ -4,8 +4,14 @@
 \alias{randomize_raster}
 \title{randomize_raster}
 \usage{
-randomize_raster(raster, n_random = 1, directions = 4,
-  return_input = TRUE, simplify = FALSE, verbose = TRUE)
+randomize_raster(
+  raster,
+  n_random = 1,
+  directions = 4,
+  return_input = TRUE,
+  simplify = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{raster}{RasterLayer.}

@@ -4,8 +4,14 @@
 \alias{plot_randomized_pattern}
 \title{plot_randomized_pattern}
 \usage{
-plot_randomized_pattern(pattern, what = "sf", probs = c(0.025, 0.975),
-  comp_fast = 1000, ask = TRUE, verbose = TRUE)
+plot_randomized_pattern(
+  pattern,
+  what = "sf",
+  probs = c(0.025, 0.975),
+  comp_fast = 1000,
+  ask = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
@@ -39,9 +45,9 @@ plot_randomized_pattern(pattern_random)
 plot_randomized_pattern(pattern_random, what = "pp")
 
 \dontrun{
-marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
-marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]], marks_sub,
-n_random = 19, max_runs = 1000)
+marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
+marks_recon <- reconstruct_pattern_marks(pattern_random$randomized[[1]],
+marks_sub, n_random = 19, max_runs = 1000)
 plot_randomized_pattern(marks_recon)
 }
 

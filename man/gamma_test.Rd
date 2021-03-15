@@ -4,7 +4,9 @@
 \name{gamma_test}
 \alias{gamma_test}
 \title{Gamma test}
-\format{rd_pat object.}
+\format{
+rd_pat object.
+}
 \usage{
 gamma_test
 }

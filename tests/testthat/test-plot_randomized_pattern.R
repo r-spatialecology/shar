@@ -11,7 +11,7 @@ pattern_random_ni <- shar::fit_point_process(shar::species_b,
 
 pattern_random_marks <- pattern_random$randomized[[1]]
 
-marks_sub <- spatstat::subset.ppp(species_a, select = dbh)
+marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 
 marks_recon <- shar::reconstruct_pattern_marks(pattern = pattern_random_marks,
                                                marked_pattern = marks_sub,

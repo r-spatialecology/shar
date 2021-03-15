@@ -4,7 +4,9 @@
 \name{torus_trans}
 \alias{torus_trans}
 \title{Torus trans}
-\format{rd_ras object.}
+\format{
+rd_ras object.
+}
 \usage{
 torus_trans
 }

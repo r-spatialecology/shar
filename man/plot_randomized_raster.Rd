@@ -4,8 +4,7 @@
 \alias{plot_randomized_raster}
 \title{plot_randomized_raster}
 \usage{
-plot_randomized_raster(raster, n = NULL, col, verbose = TRUE, nrow,
-  ncol)
+plot_randomized_raster(raster, n = NULL, col, verbose = TRUE, nrow, ncol)
 }
 \arguments{
 \item{raster}{List with randomized raster}

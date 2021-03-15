@@ -1,22 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis build
-status](https://travis-ci.org/r-spatialecology/shar.svg?branch=master)](https://travis-ci.org/r-spatialecology/shar)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/08hgwkr82pqb6ykq/branch/master?svg=true)](https://ci.appveyor.com/project/mhesselbarth/shar/branch/master)
-[![Coverage
-status](https://codecov.io/gh/r-spatialecology/shar/branch/master/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=master)
-[![Project
-Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)
-[![CRAN
-logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html)
-[![License: GPL
-v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<!-- badges: start -->
+
+| Continuous Integration                                                                                                                                 | Development                                                                                                                        | CRAN                                                                                                                    | License                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [![R build status](https://github.com/r-spatialecology/shar/workflows/R-CMD-check/badge.svg)](https://github.com/r-spatialecology/shar/actions)        | [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)                       | [![CRAN status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)                    | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
+| [![Coverage status](https://codecov.io/gh/r-spatialecology/shar/branch/main/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=main) | [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html) |                                                                                                                 |
+
+<!-- badges: end -->
+
+<img src="man/figures/logo.png" align="right" width="150" />
 
 # shar
 
@@ -59,9 +53,9 @@ library(raster)
 ```
 
 **shar** comes with build-in example data sets. `species_a` and
-`species_b` are examplary location of species, e.g. trees, as
+`species_b` are exemplary location of species, e.g. trees, as
 `ppp`-objects from the `spatstat` package. `landscape` contains
-examplary continious environmental data. However, all methods depend on
+examplary continuous environmental data. However, all methods depend on
 discrete data. Therefore we need to classify the data first.
 
 ``` r
@@ -100,7 +94,7 @@ gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_rand
 reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
 ```
 
-Of coures, there are several utility functions. For example, you can
+Of course, there are several utility functions. For example, you can
 plot a randomized pattern or calculate the differences between the
 observed pattern and the randomized patterns (using summary functions).
 
@@ -132,8 +126,8 @@ calculate_energy(reconstruction, verbose = FALSE)
 
 The data was created that `species_a` has a negative association to
 habitat 4 and `species_b` has a positive association to habitat 5. At
-one point a posititive association to one habitat leads consequently to
-a negative association to another habitat (and vice versa). All this can
+one point a positive association to one habitat leads consequently to a
+negative association to another habitat (and vice versa). All this can
 be seen in the results.
 
 ``` r

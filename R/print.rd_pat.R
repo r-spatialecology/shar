@@ -36,7 +36,7 @@ print.rd_pat <- function(x,
 
   # set length observed pattern to 0 and
   # return warning that energy can't be calculated
-  if (!spatstat::is.ppp(x$observed)) {
+  if (!spatstat.geom::is.ppp(x$observed)) {
 
     number_patterns_obs <- 0
 

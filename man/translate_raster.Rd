@@ -4,8 +4,14 @@
 \alias{translate_raster}
 \title{translate_raster}
 \usage{
-translate_raster(raster, steps_x = NULL, steps_y = NULL,
-  return_input = TRUE, simplify = FALSE, verbose = TRUE)
+translate_raster(
+  raster,
+  steps_x = NULL,
+  steps_y = NULL,
+  return_input = TRUE,
+  simplify = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{raster}{RasterLayer.}

@@ -1,3 +1,14 @@
+# shar 1.2
+* Improvements
+  * Include new `spatstat` package structure
+  * Use GPL3 License
+
+# shar 1.1.1
+* Improvements
+   * Add logo
+   * Update to MIT License
+   * renamed `master` to `main` branch
+
 # shar 1.1
 * Improvements
   * Use energy_df to get energy for printing if available

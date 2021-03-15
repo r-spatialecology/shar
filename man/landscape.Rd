@@ -4,7 +4,9 @@
 \name{landscape}
 \alias{landscape}
 \title{Example landscape (random cluster neutral landscape model).}
-\format{A raster layer object.}
+\format{
+A raster layer object.
+}
 \source{
 Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
 }
