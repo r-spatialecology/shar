@@ -15,8 +15,8 @@ Harms et al. (2001) <doi:10.1111/j.1365-2745.2001.00615.x>.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://r-spatialecology.github.io/shar}
-  \item Report bugs at \url{https://github.com/r-spatialecology/shar/issues}
+  \item \url{https://r-spatialecology.github.io/shar/}
+  \item Report bugs at \url{https://github.com/r-spatialecology/shar/issues/}
 }
 
 }
