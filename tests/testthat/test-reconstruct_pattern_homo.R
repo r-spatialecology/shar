@@ -30,6 +30,16 @@ pattern_recon_simple <- shar::reconstruct_pattern_homo(pattern = shar::species_a
                                                        simplify = TRUE,
                                                        verbose = FALSE)
 
+n_points_diff <- 100
+window_diff <- spatstat.geom::owin(xrange = c(0, 1100), yrange = c(0, 1250))
+
+pattern_recon_diff <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
+                                                     n_points = n_points_diff,
+                                                     window = window_diff,
+                                                     n_random = 3,
+                                                     max_runs = 1,
+                                                     verbose = FALSE)
+
 ################################################################################
 
 testthat::test_that("Output is a long as n_random for reconstruct_pattern_homo", {
@@ -55,6 +65,21 @@ testthat::test_that("Reconstructed patterns have same number of points", {
   testthat::expect_true(all(vapply(pattern_recon$randomized,
                                    FUN.VALUE = logical(1),
                                    function(x) x$n == shar::species_a$n)))
+})
+
+testthat::test_that("Reconstructed patterns have specified number of points and win", {
+
+  testthat::expect_true(all(vapply(pattern_recon_diff$randomized,
+                                   FUN.VALUE = logical(1),
+                                   function(x) x$n == n_points_diff)))
+
+  testthat::expect_true(all(vapply(pattern_recon_diff$randomized,
+                                   FUN.VALUE = logical(1),
+                                   function(x) all(x$window$xrange == window_diff$xrange))))
+
+  testthat::expect_true(all(vapply(pattern_recon_diff$randomized,
+                                   FUN.VALUE = logical(1),
+                                   function(x) all(x$window$yrange == window_diff$yrange))))
 })
 
 testthat::test_that("Input pattern can not be returned for reconstruct_pattern_homo", {
