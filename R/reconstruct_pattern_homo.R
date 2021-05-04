@@ -8,6 +8,8 @@
 #' @param max_runs Maximum number of iterations of e_threshold is not reached.
 #' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
 #' @param annealing Probability to keep relocated point even if energy did not decrease.
+#' @param n_points Number of points to be simulated.
+#' @param window Window of simulated pattern.
 #' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
 #' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
 #' @param r_length Number of intervals from r = 0 to r = rmax the summary functions are evaluated.
@@ -32,6 +34,9 @@
 #' decrease. The number of steps can be controlled by \code{no_change} and is set to
 #' \code{no_change = Inf} as default to never stop automatically.
 #'
+#' If \code{n_points} and \code{window} are not specified (default), the simulated pattern
+#' has the same number of points and window as the input pattern.
+#'
 #' The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
 #' use \code{weights = c(0.5, 0.5)}.
 #'
@@ -49,7 +54,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 19, max_runs = 1000)
+#' pattern_recon_a <- reconstruct_pattern_homo(species_a, n_random = 19,
+#' max_runs = 1000)
+#'
+#' pattern_recon_b <- reconstruct_pattern_homo(species_a, n_points = 70,
+#' n_random = 19, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_pattern_homo
@@ -69,6 +78,8 @@ reconstruct_pattern_homo <- function(pattern,
                                      max_runs = 1000,
                                      no_change = Inf,
                                      annealing = 0.01,
+                                     n_points = NULL,
+                                     window = NULL,
                                      comp_fast = 1000,
                                      weights = c(0.5, 0.5),
                                      r_length = 250,
@@ -79,22 +90,50 @@ reconstruct_pattern_homo <- function(pattern,
 
   # check if n_random is >= 1
   if (n_random < 1) {
+
     stop("n_random must be >= 1.", call. = FALSE)
+
   }
 
+  # use number of points  of pattern if not provided
+  if (is.null(n_points)) {
+
+    message("> Using number of points 'pattern'.")
+
+    n_points <- pattern$n
+
+  }
+
+  # use window of pattern if not provided
+  if (is.null(window)) {
+
+    message("> Using window of 'pattern'.")
+
+    window <- pattern$window
+
+  }
+
+  # calculate intensity
+  intensity <- n_points / spatstat.geom::area(window)
+
   # check if number of points exceed comp_fast limit
-  if (pattern$n > comp_fast) {
+  if (n_points > comp_fast) {
 
     # Print message that summary functions will be computed fast
     if (verbose) {
+
       message("> Using fast compuation of summary functions.")
+
     }
 
     comp_fast <- TRUE
+
   }
 
   else {
+
     comp_fast <- FALSE
+
   }
 
   # set names of randomization randomized_1 ... randomized_n
@@ -116,6 +155,7 @@ reconstruct_pattern_homo <- function(pattern,
   if (sum(weights) > 1 || sum(weights) == 0) {
 
     stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
+
   }
 
   # unmark pattern
@@ -126,20 +166,21 @@ reconstruct_pattern_homo <- function(pattern,
     if (verbose) {
       warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
               call. = FALSE)
+
     }
   }
 
   # calculate r
   r <- seq(from = 0,
-           to = spatstat.core::rmax.rule(W = pattern$window,
-                                         lambda = spatstat.geom::intensity.ppp(pattern)),
+           to = spatstat.core::rmax.rule(W = window,
+                                         lambda = intensity),
            length.out = r_length)
 
   # create Poisson simulation data
-  simulated <- spatstat.core::runifpoint(n = pattern$n,
-                                    nsim = 1, drop = TRUE,
-                                    win = pattern$window,
-                                    warn = FALSE)
+  simulated <- spatstat.core::runifpoint(n = n_points,
+                                         nsim = 1, drop = TRUE,
+                                         win = window,
+                                         warn = FALSE)
 
   # fast computation of summary functions
   if (comp_fast) {
@@ -212,11 +253,13 @@ reconstruct_pattern_homo <- function(pattern,
     if (annealing != 0) {
 
       random_annealing <- stats::runif(n = max_runs, min = 0, max = 1)
+
     }
 
     else {
 
       random_annealing <- rep(0, max_runs)
+
     }
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
@@ -294,7 +337,9 @@ reconstruct_pattern_homo <- function(pattern,
 
       # increase counter no change
       else {
+
         energy_counter <- energy_counter + 1
+
       }
 
       # count iterations
@@ -307,13 +352,16 @@ reconstruct_pattern_homo <- function(pattern,
       if (verbose) {
 
         if (!plot) {
+
           Sys.sleep(0.01)
+
         }
 
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", floor(i / max_runs * 100), "%",
                 " || energy = ", round(energy_current, 5), "\t\t",
                 appendLF = FALSE)
+
       }
 
       # exit loop if e threshold or no_change counter max is reached
@@ -323,6 +371,7 @@ reconstruct_pattern_homo <- function(pattern,
         stop_criterion_list[[current_pattern]] <- "e_threshold/no_change"
 
         break
+
       }
     }
 
@@ -330,6 +379,7 @@ reconstruct_pattern_homo <- function(pattern,
     if (plot) {
 
       grDevices::dev.off()
+
     }
 
     # remove NAs if stopped due to energy

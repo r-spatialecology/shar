@@ -72,26 +72,30 @@ reconstruct_pattern_marks <- function(pattern,
   if (!n_random >= 1) {
 
     stop("n_random must be >= 1.", call. = FALSE)
+
   }
 
   # check if pattern is marked
   if (spatstat.geom::is.marked(pattern) || !spatstat.geom::is.marked(marked_pattern)) {
 
     stop("'pattern' must be unmarked and 'marked_pattern' marked", call. = FALSE)
+
   }
 
-  if (any(pattern$window$xrange != marked_pattern$window$xrange) ||
-      any(pattern$window$yrange != marked_pattern$window$yrange) ||
-      pattern$n != marked_pattern$n) {
-
-    stop("'pattern' and 'pattern' must have same window and number of points",
-         call. = FALSE)
-  }
+  # if (any(pattern$window$xrange != marked_pattern$window$xrange) ||
+  #     any(pattern$window$yrange != marked_pattern$window$yrange) ||
+  #     pattern$n != marked_pattern$n) {
+  #
+  #   stop("'pattern' and 'pattern' must have same window and number of points",
+  #        call. = FALSE)
+  #
+  # }
 
   # check if marks are numeric
   if (class(marked_pattern$marks) != "numeric") {
 
     stop("marks must be 'numeric'", call. = FALSE)
+
   }
 
   # set names of randomization randomized_1 ... randomized_n
@@ -119,7 +123,8 @@ reconstruct_pattern_marks <- function(pattern,
   simulated <- pattern
 
   # assign shuffled marks to pattern
-  spatstat.geom::marks(simulated) <- rcpp_sample(x = marked_pattern$marks, n = marked_pattern$n)
+  spatstat.geom::marks(simulated) <- rcpp_sample(x = marked_pattern$marks, n = simulated$n,
+                                                 replace = TRUE)
 
   # calculate summary functions
   kmmr_observed <- spatstat.core::markcorr(marked_pattern,
@@ -159,11 +164,13 @@ reconstruct_pattern_marks <- function(pattern,
     if (annealing != 0) {
 
       random_annealing <- stats::runif(n = max_runs, min = 0, max = 1)
+
     }
 
     else {
 
       random_annealing <- rep(0, max_runs)
+
     }
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
@@ -226,7 +233,9 @@ reconstruct_pattern_marks <- function(pattern,
 
       # increase counter no change
       else {
+
         energy_counter <- energy_counter + 1
+
       }
 
       # count iterations
@@ -239,7 +248,9 @@ reconstruct_pattern_marks <- function(pattern,
       if (verbose) {
 
         if (!plot) {
+
           Sys.sleep(0.01)
+
         }
 
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
@@ -255,23 +266,28 @@ reconstruct_pattern_marks <- function(pattern,
         stop_criterion[[current_pattern]] <- "e_threshold/no_change"
 
         break
+
       }
     }
 
     if (plot) {
+
       grDevices::dev.off()
+
     }
 
     # remove NAs if stopped due to energy
     if (stop_criterion[[current_pattern]] == "e_threshold/no_change") {
 
       energy_df <- energy_df[1:iterations, ]
+
     }
 
     # save results in lists
     energy_list[[current_pattern]] <- energy_df
     iterations_list[[current_pattern]] <- iterations
     result_list[[current_pattern]] <- simulated_current
+
   }
 
 
@@ -304,7 +320,9 @@ reconstruct_pattern_marks <- function(pattern,
 
       # only one random pattern is present that should be returend
       else if (n_random == 1) {
+
         reconstruction <- reconstruction$randomized[[1]]
+
       }
     }
   }
@@ -316,12 +334,15 @@ reconstruct_pattern_marks <- function(pattern,
     if (simplify && verbose) {
 
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+
     }
   }
 
   # write result in new line if progress was printed
   if (verbose) {
+
     message("\r")
+
   }
 
   return(reconstruction)

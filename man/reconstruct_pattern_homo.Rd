@@ -11,6 +11,8 @@ reconstruct_pattern_homo(
   max_runs = 1000,
   no_change = Inf,
   annealing = 0.01,
+  n_points = NULL,
+  window = NULL,
   comp_fast = 1000,
   weights = c(0.5, 0.5),
   r_length = 250,
@@ -32,6 +34,10 @@ reconstruct_pattern_homo(
 \item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
 
 \item{annealing}{Probability to keep relocated point even if energy did not decrease.}
+
+\item{n_points}{Number of points to be simulated.}
+
+\item{window}{Window of simulated pattern.}
 
 \item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 
@@ -69,6 +75,9 @@ The reconstruction can be stopped automatically if for n steps the energy does n
 decrease. The number of steps can be controlled by \code{no_change} and is set to
 \code{no_change = Inf} as default to never stop automatically.
 
+If \code{n_points} and \code{window} are not specified (default), the simulated pattern
+has the same number of points and window as the input pattern.
+
 The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
 use \code{weights = c(0.5, 0.5)}.
 
@@ -77,7 +86,11 @@ the computational time while increasing the "bumpiness" of the summary function.
 }
 \examples{
 \dontrun{
-pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 19, max_runs = 1000)
+pattern_recon_a <- reconstruct_pattern_homo(species_a, n_random = 19,
+max_runs = 1000)
+
+pattern_recon_b <- reconstruct_pattern_homo(species_a, n_points = 70,
+n_random = 19, max_runs = 1000)
 }
 
 }

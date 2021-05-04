@@ -39,6 +39,25 @@ marks_recon_energy <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
                                                       e_threshold = 0.1,
                                                       verbose = FALSE)
 
+
+n_points_diff <- 100
+window_diff <- spatstat.geom::owin(xrange = c(0, 900), yrange = c(0, 1250))
+
+pattern_recon_diff <- shar::reconstruct_pattern_homo(shar::species_a,
+                                                     n_points = n_points_diff,
+                                                     window = window_diff,
+                                                     n_random = 1,
+                                                     return_input = FALSE,
+                                                     simplify = TRUE,
+                                                     max_runs = 1,
+                                                     verbose = FALSE)
+
+marks_recon_diff <- shar::reconstruct_pattern_marks(pattern = pattern_recon_diff,
+                                                    marked_pattern = marks_sub,
+                                                    n_random = 3,
+                                                    max_runs = 1,
+                                                    verbose = FALSE)
+
 ################################################################################
 
 testthat::test_that("Output is a long as n_random for reconstruct_pattern_marks", {
@@ -48,6 +67,21 @@ testthat::test_that("Output is a long as n_random for reconstruct_pattern_marks"
   testthat::expect_type(marks_recon$randomized, type = "list")
 
   testthat::expect_length(marks_recon$randomized, n = 3)
+})
+
+
+testthat::test_that("reconstruct_pattern_marks works for pattern of difference length", {
+
+  testthat::expect_is(marks_recon_diff, class = "rd_mar")
+
+  testthat::expect_type(marks_recon_diff$randomized, type = "list")
+
+  testthat::expect_length(marks_recon_diff$randomized, n = 3)
+
+  testthat::expect_named(marks_recon_diff$randomized,
+                         expected = paste0("randomized_", c(1:3)))
+
+  testthat::expect_equal(marks_recon_diff$observed, expected = marks_sub)
 })
 
 testthat::test_that("Output includes randomizations and original pattern for reconstruct_pattern_marks", {
@@ -104,14 +138,13 @@ testthat::test_that("All errors are returned for reconstruct_pattern_marks", {
                          regexp = "'pattern' must be unmarked and 'marked_pattern' marked",
                          fixed = TRUE)
 
-  testthat::expect_error(shar::reconstruct_pattern_marks(pattern = spatstat.geom::unmark(shar::species_b),
-                                                         marked_pattern = marks_sub,
-                                                         n_random = 3,
-                                                         max_runs = 1,
-                                                         verbose = FALSE),
-                         regexp = "'pattern' and 'pattern' must have same window and number of points",
-                         fixed = TRUE)
-
+  # testthat::expect_error(shar::reconstruct_pattern_marks(pattern = spatstat.geom::unmark(shar::species_b),
+  #                                                        marked_pattern = marks_sub,
+  #                                                        n_random = 3,
+  #                                                        max_runs = 1,
+  #                                                        verbose = FALSE),
+  #                        regexp = "'pattern' and 'pattern' must have same window and number of points",
+  #                        fixed = TRUE)
 
   testthat::expect_error(shar::reconstruct_pattern_marks(pattern = pattern_recon,
                                                          marked_pattern = spatstat.geom::subset.ppp(shar::species_a,
