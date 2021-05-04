@@ -12,7 +12,7 @@ reconstruct_pattern_homo(
   no_change = Inf,
   annealing = 0.01,
   n_points = NULL,
-  extent = NULL,
+  window = NULL,
   comp_fast = 1000,
   weights = c(0.5, 0.5),
   r_length = 250,
@@ -37,6 +37,8 @@ reconstruct_pattern_homo(
 
 \item{n_points}{Number of points to be simulated.}
 
+\item{window}{Window of simulated pattern.}
+
 \item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
 
 \item{weights}{Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).}
@@ -50,8 +52,6 @@ reconstruct_pattern_homo(
 \item{verbose}{Print progress report.}
 
 \item{plot}{Plot pcf function during optimization.}
-
-\item{window}{Window of simulated pattern.}
 }
 \value{
 list
@@ -75,8 +75,8 @@ The reconstruction can be stopped automatically if for n steps the energy does n
 decrease. The number of steps can be controlled by \code{no_change} and is set to
 \code{no_change = Inf} as default to never stop automatically.
 
-If \code{n_points} and \code{extent} are not specified (default), the simulated pattern
-has the same number of points and extent as the input pattern.
+If \code{n_points} and \code{window} are not specified (default), the simulated pattern
+has the same number of points and window as the input pattern.
 
 The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
 use \code{weights = c(0.5, 0.5)}.

@@ -1,7 +1,7 @@
 ## shar 1.2.1
 * Improvements
   * `reconstruct_pattern_homo()` has arguments to specify number of points and window
-  * `reconstruct_pattern_marks` allows to have different number of points for `pattern` and `marked_pattern` argument
+  * `reconstruct_pattern_marks()` allows to have different number of points for `pattern` and `marked_pattern` argument
 
 # shar 1.2
 * Improvements

@@ -34,8 +34,8 @@
 #' decrease. The number of steps can be controlled by \code{no_change} and is set to
 #' \code{no_change = Inf} as default to never stop automatically.
 #'
-#' If \code{n_points} and \code{extent} are not specified (default), the simulated pattern
-#' has the same number of points and extent as the input pattern.
+#' If \code{n_points} and \code{window} are not specified (default), the simulated pattern
+#' has the same number of points and window as the input pattern.
 #'
 #' The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
 #' use \code{weights = c(0.5, 0.5)}.
