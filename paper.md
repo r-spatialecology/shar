@@ -8,7 +8,7 @@ tags:
   - pattern reconstruction
   - torus-translation test
   - randomized-habitats procedure; 
-author:
+authors:
   - name: Maximilian H.K. Hesselbarth^[corresponding author] 
     orcid: 0000-0003-1125-9918
     affiliation: "1, 2"
