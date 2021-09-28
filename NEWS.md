@@ -1,4 +1,4 @@
-## shar 1.2.1
+# shar 1.2.1
 * Improvements
   * `reconstruct_pattern_homo()` has arguments to specify number of points and window
   * `reconstruct_pattern_marks()` allows to have different number of points for `pattern` and `marked_pattern` argument
@@ -16,13 +16,13 @@
 
 # shar 1.1
 * Improvements
-  * Use energy_df to get energy for printing if available
+  * Use `energy_df` to get energy for printing if available
   * Updated tests
   * More stable progress printing
 
 # shar 1.0.1
 * Improvements
-  * No calculation of energy for printig (too slow)
+  * No calculation of energy for printing (too slow)
 
 # shar 1.0
 * Improvements
@@ -71,7 +71,7 @@
 * Improvements
   * minor speed improvment for `reconstruct_pattern()`, `reconstruct_marks()` and `calculate_energy()`
     * The starting pattern is now identical for all n_random and only the relocation process differs between randomizations
-    * All summary functions are only calculated for 250 steps from 0 to rmax
+    * All summary functions are only calculated for 250 steps from 0 to `rmax`
 * Bugfixes
 * New functionality
   * `rcpp_sample()` as a faster Rcpp implementation of `sample()`
