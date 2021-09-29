@@ -88,8 +88,10 @@ The `results_habitat_association()` function automatically detects which part of
 results_habitat_association(pattern = species_a, 
                             raster = random_walk)
 
-# > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
-#   habitat count    lo    hi significance
+# > Input: randomized raster | 
+#   Quantile thresholds: negative < 0.025 - positive > 0.975
+# 
+# habitat count    lo    hi significance
 # 1       1     9  2.95 13.15         n.s.
 # 2       2    25  8.95 25.30         n.s.
 # 3       3    27 11.00 23.20     positive
