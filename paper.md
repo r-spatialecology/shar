@@ -23,9 +23,10 @@ bibliography: paper.bib
 
 # Summary
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit Aenean commodo ligula eget dolor.
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus, donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-Nulla consequat massa quis enim Donec pede justo, fringilla vel, aliquet nec, vulputate.
+Analyzing species-habitat associations is one tool to study the importance of abiotic processes in shaping the spatial point pattern of ecological objects. 
+Even though the `R` programming language offers many solutions for spatial point pattern analysis, currently there is no functionality to analyze species-habitat associations. 
+The `shar` packages allows to analyze species-habitat associations. 
+Because it is based based on widely used spatial `R` packages and requires to apply only very few core functions, the package provides an easy and straightforward way to analyze species-habitat associations.
 
 # Statement of need
 
@@ -75,9 +76,10 @@ In both cases, the number of randomization must be specified using the `r_random
 In order to preserve the spatial structure of the input as detailed, several options are present to acknowledge for eaxample if the object locations are clustered are heterogeneously distributed in the study area.
 
 ```
-gamma_test <- fit_point_process(pattern = species_a, n_random = 39, process = "cluster")
+gamma_test <- fit_point_process(pattern = species_a, 
+                                n_random = 39, process = "cluster")
 
-reconstruction <- reconstruct_pattern_homo(pattern = species_a, n_random = 39) # takes some time
+reconstruction <- reconstruct_pattern_homo(pattern = species_a, n_random = 39)
 ```
 
 Lastly, the input data and the randomized null model data is used to analyze if species-habitat associations are present.
@@ -85,10 +87,12 @@ The `results_habitat_association()` function automatically detects which part of
 
 ```
 # use random-walk data
-results_habitat_association(pattern = species_a, raster = random_walk)
+results_habitat_association(pattern = species_a, 
+                            raster = random_walk)
 
 # use pattern reconstruction data
-results_habitat_association(pattern = reconstruction, raster = landscape_discrete)
+results_habitat_association(pattern = reconstruction, 
+                            raster = landscape_discrete)
 ```
 
 The `shar` packages also provides several utility and plotting functions such as `plot_randomized_raster()` and `plot_randomized_pattern()` to plot the null model data, `calculate_energy()` to calculate the difference between the input object locations and the randomized null model data object locations, or `classify_habitats()` to classify continious environmental data into discrete habitats.  
