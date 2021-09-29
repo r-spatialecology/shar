@@ -100,7 +100,6 @@ testthat::test_that("Reconstruction stops if e_threshold is reached", {
   testthat::expect_true(object = all(energy < 0.1))
 })
 
-
 testthat::test_that("simplify works for reconstruct_pattern_homo", {
 
   testthat::expect_is(pattern_recon_simple, "ppp")
