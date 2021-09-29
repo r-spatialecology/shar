@@ -9,9 +9,9 @@ rcpp_sample(x, n, replace = FALSE)
 \arguments{
 \item{x}{Vector of elements to sample from.}
 
-\item{n}{Size of the sample.}
+\item{n}{Integer with size of the sample.}
 
-\item{replace}{Sample with replacement.}
+\item{replace}{Logical if sample with replacement.}
 }
 \value{
 vector
@@ -25,3 +25,4 @@ Rcpp sample function
 \seealso{
 \code{\link{sample}}
 }
+\keyword{internal}

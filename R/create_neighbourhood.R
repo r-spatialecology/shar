@@ -2,9 +2,9 @@
 #'
 #' @description Create neighbourhood
 #'
-#' @param cells matrix with cell ids of focal cells.
-#' @param matrix matrix in which cells are located.
-#' @param directions Cells neighbour rule: 4 (rook's case), 8 (queen's case).
+#' @param cells Matrix with cell ids of focal cells.
+#' @param matrix Matrix in which cells are located.
+#' @param directions Integer with cells neighbourhood rule: 4 (rook's case), 8 (queen's case).
 #'
 #' @details
 #' Get cell ids of all neighbouring cells. The neighbourhoood rule can be specified
@@ -22,6 +22,8 @@
 #'
 #' @aliases create_neighbourhood
 #' @rdname create_neighbourhood
+#'
+#' @keywords internal
 
 #' @export
 create_neighbourhood <- function(cells, matrix, directions = 4) {
@@ -32,9 +34,8 @@ create_neighbourhood <- function(cells, matrix, directions = 4) {
                                cbind(cells[, 1] + 1, cells[, 2]),
                                cbind(cells[, 1], cells[, 2] - 1),
                                cbind(cells[, 1], cells[, 2] + 1)))
-  }
 
-  else if (directions == 8) {
+  } else if (directions == 8) {
 
     neighbours <- unique(rbind(cbind(cells[, 1] - 1, cells[, 2]),
                                cbind(cells[, 1] + 1, cells[, 2]),
@@ -44,10 +45,11 @@ create_neighbourhood <- function(cells, matrix, directions = 4) {
                                cbind(cells[, 1] - 1, cells[, 2] - 1),
                                cbind(cells[, 1] + 1, cells[, 2] - 1),
                                cbind(cells[, 1] - 1, cells[, 2] + 1)))
-  }
 
-  else {
+  } else {
+
     stop("'directions must be 'directions = 4' or 'directions = 8'.")
+
   }
 
   # remove all cases outside lower boundaries

@@ -2,21 +2,31 @@
 #'
 #' @description Plot randomized pattern
 #'
-#' @param pattern List with reconstructed patterns.
-#' @param what Plot summary functions of point patterns (\code{what = "sf"}) or acutal patterns (\code{what = "pp"}).
-#' @param probs Quantiles of randomized data used for envelope construction.
-#' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
-#' @param ask If TRUE the user is asked to press <RETURN> before second summary function
-#' is plotted (only has influence if \code{what = "sf"} and \code{method = "spatial"}).
-#' @param verbose Print progress report.
+#' @param pattern rd_pat or rd_mar object with randomized patterns.
+#' @param what Character specifying to plot summary functions of point patterns
+#' (\code{what = "sf"}) or actual patterns (\code{what = "pp"}).
+#' @param probs Vector with quantiles of randomized data used for envelope construction.
+#' @param comp_fast Integer with threshold at which summary functions are estimated
+#' in a computational fast way.
+#' @param ask Logical if the user is asked to press <RETURN> before second summary function
+#' is plotted (only used if \code{what = "sf"}).
+#' @param verbose Logical if progress report is printed.
 #'
 #' @details
-#' The function plots the pair correlation function and the nearest neighbour function
-#' the observed pattern and the reconstructed patterns (as "simulation envelopes".).
+#' The function plots the pair correlation function and the nearest neighbour function of
+#' the observed pattern and the reconstructed patterns (as "simulation envelopes").
 #' For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
 #' correction is used and the pair correlation function is estimated based on Ripley's
 #' K-function. For more information see \code{\link{estimate_pcf_fast}}. It is also
 #' possible to plot 3 randomized patterns and the observed pattern using \code{what = "pp"}.
+#'
+#' @seealso
+#' \code{\link{reconstruct_pattern_homo}} \cr
+#' \code{\link{reconstruct_pattern_hetero}} \cr
+#' \code{\link{reconstruct_pattern_cluster}} \cr
+#' \code{\link{fit_point_process}}
+#'
+#' @return void
 #'
 #' @examples
 #' pattern_random <- fit_point_process(species_a, n_random = 19, process = "cluster")
@@ -45,20 +55,19 @@ plot_randomized_pattern <- function(pattern,
   # check if class is correct
   if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
 
-    stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
-         call. = FALSE)
+    stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.", call. = FALSE)
+
   }
 
   # check if observed pattern is present
   if (!spatstat.geom::is.ppp(pattern$observed)) {
 
     stop("Input must include 'observed' pattern.", call. = FALSE)
+
   }
 
-  pattern_names <- c(paste0("randomized_", seq(from = 1,
-                                               to = length(pattern$randomized),
-                                               by = 1)),
-                     "observed")
+  pattern_names <- c(paste0("randomized_", seq(from = 1, to = length(pattern$randomized),
+                                               by = 1)), "observed")
 
   if (what == "sf") {
 
@@ -66,18 +75,18 @@ plot_randomized_pattern <- function(pattern,
     if (pattern$observed$n > comp_fast) {
 
       comp_fast <- TRUE
-    }
 
-    else {
+    } else {
+
       comp_fast <- FALSE
+
     }
 
     name_unit <- spatstat.geom::unitname(pattern$observed)[[1]] # unit name for labels
 
     # calculate r
-    r <- seq(from = 0,
-             to = spatstat.core::rmax.rule(W = pattern$observed$window,
-                                           lambda = spatstat.geom::intensity.ppp(pattern$observed)),
+    r <- seq(from = 0, to = spatstat.core::rmax.rule(W = pattern$observed$window,
+                                                     lambda = spatstat.geom::intensity.ppp(pattern$observed)),
              length.out = 250)
 
     if (class(pattern) == "rd_pat") {
@@ -93,26 +102,19 @@ plot_randomized_pattern <- function(pattern,
         # calculate summary functions
         if (comp_fast) {
 
-          gest_result <- spatstat.core::Gest(pattern[[x]],
-                                             correction = "none",
+          gest_result <- spatstat.core::Gest(pattern[[x]], correction = "none",
                                              r = r)
 
-          pcf_result <- shar::estimate_pcf_fast(pattern[[x]],
-                                                correction = "none",
-                                                method = "c",
-                                                spar = 0.5,
-                                                r = r)
-        }
+          pcf_result <- shar::estimate_pcf_fast(pattern[[x]], correction = "none",
+                                                method = "c", spar = 0.5, r = r)
 
-        else {
-          gest_result <- spatstat.core::Gest(pattern[[x]],
-                                             correction = "han",
-                                             r = r)
+        } else {
 
-          pcf_result <- spatstat.core::pcf(pattern[[x]],
-                                           divisor = "d",
-                                           correction = "best",
-                                           r = r)
+          gest_result <- spatstat.core::Gest(pattern[[x]], correction = "han", r = r)
+
+          pcf_result <- spatstat.core::pcf(pattern[[x]], divisor = "d",
+                                           correction = "best", r = r)
+
         }
 
         gest_df <- as.data.frame(gest_result) # conver to df
@@ -131,20 +133,22 @@ plot_randomized_pattern <- function(pattern,
 
         # print progress
         if (verbose) {
+
           message("\r> Progress: ", x, "/", length(pattern), "\t\t",
                   appendLF = FALSE)
+
         }
 
         return(summary_stats)
+
       })
 
       # get number of rows
-      result_nrow <- vapply(X = result,
-                            FUN = nrow, FUN.VALUE = numeric(1))
+      result_nrow <- vapply(X = result, FUN = nrow, FUN.VALUE = numeric(1))
 
       # combine results to one dataframe
-      result <- cbind(do.call(rbind, result),
-                      pattern = rep(pattern_names, times = result_nrow))
+      result <- cbind(do.call(rbind, result), pattern = rep(pattern_names,
+                                                            times = result_nrow))
 
       # classify all observed and all randomized repetitions identical
       result_randomized <- result[result$pattern != "observed", ]
@@ -245,9 +249,8 @@ plot_randomized_pattern <- function(pattern,
       graphics::par(ask = FALSE)
 
       invisible()
-    }
 
-    else if (class(pattern) == "rd_mar") {
+    } else if (class(pattern) == "rd_mar") {
 
       # combine observed and randomized to one list again
       pattern <- c(pattern$randomized, list(pattern$observed))
@@ -262,20 +265,21 @@ plot_randomized_pattern <- function(pattern,
 
         # print progress
         if (verbose) {
+
           message("\r> Progress: ", x, "/", length(pattern),  "\t\t",
                   appendLF = FALSE)
+
         }
 
         return(mark_corr)
+
       })
 
       # get number of rows
-      result_nrow <- vapply(X = result,
-                            FUN = nrow, FUN.VALUE = numeric(1))
+      result_nrow <- vapply(X = result, FUN = nrow, FUN.VALUE = numeric(1))
 
       # combine results to one dataframe
-      result <- cbind(do.call(rbind, result),
-                      pattern = rep(pattern_names, times = result_nrow))
+      result <- cbind(do.call(rbind, result), pattern = rep(pattern_names, times = result_nrow))
 
       # classify all observed and all randomized repetitions identical
       result_observed <- result[result$pattern == "observed", ]
@@ -325,20 +329,20 @@ plot_randomized_pattern <- function(pattern,
                        col = c("black", "#1f78b4"), lty = c(1, 2), inset = 0.025)
 
       invisible()
-    }
 
-    else{
+    } else {
+
       stop("'method' must be either 'method = 'spatial' or 'method = 'marks'.",
            call. = FALSE)
-    }
-  }
 
-  else if (what == "pp") {
+    }
+  } else if (what == "pp") {
 
     # check if observed pattern is present
     if (!spatstat.geom::is.ppp(pattern$observed)) {
 
       stop("Input must include 'observed' pattern.", call. = FALSE)
+
     }
 
     # get number of patterns
@@ -349,11 +353,13 @@ plot_randomized_pattern <- function(pattern,
 
       stop("Please provide at least 3 randomizations and the observed pattern.",
            call. = FALSE)
+
     }
 
     if (verbose) {
 
       message("> Plotting observed pattern and 4 randomized patterns only")
+
     }
 
     # sample 3 randomized patterns
@@ -390,15 +396,17 @@ plot_randomized_pattern <- function(pattern,
 
       # add window
       graphics::plot(current_window, add = TRUE)
+
     })
 
     # reset plotting window settings
     graphics::par(mfrow = c(1, 1))
 
     invisible()
-  }
 
-  else{
+  } else {
+
     stop("Please select either what = 'sf' or what = 'pp'.", call. = FALSE)
+
   }
 }

@@ -15,16 +15,18 @@ calculate_energy(
 \arguments{
 \item{pattern}{List with reconstructed patterns.}
 
-\item{weights}{Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).}
+\item{weights}{Vector with weights used to calculate energy.
+The first number refers to Gest(r), the second number to pcf(r).}
 
-\item{return_mean}{Return the mean energy.}
+\item{return_mean}{Logical if the mean energy is returned.}
 
-\item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
+\item{comp_fast}{Integer with threshold at which summary functions are estimated
+in a computational fast way.}
 
-\item{verbose}{Print progress report.}
+\item{verbose}{Logical if progress report is printed.}
 }
 \value{
-numeric
+vector
 }
 \description{
 Calculate mean energy
@@ -34,7 +36,7 @@ The function calculates the mean energy (or deviation) between the observed
 pattern and all reconstructed patterns (for more information see Tscheschel &
 Stoyan (2006) or Wiegand & Moloney (2014)). The pair correlation function and the
 nearest neighbour distance function are used to describe the patterns. For large
-patterns `comp_fast = TRUE` decreases the computational demand because no edge
+patterns \code{comp_fast = TRUE} decreases the computational demand, because no edge
 correction is used and the pair correlation function is estimated based on Ripley's
 K-function. For more information see \code{\link{estimate_pcf_fast}}.
 }

@@ -14,25 +14,30 @@ plot_randomized_pattern(
 )
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns.}
+\item{pattern}{rd_pat or rd_mar object with randomized patterns.}
 
-\item{what}{Plot summary functions of point patterns (\code{what = "sf"}) or acutal patterns (\code{what = "pp"}).}
+\item{what}{Character specifying to plot summary functions of point patterns
+(\code{what = "sf"}) or actual patterns (\code{what = "pp"}).}
 
-\item{probs}{Quantiles of randomized data used for envelope construction.}
+\item{probs}{Vector with quantiles of randomized data used for envelope construction.}
 
-\item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
+\item{comp_fast}{Integer with threshold at which summary functions are estimated
+in a computational fast way.}
 
-\item{ask}{If TRUE the user is asked to press <RETURN> before second summary function
-is plotted (only has influence if \code{what = "sf"} and \code{method = "spatial"}).}
+\item{ask}{Logical if the user is asked to press <RETURN> before second summary function
+is plotted (only used if \code{what = "sf"}).}
 
-\item{verbose}{Print progress report.}
+\item{verbose}{Logical if progress report is printed.}
+}
+\value{
+void
 }
 \description{
 Plot randomized pattern
 }
 \details{
-The function plots the pair correlation function and the nearest neighbour function
-the observed pattern and the reconstructed patterns (as "simulation envelopes".).
+The function plots the pair correlation function and the nearest neighbour function of
+the observed pattern and the reconstructed patterns (as "simulation envelopes").
 For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
 correction is used and the pair correlation function is estimated based on Ripley's
 K-function. For more information see \code{\link{estimate_pcf_fast}}. It is also
@@ -51,4 +56,10 @@ marks_sub, n_random = 19, max_runs = 1000)
 plot_randomized_pattern(marks_recon)
 }
 
+}
+\seealso{
+\code{\link{reconstruct_pattern_homo}} \cr
+\code{\link{reconstruct_pattern_hetero}} \cr
+\code{\link{reconstruct_pattern_cluster}} \cr
+\code{\link{fit_point_process}}
 }

@@ -1,26 +1,27 @@
 #' randomize_raster
 #'
-#' @description Randomization algorithm
+#' @description Randomized-habitats procedure
 #'
-#' @param raster RasterLayer.
-#' @param n_random Number of randomizations.
-#' @param directions Cells neighbour rule: 4 (rook's case), 8 (queen's case).
-#' @param return_input The original input data is returned as last list entry
-#' @param simplify If n_random = 1 and return_input = FALSE only raster will be returned.
-#' @param verbose Print progress report.
+#' @param raster RasterLayer with discrete habitat classes.
+#' @param n_random Integer with number of randomizations.
+#' @param directions Interger with cells neighbourhood rule: 4 (rook's case), 8 (queen's case).
+#' @param return_input Logical if the original input data is returned.
+#' @param simplify Logical if only the raster will be returned if \code{n_random = 1}
+#' and \code{return_input = FALSE}.
+#' @param verbose Logical if progress report is printed.
 #'
 #' @details
-#' The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
-#' as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
-#' starts to assign random neighbouring cells to each habitat (in increasing order of
-#' abundance in observed map). We modified the procedure slightly by increasing a
-#' probability to jump to a non-neighbouring cell as the current patch becomes larger.
+#' The function randomizes a habitat map with discrete classes (as RasterLayer) as proposed
+#' by Harms et al. (2001) as “randomized-habitats procedure”. The algorithm starts with an
+#' empty habitat map and starts to assign random neighbouring cells to each habitat
+#' (in increasing order of abundance in observed map). We modified the procedure
+#' slightly by increasing a probability to jump to a non-neighbouring cell as the
+#' current patch becomes larger.
 #'
 #' @seealso
-#' \code{\link{translate_raster}} \cr
-#' \code{\link{adjacent}}
+#' \code{\link{translate_raster}}
 #'
-#' @return list
+#' @return rd_ras
 #'
 #' @examples
 #' \dontrun{
@@ -45,7 +46,9 @@ randomize_raster <- function(raster,
 
   # check if n_random is >= 1
   if (!n_random >= 1) {
+
     stop("n_random must be >= 1.", call. = FALSE)
+
   }
 
   # set names of randomization randomized_1 ... randomized_n
@@ -55,9 +58,12 @@ randomize_raster <- function(raster,
 
   # print warning if more than 10 classes are present
   if (verbose) {
+
     if (length(habitats) > 10) {
+
       warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
               call. = FALSE)
+
     }
   }
 
@@ -97,8 +103,7 @@ randomize_raster <- function(raster,
                                  arr.ind = TRUE, useNames = FALSE)
 
           # get neighbour cells
-          neighbours <- create_neighbourhood(cells = cells_habitat,
-                                             matrix = random_matrix,
+          neighbours <- create_neighbourhood(cells = cells_habitat, matrix = random_matrix,
                                              directions = directions)
 
           # all neighbouring cells that are -999
@@ -118,10 +123,9 @@ randomize_raster <- function(raster,
             random_matrix[random_neighbour] <- habitat_id
 
             k <- k + 1 # count since laste time jumped
-          }
 
           # no neighbour with habitat and inside plot present
-          else{
+          } else{
 
             # random cell which is still -999
             random_cell <- shar::rcpp_sample(x = which(random_matrix == -999), n = 1)
@@ -130,11 +134,11 @@ randomize_raster <- function(raster,
             random_matrix[random_cell] <- habitat_id
 
             k <- 0 # set counter since last jump zero
+
           }
-        }
 
         # jump to random starting cell
-        else {
+        } else {
 
           # random cell which is still -999
           random_cell <- shar::rcpp_sample(x = which(random_matrix == -999), n = 1)
@@ -143,38 +147,38 @@ randomize_raster <- function(raster,
           random_matrix[random_cell] <- habitat_id
 
           k <- 0 # set counter since last jump zero
+
         }
 
         # print progess
         if (verbose) {
+
           message("\r> Progress: n_random: ", current_raster, "/", n_random,
                   " || habitats: " , current_habitat, "/", length(habitats), "\t\t",
                   appendLF = FALSE) # add habitat and number empty cells
+
         }
       }
     }
 
     # cells not assigned to any habitat yet
-    empty_cells <- which(random_matrix == -999,
-                         arr.ind = TRUE, useNames = FALSE)
+    empty_cells <- which(random_matrix == -999, arr.ind = TRUE, useNames = FALSE)
 
     # assign all still empty cells to last habitat
     random_matrix[empty_cells] <- as.numeric(names(habitats[length(habitats)]))
 
     # convert back to raster
-    random_raster <- raster::setValues(x = raster,
-                                       values = random_matrix)
+    random_raster <- raster::setValues(x = raster, values = random_matrix)
 
     return(random_raster)
+
   })
 
   names(result_list) <- names_randomization
 
   # combine to one list
-  randomization <- list(randomized = result_list,
-                        observed = raster,
+  randomization <- list(randomized = result_list, observed = raster,
                         method = "randomize_raster()")
-
 
   # set class of result
   class(randomization) <- "rd_ras"
@@ -193,28 +197,31 @@ randomize_raster <- function(raster,
 
         warning("'simplify = TRUE' not possible for 'n_random > 1'.",
                 call. = FALSE)
-      }
 
       # only one random raster is present that should be returend
-      else if (n_random == 1) {
+      } else if (n_random == 1) {
+
         randomization <- randomization$randomized[[1]]
+
       }
     }
-  }
 
   # return input if return_input = TRUE
-  else {
+  } else {
 
     # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
     if (simplify && verbose) {
 
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+
     }
   }
 
   # write result in new line if progress was printed
   if (verbose) {
+
     message("\r")
+
   }
 
   return(randomization)

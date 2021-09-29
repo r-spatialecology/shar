@@ -7,11 +7,12 @@
 classify_habitats(raster, classes = 5, style = "fisher")
 }
 \arguments{
-\item{raster}{RasterLayer.}
+\item{raster}{RasterLayer with continuous environmental values.}
 
-\item{classes}{Number of classes.}
+\item{classes}{Integer with number of classes.}
 
-\item{style}{Style of classification.}
+\item{style}{Character with method of classification. See Details section for
+more information.}
 }
 \value{
 RasterLayer
@@ -20,8 +21,10 @@ RasterLayer
 Classify habitats
 }
 \details{
-Classifies a RasterLayer with continuous values into n discrete classes. Consequently,
-classes are non-overlapping (and left-closed). For more information see `classIntervals`.
+Classifies a RasterLayer from the \code{raster} packages with continuous
+values into n discrete classes. Consequently, classes are non-overlapping (and left-closed).
+For more information about the classification method, see \code{\link{classIntervals}} from
+the \code{classInt} package and/or the provided References.
 }
 \examples{
 landscape_classified <- classify_habitats(landscape, classes = 5)

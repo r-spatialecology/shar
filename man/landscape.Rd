@@ -5,7 +5,7 @@
 \alias{landscape}
 \title{Example landscape (random cluster neutral landscape model).}
 \format{
-A raster layer object.
+A RasterLayer object.
 }
 \source{
 Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
@@ -15,6 +15,6 @@ landscape
 }
 \description{
 An example map to show landscapetools functionality
-generated with the `nlm_fbm()` algorithm.
+generated with the \code{NLMR::nlm_fbm()} algorithm.
 }
 \keyword{datasets}

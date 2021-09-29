@@ -7,11 +7,11 @@
 create_neighbourhood(cells, matrix, directions = 4)
 }
 \arguments{
-\item{cells}{matrix with cell ids of focal cells.}
+\item{cells}{Matrix with cell ids of focal cells.}
 
-\item{matrix}{matrix in which cells are located.}
+\item{matrix}{Matrix in which cells are located.}
 
-\item{directions}{Cells neighbour rule: 4 (rook's case), 8 (queen's case).}
+\item{directions}{Integer with cells neighbourhood rule: 4 (rook's case), 8 (queen's case).}
 }
 \value{
 matrix
@@ -32,3 +32,4 @@ create_neighbourhood(cell_id, mat)
 \seealso{
 \code{\link{randomize_raster}}
 }
+\keyword{internal}

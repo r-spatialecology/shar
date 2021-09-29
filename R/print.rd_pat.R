@@ -2,20 +2,20 @@
 #'
 #' @description Print method for rd_pat object
 #'
-#' @param x Random patterns.
-#' @param digits Number of decimal places (round).
-#' @param ... Arguments passed to cat
+#' @param x rd_pat object with randomized patterns.
+#' @param digits Integer with number of decimal places (round).
+#' @param ... Arguments passed to \code{cat}.
 #'
 #' @details
-#' Printing method for random patterns created with \code{\link{reconstruct_pattern_homo}},
-#' \code{\link{reconstruct_pattern_hetero}}, \code{\link{reconstruct_pattern_cluster}} or
-#' \code{\link{fit_point_process}}.
+#' Printing method for random patterns created with \code{reconstruct_pattern_*}.
 #'
 #' @seealso
 #' \code{\link{reconstruct_pattern_homo}} \cr
 #' \code{\link{reconstruct_pattern_hetero}} \cr
 #' \code{\link{reconstruct_pattern_cluster}} \cr
 #' \code{\link{fit_point_process}}
+#'
+#' @return void
 #'
 #' @examples
 #' pattern_random <- fit_point_process(species_a, n_random = 199)
@@ -41,14 +41,14 @@ print.rd_pat <- function(x,
     number_patterns_obs <- 0
 
     includes_observed <- "NA"
-  }
 
   # observed pattern is present
-  else {
+  } else {
 
     number_patterns_obs <- 1
 
     includes_observed <- "included"
+
   }
 
   # get extent of window
@@ -59,8 +59,7 @@ print.rd_pat <- function(x,
   number_patterns <- length(x$randomized) + number_patterns_obs
 
   # calculate mean iterations
-  mean_iterations <- round(mean(unlist(x$iterations)),
-                           digits = digits)
+  mean_iterations <- round(mean(unlist(x$iterations)), digits = digits)
 
   # count stop criterions
   stop_criterion <- tryCatch(expr = table(do.call(c, x$stop_criterion), useNA = "ifany"),
@@ -70,6 +69,7 @@ print.rd_pat <- function(x,
 
     stop_criterion <- paste0(paste0(names(stop_criterion), "=", stop_criterion),
                              collapse = " ")
+
   }
 
   # check if eneergy_df is available
@@ -77,12 +77,12 @@ print.rd_pat <- function(x,
 
     mean_energy <- round(mean(vapply(x$energy_df, function(x) {
 
-      utils::tail(x, n = 1)[, 2]
-    }, FUN.VALUE = numeric(1))), digits = digits)
-  }
+      utils::tail(x, n = 1)[, 2]}, FUN.VALUE = numeric(1))), digits = digits)
 
-  else {
+  } else {
+
     mean_energy <- "NA"
+
   }
 
   # print result

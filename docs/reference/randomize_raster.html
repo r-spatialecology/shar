@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>randomize_raster — randomize_raster • shar | Species-habitat associations in R</title>
+<title>randomize_raster — randomize_raster • shar</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,9 +47,8 @@
 
 
 <meta property="og:title" content="randomize_raster — randomize_raster" />
-<meta property="og:description" content="Randomization algorithm" />
+<meta property="og:description" content="Randomized-habitats procedure" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +66,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,25 +79,25 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">shar | Species-habitat associations in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <a class="navbar-link" href="../index.html">shar</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/get_started.html">
-    <span class="fa fa fa fa-magic"></span>
-     
-    Get Started
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">
     <span class="fa fa-gears"></span>
      
     Functions
+  </a>
+</li>
+<li>
+  <a href="../articles/get_started.html">
+    <span class="fa fa-magic"></span>
+     
+    Get Started
   </a>
 </li>
 <li class="dropdown">
@@ -166,88 +169,84 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>randomize_raster</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/r-spatialecology/shar/blob/master/R/randomize_raster.R'><code>R/randomize_raster.R</code></a></small>
     <div class="hidden name"><code>randomize_raster.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Randomization algorithm</p>
+    <p>Randomized-habitats procedure</p>
     </div>
 
-    <pre class="usage"><span class='fu'>randomize_raster</span>(
-  <span class='no'>raster</span>,
-  <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>directions</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>return_input</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>randomize_raster</span><span class='op'>(</span>
+  <span class='va'>raster</span>,
+  n_random <span class='op'>=</span> <span class='fl'>1</span>,
+  directions <span class='op'>=</span> <span class='fl'>4</span>,
+  return_input <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  simplify <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>raster</th>
-      <td><p>RasterLayer.</p></td>
+      <td><p>RasterLayer with discrete habitat classes.</p></td>
     </tr>
     <tr>
       <th>n_random</th>
-      <td><p>Number of randomizations.</p></td>
+      <td><p>Integer with number of randomizations.</p></td>
     </tr>
     <tr>
       <th>directions</th>
-      <td><p>Cells neighbour rule: 4 (rook's case), 8 (queen's case).</p></td>
+      <td><p>Interger with cells neighbourhood rule: 4 (rook's case), 8 (queen's case).</p></td>
     </tr>
     <tr>
       <th>return_input</th>
-      <td><p>The original input data is returned as last list entry</p></td>
+      <td><p>Logical if the original input data is returned.</p></td>
     </tr>
     <tr>
       <th>simplify</th>
-      <td><p>If n_random = 1 and return_input = FALSE only raster will be returned.</p></td>
+      <td><p>Logical if only the raster will be returned if <code>n_random = 1</code>
+and <code>return_input = FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Print progress report.</p></td>
+      <td><p>Logical if progress report is printed.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list</p>
+    <p>rd_ras</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
-as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
-starts to assign random neighbouring cells to each habitat (in increasing order of
-abundance in observed map). We modified the procedure slightly by increasing a
-probability to jump to a non-neighbouring cell as the current patch becomes larger.</p>
+    <p>The function randomizes a habitat map with discrete classes (as RasterLayer) as proposed
+by Harms et al. (2001) as “randomized-habitats procedure”. The algorithm starts with an
+empty habitat map and starts to assign random neighbouring cells to each habitat
+(in increasing order of abundance in observed map). We modified the procedure
+slightly by increasing a probability to jump to a non-neighbouring cell as the
+current patch becomes larger.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Harms, K. E., Condit, R., Hubbell, S. P., &amp; Foster, R. B. (2001). Habitat associations
 of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='translate_raster.html'>translate_raster</a></code> <br />
-<code>adjacent</code></p></div>
+    <div class='dont-index'><p><code><a href='translate_raster.html'>translate_raster</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>landscape_classified</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span>(<span class='no'>landscape</span>, <span class='kw'>classes</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>landscape_random</span> <span class='kw'>&lt;-</span> <span class='fu'>randomize_raster</span>(<span class='no'>landscape_classified</span>, <span class='kw'>n_random</span> <span class='kw'>=</span> <span class='fl'>19</span>)
-}</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>landscape_classified</span> <span class='op'>&lt;-</span> <span class='fu'><a href='classify_habitats.html'>classify_habitats</a></span><span class='op'>(</span><span class='va'>landscape</span>, classes <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>landscape_random</span> <span class='op'>&lt;-</span> <span class='fu'>randomize_raster</span><span class='op'>(</span><span class='va'>landscape_classified</span>, n_random <span class='op'>=</span> <span class='fl'>19</span><span class='op'>)</span>
+<span class='op'>}</span>
 
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -258,7 +257,7 @@ of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

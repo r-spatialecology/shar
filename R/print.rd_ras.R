@@ -2,14 +2,18 @@
 #'
 #' @description Print method for rd_ras object
 #'
-#' @param x Random patterns.
-#' @param ... Arguments passed to cat
+#' @param x rd_ras object with randomized raster.
+#' @param ... Arguments passed to \code{cat}.
 #'
 #' @details
-#' Printing method for random patterns created with \code{\link{randomize_raster}}.
+#' Printing method for random patterns created with \code{\link{randomize_raster}} or
+#' \code{\link{translate_raster}}.
 #'
 #' @seealso
-#' \code{\link{randomize_raster}}
+#' \code{\link{randomize_raster}} \cr
+#' \code{\link{translate_raster}}
+#'
+#' @return void
 #'
 #' @examples
 #' \dontrun{
@@ -33,6 +37,7 @@ print.rd_ras <- function(x,
     number_raster_obs <- 0
 
     includes_observed <- "NA"
+
   }
 
   # observed pattern is present
@@ -41,6 +46,7 @@ print.rd_ras <- function(x,
     number_raster_obs <- 1
 
     includes_observed <- "included"
+
   }
 
   # get extent of window

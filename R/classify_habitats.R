@@ -2,13 +2,16 @@
 #'
 #' @description Classify habitats
 #'
-#' @param raster RasterLayer.
-#' @param classes Number of classes.
-#' @param style Style of classification.
+#' @param raster RasterLayer with continuous environmental values.
+#' @param classes Integer with number of classes.
+#' @param style Character with method of classification. See Details section for
+#' more information.
 #'
 #' @details
-#' Classifies a RasterLayer with continuous values into n discrete classes. Consequently,
-#' classes are non-overlapping (and left-closed). For more information see `classIntervals`.
+#' Classifies a RasterLayer from the \code{raster} packages with continuous
+#' values into n discrete classes. Consequently, classes are non-overlapping (and left-closed).
+#' For more information about the classification method, see \code{\link{classIntervals}} from
+#' the \code{classInt} package and/or the provided References.
 #'
 #' @seealso
 #' \code{\link{classIntervals}}

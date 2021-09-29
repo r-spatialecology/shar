@@ -21,34 +21,41 @@ reconstruct_pattern_cluster(
 )
 }
 \arguments{
-\item{pattern}{ppp.}
+\item{pattern}{ppp object with pattern.}
 
-\item{n_random}{Number of randomizations.}
+\item{n_random}{Integer with number of randomizations.}
 
-\item{e_threshold}{Minimum energy to stop reconstruction.}
+\item{e_threshold}{Double with minimum energy to stop reconstruction.}
 
-\item{max_runs}{Maximum number of iterations of e_threshold is not reached.}
+\item{max_runs}{Integer with maximum number of iterations if \code{e_threshold}
+is not reached.}
 
-\item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
+\item{no_change}{Integer with number of iterations at which the reconstruction will
+stop if the energy does not decrease.}
 
-\item{annealing}{Probability to keep relocated point even if energy did not decrease.}
+\item{annealing}{Double with probability to keep relocated point even if energy
+did not decrease.}
 
-\item{comp_fast}{If pattern contains more points than threshold, summary functions are estimated in a computational fast way.}
+\item{comp_fast}{Integer with threshold at which summary functions are estimated
+in a computational fast way.}
 
-\item{weights}{Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).}
+\item{weights}{Vector with weights used to calculate energy.
+The first number refers to Gest(r), the second number to pcf(r).}
 
-\item{r_length}{Number of intervals from r = 0 to r = rmax the summary functions are evaluated.}
+\item{r_length}{Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
+the summary functions are evaluated.}
 
-\item{return_input}{The original input data is returned as last list entry}
+\item{return_input}{Logical if the original input data is returned.}
 
-\item{simplify}{If n_random = 1 and return_input = FALSE only pattern will be returned.}
+\item{simplify}{Logical if only pattern will be returned if \code{n_random = 1}
+and \code{return_input = FALSE}.}
 
-\item{verbose}{Print progress report.}
+\item{verbose}{Logical if progress report is printed.}
 
-\item{plot}{Plot pcf function during optimization.}
+\item{plot}{Logical if pcf(r) function is plotted and updated during optimization.}
 }
 \value{
-list
+rd_pat
 }
 \description{
 Pattern reconstruction for clustered patterns
@@ -73,7 +80,7 @@ The weights must be 0 < sum(weights) <= 1. To weight both summary functions iden
 use \code{weights = c(0.5, 0.5)}.
 
 \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
-the computational time while increasing the "bumpiness" of the summary function.
+the computational time, while increasing the "bumpiness" of the summary function.
 }
 \examples{
 \dontrun{

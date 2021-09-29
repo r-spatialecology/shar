@@ -12,13 +12,15 @@ results_habitat_association(
 )
 }
 \arguments{
-\item{pattern}{Point pattern or list with reconstructed patterns.}
+\item{pattern}{ppp object with original point pattern data or rd_pat or rd_mar object
+with randomized point pattern or}
 
-\item{raster}{RasterLayer or list of RasterLayers.}
+\item{raster}{RasterLayer with orignial discrete habitat data or rd_ras object with
+randomized environmental data.}
 
-\item{significance_level}{Significance level}
+\item{significance_level}{Double with significance level.}
 
-\item{verbose}{Print output}
+\item{verbose}{Logical if messages should be printed.}
 }
 \value{
 data.frame

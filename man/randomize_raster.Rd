@@ -14,30 +14,32 @@ randomize_raster(
 )
 }
 \arguments{
-\item{raster}{RasterLayer.}
+\item{raster}{RasterLayer with discrete habitat classes.}
 
-\item{n_random}{Number of randomizations.}
+\item{n_random}{Integer with number of randomizations.}
 
-\item{directions}{Cells neighbour rule: 4 (rook's case), 8 (queen's case).}
+\item{directions}{Interger with cells neighbourhood rule: 4 (rook's case), 8 (queen's case).}
 
-\item{return_input}{The original input data is returned as last list entry}
+\item{return_input}{Logical if the original input data is returned.}
 
-\item{simplify}{If n_random = 1 and return_input = FALSE only raster will be returned.}
+\item{simplify}{Logical if only the raster will be returned if \code{n_random = 1}
+and \code{return_input = FALSE}.}
 
-\item{verbose}{Print progress report.}
+\item{verbose}{Logical if progress report is printed.}
 }
 \value{
-list
+rd_ras
 }
 \description{
-Randomization algorithm
+Randomized-habitats procedure
 }
 \details{
-The function randomizes a habitat map (as RasterLayer) as proposed by Harms et al. (2001)
-as “randomized-habitats procedure”. The algorithm starts with an empty habitat map
-starts to assign random neighbouring cells to each habitat (in increasing order of
-abundance in observed map). We modified the procedure slightly by increasing a
-probability to jump to a non-neighbouring cell as the current patch becomes larger.
+The function randomizes a habitat map with discrete classes (as RasterLayer) as proposed
+by Harms et al. (2001) as “randomized-habitats procedure”. The algorithm starts with an
+empty habitat map and starts to assign random neighbouring cells to each habitat
+(in increasing order of abundance in observed map). We modified the procedure
+slightly by increasing a probability to jump to a non-neighbouring cell as the
+current patch becomes larger.
 }
 \examples{
 \dontrun{
@@ -51,6 +53,5 @@ Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associ
 of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
 }
 \seealso{
-\code{\link{translate_raster}} \cr
-\code{\link{adjacent}}
+\code{\link{translate_raster}}
 }

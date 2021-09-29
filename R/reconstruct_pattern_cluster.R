@@ -2,19 +2,26 @@
 #'
 #' @description Pattern reconstruction for clustered patterns
 #'
-#' @param pattern ppp.
-#' @param n_random Number of randomizations.
-#' @param e_threshold Minimum energy to stop reconstruction.
-#' @param max_runs Maximum number of iterations of e_threshold is not reached.
-#' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
-#' @param annealing Probability to keep relocated point even if energy did not decrease.
-#' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
-#' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
-#' @param r_length Number of intervals from r = 0 to r = rmax the summary functions are evaluated.
-#' @param return_input The original input data is returned as last list entry
-#' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
-#' @param verbose Print progress report.
-#' @param plot Plot pcf function during optimization.
+#' @param pattern ppp object with pattern.
+#' @param n_random Integer with number of randomizations.
+#' @param e_threshold Double with minimum energy to stop reconstruction.
+#' @param max_runs Integer with maximum number of iterations if \code{e_threshold}
+#' is not reached.
+#' @param no_change Integer with number of iterations at which the reconstruction will
+#' stop if the energy does not decrease.
+#' @param annealing Double with probability to keep relocated point even if energy
+#' did not decrease.
+#' @param comp_fast Integer with threshold at which summary functions are estimated
+#' in a computational fast way.
+#' @param weights Vector with weights used to calculate energy.
+#' The first number refers to Gest(r), the second number to pcf(r).
+#' @param r_length Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
+#' the summary functions are evaluated.
+#' @param return_input Logical if the original input data is returned.
+#' @param simplify Logical if only pattern will be returned if \code{n_random = 1}
+#' and \code{return_input = FALSE}.
+#' @param verbose Logical if progress report is printed.
+#' @param plot Logical if pcf(r) function is plotted and updated during optimization.
 #'
 #' @details
 #' The functions randomizes the observed pattern by using pattern reconstruction
@@ -36,7 +43,7 @@
 #' use \code{weights = c(0.5, 0.5)}.
 #'
 #' \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
-#' the computational time while increasing the "bumpiness" of the summary function.
+#' the computational time, while increasing the "bumpiness" of the summary function.
 #'
 #' @seealso
 #' \code{\link{calculate_energy}} \cr
@@ -45,7 +52,7 @@
 #' \code{\link{reconstruct_pattern_hetero}} \cr
 #' \code{\link{reconstruct_pattern_marks}}
 #'
-#' @return list
+#' @return rd_pat
 #'
 #' @examples
 #' \dontrun{
@@ -64,22 +71,24 @@
 #'
 #' @export
 reconstruct_pattern_cluster <- function(pattern,
-                                n_random = 1,
-                                e_threshold = 0.01,
-                                max_runs = 1000,
-                                no_change = Inf,
-                                annealing = 0.01,
-                                comp_fast = 1000,
-                                weights = c(0.5, 0.5),
-                                r_length = 250,
-                                return_input = TRUE,
-                                simplify = FALSE,
-                                verbose = TRUE,
-                                plot = FALSE){
+                                        n_random = 1,
+                                        e_threshold = 0.01,
+                                        max_runs = 1000,
+                                        no_change = Inf,
+                                        annealing = 0.01,
+                                        comp_fast = 1000,
+                                        weights = c(0.5, 0.5),
+                                        r_length = 250,
+                                        return_input = TRUE,
+                                        simplify = FALSE,
+                                        verbose = TRUE,
+                                        plot = FALSE){
 
   # check if n_random is >= 1
   if (n_random < 1) {
+
     stop("n_random must be >= 1.", call. = FALSE)
+
   }
 
   # check if number of points exceed comp_fast limit
@@ -87,14 +96,17 @@ reconstruct_pattern_cluster <- function(pattern,
 
     # Print message that summary functions will be computed fast
     if (verbose) {
+
       message("> Using fast compuation of summary functions.")
+
     }
 
     comp_fast <- TRUE
-  }
 
-  else {
+  } else {
+
     comp_fast <- FALSE
+
   }
 
   # set names of randomization randomized_1 ... randomized_n
@@ -116,6 +128,7 @@ reconstruct_pattern_cluster <- function(pattern,
   if (sum(weights) > 1 || sum(weights) == 0) {
 
     stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
+
   }
 
   # unmark pattern
@@ -124,8 +137,10 @@ reconstruct_pattern_cluster <- function(pattern,
     pattern <- spatstat.geom::unmark(pattern)
 
     if (verbose) {
+
       warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
               call. = FALSE)
+
     }
   }
 
@@ -138,17 +153,14 @@ reconstruct_pattern_cluster <- function(pattern,
   # start with fitted pattern
   # fit Thomas process
   fitted_process <- spatstat.core::kppm.ppp(pattern, cluster = "Thomas",
-                                       statistic = "pcf",
-                                       statargs = list(divisor = "d",
-                                                       correction = "best"),
-                                       method = "mincon",
-                                       improve.type = "none")
+                                            statistic = "pcf",
+                                            statargs = list(divisor = "d",
+                                                            correction = "best"),
+                                            improve.type = "none")
 
   # simulte clustered pattern
-  simulated <- spatstat.core::simulate.kppm(fitted_process,
-                                       nsim = 1, drop = TRUE,
-                                       window = pattern$window,
-                                       verbose = FALSE)
+  simulated <- spatstat.core::simulate.kppm(fitted_process, nsim = 1, drop = TRUE,
+                                            window = pattern$window, verbose = FALSE)
 
   # remove points because more points in simulated
   if (pattern$n < simulated$n) {
@@ -159,20 +171,22 @@ reconstruct_pattern_cluster <- function(pattern,
     remove_points <- shar::rcpp_sample(x = seq_len(simulated$n), n = difference)
     # remove points
     simulated <- simulated[-remove_points]
+
   }
 
   # add points because less points in simulated
   if (pattern$n > simulated$n) {
+
     # difference between patterns
     difference <- pattern$n - simulated$n
     # create missing points
-    missing_points <- spatstat.core::runifpoint(n = difference,
-                                           nsim = 1, drop = TRUE,
-                                           win = pattern$window,
-                                           warn = FALSE)
+    missing_points <- spatstat.core::runifpoint(n = difference, nsim = 1, drop = TRUE,
+                                                win = pattern$window,
+                                                warn = FALSE)
     # add missing points to simulated
     simulated <- spatstat.geom::superimpose.ppp(simulated, missing_points,
                                                 W = pattern$window, check = FALSE)
+
   }
 
   # fast computation of summary functions
@@ -182,33 +196,25 @@ reconstruct_pattern_cluster <- function(pattern,
 
     gest_simulated <- spatstat.core::Gest(simulated, correction = "none", r = r)
 
-    pcf_observed <- shar::estimate_pcf_fast(pattern,
-                                            correction = "none",
-                                            method = "c",
-                                            spar = 0.5,
-                                            r = r)
+    pcf_observed <- shar::estimate_pcf_fast(pattern, correction = "none",
+                                            method = "c", spar = 0.5, r = r)
 
-    pcf_simulated <- shar::estimate_pcf_fast(simulated,
-                                             correction = "none",
-                                             method = "c",
-                                             spar = 0.5,
-                                             r = r)
-  }
+    pcf_simulated <- shar::estimate_pcf_fast(simulated, correction = "none",
+                                             method = "c", spar = 0.5, r = r)
 
   # normal computation of summary functions
-  else {
+  } else {
 
     gest_observed <- spatstat.core::Gest(X = pattern, correction = "han", r = r)
 
     gest_simulated <- spatstat.core::Gest(X = simulated, correction = "han", r = r)
 
     pcf_observed <- spatstat.core::pcf.ppp(X = pattern, correction = "best",
-                                      divisor = "d",
-                                      r = r)
+                                           divisor = "d", r = r)
 
     pcf_simulated <- spatstat.core::pcf.ppp(X = simulated, correction = "best",
-                                       divisor = "d",
-                                       r = r)
+                                            divisor = "d", r = r)
+
   }
 
   # energy before reconstruction
@@ -229,28 +235,25 @@ reconstruct_pattern_cluster <- function(pattern,
     energy_counter <- 0
 
     # df for energy
-    energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1),
-                            energy = NA)
+    energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1), energy = NA)
 
     # random ids of pattern
-    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n),
-                               n = max_runs, replace = TRUE)
+    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n), n = max_runs,
+                               replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat.core::runifpoint(n = max_runs,
-                                      nsim = 1, drop = TRUE,
-                                      win = simulated_current$window,
-                                      warn = FALSE)
+    rp_coords <- spatstat.core::runifpoint(n = max_runs, nsim = 1, drop = TRUE,
+                                           win = simulated_current$window, warn = FALSE)
 
     # create random number for annealing prob
     if (annealing != 0) {
 
       random_annealing <- stats::runif(n = max_runs, min = 0, max = 1)
-    }
 
-    else {
+    } else {
 
       random_annealing <- rep(0, max_runs)
+
     }
 
     # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
@@ -272,20 +275,16 @@ reconstruct_pattern_cluster <- function(pattern,
 
         gest_relocated <- spatstat.core::Gest(relocated, correction = "none", r = r)
 
-        pcf_relocated <- shar::estimate_pcf_fast(relocated,
-                                                 correction = "none",
-                                                 method = "c",
-                                                 spar = 0.5,
-                                                 r = r)
-      }
+        pcf_relocated <- shar::estimate_pcf_fast(relocated, correction = "none",
+                                                 method = "c", spar = 0.5, r = r)
 
-      else {
+      } else {
 
         gest_relocated <- spatstat.core::Gest(X = relocated, correction = "han", r = r)
 
         pcf_relocated <- spatstat.core::pcf.ppp(X = relocated, correction = "best",
-                                           divisor = "d",
-                                           r = r)
+                                                divisor = "d", r = r)
+
       }
 
       # energy after relocation
@@ -311,23 +310,22 @@ reconstruct_pattern_cluster <- function(pattern,
           Sys.sleep(0.01)
 
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
-                         type = "l", col = "black",
-                         xlab = "r", ylab = "g(r)")
+                         type = "l", col = "black", xlab = "r", ylab = "g(r)")
 
           graphics::abline(h = 1, lty = 2, col = "grey")
 
           graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
 
-          graphics::legend("topright",
-                           legend = c("observed", "reconstructed"),
-                           col = c("black", "red"),
-                           lty = 1, inset = 0.025)
+          graphics::legend("topright", legend = c("observed", "reconstructed"),
+                           col = c("black", "red"), lty = 1, inset = 0.025)
+
         }
-      }
 
       # increase counter no change
-      else {
+      } else {
+
         energy_counter <- energy_counter + 1
+
       }
 
       # count iterations
@@ -340,13 +338,16 @@ reconstruct_pattern_cluster <- function(pattern,
       if (verbose) {
 
         if (!plot) {
+
           Sys.sleep(0.01)
+
         }
 
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", floor(i / max_runs * 100), "%",
                 " || energy = ", round(energy_current, 5), "\t\t",
                 appendLF = FALSE)
+
       }
 
       # exit loop if e threshold or no_change counter max is reached
@@ -356,6 +357,7 @@ reconstruct_pattern_cluster <- function(pattern,
         stop_criterion_list[[current_pattern]] <- "e_threshold/no_change"
 
         break
+
       }
     }
 
@@ -363,12 +365,14 @@ reconstruct_pattern_cluster <- function(pattern,
     if (plot) {
 
       grDevices::dev.off()
+
     }
 
     # remove NAs if stopped due to energy
     if (stop_criterion_list[[current_pattern]] == "e_threshold/no_change") {
 
       energy_df <- energy_df[1:iterations, ]
+
     }
 
     # save results in lists
@@ -378,11 +382,9 @@ reconstruct_pattern_cluster <- function(pattern,
   }
 
   # combine to one list
-  reconstruction <- list(randomized = result_list,
-                         observed = pattern,
+  reconstruction <- list(randomized = result_list, observed = pattern,
                          method = "reconstruct_pattern_cluster()",
-                         energy_df = energy_list,
-                         stop_criterion = stop_criterion_list,
+                         energy_df = energy_list, stop_criterion = stop_criterion_list,
                          iterations = iterations_list)
 
   # set class of result
@@ -402,28 +404,33 @@ reconstruct_pattern_cluster <- function(pattern,
 
         warning("'simplify = TRUE' not possible for 'n_random > 1'.",
                 call. = FALSE)
+
       }
 
       # only one random pattern is present that should be returend
       else if (n_random == 1) {
+
         reconstruction <- reconstruction$randomized[[1]]
+
       }
     }
-  }
 
   # return input if return_input = TRUE
-  else {
+  } else {
 
     # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
     if (simplify && verbose) {
 
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+
     }
   }
 
   # write result in new line if progress was printed
   if (verbose) {
+
     message("\r")
+
   }
 
   return(reconstruction)

@@ -3,17 +3,19 @@
 #' @description Calculate mean energy
 #'
 #' @param pattern List with reconstructed patterns.
-#' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
-#' @param return_mean Return the mean energy.
-#' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
-#' @param verbose Print progress report.
+#' @param weights Vector with weights used to calculate energy.
+#' The first number refers to Gest(r), the second number to pcf(r).
+#' @param return_mean Logical if the mean energy is returned.
+#' @param comp_fast Integer with threshold at which summary functions are estimated
+#' in a computational fast way.
+#' @param verbose Logical if progress report is printed.
 #'
 #' @details
 #' The function calculates the mean energy (or deviation) between the observed
 #' pattern and all reconstructed patterns (for more information see Tscheschel &
 #' Stoyan (2006) or Wiegand & Moloney (2014)). The pair correlation function and the
 #' nearest neighbour distance function are used to describe the patterns. For large
-#' patterns `comp_fast = TRUE` decreases the computational demand because no edge
+#' patterns \code{comp_fast = TRUE} decreases the computational demand, because no edge
 #' correction is used and the pair correlation function is estimated based on Ripley's
 #' K-function. For more information see \code{\link{estimate_pcf_fast}}.
 #'
@@ -24,7 +26,7 @@
 #' \code{\link{reconstruct_pattern_cluster}} \cr
 #' \code{\link{plot_randomized_pattern}}
 #'
-#' @return numeric
+#' @return vector
 #'
 #' @examples
 #' pattern_random <- fit_point_process(species_a, n_random = 19)
@@ -60,12 +62,14 @@ calculate_energy <- function(pattern,
 
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
          call. = FALSE)
+
   }
 
   # check if observed pattern is present
   if (!spatstat.geom::is.ppp(pattern$observed)) {
 
     stop("Input must include 'observed' pattern.", call. = FALSE)
+
   }
 
   # extract observed pattern
@@ -88,48 +92,44 @@ calculate_energy <- function(pattern,
       result <- vapply(pattern$energy_df, FUN = function(x) utils::tail(x, n = 1)[[2]],
                        FUN.VALUE = numeric(1))
 
-    }
-
-    else {
+    } else {
 
       # check if weights make sense
       if (sum(weights) > 1 || sum(weights) == 0) {
+
         stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
+
       }
 
       # check if number of points exceed comp_fast limit
       if (pattern_observed$n > comp_fast) {
-        comp_fast <- TRUE
-      }
 
-      else {
+        comp_fast <- TRUE
+
+      } else {
+
         comp_fast <- FALSE
+
       }
 
       # calculate summary functions for observed pattern
       if (comp_fast) {
 
-        gest_observed <- spatstat.core::Gest(X = pattern_observed,
-                                        correction = "none",
-                                        r = r)
+        gest_observed <- spatstat.core::Gest(X = pattern_observed, correction = "none",
+                                             r = r)
 
         pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed,
-                                                correction = "none",
-                                                method = "c",
-                                                spar = 0.5,
-                                                r = r)
-      }
+                                                correction = "none", method = "c",
+                                                spar = 0.5, r = r)
 
-      else{
+      } else {
 
         gest_observed <- spatstat.core::Gest(X = pattern_observed,
-                                        correction = "han",
-                                        r = r)
+                                        correction = "han", r = r)
 
         pcf_observed <- spatstat.core::pcf(X = pattern_observed,
-                                      correction = "best",
-                                      divisor = "d",
-                                      r = r)
+                                      correction = "best", divisor = "d", r = r)
+
       }
 
       # loop through all reconstructed patterns
@@ -147,10 +147,9 @@ calculate_energy <- function(pattern,
                                                         method = "c",
                                                         spar = 0.5,
                                                         r = r)
-        }
 
         # normal computation of summary stats
-        else{
+        } else {
 
           gest_reconstruction <- spatstat.core::Gest(X = pattern_randomized[[x]],
                                                 correction = "han",
@@ -160,6 +159,7 @@ calculate_energy <- function(pattern,
                                               correction = "best",
                                               divisor = "d",
                                               r = r)
+
         }
 
         # difference between observed and reconstructed pattern
@@ -168,8 +168,10 @@ calculate_energy <- function(pattern,
 
         # print progress
         if (verbose) {
+
           message("\r> Progress: ", x, "/", length(pattern_randomized), "\t\t",
                   appendLF = FALSE)
+
         }
 
         return(energy)
@@ -179,38 +181,37 @@ calculate_energy <- function(pattern,
 
     # set names
     names(result) <- paste0("randomized_", seq_along(result))
-  }
 
-  else if (class(pattern) == "rd_mar") {
+  } else if (class(pattern) == "rd_mar") {
 
     # get energy from df
     if (is.list(pattern$energy_df)) {
 
       result <- vapply(pattern$energy_df, FUN = function(x) utils::tail(x, n = 1)[[2]],
                        FUN.VALUE = numeric(1))
-    }
 
-    else {
+    } else {
 
       # calculate summary functions
-      kmmr_observed <- spatstat.core::markcorr(pattern_observed,
-                                          correction = "Ripley",
-                                          r = r)
+      kmmr_observed <- spatstat.core::markcorr(pattern_observed, correction = "Ripley",
+                                               r = r)
 
       result <- vapply(seq_along(pattern_randomized), function(x) {
 
         # calculate summary functions
         kmmr_reconstruction <- spatstat.core::markcorr(pattern_randomized[[x]],
-                                                  correction = "Ripley",
-                                                  r = r)
+                                                       correction = "Ripley",
+                                                       r = r)
 
         # difference between observed and reconstructed pattern
         energy <- mean(abs(kmmr_observed[[3]] - kmmr_reconstruction[[3]]), na.rm = TRUE)
 
         # print progress
         if (verbose) {
+
           message("\r> Progress: ", x, "/", length(pattern_randomized), "\t\t",
                   appendLF = FALSE)
+
         }
 
         return(energy)
@@ -220,16 +221,21 @@ calculate_energy <- function(pattern,
 
     # set names
     names(result) <- paste0("randomized_", seq_along(result))
+
   }
 
   # return mean for all reconstructed patterns
   if (return_mean) {
+
     result <- mean(result)
+
   }
 
   # write result in new line if progress was printed
   if (verbose) {
+
     message("\r")
+
   }
 
   return(result)

@@ -7,25 +7,27 @@
 plot_randomized_raster(raster, n = NULL, col, verbose = TRUE, nrow, ncol)
 }
 \arguments{
-\item{raster}{List with randomized raster}
+\item{raster}{rd_ras object with randomized raster.}
 
-\item{n}{Number of randomized rasters to plot. See details for more information.}
+\item{n}{Integer with number or vector of ids of randomized raster to plot.
+See Details section for more information.}
 
-\item{col}{Color palette used for plotting.}
+\item{col}{Vector with color palette used for plotting.}
 
-\item{verbose}{Print messages.}
+\item{verbose}{Logical if messages are printed.}
 
-\item{nrow, ncol}{Number of rows and columns.}
+\item{nrow, ncol}{Integer with number of rows and columns of plot grid.}
 }
 \value{
-plot
+void
 }
 \description{
 Plot randomized raster
 }
 \details{
-Function to plot randomized rasters. If n is only a single number, n randomized
-rasters will be sampled. If n is a vector, the corresponding rasters will be plotted.
+Function to plot randomized raster. If \code{n} is a single number, \code{n} randomized
+raster will be sampled to plot. If \code{n} is a vector, the corresponding raster
+will be plotted. \code{col, nrow, ncol} are passed to \code{plot}.
 }
 \examples{
 \dontrun{
@@ -38,4 +40,8 @@ palette <- viridis::viridis(n = 5)
 plot_randomized_raster(landscape_random, n = 5, col = palette, nrow = 3, ncol = 2)
 }
 
+}
+\seealso{
+\code{\link{randomize_raster}} \cr
+\code{\link{translate_raster}}
 }
