@@ -85,13 +85,16 @@ Lastly, the input data and the randomized null model data is used to analyze if 
 The `results_habitat_association()` function automatically detects which part of the data was randomized and can be used identically regardless of the used randomization approach.
 
 ```
-# use random-walk data
 results_habitat_association(pattern = species_a, 
                             raster = random_walk)
 
-# use pattern reconstruction data
-results_habitat_association(pattern = reconstruction, 
-                            raster = landscape_discrete)
+# > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
+#   habitat count    lo    hi significance
+# 1       1     9  2.95 13.15         n.s.
+# 2       2    25  8.95 25.30         n.s.
+# 3       3    27 11.00 23.20     positive
+# 4       4     0 13.95 27.30     negative
+# 5       5    12  6.00 17.05         n.s.
 ```
 
 The `shar` packages also provides several utility and plotting functions such as `plot_randomized_raster()` and `plot_randomized_pattern()` to plot the null model data, `calculate_energy()` to calculate the difference between the input object locations and the randomized null model data object locations, or `classify_habitats()` to classify continious environmental data into discrete habitats.  
