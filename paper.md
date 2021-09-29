@@ -1,9 +1,9 @@
 ---
-title: 'shar: A R package to analyse species-habitat associations using point pattern analysis'
+title: 'shar: A R package to analyse species-habitat associations using point pattern analyzis'
 tags:
   - R
   - open source software
-  - spatial point pattern analysis
+  - spatial point pattern analyzis
   - gamma-test
   - pattern reconstruction
   - torus-translation test
@@ -24,19 +24,18 @@ bibliography: paper.bib
 # Summary
 
 Analyzing species-habitat associations is one tool to study the importance of abiotic processes in shaping the spatial point pattern of ecological objects. 
-Even though the `R` programming language offers many solutions for spatial point pattern analysis, currently there is no functionality to analyze species-habitat associations. 
-The `shar` packages allows to analyze species-habitat associations. 
-Because it is based based on widely used spatial `R` packages and requires to apply only very few core functions, the package provides an easy and straightforward way to analyze species-habitat associations.
+Even though the `R` programming language offers many solutions for spatial point pattern analyzis, currently there is no functionality to analyze species-habitat associations. 
+Because the `shar` package is based on widely used `R` packages for spatial analyzes and requires to apply only very few core functions, it provides an easy and straightforward way to analyze species-habitat associations.
 
 # Statement of need
 
 Species-habitat associations are a result of certain species being specialized to certain abiotic conditions [@Tilman1993] and typically result in a clustering of these species at suitable habitats [@Harms2001; @Comita2007].
 Thus, analyzing species-habitat associations can help to understand the importance of abiotic processes shaping the spatial species distribution [@Garzon-Lopez2014].
-However, since also biotic processes (e.g., competition, limited seed dispersal) can lead to a clustering of species, analyses of species-habitat associations need to control for potential biotic processes.
+However, since also biotic processes (e.g., competition, limited seed dispersal) can lead to a clustering of species, analyzes of species-habitat associations need to control for potential biotic processes.
 
 A spatial point pattern consists the locations of all objects in a study area and assumes that the object locations can be described by points [@Wiegand2014].
 Ecologists use spatial point patterns to conclude the underlying ecological processes that shaped the patterns and many studies using for example individual tree locations can be found in the literature [@Velazquez2016].
-The `spatstat` package [@Baddeley2015] allows ecologists to access many methods of spatial point pattern analysis, such as summary functions and null model simulations.
+The `spatstat` package [@Baddeley2015] allows ecologists to access many methods of spatial point pattern analyzis, such as summary functions and null model simulations.
 However, even though many ecological studies analyzing species-habitat associations can be found in the literature [e.g., @John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` does not allow to straightforward analyze species-habitat associations.
 
 Thus, the `shar` package was developed to provide an "out-of-the-box" tool set to analyze species-habitat associations of spatial point patterns.
@@ -44,17 +43,17 @@ In order to make the package as accessible for as many people as possible, it is
 
 # Methodological background
 
-Within the field of spatial point pattern analysis, there are two contrasting approaches to study species-habitat associations [@Plotkin2000; @Harms2001].
+Within the field of spatial point pattern analyzis, there are two contrasting approaches to study species-habitat associations [@Plotkin2000; @Harms2001].
 Both have in common that additionally to the spatial location of all objects, also raster data about the environmental conditions is required.
-In order to analyze species-habitat associations, potential dependencies between the object locations and the environmental conditions need to be broken by randomzing the data as null model data.
-However, in order to control for potiential biotic processes, the spatial structure of the data must be preserved [@Plotkin2000; @Wiegand2014].
+In order to analyze species-habitat associations, potential dependencies between the object locations and the environmental conditions need to be broken by randomizing the data as null model data.
+However, in order to control for potential biotic processes, the spatial structure of the data must be preserved [@Plotkin2000; @Wiegand2014].
 Finally, species-habitat associations are present if species can be found more often in certain habitats in the data than expected compared to the randomized null model data [@Plotkin2000; @Harms2001].
 
 The first approach to simulate null model data randomizes the environmental data, while keeping the object locations stable.
 This can be achieved by shifting the raster data around a torus ("Torus translation test") or using a random walk algorithm ("Randomized-habitats procedure") [@Harms2001].
 
 The second approach to simulate null model data randomizes the object locations, while keeping the environmental data stable.
-This can be achieved by fitting point process models to the object locations ("gamma test") [@Plotkin2000] or using a simulated anealing approach ("pattern reconstruction") [@Kirkpatrick1983].
+This can be achieved by fitting point process models to the object locations ("gamma test") [@Plotkin2000] or using a simulated annealing approach ("pattern reconstruction") [@Kirkpatrick1983].
 
 # How to use the package
 
@@ -73,7 +72,7 @@ random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
 
 Alternativly, to randomize the object locations either `fit_point_process` or `reconstruct_pattern_*` can be used.
 In both cases, the number of randomization must be specified using the `r_random` argument.
-In order to preserve the spatial structure of the input as detailed, several options are present to acknowledge for eaxample if the object locations are clustered are heterogeneously distributed in the study area.
+In order to preserve the spatial structure of the input as detailed as possible, several options are present to acknowledge for example if the input object locations are clustered are heterogeneously distributed in the study area.
 
 ```
 gamma_test <- fit_point_process(pattern = species_a, 
