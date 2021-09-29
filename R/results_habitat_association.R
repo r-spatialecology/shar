@@ -166,7 +166,7 @@ results_habitat_association <- function(pattern, raster,
     # print quantiles
     if (verbose) {
 
-      message("> Input: randomized raster\n> Quantile thresholds: negative < ",
+      message("> Input: randomized pattern\n> Quantile thresholds: negative < ",
               threshold[1], " || positive > ", threshold[2])
 
     }
