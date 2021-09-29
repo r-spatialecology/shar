@@ -7,16 +7,21 @@
 plot_energy(pattern, col = NULL)
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns.}
+\item{pattern}{rd_pat or rd_mar object with randomized patterns.}
 
-\item{col}{Vector with colors. Must be as long as n_random.}
+\item{col}{Vector with colors. Must be the same length as \code{n_random}.}
+}
+\value{
+void
 }
 \description{
 Plot energy of pattern reconstruction
 }
 \details{
 The function plots the decrease of the energy over time, i.e. the iterations.
-This can help to identify if enough max_runs where chosen for the reconstruction.
+This can help to identify if the chosen \code{max_runs} for the reconstruction
+were sufficient. The \code{pattern} object must have been created using
+\code{reconstruct_pattern_*} .
 }
 \examples{
 \dontrun{

@@ -2,11 +2,14 @@
 #'
 #' @description Extract points
 #'
-#' @param raster RasterLayer.
-#' @param pattern Point pattern.
+#' @param raster RasterLayer with environmental data
+#' @param pattern ppp object with point pattern.
 #'
 #' @details
-#' The function extracts the number of points within each habitat.
+#' The function extracts the number of points within each discrete habitat.
+#'
+#' @seealso
+#' \code{\link{results_habitat_association}}
 #'
 #' @return data.frame
 #'
@@ -16,6 +19,8 @@
 #'
 #' @aliases extract_points
 #' @rdname extract_points
+#'
+#' @keywords internal
 
 #' @export
 extract_points <- function(raster, pattern){
@@ -25,9 +30,7 @@ extract_points <- function(raster, pattern){
   pattern <- spatstat.geom::coords(pattern) # extract only coords of points
 
   # get habitat points are located within
-  pattern_extracted <- factor(raster::extract(x = raster,
-                                              y = pattern,
-                                              factor = TRUE),
+  pattern_extracted <- factor(raster::extract(x = raster,  y = pattern, factor = TRUE),
                               levels = habitat_levels)
 
   result <- utils::stack(table(pattern_extracted)) # count number of points within each habitat

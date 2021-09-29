@@ -7,9 +7,9 @@
 extract_points(raster, pattern)
 }
 \arguments{
-\item{raster}{RasterLayer.}
+\item{raster}{RasterLayer with environmental data}
 
-\item{pattern}{Point pattern.}
+\item{pattern}{ppp object with point pattern.}
 }
 \value{
 data.frame
@@ -18,10 +18,14 @@ data.frame
 Extract points
 }
 \details{
-The function extracts the number of points within each habitat.
+The function extracts the number of points within each discrete habitat.
 }
 \examples{
 landscape_classified <- classify_habitats(landscape, classes = 5)
 extract_points(raster = landscape_classified, pattern = species_b)
 
 }
+\seealso{
+\code{\link{results_habitat_association}}
+}
+\keyword{internal}

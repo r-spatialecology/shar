@@ -1,3 +1,7 @@
+# shar 1.2.2
+* Improvements
+  * Better documentation
+
 # shar 1.2.1
 * Improvements
   * `reconstruct_pattern_homo()` has arguments to specify number of points and window

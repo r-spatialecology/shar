@@ -2,13 +2,14 @@
 #'
 #' @description Fast estimation of the pair correlation function
 #'
-#' @param pattern Point pattern.
-#' @param ... Arguments passed down to `Kest` or `pcf.fv`.
+#' @param pattern ppp object with point pattern.
+#' @param ... Arguments passed down to \code{link{Kest}} or \code{\link{pcf.fv}}.
 #'
 #' @details
 #' The functions estimates the pair correlation functions based on an estimation
 #' of Ripley's K-function. This makes it computationally faster than estimating the
-#' pair correlation function directly. It is a wrapper around `Kest` and `pcf.fv`.
+#' pair correlation function directly. It is a wrapper around \code{\link{Kest}} and
+#' \code{\link{pcf.fv}}.
 #'
 #' @seealso
 #' \code{\link{Kest}} \cr

@@ -2,17 +2,23 @@
 #'
 #' @description Plot randomized raster
 #'
-#' @param raster List with randomized raster
-#' @param n Number of randomized rasters to plot. See details for more information.
-#' @param col Color palette used for plotting.
-#' @param nrow,ncol Number of rows and columns.
-#' @param verbose Print messages.
+#' @param raster rd_ras object with randomized raster.
+#' @param n Integer with number or vector of ids of randomized raster to plot.
+#' See Details section for more information.
+#' @param col Vector with color palette used for plotting.
+#' @param nrow,ncol Integer with number of rows and columns of plot grid.
+#' @param verbose Logical if messages are printed.
 #'
 #' @details
-#' Function to plot randomized rasters. If n is only a single number, n randomized
-#' rasters will be sampled. If n is a vector, the corresponding rasters will be plotted.
+#' Function to plot randomized raster. If \code{n} is a single number, \code{n} randomized
+#' raster will be sampled to plot. If \code{n} is a vector, the corresponding raster
+#' will be plotted. \code{col, nrow, ncol} are passed to \code{plot}.
 #'
-#' @return plot
+#' @seealso
+#' \code{\link{randomize_raster}} \cr
+#' \code{\link{translate_raster}}
+#'
+#' @return void
 #'
 #' @examples
 #' \dontrun{
@@ -39,12 +45,14 @@ plot_randomized_raster <- function(raster,
   if (class(raster) != "rd_ras") {
 
     stop("Class of 'raster' must be 'rd_ras'.", call. = FALSE)
+
   }
 
   # check if observed is present
   if (!methods::is(raster$observed, "RasterLayer")) {
 
     stop("Input must include 'observed' raster.", call. = FALSE)
+
   }
 
   habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
@@ -56,6 +64,7 @@ plot_randomized_raster <- function(raster,
 
       warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
               call. = FALSE)
+
     }
   }
 
@@ -72,11 +81,11 @@ plot_randomized_raster <- function(raster,
       if (verbose) {
 
         message("> Setting n = ", n)
+
       }
-    }
 
     # more than 3 randomized rasters
-    else {
+    } else {
 
       # set n to 3
       n <- 3
@@ -85,6 +94,7 @@ plot_randomized_raster <- function(raster,
       if (verbose) {
 
         message("> Setting n = ", n)
+
       }
     }
   }
@@ -101,20 +111,20 @@ plot_randomized_raster <- function(raster,
       if (length(n) == 0) {
 
         stop("Please provide at least on valid ID for n.", call. = FALSE)
+
       }
 
       if (verbose) {
 
         warning("Using only n IDs that are present in randomized data.", call. = FALSE)
-      }
 
+      }
     }
 
     subset_raster <- raster$randomized[n]
-  }
 
   # only one number provided for n
-  else {
+  } else {
 
     # n larger than number of randomized rasters
     if (n > length(raster$randomized)) {
@@ -123,12 +133,12 @@ plot_randomized_raster <- function(raster,
       if (length(raster$randomized) < 4) {
 
         n <- length(raster$randomized)
-      }
 
       # more than 3 randomized raster
-      else{
+      } else {
 
         n <- 3
+
       }
 
       # print warning
@@ -136,6 +146,7 @@ plot_randomized_raster <- function(raster,
 
         warning("'n' larger than number of randomized rasters - setting n = ", n, ".",
                 call. = FALSE)
+
       }
     }
 
@@ -150,8 +161,7 @@ plot_randomized_raster <- function(raster,
   raster_stack <- raster::stack(subset_raster)
 
   # plot result
-  raster::plot(raster_stack, col = col, nc = ncol, nr = nrow,
-               colNA = "grey")
+  raster::plot(raster_stack, col = col, nc = ncol, nr = nrow, colNA = "grey")
 
   invisible()
 }

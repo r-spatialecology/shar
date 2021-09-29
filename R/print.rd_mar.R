@@ -2,15 +2,17 @@
 #'
 #' @description Print method for rd_mar object
 #'
-#' @param x Random patterns.
-#' @param digits Number of decimal places (round).
-#' @param ... Arguments passed to cat
+#' @param x rd_mar object with randomized patterns.
+#' @param digits Integer with number of decimal places (round) to be printed.
+#' @param ... Arguments passed to \code{cat}.
 #'
 #' @details
 #' Printing method for random patterns created with \code{\link{reconstruct_pattern_marks}}.
 #'
 #' @seealso
 #' \code{\link{reconstruct_pattern_marks}}
+#'
+#' @return void
 #'
 #' @examples
 #' \dontrun{
@@ -36,14 +38,14 @@ print.rd_mar <- function(x,
     number_patterns_obs <- 0
 
     includes_observed <- "NA"
-  }
 
   # observed pattern is present
-  else {
+  } else {
 
     number_patterns_obs <- 1
 
     includes_observed <- "included"
+
   }
 
   # get extent of window
@@ -55,8 +57,7 @@ print.rd_mar <- function(x,
   number_patterns <- length(x$randomized) + number_patterns_obs
 
   # calculate mean iterations
-  mean_iterations <- round(mean(unlist(x$iterations)),
-                           digits = digits)
+  mean_iterations <- round(mean(unlist(x$iterations)), digits = digits)
 
   # count stop criterions
   stop_criterion <- tryCatch(expr = table(do.call(c, x$stop_criterion), useNA = "ifany"),
@@ -66,6 +67,7 @@ print.rd_mar <- function(x,
 
     stop_criterion <- paste0(paste0(names(stop_criterion), ":", stop_criterion),
                              collapse = " ")
+
   }
 
   # check if eneergy_df is available
@@ -73,12 +75,12 @@ print.rd_mar <- function(x,
 
     mean_energy <- round(mean(vapply(x$energy_df, function(x) {
 
-      utils::tail(x, n = 1)[, 2]
-    }, FUN.VALUE = numeric(1))), digits = digits)
-  }
+      utils::tail(x, n = 1)[, 2]}, FUN.VALUE = numeric(1))), digits = digits)
 
-  else {
+  } else {
+
     mean_energy <- "NA"
+
   }
 
   # print result

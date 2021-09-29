@@ -1,22 +1,29 @@
 #' reconstruct_pattern_homo
 #'
-#' @description Pattern reconstruction
+#' @description Pattern reconstruction for homogeneous pattern
 #'
-#' @param pattern ppp.
-#' @param n_random Number of randomizations.
-#' @param e_threshold Minimum energy to stop reconstruction.
-#' @param max_runs Maximum number of iterations of e_threshold is not reached.
-#' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
-#' @param annealing Probability to keep relocated point even if energy did not decrease.
-#' @param n_points Number of points to be simulated.
-#' @param window Window of simulated pattern.
-#' @param comp_fast If pattern contains more points than threshold, summary functions are estimated in a computational fast way.
-#' @param weights Weights used to calculate energy. The first number refers to Gest(r), the second number to pcf(r).
-#' @param r_length Number of intervals from r = 0 to r = rmax the summary functions are evaluated.
-#' @param return_input The original input data is returned as last list entry
-#' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
-#' @param verbose Print progress report.
-#' @param plot Plot pcf function during optimization.
+#' @param pattern ppp object with pattern.
+#' @param n_random Integer with number of randomizations.
+#' @param e_threshold Double with minimum energy to stop reconstruction.
+#' @param max_runs Integer with maximum number of iterations if \code{e_threshold}
+#' is not reached.
+#' @param no_change Integer with number of iterations at which the reconstruction will
+#' stop if the energy does not decrease.
+#' @param annealing Double with probability to keep relocated point even if energy
+#' did not decrease.
+#' @param n_points Integer with number of points to be simulated.
+#' @param window owin object with window of simulated pattern.
+#' @param comp_fast Integer with threshold at which summary functions are estimated
+#' in a computational fast way.
+#' @param weights Vector with weights used to calculate energy.
+#' The first number refers to Gest(r), the second number to pcf(r).
+#' @param r_length Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
+#' the summary functions are evaluated.
+#' @param return_input Logical if the original input data is returned.
+#' @param simplify Logical if only pattern will be returned if \code{n_random = 1}
+#' and \code{return_input = FALSE}.
+#' @param verbose Logical if progress report is printed.
+#' @param plot Logical if pcf(r) function is plotted and updated during optimization.
 #'
 #' @details
 #' The functions randomizes the observed pattern by using pattern reconstruction
@@ -50,7 +57,7 @@
 #' \code{\link{reconstruct_pattern_cluster}} \cr
 #' \code{\link{reconstruct_pattern_marks}}
 #'
-#' @return list
+#' @return rd_pat
 #'
 #' @examples
 #' \dontrun{
@@ -128,9 +135,7 @@ reconstruct_pattern_homo <- function(pattern,
 
     comp_fast <- TRUE
 
-  }
-
-  else {
+  } else {
 
     comp_fast <- FALSE
 
@@ -172,15 +177,12 @@ reconstruct_pattern_homo <- function(pattern,
 
   # calculate r
   r <- seq(from = 0,
-           to = spatstat.core::rmax.rule(W = window,
-                                         lambda = intensity),
+           to = spatstat.core::rmax.rule(W = window, lambda = intensity),
            length.out = r_length)
 
   # create Poisson simulation data
-  simulated <- spatstat.core::runifpoint(n = n_points,
-                                         nsim = 1, drop = TRUE,
-                                         win = window,
-                                         warn = FALSE)
+  simulated <- spatstat.core::runifpoint(n = n_points, nsim = 1, drop = TRUE,
+                                         win = window, warn = FALSE)
 
   # fast computation of summary functions
   if (comp_fast) {
@@ -189,33 +191,25 @@ reconstruct_pattern_homo <- function(pattern,
 
     gest_simulated <- spatstat.core::Gest(simulated, correction = "none", r = r)
 
-    pcf_observed <- shar::estimate_pcf_fast(pattern,
-                                            correction = "none",
-                                            method = "c",
-                                            spar = 0.5,
-                                            r = r)
+    pcf_observed <- shar::estimate_pcf_fast(pattern, correction = "none",
+                                            method = "c", spar = 0.5, r = r)
 
-    pcf_simulated <- shar::estimate_pcf_fast(simulated,
-                                             correction = "none",
-                                             method = "c",
-                                             spar = 0.5,
-                                             r = r)
-  }
+    pcf_simulated <- shar::estimate_pcf_fast(simulated, correction = "none",
+                                             method = "c", spar = 0.5, r = r)
 
   # normal computation of summary functions
-  else {
+  } else {
 
     gest_observed <- spatstat.core::Gest(X = pattern, correction = "han", r = r)
 
     gest_simulated <- spatstat.core::Gest(X = simulated, correction = "han", r = r)
 
     pcf_observed <- spatstat.core::pcf.ppp(X = pattern, correction = "best",
-                                      divisor = "d",
-                                      r = r)
+                                           divisor = "d", r = r)
 
     pcf_simulated <- spatstat.core::pcf.ppp(X = simulated, correction = "best",
-                                       divisor = "d",
-                                       r = r)
+                                            divisor = "d", r = r)
+
   }
 
   # energy before reconstruction
@@ -236,27 +230,23 @@ reconstruct_pattern_homo <- function(pattern,
     energy_counter <- 0
 
     # df for energy
-    energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1),
-                            energy = NA)
+    energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1), energy = NA)
 
     # random ids of pattern
-    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n),
-                               n = max_runs, replace = TRUE)
+    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n), n = max_runs,
+                               replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat.core::runifpoint(n = max_runs,
-                                      nsim = 1, drop = TRUE,
-                                      win = simulated_current$window,
-                                      warn = FALSE)
+    rp_coords <- spatstat.core::runifpoint(n = max_runs, nsim = 1, drop = TRUE,
+                                           win = simulated_current$window,
+                                           warn = FALSE)
 
     # create random number for annealing prob
     if (annealing != 0) {
 
       random_annealing <- stats::runif(n = max_runs, min = 0, max = 1)
 
-    }
-
-    else {
+    } else {
 
       random_annealing <- rep(0, max_runs)
 
@@ -281,20 +271,15 @@ reconstruct_pattern_homo <- function(pattern,
 
         gest_relocated <- spatstat.core::Gest(relocated, correction = "none", r = r)
 
-        pcf_relocated <- shar::estimate_pcf_fast(relocated,
-                                                 correction = "none",
-                                                 method = "c",
-                                                 spar = 0.5,
-                                                 r = r)
-      }
-
-      else {
+        pcf_relocated <- shar::estimate_pcf_fast(relocated, correction = "none",
+                                                 method = "c", spar = 0.5, r = r)
+      } else {
 
         gest_relocated <- spatstat.core::Gest(X = relocated, correction = "han", r = r)
 
         pcf_relocated <- spatstat.core::pcf.ppp(X = relocated, correction = "best",
-                                           divisor = "d",
-                                           r = r)
+                                                divisor = "d", r = r)
+
       }
 
       # energy after relocation
@@ -320,23 +305,19 @@ reconstruct_pattern_homo <- function(pattern,
           Sys.sleep(0.01)
 
           graphics::plot(x = pcf_observed[[1]], y = pcf_observed[[3]],
-                         type = "l", col = "black",
-                         xlab = "r", ylab = "g(r)")
+                         type = "l", col = "black", xlab = "r", ylab = "g(r)")
 
           graphics::abline(h = 1, lty = 2, col = "grey")
 
-          graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]],
-                          col = "red")
+          graphics::lines(x = pcf_relocated[[1]], y = pcf_relocated[[3]], col = "red")
 
-          graphics::legend("topright",
-                           legend = c("observed", "reconstructed"),
-                           col = c("black", "red"),
-                           lty = 1, inset = 0.025)
+          graphics::legend("topright", legend = c("observed", "reconstructed"),
+                           col = c("black", "red"), lty = 1, inset = 0.025)
+
         }
-      }
 
       # increase counter no change
-      else {
+      } else {
 
         energy_counter <- energy_counter + 1
 
@@ -386,20 +367,20 @@ reconstruct_pattern_homo <- function(pattern,
     if (stop_criterion_list[[current_pattern]] == "e_threshold/no_change") {
 
       energy_df <- energy_df[1:iterations, ]
+
     }
 
     # save results in lists
     energy_list[[current_pattern]] <- energy_df
     iterations_list[[current_pattern]] <- iterations
     result_list[[current_pattern]] <- simulated_current
+
   }
 
   # combine to one list
-  reconstruction <- list(randomized = result_list,
-                         observed = pattern,
+  reconstruction <- list(randomized = result_list, observed = pattern,
                          method = "reconstruct_pattern_homo()",
-                         energy_df = energy_list,
-                         stop_criterion = stop_criterion_list,
+                         energy_df = energy_list, stop_criterion = stop_criterion_list,
                          iterations = iterations_list)
 
   # set class of result
@@ -419,28 +400,31 @@ reconstruct_pattern_homo <- function(pattern,
 
         warning("'simplify = TRUE' not possible for 'n_random > 1'.",
                 call. = FALSE)
-      }
 
       # only one random pattern is present that should be returend
-      else if (n_random == 1) {
+      } else if (n_random == 1) {
+
         reconstruction <- reconstruction$randomized[[1]]
+
       }
     }
-  }
 
   # return input if return_input = TRUE
-  else {
+  } else {
 
     # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
     if (simplify && verbose) {
 
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
+
     }
   }
 
   # write result in new line if progress was printed
   if (verbose) {
+
     message("\r")
+
   }
 
   return(reconstruction)

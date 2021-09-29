@@ -6,8 +6,8 @@
 #' @description Rcpp sample function
 #'
 #' @param x Vector of elements to sample from.
-#' @param n Size of the sample.
-#' @param replace Sample with replacement.
+#' @param n Integer with size of the sample.
+#' @param replace Logical if sample with replacement.
 #'
 #' @details
 #' \code{Rcpp} implementation of the \code{sample} function.
@@ -16,6 +16,8 @@
 #' \code{\link{sample}}
 #'
 #' @return vector
+#'
+#' @keywords internal
 #'
 #' @name rcpp_sample
 #' @export

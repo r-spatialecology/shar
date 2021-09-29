@@ -11,6 +11,6 @@ A spatstat ppp object.
 species_a
 }
 \description{
-A species with negative associations to habitat 4 of `landscape`.
+A species with negative associations to habitat 4 of \code{landscape}.
 }
 \keyword{datasets}

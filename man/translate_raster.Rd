@@ -14,26 +14,27 @@ translate_raster(
 )
 }
 \arguments{
-\item{raster}{RasterLayer.}
+\item{raster}{RasterLayer with discrete habitat classes.}
 
-\item{steps_x, steps_y}{Number of steps (cells) the raster is translated into
-the corresponding direction. If both are null, all possible combinations are used.}
+\item{steps_x, steps_y}{Intergwe with number of steps (cells) the raster is translated
+into the corresponding direction. If both are null, all possible combinations are used.}
 
-\item{return_input}{The original input data is returned as last list entry.}
+\item{return_input}{Logical if the original input data is returned.}
 
-\item{simplify}{If n_random = 1 and return_input = FALSE only raster will be returned.}
+\item{simplify}{Logical if only the raster will be returned if \code{n_random = 1}
+and \code{return_input = FALSE}.}
 
-\item{verbose}{Print progress report.}
+\item{verbose}{Logical if progress report is printed.}
 }
 \value{
-list
+rd_ras
 }
 \description{
 Torus translation
 }
 \details{
 Torus translation test as described in Harms et al. (20001). The raster is shifted
-in all four cardinal directions by steps equal to the raste resolution. If a cell
+in all four cardinal directions by steps equal to the raster resolution. If a cell
 exits the extent on one side, it enters the extent on the opposite side.
 }
 \examples{

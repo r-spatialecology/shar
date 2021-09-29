@@ -7,11 +7,14 @@
 \method{print}{rd_mar}(x, digits = 4, ...)
 }
 \arguments{
-\item{x}{Random patterns.}
+\item{x}{rd_mar object with randomized patterns.}
 
-\item{digits}{Number of decimal places (round).}
+\item{digits}{Integer with number of decimal places (round) to be printed.}
 
-\item{...}{Arguments passed to cat}
+\item{...}{Arguments passed to \code{cat}.}
+}
+\value{
+void
 }
 \description{
 Print method for rd_mar object

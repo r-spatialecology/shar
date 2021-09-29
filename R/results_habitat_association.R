@@ -2,10 +2,12 @@
 #'
 #' @description Results habitat association
 #'
-#' @param pattern Point pattern or list with reconstructed patterns.
-#' @param raster RasterLayer or list of RasterLayers.
-#' @param significance_level Significance level
-#' @param verbose Print output
+#' @param pattern ppp object with original point pattern data or rd_pat or rd_mar object
+#' with randomized point pattern or
+#' @param raster RasterLayer with orignial discrete habitat data or rd_ras object with
+#' randomized environmental data.
+#' @param significance_level Double with significance level.
+#' @param verbose Logical if messages should be printed.
 #'
 #' @details
 #' The functions shows significant habitat associations by comparing the number of
@@ -47,17 +49,21 @@ results_habitat_association <- function(pattern, raster,
 
     stop("Class of 'pattern' or 'raster' must be either 'rd_pat' or 'rd_ras'.",
          call. = FALSE)
+
   }
 
   if (class(pattern) == "rd_pat" && class(raster) == "rd_ras") {
 
     stop("Please provide only one randomized input.",
          call. = FALSE)
+
   }
 
   if (significance_level < 0.01 || significance_level > 0.1 && verbose) {
+
     warning("Make sure 'signifcance_level' is meaningful (e.g. 'significance_level = 0.05').",
             call. = FALSE)
+
   }
 
   # probs for quantile function from significance level
@@ -71,6 +77,7 @@ results_habitat_association <- function(pattern, raster,
 
       stop("The observed raster needs to be included in the input 'raster'.",
            call. = FALSE)
+
     }
 
     # check if extent is identical
@@ -81,6 +88,7 @@ results_habitat_association <- function(pattern, raster,
     if (!same_extent) {
 
       warning("Extent of 'pattern' and 'raster' are not identical.", call. = FALSE)
+
     }
 
     habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
@@ -92,14 +100,16 @@ results_habitat_association <- function(pattern, raster,
 
         warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
                 call. = FALSE)
+
       }
     }
 
     # print quantiles
     if (verbose) {
 
-      message("> Input: randomized raster | Quantile thresholds: negative < ",
-              threshold[1], " - positive > ", threshold[2])
+      message("> Input: randomized raster\n> Quantile thresholds: negative < ",
+              threshold[1], " || positive > ", threshold[2])
+
     }
 
     # combine observed and randomized to one list again
@@ -113,8 +123,8 @@ results_habitat_association <- function(pattern, raster,
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(raster, function(current_raster) {
 
-      shar::extract_points(raster = current_raster,
-                           pattern = pattern)
+      shar::extract_points(raster = current_raster, pattern = pattern)
+
     })
   }
 
@@ -126,6 +136,7 @@ results_habitat_association <- function(pattern, raster,
 
       stop("The observed pattern needs to be included in the input 'pattern'.",
            call. = FALSE)
+
     }
 
     # check if extent is identical
@@ -136,6 +147,7 @@ results_habitat_association <- function(pattern, raster,
     if (!same_extent) {
 
       warning("Extent of 'pattern' and 'raster' are not identical.", call. = FALSE)
+
     }
 
     habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
@@ -147,28 +159,30 @@ results_habitat_association <- function(pattern, raster,
 
         warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
                 call. = FALSE)
+
       }
     }
 
     # print quantiles
     if (verbose) {
-      message("> Input: randomized point pattern | Quantile thresholds: negative < ",
-              threshold[1], " - positive > ", threshold[2])
+
+      message("> Input: randomized raster\n> Quantile thresholds: negative < ",
+              threshold[1], " || positive > ", threshold[2])
+
     }
 
     # combine observed and randomized to one list again
     pattern <- c(pattern$randomized, list(pattern$observed))
 
-    names(pattern) <- c(paste0("randomized_", seq(from = 1,
-                                                  to = length(pattern) - 1,
+    names(pattern) <- c(paste0("randomized_", seq(from = 1, to = length(pattern) - 1,
                                                   by = 1)),
                              "observed")
 
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(pattern, function(current_pattern) {
 
-      shar::extract_points(raster = raster,
-                           pattern = current_pattern)
+      shar::extract_points(raster = raster, pattern = current_pattern)
+
     })
   }
 
@@ -191,14 +205,12 @@ results_habitat_association <- function(pattern, raster,
   habitats_count_random <- habitats_count[habitats_count$type != "observed", ]
 
   # get quanitiles of randomized data
-  habitats_count_random_summarised <- do.call(data.frame,
-                                              stats::aggregate(x = data.frame(count = habitats_count_random$count),
-                                                               by = data.frame(habitat = habitats_count_random$habitat),
-                                                               FUN = function(x)
-                                                                 cbind(lo = stats::quantile(x, probs = threshold[[1]]),
-                                                                       hi = stats::quantile(x, probs = threshold[[2]]))))
-
-
+  habitats_count_random_summarised <-
+    do.call(data.frame, stats::aggregate(x = data.frame(count = habitats_count_random$count),
+                                         by = data.frame(habitat = habitats_count_random$habitat),
+                                         FUN = function(x)
+                                           cbind(lo = stats::quantile(x, probs = threshold[[1]]),
+                                                 hi = stats::quantile(x, probs = threshold[[2]]))))
 
   # convert to dataframe
   names(habitats_count_random_summarised) <- c("habitat", "lo", "hi")
@@ -207,16 +219,14 @@ results_habitat_association <- function(pattern, raster,
   habitats_count_obs <- habitats_count[habitats_count$type == "observed", 1:2]
 
   # combine (join) with quantiles of randomized data
-  result <- merge(x = habitats_count_obs,
-                  y = habitats_count_random_summarised,
+  result <- merge(x = habitats_count_obs, y = habitats_count_random_summarised,
                   by = "habitat")
 
   # classify results to positive/negative/n.s.
   result$significance <- ifelse(test = result$count < result$lo,
                                 yes = "negative",
                                 no = ifelse(test = result$count > result$hi,
-                                            yes = "positive",
-                                            no = "n.s."))
+                                            yes = "positive", no = "n.s."))
 
   return(result)
 }

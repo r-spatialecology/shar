@@ -14,27 +14,31 @@ fit_point_process(
 )
 }
 \arguments{
-\item{pattern}{List with reconstructed patterns.}
+\item{pattern}{ppp object with point pattern}
 
-\item{n_random}{Number of randomized RasterLayers.}
+\item{n_random}{Integer with number of randomizations.}
 
-\item{process}{What point process to use. Either 'poisson' or 'cluster'.}
+\item{process}{Character specifying which point process model to use.
+Either \code{"poisson"} or \code{"cluster"}.}
 
-\item{return_input}{The original input data is returned as last list entry.}
+\item{return_input}{Logical if the original input data is returned.}
 
-\item{simplify}{If n_random = 1 and return_input = FALSE only pattern will be returned.}
+\item{simplify}{Logical if only pattern will be returned if \code{n_random = 1}
+and \code{return_input = FALSE}.}
 
-\item{verbose}{Print progress report.}
+\item{verbose}{Logical if progress report is printed.}
 }
 \value{
-list
+rd_pat
 }
 \description{
-Create random patterns by point process fitting
+Fit point process to randomize data
 }
 \details{
-The functions randomizes the observed pattern by fitting a point process to the data.
-It is possible to choose between a Poisson process or a Thomas cluster process.
+The functions randomizes the observed point pattern by fitting a point process to
+the data and simulating \code{n_random} patterns using the fitted point process.
+It is possible to choose between a Poisson process or a Thomas cluster process model.
+For more information about the point process models, see e.g. Wiegand & Moloney (2014).
 }
 \examples{
 pattern_fitted <- fit_point_process(pattern = species_a, n_random = 39)
@@ -44,4 +48,7 @@ pattern_fitted <- fit_point_process(pattern = species_a, n_random = 39)
 Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000).
 Species-area curves, spatial aggregation, and habitat specialization in tropical forests.
 Journal of Theoretical Biology, 207(1), 81-99.
+
+Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis
+in ecology. Chapman and Hall/CRC Press, Boca Raton.
 }

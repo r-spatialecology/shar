@@ -1,8 +1,8 @@
-title: shar | Species-habitat associations in R
+title: shar
 
 template:
   params:
-    bootswatch: sandstone
+    bootswatch: cosmo
 
 reference:
   - title: Data sets
@@ -34,10 +34,7 @@ reference:
   - title: Various
     contents:
       - classify_habitats
-      - create_neighbourhood
       - estimate_pcf_fast
-      - extract_points
-      - rcpp_sample
       - print.rd_mar
       - print.rd_pat
       - print.rd_ras
@@ -45,12 +42,12 @@ reference:
 navbar:
   title: shar
   left:
+    - text: "Functions"
+      icon: fa-gears
+      href: reference/index.html
     - text: "Get Started"
       icon: fa fa-magic
       href: articles/get_started.html
-    - icon: fa-gears
-      text: "Functions"
-      href: reference/index.html
     - text: "More"
       icon: fa-graduation-cap
       menu:
