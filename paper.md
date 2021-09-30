@@ -25,7 +25,7 @@ bibliography: paper.bib
 
 Analysing species-habitat associations is one tool to study the importance of abiotic processes in shaping the spatial distribution ecological objects.
 Even though the `R` programming language offers many packages for spatial point pattern analysis in general, currently there is no comprehensive package specifically designed to analyse species-habitat associations.
-Because the `shar` package is based on widely used `R` packages for spatial analyses and requires only very few core functions, it provides an easy and straightforward way to analyse species-habitat associations.
+The `shar` package is build on widely used `R` packages for spatial analyses and provides an easy and straightforward way to analyse species-habitat associations.
 
 # Statement of need
 
@@ -76,8 +76,8 @@ In both cases, the number of randomization must be specified using the `r_random
 In order to preserve the spatial structure of the input as detailed as possible, several options are present to acknowledge for example if the input object locations are clustered are heterogeneously distributed in the study area.
 
 ```
-gamma_test <- fit_point_process(pattern = species_a,
-                                n_random = 39, process = "cluster")
+gamma_test <- fit_point_process(pattern = species_a, n_random = 39,
+                                process = "cluster")
 
 reconstruction <- reconstruct_pattern_homo(pattern = species_a, n_random = 39)
 ```
@@ -86,8 +86,7 @@ Lastly, the input data and the randomized null model data is used to analyse if 
 The `results_habitat_association()` function automatically detects which part of the data was randomized and can be used identically regardless of the used randomization approach.
 
 ```
-results_habitat_association(pattern = species_a,
-                            raster = random_walk)
+results_habitat_association(pattern = species_a, raster = random_walk)
 
 > Input: randomized raster
 > Quantile thresholds: negative < 0.025 || positive > 0.975
@@ -104,6 +103,6 @@ The `shar` packages also provides several utility and plotting functions such as
 # Acknowledgements
 
 Supported was provided by the German Research Association (DFG) Research Training Group 1644 "Scaling Problems in Statistics", grant number 152112243.
-M.H.K.H. is thankful to Sebastian Hanss und Marco Sciaini for their help during the development of the `shar` package and Katrina Munsterman and Samantha Iliff for comments on earlier drafts of this manuscript.
+M.H.K.H. is thankful to Sebastian Hanss und Marco Sciaini for their help during the development of the `shar` package and Katrina Munsterman and Samantha Iliff for comments on earlier drafts of the manuscript.
 
 # References
