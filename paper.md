@@ -23,7 +23,7 @@ bibliography: paper.bib
 
 # Summary
 
-Analysing species-habitat associations is one tool to study the importance of abiotic processes in shaping the spatial distribution ecological objects.
+Analysing species-habitat associations is one tool to study the importance of abiotic processes in shaping the spatial distribution of ecological objects.
 Even though the `R` programming language offers many packages for spatial point pattern analysis in general, currently there is no comprehensive package specifically designed to analyse species-habitat associations.
 The `shar` package is build on widely used `R` packages for spatial analyses and provides an easy and straightforward way to analyse species-habitat associations.
 
@@ -34,9 +34,9 @@ Thus, analysing species-habitat associations can help to understand the importan
 However, since also biotic processes (e.g., competition, limited dispersal) can lead to a clustering of species, analyses of species-habitat associations need to control for potential biotic processes because they result in a violation of the independence assumption of statistical tests such as the $\chi^2$ test [@Plotkin2000].
 
 Ecologists use the spatial distribution of study objects to conclude the underlying ecological processes that shaped the distribution and many studies using for example individual tree locations can be found in the literature [@Velazquez2016].
-A spatial point pattern consists the locations of all objects in a study area and assumes that the object locations can be described by points [@Wiegand2014].
+A spatial point pattern contains the locations of all objects in a study area and assumes that the object locations can be described by points [@Wiegand2014].
 The `spatstat` package [@Baddeley2015] allows ecologists to access many methods of spatial point pattern analysis, such as summary functions and null model simulations.
-However, even though many ecological studies analysing species-habitat associations can be found in the literature [e.g., @John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` does not allow for straightforward analysis of species-habitat associations without bigger programming efforts by the users.
+However, even though many ecological studies analysing species-habitat associations can be found in the literature [e.g.,][@John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` does not allow to analysis species-habitat associations without larger programming efforts by the users.
 
 Thus, the `shar` package was developed to provide an "out-of-the-box" tool set to analyse species-habitat associations of spatial point patterns.
 In order to make the package as accessible for as many people as possible, it builds on two of the most common used `R` packages to analyse spatial data, namely the `spatstat` and `raster` packages [@Hijmans2019].
