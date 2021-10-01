@@ -23,7 +23,7 @@ bibliography: paper.bib
 
 # Summary
 
-Studying species-habitat associations is one tool to reveal the importance of abiotic processes in shaping the spatial distribution of ecological objects.
+Studying species-habitat associations is one tool to reveal the importance of abiotic processes in shaping the spatial distribution of species.
 Even though the `R` programming language offers many packages for spatial point pattern analysis, currently there is no comprehensive package specifically designed to analyze species-habitat associations.
 The `shar` package builds on widely used `R` packages for spatial analyses and provides an easy and straightforward way to uncover species-habitat associations.
 
@@ -58,7 +58,7 @@ Finally, species-habitat associations are present if species are found in certai
 # How to use the package
 
 Analyzing species-habitat associations is straightforward with the `shar` package.
-Only two objects are needed to quantify species-habitat associations, namely a `raster` object with discrete habitat classes and a `spatstat` object that includes all object locations within the study area.
+Only two objects are needed to quantify species-habitat associations, namely a `spatstat` object that includes all object locations within the study area and a `raster` object with discrete habitat classes and
 
 To randomize the environmental data, either `translate_raster()` or `randomize_raster` can be used.
 For the former, the number of randomizations of the null model data is automatically determined by the number of rows and columns of the `raster` object.
