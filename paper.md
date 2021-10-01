@@ -31,10 +31,10 @@ The `shar` package is build on widely used `R` packages for spatial analyses and
 
 Species-habitat associations are a result of certain species being specialised to certain abiotic conditions [@Tilman1993] and typically result in a clustering of these species at suitable habitats [@Harms2001; @Comita2007].
 Thus, analysing species-habitat associations can help to understand the importance of abiotic processes shaping the spatial species distribution [@Garzon-Lopez2014].
-However, since also biotic processes (e.g., competition, limited dispersal) can lead to a clustering of species, analyses of species-habitat associations need to control for potential biotic processes because they result in a violation of the independence assumption of alternatives such as the $\chi^2$ test [@Plotkin2000].
+However, since also biotic processes (e.g., competition, limited dispersal) can lead to a clustering of species, analyses of species-habitat associations need to control for potential biotic processes because they result in a violation of the independence assumption of statistical tests such as the $\chi^2$ test [@Plotkin2000].
 
+Ecologists use the spatial distribution of study objects to conclude the underlying ecological processes that shaped the distribution and many studies using for example individual tree locations can be found in the literature [@Velazquez2016].
 A spatial point pattern consists the locations of all objects in a study area and assumes that the object locations can be described by points [@Wiegand2014].
-Ecologists use spatial point patterns to conclude the underlying ecological processes that shaped the patterns and many studies using for example individual tree locations can be found in the literature [@Velazquez2016].
 The `spatstat` package [@Baddeley2015] allows ecologists to access many methods of spatial point pattern analysis, such as summary functions and null model simulations.
 However, even though many ecological studies analysing species-habitat associations can be found in the literature [e.g., @John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` does not allow for straightforward analysis of species-habitat associations without bigger programming efforts by the users.
 
@@ -43,18 +43,17 @@ In order to make the package as accessible for as many people as possible, it bu
 
 # Methodological background
 
+To analyse species-habitat associations, potential dependencies between the object locations and the environmental conditions need to be broken by randomizing the data as null model.
 Within the field of spatial point pattern analysis, there are two related approaches to study species-habitat associations [@Plotkin2000; @Harms2001].
 Both require the spatial location of all objects, as well as raster data for environmental conditions.
-To analyse species-habitat associations, potential dependencies between the object locations and the environmental conditions need to be broken by randomizing the data as null model data.
-However, to control for potential biotic processes, the spatial structure of the data must be preserved [@Plotkin2000; @Wiegand2014].
-The two approaches differ in how they randomize the null model data, while preserving the spatial structure, but nevertheless result in similar results.
-Finally, species-habitat associations are present if species can be found more often in certain habitats in the data than expected compared to the randomized null model data [@Plotkin2000; @Harms2001].
 
 The first approach to simulate null model data randomizes the environmental data, while keeping the object locations stable.
 This can be achieved by shifting the raster data around a torus ("Torus translation test") or using a random walk algorithm ("Randomized-habitats procedure") [@Harms2001].
-
 The second approach to simulate null model data randomizes the object locations, while keeping the environmental data stable.
 This can be achieved by fitting point process models to the object locations ("gamma test") [@Plotkin2000] or using a simulated annealing approach ("pattern reconstruction") [@Kirkpatrick1983].
+
+The two approaches differ in how they randomize the null model data, but both control for potential biotic processes by preserving the spatial structure of the data [@Plotkin2000; @Wiegand2014] and result in similar results.
+Finally, species-habitat associations are present if species can be found more often in certain habitats in the data than expected compared to the randomized null model data [@Plotkin2000; @Harms2001].
 
 # How to use the package
 
@@ -73,7 +72,7 @@ random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
 
 Alternatively, to randomize the object locations either `fit_point_process` or `reconstruct_pattern_*` can be used.
 In both cases, the number of randomization must be specified using the `r_random` argument.
-In order to preserve the spatial structure of the input as detailed as possible, several options are present to acknowledge for example if the input object locations are clustered are heterogeneously distributed in the study area.
+In order to preserve the spatial structure of the input as detailed as possible, several options are present to acknowledge for example if the input object locations are clustered or heterogeneously distributed in the study area.
 
 ```
 gamma_test <- fit_point_process(pattern = species_a, n_random = 39,
@@ -103,6 +102,6 @@ The `shar` packages also provides several utility and plotting functions such as
 # Acknowledgements
 
 Supported was provided by the German Research Association (DFG) Research Training Group 1644 "Scaling Problems in Statistics", grant number 152112243.
-M.H.K.H. is thankful to Sebastian Hanss und Marco Sciaini for their help during the development of the `shar` package and Katrina Munsterman and Samantha Iliff for comments on earlier drafts of the manuscript.
+M.H.K.H. is thankful to Sebastian Hanss und Marco Sciaini for their help during the development of the `shar` package and Katrina Munsterman, Bridget Shayka and Samantha Iliff for comments on earlier drafts of the manuscript.
 
 # References
