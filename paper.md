@@ -58,7 +58,7 @@ Finally, species-habitat associations are present if species are found in certai
 # How to use the package
 
 Analyzing species-habitat associations is straightforward with the `shar` package.
-Only two objects are needed to quantify species-habitat associations, namely a `spatstat` object that includes all object locations within the study area and a `raster` object with discrete habitat classes and
+Only two objects are needed to quantify species-habitat associations, namely a `spatstat` object that includes all object locations within the study area and a `raster` object with discrete habitat classes.
 
 To randomize the environmental data, either `translate_raster()` or `randomize_raster` can be used.
 For the former, the number of randomizations of the null model data is automatically determined by the number of rows and columns of the `raster` object.
