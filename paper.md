@@ -36,7 +36,7 @@ However, since also biotic processes (e.g., competition, limited dispersal) can 
 Ecologists use the spatial distribution of study objects to conclude the underlying ecological processes that shaped the distribution and many studies using for example individual tree locations can be found in the literature [@Velazquez2016].
 A spatial point pattern contains the locations of all objects in a study area and assumes that the object locations can be described by points [@Wiegand2014].
 The `spatstat` package [@Baddeley2015] allows ecologists to access many methods of spatial point pattern analysis, such as summary functions and null model simulations.
-However, even though many ecological studies analysing species-habitat associations can be found in the literature [e.g.,][@John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` does not allow to analysis species-habitat associations without larger programming efforts by the users.
+However, even though many ecological studies analysing species-habitat associations can be found in the literature [@John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` does not allow to analysis species-habitat associations without larger programming efforts by the users.
 
 Thus, the `shar` package was developed to provide an "out-of-the-box" tool set to analyse species-habitat associations of spatial point patterns.
 In order to make the package as accessible for as many people as possible, it builds on two of the most common used `R` packages to analyse spatial data, namely the `spatstat` and `raster` packages [@Hijmans2019].
