@@ -1,0 +1,60 @@
+---
+title: "Parallelization"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Parallelization}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The `shar` packages has no build-in parallelization, however, there are many `R` frameworks that allow to run code in parallel or on high-performance clusters (see e.g., [`future`]( https://CRAN.R-project.org/package=future), [`clustermq`]( https://CRAN.R-project.org/package=clustermq) or [`rslurm`]( https://CRAN.R-project.org/package=rslurm)). Thus, `shar` provides utility functions that facilitate its usage together with any parallelization framework. 
+
+The following examples illustrates how to use `future` package to randomize patterns using `fit_point_process` in parallel using all available cores on a local machine. Similarly, the core idea of the following code could be used to run `shar` on a high performance cluster.
+
+First, we need to load all requried packages. This includes `future` and `future.apply`.
+
+```{r load-packages, message = FALSE}
+library(shar)
+library(spatstat)
+library(future)
+library(future.apply)
+```
+
+The `future` packages allows to run code in parallel using only a few lines of code. By setting the `future` plan to `multisession`, the package automatically resolves all following `futures` in parallel.
+
+Importantly with this approach, you need one randomization per core (`n_random = 1`) and set `simplify = TRUE` to return the point pattern only. This results in a list of randomized point patterns.
+
+```{r parallel}
+future::plan(multisession)
+
+fitted_list <- future.apply::future_lapply(X = 1:39, FUN = function(i) {
+   shar::fit_point_process(pattern = shar::species_b, n_random = 1,
+                          return_input = FALSE, simplify = TRUE, verbose = FALSE)
+}, future.seed = 42)
+```
+
+Next, you can use the `list_to_randomized()` function to convert this list of randomized pattern to a `rd_pat` object that will work will all other functions of the `shar` package.
+
+```{r convert-list}
+fitted_rd <- shar::list_to_randomized(list = fitted_list, observed = shar::species_b)
+```
+
+Lastly, the created objects can be used to analyse if species-habitat associations are present as usual.
+
+```{r results}
+landscape_classified <- shar::classify_habitats(raster = landscape)
+
+results_habitat_association(pattern = fitted_rd, raster = landscape_classified)
+```
+
+Of course, this idea can be used to randomize the raster data as well. Furthermore, any other parallelization framework could be used.
