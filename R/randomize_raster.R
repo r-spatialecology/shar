@@ -83,7 +83,7 @@ randomize_raster <- function(raster,
 
       habitat_id <- as.numeric(names(habitats[current_habitat])) # get value of current habitat
 
-      random_cell <- shar::rcpp_sample(x = which(random_matrix == -999), n = 1) # random cell which is still -999
+      random_cell <- sample(x = which(random_matrix == -999), size = 1) # random cell which is still -999
 
       random_matrix[random_cell] <- habitat_id # assign habitat to cell
 
@@ -114,7 +114,7 @@ randomize_raster <- function(raster,
           if (length(empty_neighbours) > 0) {
 
             # sample random neighbour
-            random_neighbour <- shar::rcpp_sample(x = empty_neighbours, n = 1)
+            random_neighbour <- sample(x = empty_neighbours, size = 1)
 
             # get matrix index of sampled neighbour
             random_neighbour <- matrix(neighbours[random_neighbour, ], ncol = 2)
@@ -128,7 +128,7 @@ randomize_raster <- function(raster,
           } else{
 
             # random cell which is still -999
-            random_cell <- shar::rcpp_sample(x = which(random_matrix == -999), n = 1)
+            random_cell <- sample(x = which(random_matrix == -999), size = 1)
 
             # assign habitat to cell
             random_matrix[random_cell] <- habitat_id
@@ -141,7 +141,7 @@ randomize_raster <- function(raster,
         } else {
 
           # random cell which is still -999
-          random_cell <- shar::rcpp_sample(x = which(random_matrix == -999), n = 1)
+          random_cell <- sample(x = which(random_matrix == -999), size = 1)
 
           # assign habitat to cell
           random_matrix[random_cell] <- habitat_id

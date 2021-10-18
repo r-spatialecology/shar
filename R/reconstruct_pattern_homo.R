@@ -233,8 +233,7 @@ reconstruct_pattern_homo <- function(pattern,
     energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1), energy = NA)
 
     # random ids of pattern
-    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n), n = max_runs,
-                               replace = TRUE)
+    rp_id <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random new points
     rp_coords <- spatstat.core::runifpoint(n = max_runs, nsim = 1, drop = TRUE,

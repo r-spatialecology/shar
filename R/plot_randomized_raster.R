@@ -152,6 +152,7 @@ plot_randomized_raster <- function(raster,
 
     # sample raster
     subset_raster <- sample(x = raster$randomized, size = n)
+
   }
 
   # add observed raster to subset

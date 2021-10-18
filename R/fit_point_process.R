@@ -100,7 +100,7 @@ fit_point_process <- function(pattern,
         difference <- simulated$n - pattern$n
 
         # id of points to remove
-        remove_points <- shar::rcpp_sample(x = seq_len(simulated$n), n = difference)
+        remove_points <- sample(x = seq_len(simulated$n), size = difference)
 
         # remove points
         simulated <- simulated[-remove_points]

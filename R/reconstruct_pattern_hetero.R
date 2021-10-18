@@ -208,8 +208,7 @@ reconstruct_pattern_hetero <- function(pattern,
     energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1), energy = NA)
 
     # random ids of pattern
-    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n), n = max_runs,
-                               replace = TRUE)
+    rp_id <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random new points
     rp_coords <- spatstat.core::rpoint(n = max_runs, f = lambda, win = pattern$window)

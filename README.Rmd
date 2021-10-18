@@ -40,6 +40,9 @@ And the development version from [GitHub](https://github.com/r-spatialecology/sh
 # install.packages("devtools")
 devtools::install_github("r-spatialecology/shar")
 ```
+
+This also automatically installs all non-base `R` package dependencies, namely the following packages: `classInt`, `raster`, `spatstat.core`, `spatstat.geom`.
+
 ## How to use shar
 
 ```{r import-libs, message = FALSE}

@@ -127,8 +127,8 @@ reconstruct_pattern_marks <- function(pattern,
   simulated <- pattern
 
   # assign shuffled marks to pattern
-  spatstat.geom::marks(simulated) <- rcpp_sample(x = marked_pattern$marks, n = simulated$n,
-                                                 replace = TRUE)
+  spatstat.geom::marks(simulated) <- sample(x = marked_pattern$marks, size = simulated$n,
+                                            replace = TRUE)
 
   # calculate summary functions
   kmmr_observed <- spatstat.core::markcorr(marked_pattern, correction = "Ripley",
@@ -158,9 +158,9 @@ reconstruct_pattern_marks <- function(pattern,
                             energy = NA)
 
     # get two random points to switch marks
-    rp_a <- rcpp_sample(x = seq_len(simulated_current$n), n = max_runs, replace = TRUE)
+    rp_a <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
-    rp_b <- rcpp_sample(x = seq_len(simulated_current$n), n = max_runs, replace = TRUE)
+    rp_b <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random number for annealing prob
     if (annealing != 0) {
