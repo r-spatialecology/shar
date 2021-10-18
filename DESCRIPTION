@@ -33,6 +33,7 @@ Suggests:
     covr,
     dplyr,
     future,
+    future.apply,
     knitr, 
     rmarkdown,
     testthat (>= 2.1.0)
