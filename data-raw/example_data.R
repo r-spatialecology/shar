@@ -11,19 +11,14 @@ library(shar)
 set.seed(42)
 
 # Create landscape
-landscape <- NLMR::nlm_fbm(ncol = 50,
-                           nrow = 50,
-                           resolution = 20,
-                           fract_dim = 1.5,
-                           user_seed = 42)
+landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
+                           fract_dim = 1.5, user_seed = 42)
 
 landscape_class <- shar::classify_habitats(landscape, classes = 5)
 
-plot(landscape_class)
-
 # Create species with negative
-pattern_a <- spatstat.core::runifpoint(n = 250,
-                                       win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
+pattern_a <- spatstat.core::runifpoint(n = 250, win = spatstat.geom::owin(c(0, 1000),
+                                                                          c(0, 1000)))
 
 # get habitat 4 as owin
 owin_pattern <- raster::rasterToPolygons(landscape_class,
@@ -48,8 +43,8 @@ marks_df_a <- data.frame(status = factor(sample(c("dead", "alive"),
 spatstat.geom::marks(species_a) <- marks_df_a
 
 # Create species with positive associations
-pattern_b <- spatstat.core::runifpoint(n = 70,
-                                     win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
+pattern_b <- spatstat.core::runifpoint(n = species_a$n / 2,
+                                       win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
 # create pattern with more points in habitat 5
 species_b <- raster::rasterToPolygons(landscape_class,
@@ -81,20 +76,22 @@ reconstruction <- reconstruct_pattern_homo(pattern = species_b, n_random = n_ran
 
 #### Save data ####
 
+overwrite <- FALSE
+
 # save landscape
-usethis::use_data(landscape, overwrite = TRUE)
+usethis::use_data(landscape, overwrite = overwrite)
 
 # save species data
-usethis::use_data(species_a, overwrite = TRUE)
+usethis::use_data(species_a, overwrite = overwrite)
 
-usethis::use_data(species_b, overwrite = TRUE)
+usethis::use_data(species_b, overwrite = overwrite)
 
 # save random landscape data
-usethis::use_data(torus_trans, overwrite = TRUE)
+usethis::use_data(torus_trans, overwrite = overwrite)
 
-usethis::use_data(random_walk, overwrite = TRUE)
+usethis::use_data(random_walk, overwrite = overwrite)
 
 # save random point data
-usethis::use_data(gamma_test, overwrite = TRUE)
+usethis::use_data(gamma_test, overwrite = overwrite)
 
 usethis::use_data(reconstruction, overwrite = TRUE)
