@@ -23,18 +23,19 @@ bibliography: paper.bib
 
 # Summary
 
-Studying species-habitat associations is one tool to reveal the importance of abiotic processes in shaping the spatial distribution of species.
+Studying species-habitat associations is one approach to reveal the importance of abiotic processes in shaping the spatial distribution of species.
 Even though the `R` programming language offers many packages for spatial point pattern analysis, currently there is no comprehensive package specifically designed to analyze species-habitat associations.
 The `shar` package builds on widely used `R` packages for spatial analyses and provides an easy and straightforward way to uncover species-habitat associations.
 
 # Statement of need
 
-Species-habitat associations are a result of certain species being specialized to certain abiotic conditions [@Tilman1993] and typically result in a clustering of these species at suitable habitats [@Harms2001; @Comita2007].
+Species-habitat associations are a result of certain species being specialized to certain abiotic conditions [@Tilman1993] and typically result in a clustering of individuals at suitable habitats [@Harms2001; @Comita2007].
 Thus, analyzing species-habitat associations can help to understand the importance of abiotic processes shaping the spatial distribution of species [@Garzon-Lopez2014].
 However, since biotic processes (e.g., competition, limited dispersal) can also lead to a clustering of species, analyses of species-habitat associations need to control for potential biotic processes because they result in a violation of the independence assumption of statistical tests such as the $\chi^2$ test [@Plotkin2000].
 
-Ecologists use the spatial distribution of ecological objects to infer the underlying processes that shaped their distribution. For example, many studies use individual tree locations to infer the processes that determined their distribution [@Velazquez2016].
-A spatial point pattern contains the locations of all objects in a study area and assumes that the object locations can be described by points [@Wiegand2014].
+Ecologists use the spatial distribution of ecological objects to infer the underlying processes that shaped their distribution.
+A spatial point pattern contains the fully mapped locations (in terms of *x*,*y* coordinates) of all individual objects in a normally two-dimensional study area and assumes that the object locations can be described by discrete points [@Wiegand2014; @Velazquez2016].
+For example, many studies use individual tree locations to infer the processes that determined their distribution [@Velazquez2016], and further examples include gopher mounds [@Klaas2000], gorilla nests [@Funwi-Gabga2012], "fairy circles" [@Getzin2015], or bacteria on leaves [@Esser2015].
 The `spatstat` package [@Baddeley2015] allows ecologists to access many methods of spatial point pattern analysis, such as summary functions and null model simulations.
 However, even though many ecological studies on species-habitat associations can be found in the literature [@John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` cannot be used to reveal species-habitat associations without larger programming efforts by the users.
 
@@ -43,13 +44,13 @@ In order to make the package as accessible for as many people as possible, it bu
 
 # Methodological background
 
-To analyze species-habitat associations, potential dependencies between the object locations and the environmental conditions need to be broken by randomizing the data as null model.
+To analyze species-habitat associations, potential dependencies between the object locations and the environmental conditions need to be broken by randomizing the data as a null model.
 Within the field of spatial point pattern analysis, there are two related approaches to break potential dependencies [@Plotkin2000; @Harms2001].
 Both require the spatial location of all objects, as well as raster data for environmental conditions.
 
-The first approach to simulate null model data, is to randomizes the environmental data, while keeping the object locations stable.
+The first approach to simulate null model data is to randomize the environmental data, while keeping the object locations stable.
 This can be achieved by shifting the raster data around a torus ("Torus translation test") or using a random walk algorithm ("Randomized-habitats procedure") [@Harms2001].
-The second approach, is to randomizes the object locations, while keeping the environmental data stable.
+The second approach is to randomizes the object locations, while keeping the environmental data stable.
 This can be achieved by fitting point process models to the object locations ("gamma test") [@Plotkin2000] or using a simulated annealing approach ("pattern reconstruction") [@Kirkpatrick1983].
 
 The two approaches differ in how they randomize the null model data, but both control for potential biotic processes by preserving the spatial structure of the data [@Plotkin2000; @Wiegand2014] and result in similar results.
@@ -98,6 +99,16 @@ habitat   count   lo    hi    significance
 ```
 
 The `shar` packages also provides several utility and plotting functions such as `plot_randomized_raster()` and `plot_randomized_pattern()` to plot the null model data, `calculate_energy()` to calculate the difference between the input object locations and the randomized null model data object locations, or `classify_habitats()` to classify continuous environmental data into discrete habitats.  
+
+# Parallelization
+
+One major drawback of the `shar` package is the computation time related to some of the randomization methods for null model data.
+This is the case especially for pattern reconstruction, even though most point pattern analysis studies use less than 1000 null model randomizations [@Velazquez2016].
+However, since the randomizations of the null model data are independent of each other this could be parallized using available frameworks, such as the `future` [@Bengtsson2021] or
+`parallel` [@RCoreTeam2021] package.
+The `shar` package does not allow to run code in parallel internally to not limit users to a specific parallelization framework.
+For a short example how to simulate null model data in parallel using the `future` package, please see the "Parallelization" article on the `shar` homepage.
+However, the presented approach could be used with any other parallelization framework as well.
 
 # Acknowledgements
 

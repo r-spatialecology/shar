@@ -16,3 +16,5 @@ vignettes/articles
 ^pkgdown$
 ^\.github$
 ^LICENSE\.md$
+paper.md
+paper.bib
