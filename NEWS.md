@@ -1,6 +1,10 @@
 # shar 1.2.2
 * Improvements
   * Better documentation
+  
+* New functionality
+  * `list_to_randomized()` function
+  * Parallelization article
 
 # shar 1.2.1
 * Improvements
