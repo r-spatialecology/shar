@@ -4,6 +4,8 @@ library(maptools)
 library(usethis)
 library(spatstat)
 
+library(shar)
+
 #### Create example data ####
 
 set.seed(42)
@@ -12,60 +14,70 @@ set.seed(42)
 landscape <- NLMR::nlm_fbm(ncol = 50,
                            nrow = 50,
                            resolution = 20,
-                           fract_dim = 1,
+                           fract_dim = 1.5,
                            user_seed = 42)
 
 landscape_class <- shar::classify_habitats(landscape, classes = 5)
 
-# Create species with negative
-pattern_a <- spatstat::runifpoint(n = 100, win = spatstat::owin(c(0, 1000), c(0, 1000)))
+plot(landscape_class)
 
+# Create species with negative
+pattern_a <- spatstat.core::runifpoint(n = 250,
+                                       win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
+
+# get habitat 4 as owin
 owin_pattern <- raster::rasterToPolygons(landscape_class,
                                          fun = function(x){x == 4},
                                          dissolve = TRUE) %>%
   maptools::as.owin.SpatialPolygons()
 
-pattern_b <- pattern_a[!spatstat::inside.owin(x = pattern_a, w = owin_pattern)]
-pattern_c <- spatstat::rthin(pattern_a[spatstat::inside.owin(x = pattern_a,
-                                                             w = owin_pattern)], 0)
 
-species_a <- spatstat::superimpose(pattern_b, pattern_c,
-                                   W = spatstat::owin(c(0, 1000), c(0, 1000)))
+# create pattern with no point in habitat 4
+species_a <- pattern_a[!spatstat.geom::inside.owin(x = pattern_a, w = owin_pattern)]
+
+# create pattern with no point in habitat 4
+species_a <- spatstat.core::rthin(pattern_a[spatstat.geom::inside.owin(x = pattern_a,
+                                                                       w = owin_pattern)],
+                                  P = 0.05) %>%
+  spatstat.geom::superimpose.ppp(species_a, W = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
 marks_df_a <- data.frame(status = factor(sample(c("dead", "alive"),
                                                 size = species_a$n, replace = TRUE)),
                         dbh = runif(n = species_a$n, min = 5, max = 65))
 
-spatstat::marks(species_a) <- marks_df_a
+spatstat.geom::marks(species_a) <- marks_df_a
 
 # Create species with positive associations
-pattern <- spatstat::runifpoint(n = 100, win = spatstat::owin(c(0, 1000), c(0, 1000)))
+pattern_b <- spatstat.core::runifpoint(n = 70,
+                                     win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
+# create pattern with more points in habitat 5
 species_b <- raster::rasterToPolygons(landscape_class,
                                       fun = function(x){x == 5}, dissolve = TRUE) %>%
   maptools::as.owin.SpatialPolygons() %>%
-  spatstat::runifpoint(n = floor(pattern$n * 1), win = .) %>%
-  spatstat::superimpose.ppp(pattern, W = spatstat::owin(c(0, 1000), c(0, 1000)))
+  spatstat.core::runifpoint(n = floor(pattern_b$n * 1), win = .) %>%
+  spatstat.geom::superimpose.ppp(pattern_b, W = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
 marks_df_b <- factor(sample(c("dominant", "understorey"),
                             size = species_b$n, replace = TRUE))
 
-spatstat::marks(species_b) <- marks_df_b
+spatstat.geom::marks(species_b) <- marks_df_b
+
+# set number of repetitions
+n_random <- 99
 
 # translate raster
-torus_trans <- translate_raster(raster = landscape_class, verbose = FALSE)
+torus_trans <- translate_raster(raster = landscape_class)
 
 # use randomization algorithm
-random_walk <- randomize_raster(raster = landscape_class,
-                                n_random = 39, verbose = FALSE)
+random_walk <- randomize_raster(raster = landscape_class, n_random = n_random)
 
 # use gamma test
-gamma_test <- fit_point_process(pattern = species_b, process = "cluster",
-                                n_random = 39, verbose = FALSE)
+gamma_test <- fit_point_process(pattern = species_b, n_random = n_random, process = "cluster")
 
 # use pattern reconstruction
-reconstruction <- reconstruct_pattern_cluster(pattern = species_b,
-                                              n_random = 39, verbose = FALSE)
+reconstruction <- reconstruct_pattern_homo(pattern = species_b, n_random = n_random,
+                                           e_threshold = 0.05)
 
 #### Save data ####
 

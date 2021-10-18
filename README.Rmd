@@ -48,6 +48,8 @@ This also automatically installs all non-base `R` package dependencies, namely t
 ```{r import-libs, message = FALSE}
 library(shar)
 library(raster)
+
+set.seed(42)
 ```
 
 **shar** comes with build-in example data sets. `species_a` and `species_b` are exemplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains examplary continuous environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
@@ -59,9 +61,9 @@ landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click [here](https://r-spatialecology.github.io/shar/articles/articles/background.html).
 
 ```{r habitat_random, eval = FALSE}
-torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
+torus_trans <- translate_raster(raster = landscape_classified)
 
-random_walk <- randomize_raster(raster = landscape_classified, n_random = 39, verbose = FALSE)
+random_walk <- randomize_raster(raster = landscape_classified, n_random = 99)
 ```
 
 ```{r plot_habitat-random, fig.width = 5.5, fig.height = 4, fig.align = "center"}
@@ -73,9 +75,10 @@ plot_randomized_raster(torus_trans, n = 3, col = col)
 To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Kirkpatrick et al. 1983; Tscheschel & Stoyan 2006). 
 
 ```{r pattern-random, eval = FALSE}
-gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 39, verbose = FALSE)
+gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
 
-reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
+# (this can takes some time)
+reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 99, e_threshold = 0.05)
 ```
 
 Of course, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions). 
@@ -95,6 +98,8 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 
 results_habitat_association(pattern = reconstruction, raster = landscape_classified)
 ```
+
+Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster`) and even for repetitions of the same approach. However, general results and trends should be similar.
 
 ## Contributing and Code of Conduct
 

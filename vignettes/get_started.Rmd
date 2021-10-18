@@ -22,6 +22,8 @@ library(dplyr)
 library(shar)
 library(spatstat.core)
 library(raster)
+
+set.seed(42)
 ```
 
 ## Design
@@ -41,16 +43,17 @@ There are two functions to randomize the environmental data: `translate_raster()
 ```{r randomize_raster, eval = FALSE}
 torus_trans <- translate_raster(raster = landscape_discrete)
 
-random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
+random_walk <- randomize_raster(raster = landscape_discrete, n_random = 99)
 ```
 
 ## Randomize location data
 To randomize the location data (i.e. the point pattern) either `fit_point_process()` or `reconstruct_pattern()` are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the `spatstat` package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel & Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the `n_random` argument. 
 
 ```{r randomize_pp, eval = FALSE}
-gamma_test <- fit_point_process(pattern = species_a, n_random = 39, process = "cluster")
+gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
 
-reconstruction <- reconstruct_pattern_homo(pattern = species_a, n_random = 39) # takes some time
+# (this can takes some time)
+reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 99, e_threshold = 0.05)
 ``` 
 
 ## Analyse results 
@@ -77,6 +80,8 @@ calculate_energy(pattern = gamma_test, return_mean = TRUE)
 
 calculate_energy(pattern = reconstruction, return_mean = TRUE)
 ```
+
+Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster`) and even for repetitions of the same approach. However, general results and trends should be similar.
 
 ### References 
 Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American Statistical Association, 53, 789-798
