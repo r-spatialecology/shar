@@ -96,6 +96,13 @@ results_habitat_association(pattern = species_a, raster = torus_trans)
 results_habitat_association(pattern = reconstruction, raster = landscape_classified)
 ```
 
+## Contributing and Code of Conduct
+
+Contributions to **shar** are highly welcomed and appreciated. This includes any form of feedback, bug reports, feature requests/suggestions, or general questions about the usage. Please feel free to either open an [issue](https://github.com/r-spatialecology/shar/issues/), 
+contact the authors via [mail](mailto:mhk.hesselbarth@gmail.com), or fork the repo and raise a pull request.
+
+Please note that the **shar** project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+
 ## References 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns: Methodology and applications with R. Chapman and Hall/CRC Press, London. <isbn:9781482210200>  
 
