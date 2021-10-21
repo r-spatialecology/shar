@@ -1,6 +1,7 @@
 # shar 1.2.2
 * Improvements
   * Better documentation
+  * Combine `reconstruct_pattern_homo()`, `reconstruct_pattern_cluster`, and `reconstruct_pattern_hetero` to `reconstruct_pattern`
 
 # shar 1.2.1
 * Improvements

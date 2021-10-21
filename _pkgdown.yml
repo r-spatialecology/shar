@@ -19,9 +19,7 @@ reference:
     contents:
       - fit_point_process
       - randomize_raster
-      - reconstruct_pattern_homo
-      - reconstruct_pattern_hetero
-      - reconstruct_pattern_cluster
+      - reconstruct_pattern
       - reconstruct_pattern_marks
       - translate_raster
   - title: Analyse results

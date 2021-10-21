@@ -1,44 +1,34 @@
 testthat::context("test-reconstruct_pattern_homo")
 
 # normal reconstruction
-pattern_recon <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                n_random = 3,
-                                                max_runs = 1,
-                                                verbose = FALSE)
+pattern_recon <- reconstruct_pattern_homo(pattern = shar::species_a, n_random = 3,
+                                          max_runs = 1, verbose = FALSE)
 
-pattern_recon_ni <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                   n_random = 2,
-                                                   max_runs = 1,
-                                                   return_input = FALSE,
-                                                   verbose = FALSE)
+pattern_recon_ni <- reconstruct_pattern_homo(pattern = shar::species_a, n_random = 2,
+                                             max_runs = 1, return_input = FALSE,
+                                             verbose = FALSE)
 
-pattern_recon_comp_fast <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                          n_random = 1,
-                                                          max_runs = 1,
-                                                          comp_fast = 0,
-                                                          verbose = FALSE)
+pattern_recon_comp_fast <- reconstruct_pattern_homo(pattern = shar::species_a,
+                                                    n_random = 1, max_runs = 1,
+                                                    comp_fast = 0, verbose = FALSE)
 
-pattern_recon_energy <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                       e_threshold = 0.1,
-                                                       n_random = 3,
-                                                       verbose = FALSE)
+pattern_recon_energy <- reconstruct_pattern_homo(pattern = shar::species_a,
+                                                 e_threshold = 0.1, n_random = 3,
+                                                 verbose = FALSE)
 
-pattern_recon_simple <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                       n_random = 1,
-                                                       max_runs = 1,
-                                                       return_input = FALSE,
-                                                       simplify = TRUE,
-                                                       verbose = FALSE)
+pattern_recon_simple <- reconstruct_pattern_homo(pattern = shar::species_a,
+                                                 n_random = 1, max_runs = 1,
+                                                 return_input = FALSE, simplify = TRUE,
+                                                 verbose = FALSE)
 
 n_points_diff <- 100
 window_diff <- spatstat.geom::owin(xrange = c(0, 1100), yrange = c(0, 1250))
 
-pattern_recon_diff <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                     n_points = n_points_diff,
-                                                     window = window_diff,
-                                                     n_random = 3,
-                                                     max_runs = 1,
-                                                     verbose = FALSE)
+pattern_recon_diff <- reconstruct_pattern_homo(pattern = shar::species_a,
+                                               n_points = n_points_diff,
+                                               window = window_diff,
+                                               n_random = 3, max_runs = 1,
+                                               verbose = FALSE)
 
 ################################################################################
 
@@ -107,42 +97,36 @@ testthat::test_that("simplify works for reconstruct_pattern_homo", {
 
 testthat::test_that("reconstruct_pattern_homo returns error if n_random < 1", {
 
-  testthat::expect_error(shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                        n_random = -5,
-                                                        verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_homo(pattern = shar::species_a,
+                                                  n_random = -5, verbose = FALSE),
                          regexp = "n_random must be >= 1.",
                          fixed = TRUE)
 })
 
 testthat::test_that("reconstruct_pattern_homo returns error if weights are wrong ", {
 
-  testthat::expect_error(shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                        weights = c(0, 0),
-                                                        verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_homo(pattern = shar::species_a,
+                                                  weights = c(0, 0), verbose = FALSE),
                          regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
                          fixed = TRUE)
 
-  testthat::expect_error(shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                        weights = c(1, 1),
-                                                        verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_homo(pattern = shar::species_a,
+                                                  weights = c(1, 1), verbose = FALSE),
                          regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
                          fixed = TRUE)
 })
 
 testthat::test_that("reconstruct_pattern_homo returns warnings", {
 
-  testthat::expect_warning(shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                          n_random = 2,
-                                                          max_runs = 1,
-                                                          return_input = FALSE,
-                                                          simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern_homo(pattern = shar::species_a,
+                                                    n_random = 2, max_runs = 1,
+                                                    return_input = FALSE, simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
                            fixed = TRUE)
 
-  testthat::expect_warning(shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                          n_random = 1,
-                                                          max_runs = 1,
-                                                          simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern_homo(pattern = shar::species_a,
+                                                    n_random = 1, max_runs = 1,
+                                                    simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
                            fixed = TRUE)
 })

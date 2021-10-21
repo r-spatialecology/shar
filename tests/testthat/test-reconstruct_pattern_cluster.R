@@ -1,34 +1,25 @@
 testthat::context("test-reconstruct_pattern_cluster")
 
 # normal reconstruction
-pattern_recon <- shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                   n_random = 3,
-                                                   max_runs = 1,
-                                                   verbose = FALSE)
+pattern_recon <- reconstruct_pattern_cluster(pattern = shar::species_b, n_random = 3,
+                                             max_runs = 1, verbose = FALSE)
 
-pattern_recon_ni <- shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                      n_random = 2,
-                                                      max_runs = 1,
-                                                      return_input = FALSE,
-                                                      verbose = FALSE)
+pattern_recon_ni <- reconstruct_pattern_cluster(pattern = shar::species_b, n_random = 2,
+                                                max_runs = 1, return_input = FALSE,
+                                                verbose = FALSE)
 
-pattern_recon_comp_fast <- shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                             n_random = 1,
-                                                             max_runs = 1,
-                                                             comp_fast = 0,
-                                                             verbose = FALSE)
+pattern_recon_comp_fast <- reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                       n_random = 1, max_runs = 1,
+                                                       comp_fast = 0, verbose = FALSE)
 
-pattern_recon_energy <- shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                          e_threshold = 0.1,
-                                                          n_random = 3,
-                                                          verbose = FALSE)
+pattern_recon_energy <- reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                    e_threshold = 0.1, n_random = 3,
+                                                    verbose = FALSE)
 
-pattern_recon_simple <- shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                          n_random = 1,
-                                                          max_runs = 1,
-                                                          return_input = FALSE,
-                                                          simplify = TRUE,
-                                                          verbose = FALSE)
+pattern_recon_simple <- reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                    n_random = 1, max_runs = 1,
+                                                    return_input = FALSE, simplify = TRUE,
+                                                    verbose = FALSE)
 
 ################################################################################
 
@@ -83,42 +74,36 @@ testthat::test_that("simplify works for reconstruct_pattern_cluster", {
 
 testthat::test_that("reconstruct_pattern_cluster returns error if n_random < 1", {
 
-  testthat::expect_error(shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                          n_random = -5,
-                                                          verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                     n_random = -5, verbose = FALSE),
                          regexp = "n_random must be >= 1.",
                          fixed = TRUE)
 })
 
 testthat::test_that("reconstruct_pattern_cluster returns error if weights are wrong ", {
 
-  testthat::expect_error(shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                           weights = c(0, 0),
-                                                           verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                     weights = c(0, 0), verbose = FALSE),
                          regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
                          fixed = TRUE)
 
-  testthat::expect_error(shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                           weights = c(1, 1),
-                                                           verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                     weights = c(1, 1), verbose = FALSE),
                          regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
                          fixed = TRUE)
 })
 
 testthat::test_that("reconstruct_pattern_cluster returns warnings", {
 
-  testthat::expect_warning(shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                             n_random = 2,
-                                                             max_runs = 1,
-                                                             return_input = FALSE,
-                                                             simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                       n_random = 2, max_runs = 1,
+                                                       return_input = FALSE, simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
                            fixed = TRUE)
 
-  testthat::expect_warning(shar::reconstruct_pattern_cluster(pattern = shar::species_b,
-                                                             n_random = 1,
-                                                             max_runs = 1,
-                                                             simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern_cluster(pattern = shar::species_b,
+                                                       n_random = 1, max_runs = 1,
+                                                       simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
                            fixed = TRUE)
 })

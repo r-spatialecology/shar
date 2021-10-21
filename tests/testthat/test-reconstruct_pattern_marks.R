@@ -1,11 +1,9 @@
 testthat::context("test-reconstruct_pattern_marks")
 
-pattern_recon <- shar::reconstruct_pattern_homo(shar::species_a,
-                                                n_random = 1,
-                                                return_input = FALSE,
-                                                simplify = TRUE,
-                                                max_runs = 1,
-                                                verbose = FALSE)
+pattern_recon <- reconstruct_pattern_homo(shar::species_a,
+                                          n_random = 1, return_input = FALSE,
+                                          simplify = TRUE, max_runs = 1,
+                                          verbose = FALSE)
 
 marks_sub <- spatstat.geom::subset.ppp(shar::species_a, select = dbh)
 
@@ -43,14 +41,11 @@ marks_recon_energy <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
 n_points_diff <- 100
 window_diff <- spatstat.geom::owin(xrange = c(0, 900), yrange = c(0, 1250))
 
-pattern_recon_diff <- shar::reconstruct_pattern_homo(shar::species_a,
-                                                     n_points = n_points_diff,
-                                                     window = window_diff,
-                                                     n_random = 1,
-                                                     return_input = FALSE,
-                                                     simplify = TRUE,
-                                                     max_runs = 1,
-                                                     verbose = FALSE)
+pattern_recon_diff <- reconstruct_pattern_homo(shar::species_a,
+                                               n_points = n_points_diff, window = window_diff,
+                                               n_random = 1, return_input = FALSE,
+                                               simplify = TRUE, max_runs = 1,
+                                               verbose = FALSE)
 
 marks_recon_diff <- shar::reconstruct_pattern_marks(pattern = pattern_recon_diff,
                                                     marked_pattern = marks_sub,

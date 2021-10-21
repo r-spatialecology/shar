@@ -60,32 +60,9 @@ rd_pat
 \description{
 Pattern reconstruction for heterogeneous patterns
 }
-\details{
-The functions randomizes the observed pattern by using pattern reconstruction
-as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). The
-algorithm starts with a random but heterogeneous pattern, shifts a
-point to a new location and keeps the change only, if the deviation between the
-observed and the reconstructed pattern decreases. The pair correlation function
-and the nearest neighbour distance function are used to describe the patterns.
-
-For large patterns (\code{n > comp_fast}) the pair correlation function can be estimated
-from Ripley's K-function without edge correction. This decreases the computational
-time. For more information see \code{\link{estimate_pcf_fast}}.
-
-The reconstruction can be stopped automatically if for n steps the energy does not
-decrease. The number of steps can be controlled by \code{no_change} and is set to
-\code{no_change = Inf} as default to never stop automatically.
-
-The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
-use \code{weights = c(0.5, 0.5)}.
-
-\code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
-the computational time while increasing the "bumpiness" of the summary function.
-}
 \examples{
 \dontrun{
 input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)}, nsim = 1)
-
 pattern_recon <- reconstruct_pattern_hetero(input_pattern, n_random = 19, max_runs = 1000)
 }
 
@@ -97,10 +74,4 @@ patterns. Computational Statistics and Data Analysis, 51(2), 859-871.
 Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
 in ecology. Boca Raton: Chapman and Hall/CRC Press.
 }
-\seealso{
-\code{\link{calculate_energy}} \cr
-\code{\link{plot_randomized_pattern}}
-\code{\link{reconstruct_pattern_homo}} \cr
-\code{\link{reconstruct_pattern_cluster}} \cr
-\code{\link{reconstruct_pattern_marks}}
-}
+\keyword{internal}

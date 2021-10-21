@@ -1,9 +1,8 @@
 testthat::context("test-plot_energy")
 
-pattern_reconstruction <- shar::reconstruct_pattern_homo(pattern = shar::species_a,
-                                                         n_random = 3,
-                                                         max_runs = 100,
-                                                         verbose = FALSE)
+pattern_reconstruction <- reconstruct_pattern_homo(pattern = shar::species_a,
+                                                   n_random = 3, max_runs = 100,
+                                                   verbose = FALSE)
 
 pattern_fitted <- shar::fit_point_process(pattern = shar::species_a,
                                           n_random = 3,
