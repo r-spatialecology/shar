@@ -117,7 +117,7 @@ reconstruct_pattern <- function(pattern, method = "homo",
 
   } else if (method == "cluster") {
 
-    if (verbose && !is.null(n_points) && !is.null(window)) {
+    if (verbose && (!is.null(n_points) || !is.null(window))) {
 
       warning("'n_points' and 'window' are not used for method='cluster'.", call. = FALSE)
 
@@ -133,7 +133,7 @@ reconstruct_pattern <- function(pattern, method = "homo",
 
   } else if (method == "hetero") {
 
-    if (verbose && !is.null(n_points) && !is.null(window)) {
+    if (verbose && (!is.null(n_points) || !is.null(window))) {
 
       warning("'n_points' and 'window' are not used for method='hetero'.", call. = FALSE)
 
