@@ -136,11 +136,11 @@ reconstruct_pattern_hetero <- function(pattern,
 
     gest_simulated <- spatstat.core::Gest(simulated, correction = "none", r = r)
 
-    pcf_observed <- shar::estimate_pcf_fast(pattern, correction = "none",
-                                            method = "c", spar = 0.5, r = r)
+    pcf_observed <- estimate_pcf_fast(pattern, correction = "none",
+                                      method = "c", spar = 0.5, r = r)
 
-    pcf_simulated <- shar::estimate_pcf_fast(simulated, correction = "none",
-                                             method = "c", spar = 0.5, r = r)
+    pcf_simulated <- estimate_pcf_fast(simulated, correction = "none",
+                                       method = "c", spar = 0.5, r = r)
 
   # normal computation of summary functions
   } else {
@@ -213,8 +213,8 @@ reconstruct_pattern_hetero <- function(pattern,
 
         gest_relocated <- spatstat.core::Gest(relocated, correction = "none", r = r)
 
-        pcf_relocated <- shar::estimate_pcf_fast(relocated, correction = "none",
-                                                 method = "c", spar = 0.5, r = r)
+        pcf_relocated <- estimate_pcf_fast(relocated, correction = "none",
+                                           method = "c", spar = 0.5, r = r)
 
       } else {
 

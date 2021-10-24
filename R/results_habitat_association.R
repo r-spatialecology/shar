@@ -123,7 +123,7 @@ results_habitat_association <- function(pattern, raster,
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(raster, function(current_raster) {
 
-      shar::extract_points(raster = current_raster, pattern = pattern)
+      extract_points(raster = current_raster, pattern = pattern)
 
     })
   }
@@ -181,7 +181,7 @@ results_habitat_association <- function(pattern, raster,
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(pattern, function(current_pattern) {
 
-      shar::extract_points(raster = raster, pattern = current_pattern)
+      extract_points(raster = raster, pattern = current_pattern)
 
     })
   }

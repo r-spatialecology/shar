@@ -1,29 +1,25 @@
 testthat::context("test-print")
 
-pattern_reconstruction <- reconstruct_pattern_homo(pattern = shar::species_a,
+pattern_reconstruction <- reconstruct_pattern_homo(pattern = species_a,
                                                    n_random = 3, max_runs = 1,
                                                    verbose = FALSE)
 
-pattern_fitted <- shar::fit_point_process(pattern = shar::species_a,
-                                          n_random = 3,
-                                          verbose = FALSE)
+pattern_fitted <- fit_point_process(pattern = species_a, n_random = 3,
+                                    verbose = FALSE)
 
-marks_sub <- spatstat.geom::subset.ppp(shar::species_a, select = dbh)
+marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 
-marks_reconstruction <- shar::reconstruct_pattern_marks(pattern = pattern_reconstruction$randomized[[1]],
-                                                        marked_pattern = marks_sub,
-                                                        n_random = 3,
-                                                        max_runs = 1,
-                                                        verbose = FALSE)
+marks_reconstruction <- reconstruct_pattern_marks(pattern = pattern_reconstruction$randomized[[1]],
+                                                  marked_pattern = marks_sub,
+                                                  n_random = 3, max_runs = 1,
+                                                  verbose = FALSE)
 
 # random landscape
-landscape_classified <- shar::classify_habitats(raster = shar::landscape,
-                                                classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 
-landscape_random <-  shar::translate_raster(raster = landscape_classified,
-                                            steps_x = 1, steps_y = 1,
-                                            verbose = FALSE,
-                                            return_input = FALSE)
+landscape_random <- translate_raster(raster = landscape_classified,
+                                     steps_x = 1, steps_y = 1, verbose = FALSE,
+                                     return_input = FALSE)
 
 ################################################################################
 

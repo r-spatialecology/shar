@@ -105,8 +105,8 @@ plot_randomized_pattern <- function(pattern,
           gest_result <- spatstat.core::Gest(pattern[[x]], correction = "none",
                                              r = r)
 
-          pcf_result <- shar::estimate_pcf_fast(pattern[[x]], correction = "none",
-                                                method = "c", spar = 0.5, r = r)
+          pcf_result <- estimate_pcf_fast(pattern[[x]], correction = "none",
+                                          method = "c", spar = 0.5, r = r)
 
         } else {
 

@@ -64,7 +64,7 @@ testthat::test_that("Argument comp_fast = TRUE is working", {
 
 testthat::test_that("Reconstruction stops if e_threshold is reached", {
 
-  energy <- shar::calculate_energy(pattern_recon_energy, verbose = FALSE)
+  energy <- calculate_energy(pattern_recon_energy, verbose = FALSE)
 
   testthat::expect_true(object = all(energy < 0.1))
 })

@@ -118,9 +118,9 @@ calculate_energy <- function(pattern,
         gest_observed <- spatstat.core::Gest(X = pattern_observed, correction = "none",
                                              r = r)
 
-        pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed,
-                                                correction = "none", method = "c",
-                                                spar = 0.5, r = r)
+        pcf_observed <- estimate_pcf_fast(pattern = pattern_observed,
+                                          correction = "none", method = "c",
+                                          spar = 0.5, r = r)
 
       } else {
 
@@ -142,11 +142,9 @@ calculate_energy <- function(pattern,
                                                 correction = "none",
                                                 r = r)
 
-          pcf_reconstruction <- shar::estimate_pcf_fast(pattern = pattern_randomized[[x]],
-                                                        correction = "none",
-                                                        method = "c",
-                                                        spar = 0.5,
-                                                        r = r)
+          pcf_reconstruction <- estimate_pcf_fast(pattern = pattern_randomized[[x]],
+                                                  correction = "none", method = "c",
+                                                  spar = 0.5, r = r)
 
         # normal computation of summary stats
         } else {
