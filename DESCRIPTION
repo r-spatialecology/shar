@@ -8,11 +8,11 @@ Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "mhk.hesselbarth@
              role = "aut", comment = c(ORCID = '0000-0002-3042-5435')))
 Maintainer: Maximillian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description:
-  Analyse species-habitat associations in R. Therefore, information about the 
-  location of the species is needed and about the environmental conditions. To test 
-  for significance habitat associations, one of the two components is randomized. 
-  Methods are mainly based on Plotkin et al. (2000) <doi:10.1006/jtbi.2000.2158> and 
-  Harms et al. (2001) <doi:10.1111/j.1365-2745.2001.00615.x>.
+  Analyse species-habitat associations in R. Therefore, information about the location 
+  of the species (as a point pattern) is needed together with environmental conditions 
+  (as a categorical raster). To test for significance habitat associations, one of 
+  the two components is randomized. Methods are mainly based on Plotkin et al. (2000) 
+  <doi:10.1006/jtbi.2000.2158> and Harms et al. (2001) <doi:10.1111/j.1365-2745.2001.00615.x>.
 License: GPL (>= 3)
 URL: https://r-spatialecology.github.io/shar/
 BugReports: https://github.com/r-spatialecology/shar/issues/
