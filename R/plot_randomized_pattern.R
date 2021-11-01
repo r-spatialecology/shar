@@ -53,7 +53,7 @@ plot_randomized_pattern <- function(pattern,
                                     verbose = TRUE){
 
   # check if class is correct
-  if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+  if (!inherits(x = pattern, what = c("rd_pat", "rd_mar"))) {
 
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.", call. = FALSE)
 
@@ -89,7 +89,7 @@ plot_randomized_pattern <- function(pattern,
                                                      lambda = spatstat.geom::intensity.ppp(pattern$observed)),
              length.out = 250)
 
-    if (class(pattern) == "rd_pat") {
+    if (inherits(x = pattern, what = "rd_pat")) {
 
       # combine observed and randomized to one list again
       pattern <- c(pattern$randomized, list(pattern$observed))
@@ -250,7 +250,7 @@ plot_randomized_pattern <- function(pattern,
 
       invisible()
 
-    } else if (class(pattern) == "rd_mar") {
+    } else if (inherits(x = pattern, what = "rd_mar")) {
 
       # combine observed and randomized to one list again
       pattern <- c(pattern$randomized, list(pattern$observed))

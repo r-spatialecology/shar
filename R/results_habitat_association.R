@@ -45,14 +45,14 @@
 results_habitat_association <- function(pattern, raster,
                                         significance_level = 0.05, verbose = TRUE) {
 
-  if (class(pattern) != "rd_pat" && class(raster) != "rd_ras") {
+  if (!inherits(x = pattern, what = "rd_pat") && !inherits(x = raster, what = "rd_ras")) {
 
     stop("Class of 'pattern' or 'raster' must be either 'rd_pat' or 'rd_ras'.",
          call. = FALSE)
 
   }
 
-  if (class(pattern) == "rd_pat" && class(raster) == "rd_ras") {
+  if (inherits(x = pattern, what = "rd_pat") && inherits(x = raster, what = "rd_ras")) {
 
     stop("Please provide only one randomized input.",
          call. = FALSE)
@@ -70,7 +70,7 @@ results_habitat_association <- function(pattern, raster,
   threshold <- c(significance_level / 2, 1 - significance_level / 2)
 
   # randomized rasters as input
-  if (class(raster) == "rd_ras") {
+  if (inherits(x = raster, what = "rd_ras")) {
 
     # check if randomized and observed is present
     if (!methods::is(raster$observed, "RasterLayer")) {
@@ -129,7 +129,7 @@ results_habitat_association <- function(pattern, raster,
   }
 
   # randomized patterns as input
-  else if (class(pattern) == "rd_pat") {
+  else if (inherits(x = pattern, what = "rd_pat")) {
 
     # check if randomized and observed is present
     if (!spatstat.geom::is.ppp(pattern$observed)) {

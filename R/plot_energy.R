@@ -39,7 +39,7 @@ plot_energy <- function(pattern,
                         col = NULL){
 
   # check if class is correct
-  if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+  if (!inherits(x = pattern, what = c("rd_pat", "rd_mar"))) {
 
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.", call. = FALSE)
 

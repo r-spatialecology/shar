@@ -42,7 +42,7 @@ plot_randomized_raster <- function(raster,
                                    nrow, ncol){
 
   # check if class is correct
-  if (class(raster) != "rd_ras") {
+  if (!inherits(x = raster, what = "rd_ras")) {
 
     stop("Class of 'raster' must be 'rd_ras'.", call. = FALSE)
 

@@ -94,7 +94,7 @@ reconstruct_pattern_marks <- function(pattern,
   # }
 
   # check if marks are numeric
-  if (class(marked_pattern$marks) != "numeric") {
+  if (!inherits(x = marked_pattern$marks, what = "numeric")) {
 
     stop("marks must be 'numeric'", call. = FALSE)
 

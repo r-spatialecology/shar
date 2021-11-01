@@ -58,7 +58,7 @@ calculate_energy <- function(pattern,
                              verbose = TRUE){
 
   # check if class is correct
-  if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+  if (!inherits(x = pattern, what = c("rd_pat", "rd_mar"))) {
 
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
          call. = FALSE)
@@ -84,7 +84,7 @@ calculate_energy <- function(pattern,
                                          lambda = spatstat.geom::intensity.ppp(pattern_observed)),
            length.out = 250)
 
-  if (class(pattern) == "rd_pat") {
+  if (inherits(x = pattern, what = "rd_pat")) {
 
     # get energy from df
     if (is.list(pattern$energy_df)) {
@@ -180,7 +180,7 @@ calculate_energy <- function(pattern,
     # set names
     names(result) <- paste0("randomized_", seq_along(result))
 
-  } else if (class(pattern) == "rd_mar") {
+  } else if (inherits(x = pattern, what = "rd_mar")) {
 
     # get energy from df
     if (is.list(pattern$energy_df)) {
