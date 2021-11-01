@@ -29,7 +29,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
+#' pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000,
 #' simplify = TRUE, return_input = FALSE)
 #' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 #' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
@@ -121,6 +121,10 @@ plot.rd_mar <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
                                                   FUN = function(x){c(lo = stats::quantile(x, probs = probs[1]),
                                                                       hi = stats::quantile(x, probs = probs[2]))}))
 
+    # get y scale ranges
+    yrange <- c(min(c(result_observed[, 3], result_randomized[, 2])),
+                max(c(result_observed[, 3], result_randomized[, 3])))
+
     # specify quantums g(r)
     col_kmmr <- ifelse(test = result_observed[, 3] < result_randomized[, 2] |
                          result_observed[, 3] > result_randomized[, 3],
@@ -128,17 +132,9 @@ plot.rd_mar <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
                        no = "#b2df8a")
 
     # plot results
-    graphics::plot(NULL,
-                   xlim = range(r),
-                   ylim = c(min(result_randomized[, 2]) - (max(result_randomized[, 3]) - min(result_randomized[, 2])) / 25,
-                            max(result_randomized[, 3])),
+    graphics::plot(NULL, xlim = range(r), ylim = yrange,
                    main = "Mark correlation function",
                    xlab = paste0("r [",name_unit, "]"), ylab = "kmm(r)")
-
-    graphics::segments(x0 = r,
-                       y0 = min(result_randomized[, 2]) - (max(result_randomized[, 3]) - min(result_randomized[, 3])) / 50,
-                       y1 = min(result_randomized[, 2]) - (max(result_randomized[, 3]) - min(result_randomized[, 3])) / 25,
-                       col = col_kmmr, lwd = 2.5)
 
     graphics::polygon(x = c(result_randomized[, 1], rev(result_randomized[, 1])),
                       y = c(result_randomized[, 2], rev(result_randomized[, 3])),
@@ -152,6 +148,10 @@ plot.rd_mar <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
     graphics::lines(x = result_randomized[, 1],
                     y = result_randomized[, 3],
                     col = "#1f78b4", lty = 2)
+
+    graphics::segments(x0 = r, y0 = yrange[1] - (yrange[2] - yrange[1]) / 50,
+                       y1 = yrange[1] - (yrange[2] - yrange[1]) / 25,
+                       col = col_kmmr, lwd = 2.5)
 
     graphics::legend(x = "topright",
                      legend = c("observed", "randomized"),

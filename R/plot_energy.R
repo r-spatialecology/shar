@@ -19,7 +19,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 3, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern(species_a, n_random = 3, max_runs = 1000)
 #' plot_energy(pattern_recon)
 #'
 #' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)

@@ -153,6 +153,17 @@ plot.rd_pat <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
     # results pcf
     summarised_pcf <- result_randomized[result_randomized$summary_function == "g(r)", ]
 
+    # get y scale ranges
+    yrange_nndf <- c(min(c(result_observed[, 3][result_observed$summary_function == "G(r)"],
+                           summarised_nndf[, 3])),
+                     max(c(result_observed[, 3][result_observed$summary_function == "G(r)"],
+                           summarised_nndf[, 4])))
+
+    yrange_pcf <- c(min(c(result_observed[, 3][result_observed$summary_function == "g(r)"],
+                          summarised_pcf[, 3])),
+                    max(c(result_observed[, 3][result_observed$summary_function == "g(r)"],
+                          summarised_pcf[, 4])))
+
     # specify quantums G(r)
     col_quantum <- ifelse(test = result_observed[result_observed$summary_function == "G(r)", 3] < summarised_nndf[, 3] |
                             result_observed[result_observed$summary_function == "G(r)", 3] > summarised_nndf[, 4],
@@ -166,9 +177,7 @@ plot.rd_pat <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
     # plot results G(r)
 
     # plot Gest
-    graphics::plot(NULL, xlim = range(r),
-                   ylim = c(min(summarised_nndf[, 3]) - (max(summarised_nndf[, 4]) - min(summarised_nndf[, 3])) / 25,
-                            max(summarised_nndf[, 4])),
+    graphics::plot(NULL, xlim = range(r), ylim = yrange_nndf,
                    main = "Nearest Neighbour Distance Function",
                    xlab = paste0("r [",name_unit, "]"), ylab = "G(r)")
 
@@ -176,8 +185,8 @@ plot.rd_pat <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
                       y = c(summarised_nndf[, 3], rev(x = summarised_nndf[, 4])),
                       col = 'grey80', border = NA)
 
-    graphics::segments(x0 = r, y0 = min(summarised_nndf[, 3]) - (max(summarised_nndf[, 4]) - min(summarised_nndf[, 3])) / 50,
-                       y1 = min(summarised_nndf[, 3]) - (max(summarised_nndf[, 4]) - min(summarised_nndf[, 3])) / 25,
+    graphics::segments(x0 = r, y0 = yrange_nndf[1] - (yrange_nndf[2] - yrange_nndf[1]) / 50,
+                       y1 = yrange_nndf[1] - (yrange_nndf[2] - yrange_nndf[1]) / 25,
                        col = col_quantum, lwd = 2.5)
 
     graphics::lines(x = result_observed[, 1][result_observed$summary_function == "G(r)"],
@@ -196,17 +205,15 @@ plot.rd_pat <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
     graphics::par(ask = ask)
 
     # plot pcf
-    graphics::plot(NULL, xlim = range(r),
-                   ylim = c(min(summarised_nndf[, 3]) - (max(summarised_nndf[, 4]) - min(summarised_nndf[, 3])) / 25,
-                            max(summarised_pcf[, 4])), main = "Pair Correlation Function",
+    graphics::plot(NULL, xlim = range(r), ylim = yrange_pcf, main = "Pair Correlation Function",
                    xlab = paste0("r [",name_unit, "]"), ylab = "g(r)")
 
     graphics::polygon(x = c(summarised_pcf[, 2], rev(x = summarised_pcf[, 2])),
                       y = c(summarised_pcf[, 3], rev(x = summarised_pcf[, 4])),
                       col = 'grey80', border = NA)
 
-    graphics::segments(x0 = r, y0 = min(summarised_pcf[, 3]) - (max(summarised_pcf[, 4]) - min(summarised_pcf[, 3])) / 50,
-                       y1 = min(summarised_pcf[, 3]) - (max(summarised_pcf[, 4]) - min(summarised_pcf[, 3])) / 25,
+    graphics::segments(x0 = r, y0 = yrange_pcf[1] - (yrange_pcf[2] - yrange_pcf[1]) / 50,
+                       y1 = yrange_pcf[1] - (yrange_pcf[2] - yrange_pcf[1]) / 25,
                        col = col_pcf, lwd = 2.5)
 
     graphics::lines(x = result_observed[, 1][result_observed$summary_function == "g(r)"],
