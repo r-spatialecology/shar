@@ -121,6 +121,5 @@ in ecology. Boca Raton: Chapman and Hall/CRC Press.
 }
 \seealso{
 \code{\link{calculate_energy}} \cr
-\code{\link{plot_randomized_pattern}} \cr
 \code{\link{reconstruct_pattern_marks}}
 }

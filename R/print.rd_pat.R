@@ -10,9 +10,7 @@
 #' Printing method for random patterns created with \code{reconstruct_pattern_*}.
 #'
 #' @seealso
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_hetero}} \cr
-#' \code{\link{reconstruct_pattern_cluster}} \cr
+#' \code{\link{reconstruct_pattern}} \cr
 #' \code{\link{fit_point_process}}
 #'
 #' @return void

@@ -1,7 +1,8 @@
 # shar 1.2.2
 * Improvements
   * Better documentation
-  * Combine `reconstruct_pattern_homo()`, `reconstruct_pattern_cluster`, and `reconstruct_pattern_hetero` to `reconstruct_pattern`
+  * Combine `reconstruct_pattern_homo()`, `reconstruct_pattern_cluster()`, and `reconstruct_pattern_hetero()` to `reconstruct_pattern()`
+  * Replaced `plot_randomized_*()` function with generic `plot()` methods
 
 # shar 1.2.1
 * Improvements
