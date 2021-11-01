@@ -66,14 +66,6 @@ testthat::test_that("simplify is working for translate_raster", {
                       class = "RasterLayer")
 })
 
-testthat::test_that("Error if nrow != ncol for translate_raster", {
-
-  testthat::expect_error(translate_raster(raster = landscape_classified_wrong,
-                                          verbose = FALSE),
-                         regexp  = "Torus translation only works for raster with nrow == ncol.",
-                         fixed = TRUE)
-})
-
 testthat::test_that("Warning if more than 10 classes are present for translate_raster", {
 
   testthat::expect_warning(translate_raster(raster = landscape, steps_x = 5, steps_y = 5),

@@ -16,8 +16,9 @@ translate_raster(
 \arguments{
 \item{raster}{RasterLayer with discrete habitat classes.}
 
-\item{steps_x, steps_y}{Intergwe with number of steps (cells) the raster is translated
-into the corresponding direction. If both are null, all possible combinations are used.}
+\item{steps_x, steps_y}{Integer with number of steps (cells) the raster is translated
+into the corresponding direction. If both are null, all possible combinations are used
+resulting in n = ((50 + 1) * (50 + 1)) - 4 rasters.}
 
 \item{return_input}{Logical if the original input data is returned.}
 
@@ -33,7 +34,7 @@ rd_ras
 Torus translation
 }
 \details{
-Torus translation test as described in Harms et al. (20001). The raster is shifted
+Torus translation test as described in Harms et al. (2001). The raster is shifted
 in all four cardinal directions by steps equal to the raster resolution. If a cell
 exits the extent on one side, it enters the extent on the opposite side.
 }
