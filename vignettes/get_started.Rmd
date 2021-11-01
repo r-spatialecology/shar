@@ -65,12 +65,12 @@ results_habitat_association(pattern = species_a, raster = random_walk)
 results_habitat_association(pattern = reconstruction, raster = landscape_discrete)
 ```
 
-There is also the possibility to visualize the randomized data using `plot_randomized_raster()` or `plot_randomized_pattern()`. 
+There is also the possibility to visualize the randomized data using the `plot()` function.
 
 ```{r plotting, eval = FALSE}
-plot_randomized_raster(random_walk)
+plot(random_walk)
 
-plot_randomized_pattern(reconstruction)
+plot(reconstruction)
 ```
 
 For the randomized point pattern data, it is also possible to show the "difference" in terms of the energy (Tscheschel & Stoyan 2006) between the patterns.
