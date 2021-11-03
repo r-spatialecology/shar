@@ -43,7 +43,8 @@ However, even though many ecological studies on species-habitat associations can
 
 Thus, the `shar` package was developed to provide a tool set to analyze species-habitat associations of spatial point patterns.
 All methods in the `shar` package are designed for discrete environmental data and have the advantage of very few assumptions about the data characteristics.
-In order to make the package as accessible for as many people as possible, it builds on two of the most commonly used `R` packages for spatial data, namely the `spatstat` and `raster` packages [@Hijmans2019].
+Nevertheless, also other methods exist to analyze the importance of abiotic processes, especially for continuous environmental data, such as heterogeneous point process models [@Getzin2008] or Bayesian spatial modelling [@Bachl2019].
+In order to make the `shar` package as accessible for as many people as possible, it builds on two of the most commonly used `R` packages for spatial data, namely the `spatstat` and `raster` packages [@Hijmans2019].
 
 # Methodological background
 
