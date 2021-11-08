@@ -11,6 +11,12 @@ raster_random_simple <- randomize_raster(raster = landscape_classified, n_random
                                          simplify = TRUE, return_input = FALSE,
                                          verbose = FALSE)
 
+# create landscape wrong extent
+landscape_wrong <- landscape_classified
+
+# classify landscape wrong extent
+landscape_wrong[1:50] <- NA
+
 ################################################################################
 
 testthat::test_that("Output is as long as n_random for randomize_raster", {
@@ -66,4 +72,10 @@ testthat::test_that("randomize_raster returns all warnings", {
   testthat::expect_warning(randomize_raster(raster = landscape, n_random = 1),
                            regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
                            fixed = TRUE)
+})
+
+testthat::test_that("Warning if NA are present", {
+
+  testthat::expect_warning(randomize_raster(raster = landscape_wrong, n_random = 1),
+                         regexp = "NA values present. Please make sure the observation window of the point pattern reflects this.")
 })

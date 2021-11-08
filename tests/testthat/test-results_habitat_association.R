@@ -28,6 +28,10 @@ landscape_wrong <- raster::crop(x = landscape_classified,
 
 landscape_wrong <- randomize_raster(landscape_wrong, n_random = 1, verbose = FALSE)
 
+landscape_wrong_b <- landscape_classified
+
+landscape_wrong_b[1:50] <- NA
+
 pattern_wrong <- species_b[, spatstat.geom::owin(xrange = c(0, 500), yrange = c(0, 500))]
 
 pattern_wrong <- fit_point_process(pattern = pattern_wrong, n_random = 199,
@@ -75,49 +79,48 @@ testthat::test_that("results_habitat_association returns warning if more than 10
 
   testthat::expect_warning(results_habitat_association(raster = landscape,
                                                        pattern = random_a),
-                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
-                           fixed = TRUE)
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 
   testthat::expect_warning(results_habitat_association(raster = raster_random_cont,
                                                        pattern = species_a),
-                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
-                           fixed = TRUE)
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 })
 
 testthat::test_that("results_habitat_association returns error if input is wrong", {
 
   testthat::expect_error(results_habitat_association(raster = landscape_classified,
                                                      pattern = species_a, verbose = FALSE),
-                         regexp = "Class of 'pattern' or 'raster' must be either 'rd_pat' or 'rd_ras'.",
-                         fixed = TRUE)
+                         regexp = "Class of 'pattern' or 'raster' must be either 'rd_pat' or 'rd_ras'.")
 
   testthat::expect_error(results_habitat_association(raster = raster_random,
                                                      pattern = random_a, verbose = FALSE),
-                         regexp = "Please provide only one randomized input.",
-                         fixed = TRUE)
+                         regexp = "Please provide only one randomized input.")
 
   testthat::expect_error(results_habitat_association(raster = raster_random_ni,
                                                      pattern = species_a, verbose = FALSE),
-                         regexp = "The observed raster needs to be included in the input 'raster'.",
-                         fixed = TRUE)
+                         regexp = "The observed raster needs to be included in the input 'raster'.")
 
 testthat::expect_error(results_habitat_association(raster = landscape_classified,
                                                    pattern = random_a_ni, verbose = FALSE),
-                       regexp = "The observed pattern needs to be included in the input 'pattern'.",
-                       fixed = TRUE)
+                       regexp = "The observed pattern needs to be included in the input 'pattern'.")
 })
 
 testthat::test_that("results_habitat_association returns error if extent is not identical", {
 
-
   testthat::expect_warning(results_habitat_association(pattern = species_a,
                                                        raster = landscape_wrong, verbose = FALSE),
-                         regexp = "Extent of 'pattern' and 'raster' are not identical",
-                         fixed = TRUE)
+                         regexp = "Extent of 'pattern' and 'raster' are not identical.")
 
   testthat::expect_warning(results_habitat_association(pattern = pattern_wrong,
                                                        raster = landscape_classified, verbose = FALSE),
-                         regexp = "Extent of 'pattern' and 'raster' are not identical",
-                         fixed = TRUE)
+                         regexp = "Extent of 'pattern' and 'raster' are not identical.")
 
+})
+
+testthat::test_that("results_habitat_association returns warning if NA present", {
+
+  testthat::expect_warning(results_habitat_association(pattern = random_a,
+                                                       raster = landscape_wrong_b,
+                                                       verbose = FALSE),
+                           regexp = "NA values present. Please make sure the observation window of the point pattern reflects this.")
 })

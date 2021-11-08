@@ -20,10 +20,10 @@ landscape_random_simple <- translate_raster(raster = landscape_classified,
                                             return_input = FALSE)
 
 # create landscape wrong extent
-landscape_wrong <- raster::crop(landscape, raster::extent(0, 1000, 0, 500))
+landscape_wrong <- landscape_classified
 
 # classify landscape wrong extent
-landscape_classified_wrong <- classify_habitats(landscape_wrong, classes = 5)
+landscape_wrong[1:50] <- NA
 
 ################################################################################
 
@@ -69,6 +69,12 @@ testthat::test_that("simplify is working for translate_raster", {
 testthat::test_that("Warning if more than 10 classes are present for translate_raster", {
 
   testthat::expect_warning(translate_raster(raster = landscape, steps_x = 5, steps_y = 5),
-                           regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
-                           fixed = TRUE)
+                           regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
+})
+
+testthat::test_that("Stop if NA are present", {
+
+  testthat::expect_error(translate_raster(raster = landscape_wrong, steps_x = 5, steps_y = 5),
+                         regexp = "NA values are not allowed for 'translate_raster()'.",
+                         fixed = TRUE)
 })

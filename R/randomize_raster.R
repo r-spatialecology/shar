@@ -44,6 +44,13 @@ randomize_raster <- function(raster,
                              simplify = FALSE,
                              verbose = TRUE){
 
+  # warning if NA are present
+  if (anyNA(raster@data@values)) {
+
+    warning("NA values present. Please make sure the observation window of the point pattern reflects this.", call. = FALSE)
+
+  }
+
   # check if n_random is >= 1
   if (!n_random >= 1) {
 

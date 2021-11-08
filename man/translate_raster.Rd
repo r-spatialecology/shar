@@ -37,6 +37,8 @@ Torus translation
 Torus translation test as described in Harms et al. (2001). The raster is shifted
 in all four cardinal directions by steps equal to the raster resolution. If a cell
 exits the extent on one side, it enters the extent on the opposite side.
+
+The method does not allow any NA values to be present in the RasterLayer.
 }
 \examples{
 \dontrun{

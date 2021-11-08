@@ -52,13 +52,15 @@ library(raster)
 set.seed(42)
 ```
 
-**shar** comes with build-in example data sets. `species_a` and `species_b` are exemplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains examplary continuous environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
+**shar** comes with build-in example data sets. `species_a` and `species_b` are exemplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains exemplary continuous environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
 
 ```{r environmental-data}
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
 
 There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click [here](https://r-spatialecology.github.io/shar/articles/articles/background.html).
+
+However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
 
 ```{r habitat_random, eval = FALSE}
 torus_trans <- translate_raster(raster = landscape_classified)

@@ -16,6 +16,8 @@
 #' in all four cardinal directions by steps equal to the raster resolution. If a cell
 #' exits the extent on one side, it enters the extent on the opposite side.
 #'
+#' The method does not allow any NA values to be present in the RasterLayer.
+#'
 #' @seealso
 #' \code{\link{randomize_raster}}
 #'
@@ -40,6 +42,13 @@
 translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
                              return_input = TRUE, simplify = FALSE,
                              verbose = TRUE) {
+
+  # stop if NA are present
+  if (anyNA(raster@data@values)) {
+
+    stop("NA values are not allowed for 'translate_raster()'.", call. = FALSE)
+
+  }
 
   habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
 

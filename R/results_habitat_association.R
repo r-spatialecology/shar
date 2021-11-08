@@ -147,6 +147,13 @@ results_habitat_association <- function(pattern, raster,
 
     }
 
+    # warning if NA are present
+    if (anyNA(raster@data@values)) {
+
+      warning("NA values present. Please make sure the observation window of the point pattern reflects this.", call. = FALSE)
+
+    }
+
     habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
 
     # print warning if more than 10 classes are present

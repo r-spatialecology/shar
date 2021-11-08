@@ -40,6 +40,8 @@ landscape_discrete <- classify_habitats(raster = landscape, classes = 5)
 ## Randomize environmental data
 There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `n_random <- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4` randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the `n_random` argument.
 
+However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
+
 ```{r randomize_raster, eval = FALSE}
 torus_trans <- translate_raster(raster = landscape_discrete)
 

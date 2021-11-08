@@ -65,6 +65,10 @@ Finally, species-habitat associations are present if species are found in certai
 Analyzing species-habitat associations is straightforward with the `shar` package.
 Only two objects are needed to quantify species-habitat associations, namely a `spatstat` object that includes all object locations within the study area and a `raster` object with discrete habitat classes.
 
+However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). 
+This needs to be reflected in the observation window of the point pattern. 
+For the torus translation method, no NA values are allowed at all.
+
 To randomize the environmental data, either `translate_raster()` or `randomize_raster` can be used.
 For the former, the number of randomizations of the null model data is automatically determined by the number of rows and columns of the `raster` object.
 For the later, the number of randomizations must be specified using the `r_random` argument.
