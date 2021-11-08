@@ -34,6 +34,9 @@ points within a habitat between the observed data and randomized data as describ
 Plotkin et al. (2000) and Harms et al. (2001). Significant positive or associations are present
 if the observed count in a habitat is above or below a certain threshold of the
 randomized count, respectively.
+
+In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+window of the point pattern as well (i.e., no point locations possible in these areas).
 }
 \examples{
 landscape_classified <- classify_habitats(landscape, classes = 5)

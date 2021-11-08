@@ -18,6 +18,9 @@
 #' slightly by increasing a probability to jump to a non-neighbouring cell as the
 #' current patch becomes larger.
 #'
+#' In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+#' window of the point pattern as well (i.e., no point locations possible in these areas).
+#'
 #' @seealso
 #' \code{\link{translate_raster}}
 #'

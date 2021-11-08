@@ -16,6 +16,9 @@
 #' if the observed count in a habitat is above or below a certain threshold of the
 #' randomized count, respectively.
 #'
+#' In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+#' window of the point pattern as well (i.e., no point locations possible in these areas).
+#'
 #' @seealso
 #' \code{\link{reconstruct_pattern}} \cr
 #' \code{\link{fit_point_process}}
