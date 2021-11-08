@@ -32,7 +32,7 @@ The `shar` package builds on widely used `R` packages for spatial analyses and p
 Species-habitat associations are a result of certain species being specialized to certain environmental conditions [@Tilman1993] and typically result in a clustering of individuals at suitable habitats [@Harms2001; @Comita2007].
 Thus, analyzing species-habitat associations can help to understand the importance of abiotic processes shaping the spatial distribution of species [@Garzon-Lopez2014].
 However, since biotic processes (e.g., competition, limited dispersal) can also lead to a clustering of individuals, analyses of species-habitat associations need to control for potential biotic processes because they result in a violation of the independence assumption of similar statistical tests, such as the $\chi^2$ test, ordination methods, or canonical correspondence analysis [@Plotkin2000; @Harms2001].
-Simlar, also spatial autocorrelation of the environmental conditions could violate the independence assumption of the previously mentioned statistical tests [@Harms2001].
+Similar, also spatial autocorrelation of the environmental conditions could violate the independence assumption of the previously mentioned statistical tests [@Harms2001].
 Previous research has shown that violating the independence assumptions resulted in more (i.e., possible false-positive) species-habitat associations than the here presented, more conservative methods [@Plotkin2000; @Harms2001].
 
 Ecologists use the spatial distribution of ecological objects to infer the underlying processes that shaped their distribution because spatial patterns can act as a "memory" of the processes that shaped them [@Velazquez2016].
@@ -59,6 +59,7 @@ This can be achieved by fitting point process models to the object locations ("g
 
 The two approaches differ in how they randomize the null model data, but both control for potential biotic processes by preserving the spatial structure of the data [@Plotkin2000; @Wiegand2014] and result in similar results.
 Finally, species-habitat associations are present if species are found in certain habitats in the data  more often than expected compared to the randomized null model data [@Plotkin2000; @Harms2001].
+Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006).
 
 # How to use the package
 
@@ -94,7 +95,9 @@ Lastly, the input data and the randomized null model data are used to test if si
 The `results_habitat_association()` function automatically detects which part of the data was randomized and can be used identically with either of the used randomization approach.
 
 ```
-results_habitat_association(pattern = species_a, raster = random_walk)
+significance_level <- 0.01
+
+results_habitat_association(pattern = species_a, raster = random_walk, significance_level = significance_level)
 
 > Input: randomized raster
 > Quantile thresholds: negative < 0.025 || positive > 0.975

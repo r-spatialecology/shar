@@ -94,4 +94,4 @@ usethis::use_data(random_walk, overwrite = overwrite)
 # save random point data
 usethis::use_data(gamma_test, overwrite = overwrite)
 
-usethis::use_data(reconstruction, overwrite = TRUE)
+usethis::use_data(reconstruction, overwrite = overwrite)

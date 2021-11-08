@@ -53,14 +53,13 @@ set.seed(42)
 ```
 
 **shar** comes with build-in example data sets. `species_a` and `species_b` are exemplary location of species, e.g. trees, as `ppp`-objects from the `spatstat` package. `landscape` contains exemplary continuous environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. 
+However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
 
 ```{r environmental-data}
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 ```
 
 There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click [here](https://r-spatialecology.github.io/shar/articles/articles/background.html).
-
-However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
 
 ```{r habitat_random, eval = FALSE}
 torus_trans <- translate_raster(raster = landscape_classified)
@@ -71,7 +70,7 @@ random_walk <- randomize_raster(raster = landscape_classified, n_random = 99)
 ```{r plot_habitat-random, fig.width = 5.5, fig.height = 4, fig.align = "center"}
 col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
 
-plot_randomized_raster(torus_trans, n = 3, col = col)
+plot(torus_trans, n = 3, col = col)
 ```
 
 To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Kirkpatrick et al. 1983; Tscheschel & Stoyan 2006). 
@@ -86,22 +85,28 @@ reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 99
 Of course, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions). 
 
 ```{r plot-random_pattern, fig.width = 5.5, fig.height = 4, fig.align = "center"}
-plot_randomized_pattern(reconstruction, verbose = FALSE, ask = FALSE)
+plot(reconstruction, verbose = FALSE, ask = FALSE)
 ```
 
 ```{r calculate-energy}
 calculate_energy(reconstruction, verbose = FALSE)
 ```
 
-The data was created that `species_a` has a negative association to habitat 4 and `species_b` has a positive association to habitat 5. At one point a positive association to one habitat leads consequently to a negative association to another habitat (and vice versa). All this can be seen in the results.
+The data was created that `species_a` has a negative association to habitat 4 and `species_b` has a positive association to habitat 5, which is reflected in the results. 
+
+Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006). For example, a high amount of individual points in the positively associated habitat simultaneously mean that less individual points can be present in the other habitats.
+
+Furthermore, please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples.
+
+However, the counts of the observed data should be identical and general results and trends should be similar.
 
 ```{r results}
-results_habitat_association(pattern = species_a, raster = torus_trans)
+significance_level <- 0.01
 
-results_habitat_association(pattern = reconstruction, raster = landscape_classified)
+results_habitat_association(pattern = species_a, raster = torus_trans, significance_level = significance_level)
+
+results_habitat_association(pattern = reconstruction, raster = landscape_classified, significance_level = significance_level)
 ```
-
-Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster`) and even for repetitions of the same approach. However, general results and trends should be similar.
 
 ## Contributing and Code of Conduct
 
@@ -124,3 +129,6 @@ Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, 
 Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <https://doi.org/10.1016/j.csda.2005.09.007>
 
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:9781420082548>
+
+Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M., Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees in a Bornean rain forest plot. Journal of Vegetation Science 17, 559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>
+
