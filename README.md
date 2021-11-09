@@ -104,7 +104,7 @@ al. 1983; Tscheschel & Stoyan 2006).
 gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
 
 # (this can takes some time)
-reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 99, e_threshold = 0.05)
+reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_threshold = 0.05)
 ```
 
 Of course, there are several utility functions. For example, you can
