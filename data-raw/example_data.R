@@ -71,8 +71,8 @@ random_walk <- randomize_raster(raster = landscape_class, n_random = n_random)
 gamma_test <- fit_point_process(pattern = species_b, n_random = n_random, process = "cluster")
 
 # use pattern reconstruction
-reconstruction <- reconstruct_pattern_homo(pattern = species_b, n_random = n_random,
-                                           e_threshold = 0.05)
+reconstruction <- reconstruct_pattern(pattern = species_b, n_random = n_random,
+                                      e_threshold = 0.05)
 
 #### Save data ####
 
