@@ -14,7 +14,6 @@ In case you want to reconstruct several patterns at once (e.g. for different poi
 
 ```{r load-packages, message = FALSE}
 library(shar)
-library(spatstat)
 ```
 
 In case you want to only create the spatial characteristics, this is straightforward using `lapply()`. 

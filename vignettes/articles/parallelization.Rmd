@@ -25,7 +25,7 @@ First, we need to load all requried packages. This includes `future` and `future
 
 ```{r load-packages, message = FALSE}
 library(shar)
-library(spatstat)
+
 library(future)
 library(future.apply)
 ```
