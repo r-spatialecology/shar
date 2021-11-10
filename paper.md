@@ -41,7 +41,7 @@ For example, many studies use individual tree locations to infer the processes t
 
 The `spatstat` package [@Baddeley2015] allows ecologists to access many methods of spatial point pattern analysis, such as summary functions and null model simulations, and to simulate heterogeneous point process models that can be used to show the importance of abiotic processes for continuous environmental data [@Getzin2008].
 However, even though many ecological studies on species-habitat associations using discrete environmental data can be found in the literature [@John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` cannot be used to reveal such associations without larger programming efforts by the users.
-The `inlabru` package provides an approach to  analyze the importance of abiotic processes, mostly for continuous environmental data, using Bayesian spatial modelling (i.e., `inlabru`) [@Bachl2019].
+The `inlabru` package provides an approach to  analyze the importance of abiotic processes, mostly for continuous environmental data, using Bayesian spatial modelling [@Bachl2019].
 The `fgeo` package [@Lepore2019] allows to visualize and analyze forest diversity, including species-habitat associations.
 But, the `fgeo` was designed to specifally handle ForestGEO data (<https://forestgeo.si.edu>) and furthermore includes only a small subset of methods available to analyze species-habitat associations.
 
@@ -121,7 +121,7 @@ This is the case especially for pattern reconstruction, even though most point p
 However, since the randomizations of the null model data are independent of each other this could be parallized using available frameworks, such as the `future` [@Bengtsson2021] or
 `parallel` [@RCoreTeam2021] package.
 The `shar` package does not allow to run code in parallel internally to not limit users to a specific parallelization framework.
-For a short example how to simulate null model data in parallel using the `future` package, please see the "Parallelization" article on the `shar` homepage.
+For a short example how to simulate null model data in parallel using the `future` package, please see the "Parallelization" article on the `shar` homepage (<https://r-spatialecology.github.io/shar>).
 However, the presented approach could be used with any other parallelization framework as well.
 
 # Acknowledgements
