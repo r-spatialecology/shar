@@ -100,7 +100,8 @@ The `results_habitat_association()` function automatically detects which part of
 ```
 significance_level <- 0.01
 
-results_habitat_association(pattern = species_a, raster = random_walk, significance_level = significance_level)
+results_habitat_association(pattern = species_a, raster = random_walk, 
+                            significance_level = significance_level)
 
 > Input: randomized raster
 > Quantile thresholds: negative < 0.005 || positive > 0.995
