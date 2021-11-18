@@ -13,9 +13,7 @@ editor_options:
 In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code. Please be aware that the maximum number of iterations was set to `max_runs = 10` to keep the computational time low for this example. For an applied case, this value should be increased.
 
 ```{r load-packages, message = FALSE}
-# library(tidyverse)
 library(shar)
-library(spatstat)
 ```
 
 In case you want to only create the spatial characteristics, this is straightforward using `lapply()`. 

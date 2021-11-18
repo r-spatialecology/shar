@@ -12,10 +12,10 @@ results_habitat_association(
 )
 }
 \arguments{
-\item{pattern}{ppp object with original point pattern data or rd_pat or rd_mar object
-with randomized point pattern or}
+\item{pattern}{ppp object with original point pattern data or rd_pat or rd_mar
+object with randomized point pattern.}
 
-\item{raster}{RasterLayer with orignial discrete habitat data or rd_ras object with
+\item{raster}{RasterLayer with original discrete habitat data or rd_ras object with
 randomized environmental data.}
 
 \item{significance_level}{Double with significance level.}

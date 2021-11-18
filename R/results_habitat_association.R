@@ -2,9 +2,9 @@
 #'
 #' @description Results habitat association
 #'
-#' @param pattern ppp object with original point pattern data or rd_pat or rd_mar object
-#' with randomized point pattern or
-#' @param raster RasterLayer with orignial discrete habitat data or rd_ras object with
+#' @param pattern ppp object with original point pattern data or rd_pat or rd_mar
+#' object with randomized point pattern.
+#' @param raster RasterLayer with original discrete habitat data or rd_ras object with
 #' randomized environmental data.
 #' @param significance_level Double with significance level.
 #' @param verbose Logical if messages should be printed.

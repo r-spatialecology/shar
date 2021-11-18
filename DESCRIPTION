@@ -23,6 +23,7 @@ Imports:
     grDevices,
     methods,
     raster,
+    Rcpp,
     spatstat.core,
     spatstat.geom,
     stats,
@@ -31,10 +32,11 @@ RoxygenNote: 7.1.2
 Suggests:
     covr,
     dplyr,
-    testthat (>= 2.1.0),
-    knitr,
+    future,
+    future.apply,
+    knitr, 
     rmarkdown,
-    spatstat
+    testthat (>= 2.1.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

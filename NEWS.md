@@ -3,7 +3,10 @@
   * Better documentation
   * Combine `reconstruct_pattern_homo()`, `reconstruct_pattern_cluster()`, and `reconstruct_pattern_hetero()` to `reconstruct_pattern()`
   * Replaced `plot_randomized_*()` function with generic `plot()` methods
-  * Adding warnings and errors if `NA` values are present
+  * Adding warnings and errors if `NA` values are present  
+* New functionality
+  * `list_to_randomized()` function
+  * Parallelization article
 
 # shar 1.2.1
 * Improvements

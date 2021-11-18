@@ -33,6 +33,7 @@ reference:
     contents:
       - classify_habitats
       - estimate_pcf_fast
+      - list_to_randomized
       - print.rd_mar
       - print.rd_pat
       - print.rd_ras
@@ -55,6 +56,9 @@ navbar:
        - text: "Reconstruct multiple pattern"
          icon: fa-book
          href: articles/articles/reconstruct_multiple_patterns.html
+       - text: "Parallelization"
+         icon: fa-book
+         href: articles/articles/parallelization.html
        - text: "Publication Record"
          icon: fa-file-text-o
          href: articles/articles/publication_record.html
