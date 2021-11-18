@@ -1,7 +1,6 @@
 on:
   push:
-    branches:
-      - joss
+    branches: [joss]
 
 name: Draft-pdf
 
