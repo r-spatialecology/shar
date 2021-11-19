@@ -21,6 +21,10 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v1
 
+      - name: Install GDAL
+        if: runner.os == 'macOS'
+        run: brew install gdal
+
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
           extra-packages: rmarkdown
