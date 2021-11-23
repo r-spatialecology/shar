@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [joss]
+    paths: ['paper.md', 'paper.bib']
 
 name: Draft-pdf
 
