@@ -32,8 +32,8 @@ The `shar` package builds on widely used `R` packages for spatial analyses and p
 Species-habitat associations are a result of certain species being specialized to certain environmental conditions [@Tilman1993] and typically result in a clustering of individuals at suitable habitats [@Harms2001; @Comita2007].
 Thus, analyzing species-habitat associations can help to understand the importance of abiotic processes shaping the spatial distribution of species [@Garzon-Lopez2014].
 However, since biotic processes (e.g., competition, limited dispersal) can also lead to a clustering of individuals, analyses of species-habitat associations need to control for potential biotic processes because they result in a violation of the independence assumption of similar statistical tests, such as the $\chi^2$ test, ordination methods, or canonical correspondence analysis [@Plotkin2000; @Harms2001].
-Similar, also spatial autocorrelation of the environmental conditions could violate the independence assumption of the previously mentioned statistical tests [@Harms2001].
-Previous research has shown that violating the independence assumptions resulted in more (i.e., possible false-positive) species-habitat associations than the here presented, more conservative methods [@Plotkin2000; @Harms2001].
+Spatial autocorrelation of the environmental conditions could also violate the independence assumption of the previously mentioned statistical tests [@Harms2001].
+For example, previous research has shown that violating the independence assumptions of the $\chi^2$ test resulted in more (i.e., possible false-positive) species-habitat associations than the more conservative methods that are provided by the `shar` package [@Plotkin2000; @Harms2001].
 
 Ecologists use the spatial distribution of ecological objects to infer the underlying processes that shaped their distribution because spatial patterns can act as a "memory" of the processes that shaped them [@Velazquez2016].
 A spatial point pattern contains the fully mapped locations (in terms of *x*,*y* coordinates) of all individual objects in a normally two-dimensional study area and assumes that the object locations can be described by discrete points [@Wiegand2014; @Velazquez2016].
@@ -43,7 +43,7 @@ The `spatstat` package [@Baddeley2015] allows ecologists to access many methods 
 However, even though many ecological studies on species-habitat associations using discrete environmental data can be found in the literature [@John2007; @Garzon-Lopez2014; @Guo2016; @Yang2016; @Du2017; @Furniss2017], `spatstat` cannot be used to reveal such associations without larger programming efforts by the users.
 The `inlabru` package provides an approach to  analyze the importance of abiotic processes, mostly for continuous environmental data, using Bayesian spatial modelling [@Bachl2019].
 The `fgeo` package [@Lepore2019] allows to visualize and analyze forest diversity, including species-habitat associations.
-But, the `fgeo` was designed to specifally handle ForestGEO data (<https://forestgeo.si.edu>) and furthermore includes only a small subset of methods available to analyze species-habitat associations.
+But, the `fgeo` was designed to specifally handle ForestGEO data (<https://forestgeo.si.edu>) and furthermore includes only a subset of methods available to analyze species-habitat associations.
 
 Thus, the `shar` package was developed to provide a comprehensive tool set to analyze species-habitat associations of spatial point patterns.
 All methods in the `shar` package are designed for discrete environmental data and have the advantage of very few assumptions about the data characteristics.
@@ -91,7 +91,8 @@ In order to preserve the spatial structure of the input as detailed as possible,
 gamma_test <- fit_point_process(pattern = species_a, n_random = 39,
                                 process = "cluster")
 
-reconstruction <- reconstruct_pattern_homo(pattern = species_a, n_random = 39)
+reconstruction <- reconstruct_pattern(pattern = species_a, n_random = 39,
+                                      method = "cluster")
 ```
 
 Lastly, the input data and the randomized null model data are used to test if significant species-habitat associations are present.
@@ -100,7 +101,7 @@ The `results_habitat_association()` function automatically detects which part of
 ```
 significance_level <- 0.01
 
-results_habitat_association(pattern = species_a, raster = random_walk, 
+results_habitat_association(pattern = species_a, raster = random_walk,
                             significance_level = significance_level)
 
 > Input: randomized raster
