@@ -1,0 +1,13 @@
+citHeader("To cite 'shar' in publications and acknowledge its use, please cite the following reference:")
+
+citEntry(
+  entry    = "Article",
+  title    = "shar: A R package to analyze species-habitat associations using point pattern analysis",
+  author   = "Maximilian H.K. Hesselbarth",
+  journal  = "Journal of Open Source Software",
+  year     = "2021",
+  volume   = "6",
+  number   = "67",
+  pages    = "3811",
+  doi      = "10.21105/joss.03811",
+  textVersion = "Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811")

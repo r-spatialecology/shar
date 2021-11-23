@@ -7,6 +7,7 @@
 * New functionality
   * `list_to_randomized()` function
   * Parallelization article
+* Adding JOSS paper as reference
 
 # shar 1.2.1
 * Improvements
