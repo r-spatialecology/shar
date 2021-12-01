@@ -94,7 +94,7 @@ col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
 plot(torus_trans, n = 3, col = col)
 ```
 
-<img src="man/figures/README-plot_habitat-random-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/plot_habitat-random-1.png" style="display: block; margin: auto;" />
 
 To randomize the point pattern, either use the Gamma test described by
 Plotkin et al. (2000) or pattern reconstruction (Kirkpatrick et
@@ -115,7 +115,7 @@ observed pattern and the randomized patterns (using summary functions).
 plot(reconstruction, verbose = FALSE, ask = FALSE)
 ```
 
-<img src="man/figures/README-plot-random_pattern-1.png" style="display: block; margin: auto;" /><img src="man/figures/README-plot-random_pattern-2.png" style="display: block; margin: auto;" />
+<img src="man/figures/plot-random_pattern-1.png" style="display: block; margin: auto;" /><img src="man/figures/plot-random_pattern-2.png" style="display: block; margin: auto;" />
 
 ``` r
 calculate_energy(reconstruction, verbose = FALSE)
