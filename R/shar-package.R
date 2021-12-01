@@ -1,4 +1,4 @@
-#' @title shar
+#' @title Package description
 #'
 #' @description
 #' Analyse species-habitat associations in R. Therefore, information about the

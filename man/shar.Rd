@@ -4,7 +4,7 @@
 \name{shar}
 \alias{shar}
 \alias{shar-package}
-\title{shar}
+\title{Package description}
 \description{
 Analyse species-habitat associations in R. Therefore, information about the
 location of the species is needed and about the environmental conditions. To test

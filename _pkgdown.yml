@@ -5,6 +5,8 @@ template:
   bootswatch: minty
 
 reference:
+  - contents:
+      - shar
   - title: Data sets
     contents:
       - species_a
