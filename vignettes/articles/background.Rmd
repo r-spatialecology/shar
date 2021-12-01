@@ -15,7 +15,7 @@ There are mainly two methods that can be found in the literature to analyse such
 All methods compare the abundance within a habitat between the observed data and the randomized null model data. If the count is below or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles), negative or positive associations, respectively, are present.
 
 ```{r overview-methods, echo = FALSE, out.height = "100%", out.width = "100%", fig.align = "center"}
-knitr::include_graphics("methods_overview.png")
+knitr::include_graphics("../man/figures/methods_overview.png")
 ```
 
 ## Randomize environmental data
@@ -29,7 +29,7 @@ The torus-translation test (Harms et al. 2001) shifts the habitat map in all fou
 The randomze-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in **shar** use `randomize_raster()`.
 
 ```{r random-walk, echo = FALSE, out.height = "35%", out.width = "35%", fig.align = "center"}
-knitr::include_graphics("random_walk.gif")
+knitr::include_graphics("../man/figures/random_walk.gif")
 ```
 
 ## Randomize point pattern data
@@ -37,7 +37,7 @@ knitr::include_graphics("random_walk.gif")
 Contrastingly to the two methods described above, the following two methods randomize the point pattern data, while keeping the environmental data fixed.
 
 ```{r gamma-vs-reconstrution, echo = FALSE, out.height = "75%", out.width = "75%", fig.align = "center"}
-knitr::include_graphics("gamma_vs_reconstruction.png")
+knitr::include_graphics("../man/figures/gamma_vs_reconstruction.png")
 ```
 
 ### Gamma-test
@@ -47,7 +47,7 @@ The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point proc
 Pattern reconstruction (Tscheschel & Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in **shar** use `reconstruct_pattern()`.
 
 ```{r pattern-reconstruction, echo = FALSE, out.height = "75%", out.width = "75%", fig.align = "center"}
-knitr::include_graphics("pattern_reconstruction.gif")
+knitr::include_graphics("../man/figures/pattern_reconstruction.gif")
 ```
 
 #### References 

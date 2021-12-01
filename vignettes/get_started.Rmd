@@ -23,7 +23,6 @@ library(spatstat.core)
 library(raster)
 
 set.seed(42)
-
 ```
 
 ## Design
