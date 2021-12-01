@@ -25,7 +25,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Marco Sciaini \email{sciaini.marco@gmail.com} (\href{https://orcid.org/0000-0002-3042-5435}{ORCID})
+  \item Marco Sciaini \email{marco.sciaini@posteo.net} (\href{https://orcid.org/0000-0002-3042-5435}{ORCID})
 }
 
 }
