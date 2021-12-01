@@ -88,10 +88,14 @@ torus_trans <- translate_raster(raster = landscape_classified)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 99)
 ```
 
-``` r
-col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
+To plot the randomized raster, you can use the plot function and specify
+the number of raster as as well as the color palette used for the
+discrete environmental data.
 
-plot(torus_trans, n = 3, col = col)
+``` r
+col_palette <- c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
+
+plot(torus_trans, n = 3, col = col_palette)
 ```
 
 To randomize the point pattern, either use the Gamma test described by
@@ -106,12 +110,16 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_thre
 ```
 
 Of course, there are several utility functions. For example, you can
-plot a randomized pattern or calculate the differences between the
-observed pattern and the randomized patterns (using summary functions).
+plot the summary function of the observed pattern and the simulation
+envelopes of randomized patterns using the plot function.
 
 ``` r
-plot(reconstruction, verbose = FALSE, ask = FALSE)
+plot(reconstruction)
 ```
+
+Another utility functions allows to calculate the differences between
+the observed pattern and the randomized patterns (also called energy
+using summary functions).
 
 ``` r
 calculate_energy(reconstruction, verbose = FALSE)
