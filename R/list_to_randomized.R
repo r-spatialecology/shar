@@ -15,9 +15,7 @@
 #' @seealso
 #' \code{\link{randomize_raster}} \cr
 #' \code{\link{translate_raster}} \cr
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_hetero}} \cr
-#' \code{\link{reconstruct_pattern_cluster}}
+#' \code{\link{reconstruct_pattern}}
 #'
 #' @return rd_pat, rd_ras
 #'

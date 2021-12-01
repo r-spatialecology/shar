@@ -45,7 +45,8 @@ The method does not allow any NA values to be present in the RasterLayer.
 landscape_classified <- classify_habitats(landscape, classes = 5)
 
 landscape_random <- translate_raster(landscape_classified)
-landscape_random_sub <- translate_raster(landscape_classified, steps_x = 1:10, steps_y = 1:5)
+landscape_random_sub <- translate_raster(landscape_classified,
+steps_x = 1:10, steps_y = 1:5)
 }
 
 }

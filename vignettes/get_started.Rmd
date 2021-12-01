@@ -55,7 +55,8 @@ To randomize the location data (i.e. the point pattern) either `fit_point_proces
 gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
 
 # (this can takes some time)
-reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 99, e_threshold = 0.05)
+reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, 
+                                      e_threshold = 0.05, method = "cluster")
 ``` 
 
 ## Analyse results 

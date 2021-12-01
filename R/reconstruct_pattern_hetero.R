@@ -27,7 +27,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)}, nsim = 1)
+#' input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)},
+#' nsim = 1)
 #' pattern_recon <- reconstruct_pattern_hetero(input_pattern, n_random = 19, max_runs = 1000)
 #' }
 #'

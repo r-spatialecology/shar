@@ -27,7 +27,8 @@ pattern_random <- fit_point_process(species_a, n_random = 199)
 print(pattern_random)
 
 \dontrun{
-pattern_recon <- reconstruct_pattern_hetero(species_b, n_random = 19, max_runs = 1000)
+pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000,
+method = "hetero")
 print(pattern_recon)
 }
 
