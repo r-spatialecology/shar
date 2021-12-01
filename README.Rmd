@@ -67,7 +67,7 @@ torus_trans <- translate_raster(raster = landscape_classified)
 random_walk <- randomize_raster(raster = landscape_classified, n_random = 99)
 ```
 
-```{r plot_habitat-random, fig.width = 5.5, fig.height = 4, fig.align = "center"}
+```{r plot_habitat-random, eval = FALSE}
 col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
 
 plot(torus_trans, n = 3, col = col)
@@ -84,11 +84,11 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_thre
 
 Of course, there are several utility functions. For example, you can plot a randomized pattern or calculate the differences between the observed pattern and the randomized patterns (using summary functions). 
 
-```{r plot-random_pattern, fig.width = 5.5, fig.height = 4, fig.align = "center"}
+```{r plot-random_pattern, eval = FALSE}
 plot(reconstruction, verbose = FALSE, ask = FALSE)
 ```
 
-```{r calculate-energy}
+```{r calculate-energy, eval = FALSE}
 calculate_energy(reconstruction, verbose = FALSE)
 ```
 
