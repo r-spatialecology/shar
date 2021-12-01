@@ -21,10 +21,8 @@
 #'
 #' @seealso
 #' \code{\link{plot_energy}} \cr
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_hetero}} \cr
-#' \code{\link{reconstruct_pattern_cluster}} \cr
-#' \code{\link{plot_randomized_pattern}}
+#' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{fit_point_process}}
 #'
 #' @return vector
 #'
@@ -58,7 +56,7 @@ calculate_energy <- function(pattern,
                              verbose = TRUE){
 
   # check if class is correct
-  if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+  if (!inherits(x = pattern, what = c("rd_pat", "rd_mar"))) {
 
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
          call. = FALSE)
@@ -84,7 +82,7 @@ calculate_energy <- function(pattern,
                                          lambda = spatstat.geom::intensity.ppp(pattern_observed)),
            length.out = 250)
 
-  if (class(pattern) == "rd_pat") {
+  if (inherits(x = pattern, what = "rd_pat")) {
 
     # get energy from df
     if (is.list(pattern$energy_df)) {
@@ -118,9 +116,9 @@ calculate_energy <- function(pattern,
         gest_observed <- spatstat.core::Gest(X = pattern_observed, correction = "none",
                                              r = r)
 
-        pcf_observed <- shar::estimate_pcf_fast(pattern = pattern_observed,
-                                                correction = "none", method = "c",
-                                                spar = 0.5, r = r)
+        pcf_observed <- estimate_pcf_fast(pattern = pattern_observed,
+                                          correction = "none", method = "c",
+                                          spar = 0.5, r = r)
 
       } else {
 
@@ -142,11 +140,9 @@ calculate_energy <- function(pattern,
                                                 correction = "none",
                                                 r = r)
 
-          pcf_reconstruction <- shar::estimate_pcf_fast(pattern = pattern_randomized[[x]],
-                                                        correction = "none",
-                                                        method = "c",
-                                                        spar = 0.5,
-                                                        r = r)
+          pcf_reconstruction <- estimate_pcf_fast(pattern = pattern_randomized[[x]],
+                                                  correction = "none", method = "c",
+                                                  spar = 0.5, r = r)
 
         # normal computation of summary stats
         } else {
@@ -182,7 +178,7 @@ calculate_energy <- function(pattern,
     # set names
     names(result) <- paste0("randomized_", seq_along(result))
 
-  } else if (class(pattern) == "rd_mar") {
+  } else if (inherits(x = pattern, what = "rd_mar")) {
 
     # get energy from df
     if (is.list(pattern$energy_df)) {

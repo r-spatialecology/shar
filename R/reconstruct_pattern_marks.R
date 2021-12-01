@@ -34,18 +34,17 @@
 #'
 #' @seealso
 #' \code{\link{fit_point_process}} \cr
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_hetero}} \cr
-#' \code{\link{reconstruct_pattern_cluster}}
+#' \code{\link{reconstruct_pattern}}
 #'
 #' @return rd_mar
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
+#' pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000,
 #' simplify = TRUE, return_input = FALSE)
 #' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
-#' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
+#' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub,
+#' n_random = 19, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_pattern_marks
@@ -96,7 +95,7 @@ reconstruct_pattern_marks <- function(pattern,
   # }
 
   # check if marks are numeric
-  if (class(marked_pattern$marks) != "numeric") {
+  if (!inherits(x = marked_pattern$marks, what = "numeric")) {
 
     stop("marks must be 'numeric'", call. = FALSE)
 
@@ -127,8 +126,8 @@ reconstruct_pattern_marks <- function(pattern,
   simulated <- pattern
 
   # assign shuffled marks to pattern
-  spatstat.geom::marks(simulated) <- rcpp_sample(x = marked_pattern$marks, n = simulated$n,
-                                                 replace = TRUE)
+  spatstat.geom::marks(simulated) <- sample(x = marked_pattern$marks, size = simulated$n,
+                                            replace = TRUE)
 
   # calculate summary functions
   kmmr_observed <- spatstat.core::markcorr(marked_pattern, correction = "Ripley",
@@ -158,9 +157,9 @@ reconstruct_pattern_marks <- function(pattern,
                             energy = NA)
 
     # get two random points to switch marks
-    rp_a <- rcpp_sample(x = seq_len(simulated_current$n), n = max_runs, replace = TRUE)
+    rp_a <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
-    rp_b <- rcpp_sample(x = seq_len(simulated_current$n), n = max_runs, replace = TRUE)
+    rp_b <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random number for annealing prob
     if (annealing != 0) {

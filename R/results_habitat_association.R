@@ -16,12 +16,12 @@
 #' if the observed count in a habitat is above or below a certain threshold of the
 #' randomized count, respectively.
 #'
+#' In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+#' window of the point pattern as well (i.e., no point locations possible in these areas).
+#'
 #' @seealso
-#' \code{\link{randomize_raster}} \cr
-#' \code{\link{translate_raster}} \cr
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_hetero}} \cr
-#' \code{\link{reconstruct_pattern_cluster}}
+#' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{fit_point_process}}
 #'
 #' @return data.frame
 #'
@@ -45,14 +45,14 @@
 results_habitat_association <- function(pattern, raster,
                                         significance_level = 0.05, verbose = TRUE) {
 
-  if (class(pattern) != "rd_pat" && class(raster) != "rd_ras") {
+  if (!inherits(x = pattern, what = "rd_pat") && !inherits(x = raster, what = "rd_ras")) {
 
     stop("Class of 'pattern' or 'raster' must be either 'rd_pat' or 'rd_ras'.",
          call. = FALSE)
 
   }
 
-  if (class(pattern) == "rd_pat" && class(raster) == "rd_ras") {
+  if (inherits(x = pattern, what = "rd_pat") && inherits(x = raster, what = "rd_ras")) {
 
     stop("Please provide only one randomized input.",
          call. = FALSE)
@@ -70,7 +70,7 @@ results_habitat_association <- function(pattern, raster,
   threshold <- c(significance_level / 2, 1 - significance_level / 2)
 
   # randomized rasters as input
-  if (class(raster) == "rd_ras") {
+  if (inherits(x = raster, what = "rd_ras")) {
 
     # check if randomized and observed is present
     if (!methods::is(raster$observed, "RasterLayer")) {
@@ -123,13 +123,13 @@ results_habitat_association <- function(pattern, raster,
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(raster, function(current_raster) {
 
-      shar::extract_points(raster = current_raster, pattern = pattern)
+      extract_points(raster = current_raster, pattern = pattern)
 
     })
   }
 
   # randomized patterns as input
-  else if (class(pattern) == "rd_pat") {
+  else if (inherits(x = pattern, what = "rd_pat")) {
 
     # check if randomized and observed is present
     if (!spatstat.geom::is.ppp(pattern$observed)) {
@@ -147,6 +147,13 @@ results_habitat_association <- function(pattern, raster,
     if (!same_extent) {
 
       warning("Extent of 'pattern' and 'raster' are not identical.", call. = FALSE)
+
+    }
+
+    # warning if NA are present
+    if (anyNA(raster@data@values)) {
+
+      warning("NA values present. Please make sure the observation window of the point pattern reflects this.", call. = FALSE)
 
     }
 
@@ -181,7 +188,7 @@ results_habitat_association <- function(pattern, raster,
     # extract number of points within each habitat for all list entries
     habitats_count <- lapply(pattern, function(current_pattern) {
 
-      shar::extract_points(raster = raster, pattern = current_pattern)
+      extract_points(raster = raster, pattern = current_pattern)
 
     })
   }

@@ -9,8 +9,6 @@
 #'
 #' @name shar
 #' @docType package
-#' @useDynLib shar, .registration = TRUE
-#' @importFrom Rcpp sourceCpp
 "_PACKAGE"
 
 # Global variables

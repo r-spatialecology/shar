@@ -25,7 +25,7 @@ were sufficient. The \code{pattern} object must have been created using
 }
 \examples{
 \dontrun{
-pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 3, max_runs = 1000)
+pattern_recon <- reconstruct_pattern(species_a, n_random = 3, max_runs = 1000)
 plot_energy(pattern_recon)
 
 marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
@@ -36,9 +36,6 @@ plot_energy(marks_recon)
 
 }
 \seealso{
-\code{\link{calculate_energy}} \cr
-\code{\link{reconstruct_pattern_homo}} \cr
-\code{\link{reconstruct_pattern_hetero}} \cr
-\code{\link{reconstruct_pattern_cluster}} \cr
-\code{\link{plot_randomized_pattern}}
+\code{\link{reconstruct_pattern}} \cr
+\code{\link{fit_point_process}}
 }

@@ -3,17 +3,20 @@
 #' @description Torus translation
 #'
 #' @param raster RasterLayer with discrete habitat classes.
-#' @param steps_x,steps_y Intergwe with number of steps (cells) the raster is translated
-#' into the corresponding direction. If both are null, all possible combinations are used.
+#' @param steps_x,steps_y Integer with number of steps (cells) the raster is translated
+#' into the corresponding direction. If both are null, all possible combinations are used
+#' resulting in n = ((50 + 1) * (50 + 1)) - 4 rasters.
 #' @param return_input Logical if the original input data is returned.
 #' @param simplify Logical if only the raster will be returned if \code{n_random = 1}
 #' and \code{return_input = FALSE}.
 #' @param verbose Logical if progress report is printed.
 #'
 #' @details
-#' Torus translation test as described in Harms et al. (20001). The raster is shifted
+#' Torus translation test as described in Harms et al. (2001). The raster is shifted
 #' in all four cardinal directions by steps equal to the raster resolution. If a cell
 #' exits the extent on one side, it enters the extent on the opposite side.
+#'
+#' The method does not allow any NA values to be present in the RasterLayer.
 #'
 #' @seealso
 #' \code{\link{randomize_raster}}
@@ -25,7 +28,8 @@
 #' landscape_classified <- classify_habitats(landscape, classes = 5)
 #'
 #' landscape_random <- translate_raster(landscape_classified)
-#' landscape_random_sub <- translate_raster(landscape_classified, steps_x = 1:10, steps_y = 1:5)
+#' landscape_random_sub <- translate_raster(landscape_classified,
+#' steps_x = 1:10, steps_y = 1:5)
 #' }
 #'
 #' @aliases translate_raster
@@ -40,10 +44,10 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
                              return_input = TRUE, simplify = FALSE,
                              verbose = TRUE) {
 
-  # check if dim of raster are equal
-  if (!raster::nrow(raster) == raster::ncol(raster)) {
+  # stop if NA are present
+  if (anyNA(raster@data@values)) {
 
-    stop("Torus translation only works for raster with nrow == ncol.", call. = FALSE)
+    stop("NA values are not allowed for 'translate_raster()'.", call. = FALSE)
 
   }
 
@@ -63,9 +67,9 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
   # use all possible combinations
   if (is.null(steps_x) & is.null(steps_y)) {
 
-    steps_x <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in x-direction
+    steps_x <- seq(from = 0, to = raster::ncol(raster), by = 1) # all steps in x-direction
 
-    steps_y <- seq(from = 0, to = raster::ncol(raster), by = 1) # all steps in y-direction
+    steps_y <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in y-direction
 
     steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
 
@@ -82,9 +86,9 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
 
     # remove combinations identical to original raster
     remove_id <- c(which(steps_xy[, 1] + steps_xy[, 2] == 0),
-                   which(steps_xy[, 1] + steps_xy[, 2] ==  raster::nrow(raster) + raster::ncol(raster)),
-                   which(steps_xy[, 1] == 0 & steps_xy[, 2] == raster::nrow(raster)),
-                   which(steps_xy[, 2] == 0 & steps_xy[, 1] == raster::ncol(raster)))
+                   which(steps_xy[, 1] + steps_xy[, 2] ==  raster::ncol(raster) + raster::nrow(raster)),
+                   which(steps_xy[, 1] == 0 & steps_xy[, 2] == raster::ncol(raster)),
+                   which(steps_xy[, 2] == 0 & steps_xy[, 1] == raster::nrow(raster)))
 
     if (length(remove_id) > 0) {
 
@@ -98,11 +102,11 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
   # loop through all possible steps
   result_list <- lapply(seq_len(nrow(steps_xy)), function(current_row) {
 
-    x_shift <- steps_xy[current_row, 1] - (nrow(matrix_raster) *
-                                             (steps_xy[current_row, 1] %/% nrow(matrix_raster)))
+    x_shift <- steps_xy[current_row, 1] - (ncol(matrix_raster) *
+                                             (steps_xy[current_row, 1] %/% ncol(matrix_raster)))
 
-    y_shift <- steps_xy[current_row, 2] - (ncol(matrix_raster) *
-                                             (steps_xy[current_row, 2] %/% ncol(matrix_raster)))
+    y_shift <- steps_xy[current_row, 2] - (nrow(matrix_raster) *
+                                             (steps_xy[current_row, 2] %/% nrow(matrix_raster)))
 
     if (x_shift == 0) {matrix_shifted <- matrix_raster}
 

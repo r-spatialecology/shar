@@ -40,6 +40,9 @@ empty habitat map and starts to assign random neighbouring cells to each habitat
 (in increasing order of abundance in observed map). We modified the procedure
 slightly by increasing a probability to jump to a non-neighbouring cell as the
 current patch becomes larger.
+
+In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+window of the point pattern as well (i.e., no point locations possible in these areas).
 }
 \examples{
 \dontrun{

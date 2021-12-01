@@ -9,10 +9,10 @@
 vignettes/articles
 ^data-raw$
 ^_pkgdown\.yml$
-^appveyor\.yml$
-^\.travis\.yml$
 ^codecov\.yml$
 ^CONTRIBUTING.*$
 ^pkgdown$
 ^\.github$
 ^LICENSE\.md$
+paper.md
+paper.bib

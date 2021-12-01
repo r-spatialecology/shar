@@ -23,41 +23,12 @@
 #' @param verbose Logical if progress report is printed.
 #' @param plot Logical if pcf(r) function is plotted and updated during optimization.
 #'
-#' @details
-#' The functions randomizes the observed pattern by using pattern reconstruction
-#' as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). The
-#' algorithm starts with a random but heterogeneous pattern, shifts a
-#' point to a new location and keeps the change only, if the deviation between the
-#' observed and the reconstructed pattern decreases. The pair correlation function
-#' and the nearest neighbour distance function are used to describe the patterns.
-#'
-#' For large patterns (\code{n > comp_fast}) the pair correlation function can be estimated
-#' from Ripley's K-function without edge correction. This decreases the computational
-#' time. For more information see \code{\link{estimate_pcf_fast}}.
-#'
-#' The reconstruction can be stopped automatically if for n steps the energy does not
-#' decrease. The number of steps can be controlled by \code{no_change} and is set to
-#' \code{no_change = Inf} as default to never stop automatically.
-#'
-#' The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
-#' use \code{weights = c(0.5, 0.5)}.
-#'
-#' \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
-#' the computational time while increasing the "bumpiness" of the summary function.
-#'
-#' @seealso
-#' \code{\link{calculate_energy}} \cr
-#' \code{\link{plot_randomized_pattern}}
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_cluster}} \cr
-#' \code{\link{reconstruct_pattern_marks}}
-#'
 #' @return rd_pat
 #'
 #' @examples
 #' \dontrun{
-#' input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)}, nsim = 1)
-#'
+#' input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)},
+#' nsim = 1)
 #' pattern_recon <- reconstruct_pattern_hetero(input_pattern, n_random = 19, max_runs = 1000)
 #' }
 #'
@@ -71,7 +42,7 @@
 #' Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
 #' in ecology. Boca Raton: Chapman and Hall/CRC Press.
 #'
-#' @export
+#' @keywords internal
 reconstruct_pattern_hetero <- function(pattern,
                                        n_random = 1,
                                        e_threshold = 0.01,
@@ -166,11 +137,11 @@ reconstruct_pattern_hetero <- function(pattern,
 
     gest_simulated <- spatstat.core::Gest(simulated, correction = "none", r = r)
 
-    pcf_observed <- shar::estimate_pcf_fast(pattern, correction = "none",
-                                            method = "c", spar = 0.5, r = r)
+    pcf_observed <- estimate_pcf_fast(pattern, correction = "none",
+                                      method = "c", spar = 0.5, r = r)
 
-    pcf_simulated <- shar::estimate_pcf_fast(simulated, correction = "none",
-                                             method = "c", spar = 0.5, r = r)
+    pcf_simulated <- estimate_pcf_fast(simulated, correction = "none",
+                                       method = "c", spar = 0.5, r = r)
 
   # normal computation of summary functions
   } else {
@@ -208,8 +179,7 @@ reconstruct_pattern_hetero <- function(pattern,
     energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1), energy = NA)
 
     # random ids of pattern
-    rp_id <- shar::rcpp_sample(x = seq_len(simulated_current$n), n = max_runs,
-                               replace = TRUE)
+    rp_id <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random new points
     rp_coords <- spatstat.core::rpoint(n = max_runs, f = lambda, win = pattern$window)
@@ -244,8 +214,8 @@ reconstruct_pattern_hetero <- function(pattern,
 
         gest_relocated <- spatstat.core::Gest(relocated, correction = "none", r = r)
 
-        pcf_relocated <- shar::estimate_pcf_fast(relocated, correction = "none",
-                                                 method = "c", spar = 0.5, r = r)
+        pcf_relocated <- estimate_pcf_fast(relocated, correction = "none",
+                                           method = "c", spar = 0.5, r = r)
 
       } else {
 

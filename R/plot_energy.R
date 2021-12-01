@@ -12,17 +12,14 @@
 #' \code{reconstruct_pattern_*} .
 #'
 #' @seealso
-#' \code{\link{calculate_energy}} \cr
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_hetero}} \cr
-#' \code{\link{reconstruct_pattern_cluster}} \cr
-#' \code{\link{plot_randomized_pattern}}
+#' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{fit_point_process}}
 #'
 #' @return void
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 3, max_runs = 1000)
+#' pattern_recon <- reconstruct_pattern(species_a, n_random = 3, max_runs = 1000)
 #' plot_energy(pattern_recon)
 #'
 #' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
@@ -39,7 +36,7 @@ plot_energy <- function(pattern,
                         col = NULL){
 
   # check if class is correct
-  if (!class(pattern) %in% c("rd_pat", "rd_mar")) {
+  if (!inherits(x = pattern, what = c("rd_pat", "rd_mar"))) {
 
     stop("Class of 'pattern' must be 'rd_pat' or 'rd_mar'.", call. = FALSE)
 

@@ -12,24 +12,22 @@ reference:
       - landscape
       - gamma_test
       - reconstruction
-      - reconstruct_pattern_marks
       - random_walk
       - torus_trans
   - title: Randomize data
     contents:
       - fit_point_process
       - randomize_raster
-      - reconstruct_pattern_homo
-      - reconstruct_pattern_hetero
-      - reconstruct_pattern_cluster
+      - reconstruct_pattern
       - reconstruct_pattern_marks
       - translate_raster
   - title: Analyse results
     contents:
       - calculate_energy
-      - plot_randomized_pattern
-      - plot_randomized_raster
       - plot_energy
+      - plot.rd_mar
+      - plot.rd_pat
+      - plot.rd_ras
       - results_habitat_association
   - title: Various
     contents:

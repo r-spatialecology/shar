@@ -1,13 +1,14 @@
-#' plot_randomized_raster
+#' plot.rd_ras
 #'
-#' @description Plot randomized raster
+#' @description Plot method for rd_ras object
 #'
-#' @param raster rd_ras object with randomized raster.
+#' @param x rd_ras object with randomized raster.
 #' @param n Integer with number or vector of ids of randomized raster to plot.
 #' See Details section for more information.
 #' @param col Vector with color palette used for plotting.
 #' @param nrow,ncol Integer with number of rows and columns of plot grid.
 #' @param verbose Logical if messages are printed.
+#' @param ... Not used.
 #'
 #' @details
 #' Function to plot randomized raster. If \code{n} is a single number, \code{n} randomized
@@ -22,40 +23,32 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classes <- classify_habitats(raster = landscape, classes = 5)
-#' landscape_random <- randomize_raster(raster = landscape_classes, n_random = 19)
-#'
-#' plot_randomized_raster(landscape_random)
-#'
-#' palette <- viridis::viridis(n = 5)
-#' plot_randomized_raster(landscape_random, n = 5, col = palette, nrow = 3, ncol = 2)
+#' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' landscape_random <- randomize_raster(landscape_classified, n_random = 19)
+#' plot(landscape_random)
 #' }
 #'
-#' @aliases plot_randomized_raster
-#' @rdname plot_randomized_raster
-#'
+#' @aliases plot.rd_ras
+#' @rdname plot.rd_ras
+
 #' @export
-plot_randomized_raster <- function(raster,
-                                   n = NULL,
-                                   col,
-                                   verbose = TRUE,
-                                   nrow, ncol){
+plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
 
   # check if class is correct
-  if (class(raster) != "rd_ras") {
+  if (!inherits(x = x, what = "rd_ras")) {
 
     stop("Class of 'raster' must be 'rd_ras'.", call. = FALSE)
 
   }
 
   # check if observed is present
-  if (!methods::is(raster$observed, "RasterLayer")) {
+  if (!methods::is(x$observed, "RasterLayer")) {
 
     stop("Input must include 'observed' raster.", call. = FALSE)
 
   }
 
-  habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
+  habitats <- sort(table(x$observed@data@values, useNA = "no")) # get table of habitats
 
   # print warning if more than 10 classes are present
   if (verbose) {
@@ -72,10 +65,10 @@ plot_randomized_raster <- function(raster,
   if (is.null(n)) {
 
     # check if less than 3 randomized raster are present
-    if (length(raster$randomized) < 4) {
+    if (length(x$randomized) < 4) {
 
       # set n to numer of randomized raster
-      n <- length(raster$randomized)
+      n <- length(x$randomized)
 
       # print message
       if (verbose) {
@@ -84,7 +77,7 @@ plot_randomized_raster <- function(raster,
 
       }
 
-    # more than 3 randomized rasters
+      # more than 3 randomized rasters
     } else {
 
       # set n to 3
@@ -103,10 +96,10 @@ plot_randomized_raster <- function(raster,
   if (length(n) > 1) {
 
     # check if any ID is larger than length of list
-    if (any(n > length(raster$randomized))) {
+    if (any(n > length(x$randomized))) {
 
       # remove not valid IDs
-      n <- n[n <= length(raster$randomized)]
+      n <- n[n <= length(x$randomized)]
 
       if (length(n) == 0) {
 
@@ -121,20 +114,20 @@ plot_randomized_raster <- function(raster,
       }
     }
 
-    subset_raster <- raster$randomized[n]
+    subset_raster <- x$randomized[n]
 
-  # only one number provided for n
+    # only one number provided for n
   } else {
 
     # n larger than number of randomized rasters
-    if (n > length(raster$randomized)) {
+    if (n > length(x$randomized)) {
 
       # check if less than 3 randomized raster present
-      if (length(raster$randomized) < 4) {
+      if (length(x$randomized) < 4) {
 
-        n <- length(raster$randomized)
+        n <- length(x$randomized)
 
-      # more than 3 randomized raster
+        # more than 3 randomized raster
       } else {
 
         n <- 3
@@ -151,11 +144,12 @@ plot_randomized_raster <- function(raster,
     }
 
     # sample raster
-    subset_raster <- sample(x = raster$randomized, size = n)
+    subset_raster <- sample(x = x$randomized, size = n)
+
   }
 
   # add observed raster to subset
-  subset_raster$observed <- raster$observed
+  subset_raster$observed <- x$observed
 
   # stack rasters
   raster_stack <- raster::stack(subset_raster)
