@@ -10,8 +10,6 @@
 
 <!-- badges: end -->
 
-<!-- <img src="man/figures/logo.png" align="right" width="150" /> -->
-
 # shar
 
 **S**pecies-**H**abitat **A**ssociations in **R** is a `R` package to
