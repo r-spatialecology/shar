@@ -23,7 +23,6 @@ Imports:
     grDevices,
     methods,
     raster,
-    Rcpp,
     spatstat.core,
     spatstat.geom,
     stats,

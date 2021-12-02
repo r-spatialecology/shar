@@ -83,7 +83,7 @@ torus_trans <- translate_raster(raster = landscape_discrete)
 random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
 ```
 
-Alternatively, to randomize the object locations, either `fit_point_process()` or `reconstruct_pattern_*()` can be used.
+Alternatively, to randomize the object locations, either `fit_point_process()`, `reconstruct_pattern()`, or `reconstruct_pattern_marks()` can be used.
 In both cases, the number of randomization must be specified using the `n_random` argument.
 In order to preserve the spatial structure of the input as detailed as possible, several options are present to acknowledge for example if the input object locations are clustered or heterogeneously distributed in the study area.
 
