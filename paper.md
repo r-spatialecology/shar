@@ -9,7 +9,7 @@ tags:
   - torus-translation test
   - randomized-habitats procedure;
 authors:
-  - name: Maximilian Hans Klaus Hesselbarth^[corresponding author]
+  - name: Maximilian H. K. Hesselbarth^[corresponding author]
     orcid: 0000-0003-1125-9918
     affiliation: "1, 2"
 affiliations:
