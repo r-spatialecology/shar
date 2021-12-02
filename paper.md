@@ -62,7 +62,7 @@ This can be achieved by fitting point process models to the object locations ("g
 
 The two approaches differ in how they randomize the null model data, but both control for potential biotic processes by preserving the spatial structure of the data [@Plotkin2000; @Wiegand2014] and result in similar results.
 Finally, species-habitat associations are present if species are found in certain habitats in the data more often than expected compared to the randomized null model data [@Plotkin2000; @Harms2001].
-Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006).
+Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa) [@Yamada2006].
 
 # How to use the package
 
