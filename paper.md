@@ -1,5 +1,5 @@
 ---
-title: '`shar`: A `R` package to analyze species-habitat associations using point pattern analysis'
+title: '`shar`: An `R` package to analyze species-habitat associations using point pattern analysis'
 tags:
   - R
   - open source software
@@ -51,17 +51,17 @@ In order to make the `shar` package as accessible for as many people as possible
 
 # Methodological background
 
-To analyze species-habitat associations, potential interdependence between the object locations and the environmental conditions need to be broken by randomizing the data as a null model.
+To analyze species-habitat associations, potential interdependence between the object locations and the environmental conditions needs to be broken by randomizing the data as a null model.
 Within the field of spatial point pattern analysis, there are two related approaches to break potential dependencies [@Plotkin2000; @Harms2001].
 Both require the spatial location of all objects, as well as discrete raster data for environmental conditions.
 
 The first approach to simulate null model data is to randomize the environmental data, while keeping the object locations stable.
 This can be achieved by shifting the raster data around a torus ("Torus translation test") or using a random walk algorithm ("Randomized-habitats procedure") [@Harms2001].
-The second approach is to randomizes the object locations, while keeping the environmental data stable.
+The second approach is to randomize the object locations, while keeping the environmental data stable.
 This can be achieved by fitting point process models to the object locations ("gamma test") [@Plotkin2000] or using a simulated annealing approach ("pattern reconstruction") [@Kirkpatrick1983].
 
 The two approaches differ in how they randomize the null model data, but both control for potential biotic processes by preserving the spatial structure of the data [@Plotkin2000; @Wiegand2014] and result in similar results.
-Finally, species-habitat associations are present if species are found in certain habitats in the data  more often than expected compared to the randomized null model data [@Plotkin2000; @Harms2001].
+Finally, species-habitat associations are present if species are found in certain habitats in the data more often than expected compared to the randomized null model data [@Plotkin2000; @Harms2001].
 Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006).
 
 # How to use the package
@@ -69,13 +69,13 @@ Given the characteristics of the method, a positive association to one habitat i
 Analyzing species-habitat associations is straightforward with the `shar` package.
 Only two objects are needed to quantify species-habitat associations, namely a `spatstat` object that includes all object locations within the study area and a `raster` object with discrete habitat classes.
 
-However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area).
+However, all methods require "fully mapped data" in the sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area).
 This needs to be reflected in the observation window of the point pattern.
 For the torus translation method, no NA values are allowed at all.
 
-To randomize the environmental data, either `translate_raster()` or `randomize_raster` can be used.
+To randomize the environmental data, either `translate_raster()` or `randomize_raster()` can be used.
 For the former, the number of randomizations of the null model data is automatically determined by the number of rows and columns of the `raster` object.
-For the later, the number of randomizations must be specified using the `r_random` argument.
+For the later, the number of randomizations must be specified using the `n_random` argument.
 
 ```
 torus_trans <- translate_raster(raster = landscape_discrete)
@@ -83,8 +83,8 @@ torus_trans <- translate_raster(raster = landscape_discrete)
 random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
 ```
 
-Alternatively, to randomize the object locations, either `fit_point_process` or `reconstruct_pattern_*` can be used.
-In both cases, the number of randomization must be specified using the `r_random` argument.
+Alternatively, to randomize the object locations, either `fit_point_process()` or `reconstruct_pattern_*()` can be used.
+In both cases, the number of randomization must be specified using the `n_random` argument.
 In order to preserve the spatial structure of the input as detailed as possible, several options are present to acknowledge for example if the input object locations are clustered or heterogeneously distributed in the study area.
 
 ```
@@ -114,7 +114,7 @@ results_habitat_association(pattern = species_a, raster = random_walk,
 5       5    73 48 90         n.s.
 ```
 
-The `shar` packages also provides several utility and plotting functions such as `plot_randomized_raster()` and `plot_randomized_pattern()` to plot the null model data, `calculate_energy()` to calculate the difference between the input object locations and the randomized null model data object locations, or `classify_habitats()` to classify continuous environmental data into discrete habitats.  
+The `shar` package also provides several utility and plotting functions such as `plot_randomized_raster()` and `plot_randomized_pattern()` to plot the null model data, `calculate_energy()` to calculate the difference between the input object locations and the randomized null model data object locations, or `classify_habitats()` to classify continuous environmental data into discrete habitats.  
 
 # Parallelization
 
@@ -128,7 +128,7 @@ However, the presented approach could be used with any other parallelization fra
 
 # Acknowledgements
 
-Supported was provided by the German Research Association (DFG) Research Training Group 1644 "Scaling Problems in Statistics", grant number 152112243.
+Support was provided by the German Research Association (DFG) Research Training Group 1644 "Scaling Problems in Statistics", grant number 152112243.
 M.H.K.H. is thankful to Sebastian Hanss und Marco Sciaini for their help during the development of the `shar` package and Katrina Munsterman, Bridget Shayka and Samantha Iliff for comments on earlier drafts of the manuscript.
 Thomas Etherington and Lionel Hertzog provided valuable feedback during the review process that improved the manuscript and the `shar` package.
 
