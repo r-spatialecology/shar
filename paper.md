@@ -56,7 +56,7 @@ Within the field of spatial point pattern analysis, there are two related approa
 Both require the spatial location of all objects, as well as discrete raster data for environmental conditions.
 
 The first approach to simulate null model data is to randomize the environmental data, while keeping the object locations stable.
-This can be achieved by shifting the raster data around a torus ("Torus translation test") or using a random walk algorithm ("Randomized-habitats procedure") [@Harms2001].
+This can be achieved by shifting the raster data around a torus ("torus translation test") or using a random walk algorithm ("randomized-habitats procedure") [@Harms2001].
 The second approach is to randomize the object locations, while keeping the environmental data stable.
 This can be achieved by fitting point process models to the object locations ("gamma test") [@Plotkin2000] or using a simulated annealing approach ("pattern reconstruction") [@Kirkpatrick1983].
 
@@ -84,7 +84,7 @@ random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
 ```
 
 Alternatively, to randomize the object locations, either `fit_point_process()`, `reconstruct_pattern()`, or `reconstruct_pattern_marks()` can be used.
-In both cases, the number of randomization must be specified using the `n_random` argument.
+In all cases, the number of randomization must be specified using the `n_random` argument.
 In order to preserve the spatial structure of the input as detailed as possible, several options are present to acknowledge for example if the input object locations are clustered or heterogeneously distributed in the study area.
 
 ```
@@ -99,10 +99,8 @@ Lastly, the input data and the randomized null model data are used to test if si
 The `results_habitat_association()` function automatically detects which part of the data was randomized and can be used identically with either of the used randomization approach.
 
 ```
-significance_level <- 0.01
-
 results_habitat_association(pattern = species_a, raster = random_walk,
-                            significance_level = significance_level)
+                            significance_level = 0.01)
 
 > Input: randomized raster
 > Quantile thresholds: negative < 0.005 || positive > 0.995
@@ -114,13 +112,13 @@ results_habitat_association(pattern = species_a, raster = random_walk,
 5       5    73 48 90         n.s.
 ```
 
-The `shar` package also provides several utility and plotting functions such as `plot_randomized_raster()` and `plot_randomized_pattern()` to plot the null model data, `calculate_energy()` to calculate the difference between the input object locations and the randomized null model data object locations, or `classify_habitats()` to classify continuous environmental data into discrete habitats.  
+The `shar` package also provides several utility and plotting functions such as a generic `plot()` function to plot the null model data, `calculate_energy()` to calculate the difference between the input object locations and the randomized null model data object locations, or `classify_habitats()` to classify continuous environmental data into discrete habitats. For all functions, please see the "Functions" article on the `shar` homepage (<https://r-spatialecology.github.io/shar>).
 
 # Parallelization
 
 One major drawback of the `shar` package is the computation time related to some of the randomization methods for null model data.
 This is the case especially for pattern reconstruction, even though most point pattern analysis studies use less than 1000 null model randomizations [@Velazquez2016].
-However, since the randomizations of the null model data are independent of each other this could be parallized using available frameworks, such as the `future` [@Bengtsson2021] or
+However, since the randomizations of the null model data are independent of each other, this could be parallized using available frameworks, such as the `future` [@Bengtsson2021] or
 `parallel` [@RCoreTeam2021] package.
 The `shar` package does not allow to run code in parallel internally to not limit users to a specific parallelization framework.
 For a short example how to simulate null model data in parallel using the `future` package, please see the "Parallelization" article on the `shar` homepage (<https://r-spatialecology.github.io/shar>).
