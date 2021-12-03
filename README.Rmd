@@ -114,7 +114,7 @@ results_habitat_association(pattern = reconstruction, raster = landscape_classif
 
 ## Citation
 
-The `shar` package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the paper.
+The **shar** package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the following paper.
 
 > Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811
 

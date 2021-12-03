@@ -1,4 +1,4 @@
-citHeader("To cite 'shar' in publications and acknowledge its use, please cite the following reference:")
+citHeader("To cite 'shar' in publications and acknowledge its use, please cite the following paper:")
 
 citEntry(
   entry    = "Article",
