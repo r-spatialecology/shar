@@ -16,3 +16,4 @@ vignettes/articles
 ^LICENSE\.md$
 paper.md
 paper.bib
+^CRAN-SUBMISSION$
