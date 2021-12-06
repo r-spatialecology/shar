@@ -7,33 +7,33 @@
 \method{print}{rd_pat}(x, digits = 4, ...)
 }
 \arguments{
-\item{x}{Random patterns.}
+\item{x}{rd_pat object with randomized patterns.}
 
-\item{digits}{Number of decimal places (round).}
+\item{digits}{Integer with number of decimal places (round).}
 
-\item{...}{Arguments passed to cat}
+\item{...}{Arguments passed to \code{cat}.}
+}
+\value{
+void
 }
 \description{
 Print method for rd_pat object
 }
 \details{
-Printing method for random patterns created with \code{\link{reconstruct_pattern_homo}},
-\code{\link{reconstruct_pattern_hetero}}, \code{\link{reconstruct_pattern_cluster}} or
-\code{\link{fit_point_process}}.
+Printing method for random patterns created with \code{reconstruct_pattern_*}.
 }
 \examples{
 pattern_random <- fit_point_process(species_a, n_random = 199)
 print(pattern_random)
 
 \dontrun{
-pattern_recon <- reconstruct_pattern_hetero(species_b, n_random = 19, max_runs = 1000)
+pattern_recon <- reconstruct_pattern(species_b, n_random = 19, max_runs = 1000,
+method = "hetero")
 print(pattern_recon)
 }
 
 }
 \seealso{
-\code{\link{reconstruct_pattern_homo}} \cr
-\code{\link{reconstruct_pattern_hetero}} \cr
-\code{\link{reconstruct_pattern_cluster}} \cr
+\code{\link{reconstruct_pattern}} \cr
 \code{\link{fit_point_process}}
 }

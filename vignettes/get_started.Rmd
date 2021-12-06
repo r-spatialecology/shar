@@ -18,10 +18,11 @@ knitr::opts_chunk$set(
 ```
 
 ```{r load_libraries_hidden, eval = TRUE, echo = FALSE, message = FALSE, results = "hide"}
-library(dplyr)
 library(shar)
 library(spatstat.core)
 library(raster)
+
+set.seed(42)
 ```
 
 ## Design
@@ -38,19 +39,23 @@ landscape_discrete <- classify_habitats(raster = landscape, classes = 5)
 ## Randomize environmental data
 There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `n_random <- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4` randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the `n_random` argument.
 
+However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
+
 ```{r randomize_raster, eval = FALSE}
 torus_trans <- translate_raster(raster = landscape_discrete)
 
-random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
+random_walk <- randomize_raster(raster = landscape_discrete, n_random = 99)
 ```
 
 ## Randomize location data
 To randomize the location data (i.e. the point pattern) either `fit_point_process()` or `reconstruct_pattern()` are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the `spatstat` package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel & Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the `n_random` argument. 
 
 ```{r randomize_pp, eval = FALSE}
-gamma_test <- fit_point_process(pattern = species_a, n_random = 39, process = "cluster")
+gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
 
-reconstruction <- reconstruct_pattern_homo(pattern = species_a, n_random = 39) # takes some time
+# (this can takes some time)
+reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, 
+                                      e_threshold = 0.05, method = "cluster")
 ``` 
 
 ## Analyse results 
@@ -62,12 +67,12 @@ results_habitat_association(pattern = species_a, raster = random_walk)
 results_habitat_association(pattern = reconstruction, raster = landscape_discrete)
 ```
 
-There is also the possibility to visualize the randomized data using `plot_randomized_raster()` or `plot_randomized_pattern()`. 
+There is also the possibility to visualize the randomized data using the `plot()` function.
 
 ```{r plotting, eval = FALSE}
-plot_randomized_raster(random_walk)
+plot(random_walk)
 
-plot_randomized_pattern(reconstruction)
+plot(reconstruction)
 ```
 
 For the randomized point pattern data, it is also possible to show the "difference" in terms of the energy (Tscheschel & Stoyan 2006) between the patterns.
@@ -77,6 +82,8 @@ calculate_energy(pattern = gamma_test, return_mean = TRUE)
 
 calculate_energy(pattern = reconstruction, return_mean = TRUE)
 ```
+
+Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster`) and even for repetitions of the same approach. However, general results and trends should be similar.
 
 ### References 
 Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American Statistical Association, 53, 789-798

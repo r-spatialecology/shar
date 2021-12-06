@@ -7,15 +7,19 @@
 \method{print}{rd_ras}(x, ...)
 }
 \arguments{
-\item{x}{Random patterns.}
+\item{x}{rd_ras object with randomized raster.}
 
-\item{...}{Arguments passed to cat}
+\item{...}{Arguments passed to \code{cat}.}
+}
+\value{
+void
 }
 \description{
 Print method for rd_ras object
 }
 \details{
-Printing method for random patterns created with \code{\link{randomize_raster}}.
+Printing method for random patterns created with \code{\link{randomize_raster}} or
+\code{\link{translate_raster}}.
 }
 \examples{
 \dontrun{
@@ -27,5 +31,6 @@ print(landscape_random)
 
 }
 \seealso{
-\code{\link{randomize_raster}}
+\code{\link{randomize_raster}} \cr
+\code{\link{translate_raster}}
 }

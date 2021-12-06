@@ -1,9 +1,0 @@
-pandoc: 2.7.2
-pkgdown: 1.4.1
-pkgdown_sha: ~
-articles:
-  background: articles/background.html
-  publication_record: articles/publication_record.html
-  reconstruct_multiple_patterns: articles/reconstruct_multiple_patterns.html
-  get_started: get_started.html
-

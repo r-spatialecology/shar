@@ -13,9 +13,7 @@ editor_options:
 In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code. Please be aware that the maximum number of iterations was set to `max_runs = 10` to keep the computational time low for this example. For an applied case, this value should be increased.
 
 ```{r load-packages, message = FALSE}
-# library(tidyverse)
 library(shar)
-library(spatstat)
 ```
 
 In case you want to only create the spatial characteristics, this is straightforward using `lapply()`. 
@@ -25,10 +23,8 @@ In case you want to only create the spatial characteristics, this is straightfor
 list_pattern <- list(species_a, species_b)
 
 # reconstruct all patterns in list
-result <- lapply(list_pattern, function(x) reconstruct_pattern_homo(pattern = x, 
-                                                                    n_random = 3, 
-                                                                    max_runs = 10,
-                                                                    verbose = FALSE))
+result <- lapply(list_pattern, function(x) reconstruct_pattern(pattern = x, n_random = 3, 
+                                                               max_runs = 10, verbose = FALSE))
 
 ```
 
@@ -46,11 +42,9 @@ Firstly, reconstruct only the spatial characteristics *n* times. The observed pa
 
 ```{r reconstruct-pattern}
 # reconstruct spatial strucutre
-reconstructed_pattern <- reconstruct_pattern_homo(species_a, 
-                                                  n_random = 3, 
-                                                  max_runs = 10,
-                                                  return_input = FALSE,
-                                                  verbose = FALSE)
+reconstructed_pattern <- reconstruct_pattern(species_a, n_random = 3, 
+                                             max_runs = 10, return_input = FALSE,
+                                             verbose = FALSE)
 ```
 
 Secondly, to reconstruct the (numeric) marks of the observed pattern for each of the spatially reconstructed patterns, just use `lapply()` in combination with `reconstruct_pattern_marks()`.

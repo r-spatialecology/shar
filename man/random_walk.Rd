@@ -11,6 +11,6 @@ rd_ras object.
 random_walk
 }
 \description{
-Randomization of the landscape data using the habitat randomization algorithm.
+Randomization of the \code{landscape} using the habitat randomization algorithm.
 }
 \keyword{datasets}

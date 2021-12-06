@@ -1,28 +1,32 @@
 #' reconstruct_pattern_marks
 #'
-#' @description Pattern reconstruction of marks
+#' @description Pattern reconstruction of marked pattern
 #'
-#' @param pattern ppp.
-#' @param marked_pattern ppp (marked; see details).
-#' @param n_random Number of randomizations.
-#' @param e_threshold Minimum energy to stop reconstruction.
-#' @param max_runs Maximum number of iterations of e_threshold is not reached.
-#' @param no_change Reconstrucction will stop if energy does not decrease for this number of iterations.
-#' @param annealing Probability to keep relocated point even if energy did not decrease.
-#' @param r_length Number of intervals from r = 0 to r = rmax the summary functions are evaluated.
-#' @param return_input The original input data is returned as last list entry
-#' @param simplify If n_random = 1 and return_input = FALSE only pattern will be returned.
-#' @param verbose Print progress report.
-#' @param plot Plot kmmr function during optimization.
-#'
+#' @param pattern ppp object with pattern.
+#' @param marked_pattern ppp  object with marked pattern. See Details section for more information.
+#' @param n_random Integer with number of randomizations.
+#' @param e_threshold Double with minimum energy to stop reconstruction.
+#' @param max_runs Integer with maximum number of iterations if \code{e_threshold}
+#' is not reached.
+#' @param no_change Integer with number of iterations at which the reconstruction will
+#' stop if the energy does not decrease.
+#' @param annealing Double with probability to keep relocated point even if energy
+#' did not decrease.
+#' @param r_length Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
+#' the summary functions are evaluated.
+#' @param return_input Logical if the original input data is returned.
+#' @param simplify Logical if only pattern will be returned if \code{n_random = 1}
+#' and \code{return_input = FALSE}.
+#' @param verbose Logical if progress report is printed.
+#' @param plot Logical if pcf(r) function is plotted and updated during optimization.
 #' @details
 #' The function randomizes the numeric marks of a point pattern using pattern reconstruction
 #' as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). Therefore,
 #' an unmarked as well as a marked pattern must be provided. The unmarked pattern must have
 #' the spatial characteristics and the same observation window and number of points
-#' as the marked one (see `reconstruct_pattern` or `fit_point_process`). Marks must be
-#' numeric because the mark-correlation function is used as summary function. Two
-#' randomly chosen marks are switch each iterations and changes only kept if the
+#' as the marked one (see \code{reconstruct_pattern_*} or \code{\link{fit_point_process}}).
+#' Marks must be numeric because the mark-correlation function is used as summary function.
+#' Two randomly chosen marks are switch each iterations and changes only kept if the
 #' deviation between the observed and the reconstructed pattern decreases.
 #'
 #' \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
@@ -30,18 +34,17 @@
 #'
 #' @seealso
 #' \code{\link{fit_point_process}} \cr
-#' \code{\link{reconstruct_pattern_homo}} \cr
-#' \code{\link{reconstruct_pattern_hetero}} \cr
-#' \code{\link{reconstruct_pattern_cluster}}
+#' \code{\link{reconstruct_pattern}}
 #'
-#' @return list
+#' @return rd_mar
 #'
 #' @examples
 #' \dontrun{
-#' pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
+#' pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000,
 #' simplify = TRUE, return_input = FALSE)
 #' marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
-#' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
+#' marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub,
+#' n_random = 19, max_runs = 1000)
 #' }
 #'
 #' @aliases reconstruct_pattern_marks
@@ -92,7 +95,7 @@ reconstruct_pattern_marks <- function(pattern,
   # }
 
   # check if marks are numeric
-  if (class(marked_pattern$marks) != "numeric") {
+  if (!inherits(x = marked_pattern$marks, what = "numeric")) {
 
     stop("marks must be 'numeric'", call. = FALSE)
 
@@ -123,16 +126,14 @@ reconstruct_pattern_marks <- function(pattern,
   simulated <- pattern
 
   # assign shuffled marks to pattern
-  spatstat.geom::marks(simulated) <- rcpp_sample(x = marked_pattern$marks, n = simulated$n,
-                                                 replace = TRUE)
+  spatstat.geom::marks(simulated) <- sample(x = marked_pattern$marks, size = simulated$n,
+                                            replace = TRUE)
 
   # calculate summary functions
-  kmmr_observed <- spatstat.core::markcorr(marked_pattern,
-                                           correction = "Ripley",
+  kmmr_observed <- spatstat.core::markcorr(marked_pattern, correction = "Ripley",
                                            r = r)
 
-  kmmr_simulated <- spatstat.core::markcorr(simulated,
-                                            correction = "Ripley",
+  kmmr_simulated <- spatstat.core::markcorr(simulated, correction = "Ripley",
                                             r = r)
 
   # energy before reconstruction
@@ -156,18 +157,16 @@ reconstruct_pattern_marks <- function(pattern,
                             energy = NA)
 
     # get two random points to switch marks
-    rp_a <- rcpp_sample(x = seq_len(simulated_current$n), n = max_runs, replace = TRUE)
+    rp_a <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
-    rp_b <- rcpp_sample(x = seq_len(simulated_current$n), n = max_runs, replace = TRUE)
+    rp_b <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random number for annealing prob
     if (annealing != 0) {
 
       random_annealing <- stats::runif(n = max_runs, min = 0, max = 1)
 
-    }
-
-    else {
+    } else {
 
       random_annealing <- rep(0, max_runs)
 
@@ -194,8 +193,7 @@ reconstruct_pattern_marks <- function(pattern,
       relocated$marks[[rp_b_current]] <- mark_a
 
       # calculate summary functions after relocation
-      kmmr_relocated <- spatstat.core::markcorr(relocated,
-                                                correction = "Ripley",
+      kmmr_relocated <- spatstat.core::markcorr(relocated, correction = "Ripley",
                                                 r = r)
 
       # energy after relocation
@@ -217,22 +215,19 @@ reconstruct_pattern_marks <- function(pattern,
           Sys.sleep(0.01)
 
           graphics::plot(x = kmmr_observed[[1]], y = kmmr_observed[[3]],
-                         type = "l", col = "black",
-                         xlab = "r", ylab = "kmm(r)")
+                         type = "l", col = "black", xlab = "r", ylab = "kmm(r)")
 
           graphics::abline(h = 1, lty = 2, col = "grey")
 
           graphics::lines(x = kmmr_relocated[[1]], y = kmmr_relocated[[3]], col = "red")
 
-          graphics::legend("topright",
-                           legend = c("observed", "reconstructed"),
-                           col = c("black", "red"),
-                           lty = 1, inset = 0.025)
+          graphics::legend("topright", legend = c("observed", "reconstructed"),
+                           col = c("black", "red"), lty = 1, inset = 0.025)
+
         }
-      }
 
       # increase counter no change
-      else {
+      } else {
 
         energy_counter <- energy_counter + 1
 
@@ -257,6 +252,7 @@ reconstruct_pattern_marks <- function(pattern,
                 " || max_runs: ", floor(i / max_runs * 100), "%",
                 " || energy = ", round(energy_current, 5), "\t\t",
                 appendLF = FALSE)
+
       }
 
       # exit loop if e threshold or no_change counter max is reached
@@ -290,13 +286,10 @@ reconstruct_pattern_marks <- function(pattern,
 
   }
 
-
   # combine to one list
-  reconstruction <- list(randomized = result_list,
-                         observed = marked_pattern,
+  reconstruction <- list(randomized = result_list, observed = marked_pattern,
                          method = "reconstruct_pattern_marks()",
-                         energy_df = energy_list,
-                         stop_criterion = stop_criterion,
+                         energy_df = energy_list, stop_criterion = stop_criterion,
                          iterations = iterations_list)
 
   # set class of returning object
@@ -316,6 +309,7 @@ reconstruct_pattern_marks <- function(pattern,
 
         warning("'simplify = TRUE' not possible for 'n_random > 1'.",
                 call. = FALSE)
+
       }
 
       # only one random pattern is present that should be returend
@@ -325,10 +319,9 @@ reconstruct_pattern_marks <- function(pattern,
 
       }
     }
-  }
 
   # return input if return_input = TRUE
-  else {
+  } else {
 
     # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
     if (simplify && verbose) {

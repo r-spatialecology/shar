@@ -3,32 +3,27 @@ testthat::context("test-translate_raster")
 # n_random <- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4
 
 # create landscape
-landscape_classified <- shar::classify_habitats(raster = shar::landscape,
-                                                classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, classes = 5)
 
 # normal translation
-landscape_random <- shar::translate_raster(raster = landscape_classified,
-                                           verbose = FALSE)
+landscape_random <- translate_raster(raster = landscape_classified, verbose = FALSE)
 
 # torus translation with provided steps
-landscape_random_steps <- shar::translate_raster(raster = landscape_classified,
-                                                 steps_x = 1:3, steps_y = 1:3,
-                                                 verbose = FALSE,
-                                                 return_input = FALSE)
+landscape_random_steps <- translate_raster(raster = landscape_classified,
+                                           steps_x = 1:3, steps_y = 1:3,
+                                           verbose = FALSE, return_input = FALSE)
 
 # simplified raster
-landscape_random_simple <- shar::translate_raster(raster = landscape_classified,
-                                                  steps_x = 1, steps_y = 5,
-                                                  simplify = TRUE,
-                                                  verbose = FALSE,
-                                                  return_input = FALSE)
+landscape_random_simple <- translate_raster(raster = landscape_classified,
+                                            steps_x = 1, steps_y = 5,
+                                            simplify = TRUE, verbose = FALSE,
+                                            return_input = FALSE)
 
 # create landscape wrong extent
-landscape_wrong <- raster::crop(shar::landscape, raster::extent(0, 1000, 0, 500))
+landscape_wrong <- landscape_classified
 
 # classify landscape wrong extent
-landscape_classified_wrong <- shar::classify_habitats(landscape_wrong, classes = 5)
-
+landscape_wrong[1:50] <- NA
 
 ################################################################################
 
@@ -71,18 +66,15 @@ testthat::test_that("simplify is working for translate_raster", {
                       class = "RasterLayer")
 })
 
-testthat::test_that("Error if nrow != ncol for translate_raster", {
-
-  testthat::expect_error(shar::translate_raster(raster = landscape_classified_wrong,
-                                                verbose = FALSE),
-                         regexp  = "Torus translation only works for raster with nrow == ncol.",
-                         fixed = TRUE)
-})
-
 testthat::test_that("Warning if more than 10 classes are present for translate_raster", {
 
-  testthat::expect_warning(shar::translate_raster(raster = landscape,
-                                                  steps_x = 5, steps_y = 5),
-                           regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
-                           fixed = TRUE)
+  testthat::expect_warning(translate_raster(raster = landscape, steps_x = 5, steps_y = 5),
+                           regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
+})
+
+testthat::test_that("Stop if NA are present", {
+
+  testthat::expect_error(translate_raster(raster = landscape_wrong, steps_x = 5, steps_y = 5),
+                         regexp = "NA values are not allowed for 'translate_raster()'.",
+                         fixed = TRUE)
 })

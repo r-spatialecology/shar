@@ -1,62 +1,43 @@
 testthat::context("test-reconstruct_pattern_marks")
 
-pattern_recon <- shar::reconstruct_pattern_homo(shar::species_a,
-                                                n_random = 1,
-                                                return_input = FALSE,
-                                                simplify = TRUE,
-                                                max_runs = 1,
-                                                verbose = FALSE)
+pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, return_input = FALSE,
+                                          simplify = TRUE, max_runs = 1,
+                                          verbose = FALSE)
 
-marks_sub <- spatstat.geom::subset.ppp(shar::species_a, select = dbh)
+marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 
 # normal reconstruction
-marks_recon <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                               marked_pattern = marks_sub,
-                                               n_random = 3,
-                                               max_runs = 1,
-                                               verbose = FALSE)
+marks_recon <- reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = marks_sub,
+                                         n_random = 3, max_runs = 1, verbose = FALSE)
 
 # no input
-marks_recon_ni <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                  marked_pattern = marks_sub,
-                                                  n_random = 3,
-                                                  max_runs = 1,
-                                                  return_input = FALSE,
-                                                  verbose = FALSE)
+marks_recon_ni <- reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = marks_sub,
+                                            n_random = 3, max_runs = 1,
+                                            return_input = FALSE, verbose = FALSE)
 
 # simplify = TRUE
-marks_recon_simple <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                      marked_pattern = marks_sub,
-                                                      n_random = 1,
-                                                      max_runs = 1,
-                                                      return_input = FALSE,
-                                                      simplify = TRUE,
-                                                      verbose = FALSE)
+marks_recon_simple <- reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = marks_sub,
+                                                n_random = 1, max_runs = 1,
+                                                return_input = FALSE, simplify = TRUE,
+                                                verbose = FALSE)
 
-marks_recon_energy <- shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                      marked_pattern = marks_sub,
-                                                      n_random = 3,
-                                                      e_threshold = 0.1,
-                                                      verbose = FALSE)
+marks_recon_energy <- reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = marks_sub,
+                                                n_random = 3, e_threshold = 0.1,
+                                                verbose = FALSE)
 
 
 n_points_diff <- 100
 window_diff <- spatstat.geom::owin(xrange = c(0, 900), yrange = c(0, 1250))
 
-pattern_recon_diff <- shar::reconstruct_pattern_homo(shar::species_a,
-                                                     n_points = n_points_diff,
-                                                     window = window_diff,
-                                                     n_random = 1,
-                                                     return_input = FALSE,
-                                                     simplify = TRUE,
-                                                     max_runs = 1,
-                                                     verbose = FALSE)
+pattern_recon_diff <- reconstruct_pattern_homo(species_a, n_points = n_points_diff,
+                                               window = window_diff, n_random = 1,
+                                               return_input = FALSE, simplify = TRUE,
+                                               max_runs = 1, verbose = FALSE)
 
-marks_recon_diff <- shar::reconstruct_pattern_marks(pattern = pattern_recon_diff,
-                                                    marked_pattern = marks_sub,
-                                                    n_random = 3,
-                                                    max_runs = 1,
-                                                    verbose = FALSE)
+marks_recon_diff <- reconstruct_pattern_marks(pattern = pattern_recon_diff,
+                                              marked_pattern = marks_sub,
+                                              n_random = 3, max_runs = 1,
+                                              verbose = FALSE)
 
 ################################################################################
 
@@ -105,7 +86,7 @@ testthat::test_that("Only pattern can be returned for simplify = TRUE", {
 
 testthat::test_that("Reconstruction stops if e_threshold is reached", {
 
-  energy <- shar::calculate_energy(marks_recon_energy, verbose = FALSE)
+  energy <- calculate_energy(marks_recon_energy, verbose = FALSE)
 
   testthat::expect_true(all(energy < 0.1 & energy > 0.01))
 
@@ -114,41 +95,38 @@ testthat::test_that("Reconstruction stops if e_threshold is reached", {
 
 testthat::test_that("All errors are returned for reconstruct_pattern_marks", {
 
-  testthat::expect_error(shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                         marked_pattern = marks_sub,
-                                                         n_random = -5,
-                                                         max_runs = 1,
-                                                         verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_marks(pattern = pattern_recon,
+                                                   marked_pattern = marks_sub,
+                                                   n_random = -5, max_runs = 1,
+                                                   verbose = FALSE),
                          regexp = "n_random must be >= 1.",
                          fixed = TRUE)
 
-  testthat::expect_error(shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                         marked_pattern = pattern_recon,
-                                                         n_random = 3,
-                                                         max_runs = 1,
-                                                         verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_marks(pattern = pattern_recon,
+                                                   marked_pattern = pattern_recon,
+                                                   n_random = 3, max_runs = 1,
+                                                   verbose = FALSE),
                          regexp = "'pattern' must be unmarked and 'marked_pattern' marked",
                          fixed = TRUE)
 
-  testthat::expect_error(shar::reconstruct_pattern_marks(pattern = marks_sub,
-                                                         marked_pattern = marks_sub,
-                                                         n_random = 3,
-                                                         max_runs = 1,
-                                                         verbose = FALSE),
+  testthat::expect_error(reconstruct_pattern_marks(pattern = marks_sub,
+                                                   marked_pattern = marks_sub,
+                                                   n_random = 3, max_runs = 1,
+                                                   verbose = FALSE),
                          regexp = "'pattern' must be unmarked and 'marked_pattern' marked",
                          fixed = TRUE)
 
-  # testthat::expect_error(shar::reconstruct_pattern_marks(pattern = spatstat.geom::unmark(shar::species_b),
-  #                                                        marked_pattern = marks_sub,
-  #                                                        n_random = 3,
-  #                                                        max_runs = 1,
-  #                                                        verbose = FALSE),
+  # testthat::expect_error(reconstruct_pattern_marks(pattern = spatstat.geom::unmark(species_b),
+  #                                                  marked_pattern = marks_sub,
+  #                                                  n_random = 3,
+  #                                                  max_runs = 1,
+  #                                                  verbose = FALSE),
   #                        regexp = "'pattern' and 'pattern' must have same window and number of points",
   #                        fixed = TRUE)
 
-  testthat::expect_error(shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                         marked_pattern = spatstat.geom::subset.ppp(shar::species_a,
-                                                                                               select = status),
+  testthat::expect_error(reconstruct_pattern_marks(pattern = pattern_recon,
+                                                   marked_pattern = spatstat.geom::subset.ppp(species_a,
+                                                                                              select = status),
                                                          n_random = 3, max_runs = 1),
                          regexp = "marks must be 'numeric'",
                          fixed = TRUE)
@@ -156,18 +134,18 @@ testthat::test_that("All errors are returned for reconstruct_pattern_marks", {
 
 testthat::test_that("All warnings are returned for reconstruct_pattern_marks", {
 
-  testthat::expect_warning(shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                           marked_pattern = marks_sub,
-                                                           n_random = 2, max_runs = 1,
-                                                           return_input = FALSE,
-                                                           simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern_marks(pattern = pattern_recon,
+                                                     marked_pattern = marks_sub,
+                                                     n_random = 2, max_runs = 1,
+                                                     return_input = FALSE,
+                                                     simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'",
                            fixed = TRUE)
 
-  testthat::expect_warning(shar::reconstruct_pattern_marks(pattern = pattern_recon,
-                                                           marked_pattern = marks_sub,
-                                                           n_random = 1, max_runs = 1,
-                                                           simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern_marks(pattern = pattern_recon,
+                                                     marked_pattern = marks_sub,
+                                                     n_random = 1, max_runs = 1,
+                                                     simplify = TRUE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'",
                            fixed = TRUE)
 })

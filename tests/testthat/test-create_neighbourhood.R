@@ -1,12 +1,12 @@
 testthat::context("test-create_neighbourhood")
 
-mat <- matrix(1, nrow= 10, ncol = 10)
+mat <- matrix(1, nrow = 10, ncol = 10)
 
 cell_id <- rbind(cbind(3,5), cbind(7,1))
 
-neighbourhood_4 <- shar::create_neighbourhood(cell_id, mat, directions = 4)
+neighbourhood_4 <- create_neighbourhood(cell_id, mat, directions = 4)
 
-neighbourhood_8 <- shar::create_neighbourhood(cell_id, mat, directions = 8)
+neighbourhood_8 <- create_neighbourhood(cell_id, mat, directions = 8)
 
 ################################################################################
 
@@ -26,7 +26,7 @@ testthat::test_that("create_neighbourhood returns right dimension for directions
 
 testthat::test_that("create_neighbourhood returns error", {
 
-  testthat::expect_error(shar::create_neighbourhood(cell_id, mat, directions = 12),
+  testthat::expect_error(create_neighbourhood(cell_id, mat, directions = 12),
                          regexp = "'directions must be 'directions = 4' or 'directions = 8'.",
                          fixed = TRUE)
 })

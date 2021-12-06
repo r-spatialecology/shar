@@ -20,44 +20,49 @@ reconstruct_pattern_marks(
 )
 }
 \arguments{
-\item{pattern}{ppp.}
+\item{pattern}{ppp object with pattern.}
 
-\item{marked_pattern}{ppp (marked; see details).}
+\item{marked_pattern}{ppp  object with marked pattern. See Details section for more information.}
 
-\item{n_random}{Number of randomizations.}
+\item{n_random}{Integer with number of randomizations.}
 
-\item{e_threshold}{Minimum energy to stop reconstruction.}
+\item{e_threshold}{Double with minimum energy to stop reconstruction.}
 
-\item{max_runs}{Maximum number of iterations of e_threshold is not reached.}
+\item{max_runs}{Integer with maximum number of iterations if \code{e_threshold}
+is not reached.}
 
-\item{no_change}{Reconstrucction will stop if energy does not decrease for this number of iterations.}
+\item{no_change}{Integer with number of iterations at which the reconstruction will
+stop if the energy does not decrease.}
 
-\item{annealing}{Probability to keep relocated point even if energy did not decrease.}
+\item{annealing}{Double with probability to keep relocated point even if energy
+did not decrease.}
 
-\item{r_length}{Number of intervals from r = 0 to r = rmax the summary functions are evaluated.}
+\item{r_length}{Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
+the summary functions are evaluated.}
 
-\item{return_input}{The original input data is returned as last list entry}
+\item{return_input}{Logical if the original input data is returned.}
 
-\item{simplify}{If n_random = 1 and return_input = FALSE only pattern will be returned.}
+\item{simplify}{Logical if only pattern will be returned if \code{n_random = 1}
+and \code{return_input = FALSE}.}
 
-\item{verbose}{Print progress report.}
+\item{verbose}{Logical if progress report is printed.}
 
-\item{plot}{Plot kmmr function during optimization.}
+\item{plot}{Logical if pcf(r) function is plotted and updated during optimization.}
 }
 \value{
-list
+rd_mar
 }
 \description{
-Pattern reconstruction of marks
+Pattern reconstruction of marked pattern
 }
 \details{
 The function randomizes the numeric marks of a point pattern using pattern reconstruction
 as described in Tscheschel & Stoyan (2006) and Wiegand & Moloney (2014). Therefore,
 an unmarked as well as a marked pattern must be provided. The unmarked pattern must have
 the spatial characteristics and the same observation window and number of points
-as the marked one (see `reconstruct_pattern` or `fit_point_process`). Marks must be
-numeric because the mark-correlation function is used as summary function. Two
-randomly chosen marks are switch each iterations and changes only kept if the
+as the marked one (see \code{reconstruct_pattern_*} or \code{\link{fit_point_process}}).
+Marks must be numeric because the mark-correlation function is used as summary function.
+Two randomly chosen marks are switch each iterations and changes only kept if the
 deviation between the observed and the reconstructed pattern decreases.
 
 \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
@@ -65,10 +70,11 @@ the computational time while increasing the "bumpiness" of the summary function.
 }
 \examples{
 \dontrun{
-pattern_recon <- reconstruct_pattern_homo(species_a, n_random = 1, max_runs = 1000,
+pattern_recon <- reconstruct_pattern(species_a, n_random = 1, max_runs = 1000,
 simplify = TRUE, return_input = FALSE)
 marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
-marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub, n_random = 19, max_runs = 1000)
+marks_recon <- reconstruct_pattern_marks(pattern_recon, marks_sub,
+n_random = 19, max_runs = 1000)
 }
 
 }
@@ -81,7 +87,5 @@ in ecology. Boca Raton: Chapman and Hall/CRC Press.
 }
 \seealso{
 \code{\link{fit_point_process}} \cr
-\code{\link{reconstruct_pattern_homo}} \cr
-\code{\link{reconstruct_pattern_hetero}} \cr
-\code{\link{reconstruct_pattern_cluster}}
+\code{\link{reconstruct_pattern}}
 }

@@ -3,14 +3,14 @@
 
 <!-- badges: start -->
 
-| Continuous Integration                                                                                                                                 | Development                                                                                                                        | CRAN                                                                                                                    | License                                                                                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| [![R build status](https://github.com/r-spatialecology/shar/workflows/R-CMD-check/badge.svg)](https://github.com/r-spatialecology/shar/actions)        | [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)                       | [![CRAN status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)                    | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
-| [![Coverage status](https://codecov.io/gh/r-spatialecology/shar/branch/main/graph/badge.svg)](https://codecov.io/gh/r-spatialecology/shar?branch=main) | [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html) |                                                                                                                 |
+| CI                                                                                                                                                                                   | Development                                                                                                                        | CRAN                                                                                                                    | License                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [![R-CMD-check](https://github.com/r-spatialecology/shar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/shar/actions/workflows/R-CMD-check.yaml) | [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)                       | [![CRAN status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)                    | [![JOSS](https://joss.theoj.org/papers/1b786c028a5425858cb0e5428bd9173b/status.svg)](https://joss.theoj.org/papers/1b786c028a5425858cb0e5428bd9173b) |
+| [![codecov](https://codecov.io/gh/r-spatialecology/shar/branch/main/graph/badge.svg?token=XMo844ABs4)](https://codecov.io/gh/r-spatialecology/shar)                                  | [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html) | [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)                                      |
 
 <!-- badges: end -->
 
-<img src="man/figures/logo.png" align="right" width="150" />
+<a href='https://r-spatialecology.github.io/shar/'><img src='man/figures/logo.png' align="right" width="150" /></a>
 
 # shar
 
@@ -25,8 +25,8 @@ Positive or negative associations are present if the observed counts is
 higher or lower than the randomized counts (using quantile thresholds).
 Methods are mainly described in Plotkin et al. (2000), Harms et
 al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on
-the `spatstat` (Baddeley et al. 2015) and `raster` (Hijmans 2017)
-package.
+the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and
+[`raster`](https://rspatial.org/raster/) (Hijmans 2017) package.
 
 ## Installation
 
@@ -41,22 +41,34 @@ And the development version from
 [GitHub](https://github.com/r-spatialecology/shar) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("r-spatialecology/shar")
+# install.packages("remotes")
+remotes::install_github("r-spatialecology/shar")
 ```
+
+This also automatically installs all non-base `R` package dependencies,
+namely the following packages: `classInt`, `raster`, `spatstat.core`,
+`spatstat.geom`.
 
 ## How to use shar
 
 ``` r
 library(shar)
 library(raster)
+
+set.seed(42)
 ```
 
 **shar** comes with build-in example data sets. `species_a` and
 `species_b` are exemplary location of species, e.g. trees, as
 `ppp`-objects from the `spatstat` package. `landscape` contains
-examplary continuous environmental data. However, all methods depend on
-discrete data. Therefore we need to classify the data first.
+exemplary continuous environmental data. However, all methods depend on
+discrete data. Therefore we need to classify the data first. However,
+all methods require “fully mapped data” in a sense that NA cells of the
+environmental data are allowed only if simultaneously these areas cannot
+accommodate any locations of the point pattern (e.g., a water body
+within a forest area). This needs to be reflected in the observation
+window of the point pattern. For the torus translation method, no NA
+values are allowed at all.
 
 ``` r
 landscape_classified <- classify_habitats(raster = landscape, classes = 5)
@@ -68,110 +80,155 @@ all 4 cardinal directions around a torus. The second one assigns the
 habitat values to an empty map using a random walk algorithm. Both
 functions return a list with randomized rasters and the observed one.
 For more information on the methods, please click
-[here](https://r-spatialecology.github.io/shar/articles/background.html).
+[here](https://r-spatialecology.github.io/shar/articles/articles/background.html).
 
 ``` r
-torus_trans <- translate_raster(raster = landscape_classified, verbose = FALSE)
+torus_trans <- translate_raster(raster = landscape_classified)
 
-random_walk <- randomize_raster(raster = landscape_classified, n_random = 39, verbose = FALSE)
+random_walk <- randomize_raster(raster = landscape_classified, n_random = 99)
 ```
+
+To plot the randomized raster, you can use the plot function and specify
+the number of raster as as well as the color palette used for the
+discrete environmental data.
 
 ``` r
-col = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
+col_palette <- c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
 
-plot_randomized_raster(torus_trans, n = 3, col = col)
+plot(torus_trans, n = 3, col = col_palette)
 ```
-
-<img src="man/figures/README-plot_habitat-random-1.png" style="display: block; margin: auto;" />
 
 To randomize the point pattern, either use the Gamma test described by
-Plotkin et al. (2000) or pattern reconstruction (Tscheschel & Stoyan
-2006).
+Plotkin et al. (2000) or pattern reconstruction (Kirkpatrick et
+al. 1983; Tscheschel & Stoyan 2006).
 
 ``` r
-gamma_test <- fit_point_process(pattern = species_a, process = "cluster", n_random = 39, verbose = FALSE)
+gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
 
-reconstruction <- reconstruct_pattern_cluster(pattern = species_b, n_random = 39, verbose = FALSE) # takes some time
+# (this can takes some time)
+reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_threshold = 0.05)
 ```
 
 Of course, there are several utility functions. For example, you can
-plot a randomized pattern or calculate the differences between the
-observed pattern and the randomized patterns (using summary functions).
+plot the summary function of the observed pattern and the simulation
+envelopes of randomized patterns using the plot function.
 
 ``` r
-plot_randomized_pattern(reconstruction, verbose = FALSE, ask = FALSE)
+plot(reconstruction)
 ```
 
-<img src="man/figures/README-plot-random_pattern-1.png" style="display: block; margin: auto;" /><img src="man/figures/README-plot-random_pattern-2.png" style="display: block; margin: auto;" />
+Another utility functions allows to calculate the differences between
+the observed pattern and the randomized patterns (also called energy
+using summary functions).
 
 ``` r
 calculate_energy(reconstruction, verbose = FALSE)
-##  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 
-##    0.01716646    0.02080741    0.02469685    0.02252225    0.01905148 
-##  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 
-##    0.02317256    0.01467501    0.02009006    0.01796639    0.01742050 
-## randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 
-##    0.01967685    0.01531558    0.01429541    0.02049072    0.01755755 
-## randomized_16 randomized_17 randomized_18 randomized_19 randomized_20 
-##    0.01672621    0.01993774    0.01695963    0.01949814    0.01368794 
-## randomized_21 randomized_22 randomized_23 randomized_24 randomized_25 
-##    0.02298234    0.01629161    0.02034008    0.01466430    0.02274970 
-## randomized_26 randomized_27 randomized_28 randomized_29 randomized_30 
-##    0.01857961    0.01489574    0.01694560    0.01860603    0.02151825 
-## randomized_31 randomized_32 randomized_33 randomized_34 randomized_35 
-##    0.01719001    0.01744145    0.01735466    0.01988854    0.02075585 
-## randomized_36 randomized_37 randomized_38 randomized_39 
-##    0.02174524    0.02042854    0.01674873    0.01900174
 ```
 
 The data was created that `species_a` has a negative association to
-habitat 4 and `species_b` has a positive association to habitat 5. At
-one point a positive association to one habitat leads consequently to a
-negative association to another habitat (and vice versa). All this can
-be seen in the results.
+habitat 4 and `species_b` has a positive association to habitat 5, which
+is reflected in the results.
+
+Given the characteristics of the method, a positive association to one
+habitat inevitably leads to a negative association to at least one of
+the other habitats (and vice versa; Yamada et al. 2006). For example, a
+high amount of individual points in the positively associated habitat
+simultaneously mean that less individual points can be present in the
+other habitats.
+
+Furthermore, please be aware that due to the randomization of the null
+model data, results might slightly differ between different
+randomization approaches (e.g., `fit_point_process()`
+vs. `translate_raster()`) and even for repetitions of the same
+approach. Thus, the exact `lo` and `hi` thresholds might be slightly
+different when re-running the examples.
+
+However, the counts of the observed data should be identical, and
+general results and trends should be similar.
 
 ``` r
-results_habitat_association(pattern = species_a, raster = torus_trans)
-## > Input: randomized raster | Quantile thresholds: negative < 0.025 - positive > 0.975
-##   habitat count lo hi significance
-## 1       1     9  2 14         n.s.
-## 2       2    25  9 24     positive
-## 3       3    27 11 26     positive
-## 4       4     0 11 29     negative
-## 5       5    12  5 18         n.s.
+significance_level <- 0.01
 
-results_habitat_association(pattern = reconstruction, raster = landscape_classified)
-## > Input: randomized point pattern | Quantile thresholds: negative < 0.025 - positive > 0.975
+results_habitat_association(pattern = species_a, raster = torus_trans, significance_level = significance_level)
+## > Input: randomized raster
+## > Quantile thresholds: negative < 0.005 || positive > 0.995
+##   habitat count lo hi significance
+## 1       1    35 10 35         n.s.
+## 2       2    44 19 53         n.s.
+## 3       3    36 15 49         n.s.
+## 4       4     4 15 58     negative
+## 5       5    73 48 90         n.s.
+
+results_habitat_association(pattern = reconstruction, raster = landscape_classified, significance_level = significance_level)
+## > Input: randomized pattern
+## > Quantile thresholds: negative < 0.005 || positive > 0.995
 ##   habitat count    lo    hi significance
-## 1       1     8  1.00 23.35         n.s.
-## 2       2    22 25.85 49.10     negative
-## 3       3    33 40.80 68.05     negative
-## 4       4    19 44.00 71.10     negative
-## 5       5   118 20.85 60.05     positive
+## 1       1     6 21.96 49.02     negative
+## 2       2    18 32.47 64.51     negative
+## 3       3    18 26.98 56.10     negative
+## 4       4    21 17.98 40.00         n.s.
+## 5       5   129 24.96 52.02     positive
 ```
+
+## Citation
+
+The **shar** package is part of our academic work. To cite the package
+or acknowledge its use in publications, please cite the following paper.
+
+> Hesselbarth, M.H.K., (2021). shar: A R package to analyze
+> species-habitat associations using point pattern analysis. Journal of
+> Open Source Software, 6(67), 3811.
+> <https://doi.org/10.21105/joss.03811>
+
+The get a BibTex entry, please use `citation("shar")`.
+
+## Contributing and Code of Conduct
+
+Contributions to **shar** are highly welcomed and appreciated. This
+includes any form of feedback, bug reports, feature
+requests/suggestions, or general questions about the usage. Please feel
+free to either open an
+[issue](https://github.com/r-spatialecology/shar/issues/), contact the
+authors via [mail](mailto:mhk.hesselbarth@gmail.com), or fork the repo
+and raise a pull request.
+
+Please note that the **shar** project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
 
 ## References
 
-Baddeley, A., Rubak, E., Turner, R. (2015). Spatial Point Patterns:
-Methodology and Applications with R. London:Chapman and Hall/CRC Press,
-2015.
-<http://www.crcpress.com/Spatial-Point-Patterns-Methodology-and-Applications-with-R/Baddeley-Rubak-Turner/9781482210200/>
+Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns:
+Methodology and applications with R. Chapman and Hall/CRC Press, London.
+<isbn:9781482210200>
 
-Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001).
-Habitat associations of trees and shrubs in a 50-ha neotropical forest
-plot. Journal of Ecology, 89(6), 947-959.
+Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat
+associations of trees and shrubs in a 50-ha neotropical forest plot.
+Journal of Ecology 89, 947–959.
+<https://doi.org/10.1111/j.1365-2745.2001.00615.x>
 
-Hijmans, R. J. (2017). raster: Geographic Data Analysis and Modeling. R
-package version 2.6-7. <https://CRAN.R-project.org/package=raster>
+Hijmans, R.J., 2019. raster: Geographic data analysis and modeling. R
+package version 2.9-5. <https://cran.r-project.org/package=raster>.
 
-Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J.
-V., & Ashton, P. S. (2000). Species-area curves, spatial aggregation,
-and habitat specialization in tropical forests. Journal of Theoretical
-Biology, 207(1), 81-99.
+Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by
+simulated annealing. Science 220, 671–680.
+<https://doi.org/10.1126/science.220.4598.671>
 
-Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of
-random point patterns. Computational Statistics and Data Analysis,
-51(2), 859-871.
+Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V.,
+Ashton, P.S., 2000. Species-area curves, spatial aggregation, and
+habitat specialization in tropical forests. Journal of Theoretical
+Biology 207, 81–99. <https://doi.org/10.1006/jtbi.2000.2158>
 
-Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern
-analysis in ecology. Boca Raton: Chapman and Hall/CRC Press.
+Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random
+point patterns. Computational Statistics and Data Analysis 51, 859–871.
+<https://doi.org/10.1016/j.csda.2005.09.007>
+
+Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern
+analysis in ecology. Chapman and Hall/CRC Press, Boca Raton.
+<isbn:9781420082548>
+
+Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M.,
+Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees
+in a Bornean rain forest plot. Journal of Vegetation Science 17,
+559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>

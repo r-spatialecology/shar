@@ -11,6 +11,6 @@ rd_ras object.
 torus_trans
 }
 \description{
-Torus translation of the classified landscape data.
+Torus translation of the classified \code{landscape}.
 }
 \keyword{datasets}
