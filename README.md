@@ -118,7 +118,7 @@ the observed pattern (`what = "pp"`) using the plot function.
 plot(reconstruction, what = "pp")
 ```
 
-<img src="man/figures/plot-random_pattern-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-plot-random_pattern-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 
 Another utility functions allows to calculate the differences between
 the observed pattern and the randomized patterns (also called energy
