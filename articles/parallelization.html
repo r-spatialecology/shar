@@ -134,7 +134,7 @@
     
 <p>The <code>shar</code> packages has no build-in parallelization, however, there are many <code>R</code> frameworks that allow to run code in parallel or on high-performance clusters (see e.g., <a href="https://CRAN.R-project.org/package=future" class="external-link"><code>future</code></a>, <a href="https://CRAN.R-project.org/package=clustermq" class="external-link"><code>clustermq</code></a> or <a href="https://CRAN.R-project.org/package=rslurm" class="external-link"><code>rslurm</code></a>). Thus, <code>shar</code> provides utility functions that facilitate its usage together with any parallelization framework.</p>
 <p>The following examples illustrates how to use <code>future</code> package to randomize patterns using <code>fit_point_process</code> in parallel using all available cores on a local machine. Similarly, the core idea of the following code could be used to run <code>shar</code> on a high performance cluster.</p>
-<p>First, we need to load all requried packages. This includes <code>future</code> and <code>future.apply</code>.</p>
+<p>First, we need to load all required packages. This includes <code>future</code> and <code>future.apply</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span>
 
