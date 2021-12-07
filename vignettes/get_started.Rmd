@@ -30,6 +30,7 @@ set.seed(42)
 The core of **shar** are functions to to simulate null model data by randomizing either the environmental data (i.e. raster data) or the locations of species (i.e. point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000) and Wiegand & Moloney (2014). The methods are not neessary complementary, but are rather different approaches for the same result.
 
 ## Preprocessing of input data
+
 All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks & Caspall 1971)
 
 ```{r classify_habitats}
@@ -37,6 +38,7 @@ landscape_discrete <- classify_habitats(raster = landscape, classes = 5)
 ```
 
 ## Randomize environmental data
+
 There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `n_random <- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4` randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the `n_random` argument.
 
 However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
@@ -48,6 +50,7 @@ random_walk <- randomize_raster(raster = landscape_discrete, n_random = 99)
 ```
 
 ## Randomize location data
+
 To randomize the location data (i.e. the point pattern) either `fit_point_process()` or `reconstruct_pattern()` are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the `spatstat` package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel & Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the `n_random` argument. 
 
 ```{r randomize_pp, eval = FALSE}
@@ -58,7 +61,8 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99,
                                       e_threshold = 0.05, method = "cluster")
 ``` 
 
-## Analyse results 
+## Analyse results
+
 The most important function to analyse results is `results_habitat_association()`. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data. 
 
 ```{r results}
@@ -69,10 +73,10 @@ results_habitat_association(pattern = reconstruction, raster = landscape_discret
 
 There is also the possibility to visualize the randomized data using the `plot()` function.
 
-```{r plotting, eval = FALSE}
+```{r plotting, fig.align = "center", out.height = "100%", out.width = "100%", message = FALSE}
 plot(random_walk)
 
-plot(reconstruction)
+plot(reconstruction, ask = FALSE)
 ```
 
 For the randomized point pattern data, it is also possible to show the "difference" in terms of the energy (Tscheschel & Stoyan 2006) between the patterns.
@@ -85,7 +89,8 @@ calculate_energy(pattern = reconstruction, return_mean = TRUE)
 
 Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster`) and even for repetitions of the same approach. However, general results and trends should be similar.
 
-### References 
+### References
+
 Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American Statistical Association, 53, 789-798
 
 Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.

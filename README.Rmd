@@ -84,16 +84,16 @@ gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_rand
 reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_threshold = 0.05)
 ```
 
-Of course, there are several utility functions. For example, you can plot the summary function of the observed pattern and the simulation envelopes of randomized patterns using the plot function. 
+Of course, there are several utility functions. For example, you can plot the summary function of the observed pattern and the simulation envelopes of randomized patterns (`what = "sf"`) or some randomized and the observed pattern (`what = "pp"`) using the plot function. 
 
-```{r plot-random_pattern, eval = FALSE}
-plot(reconstruction)
+```{r plot-random_pattern, fig.align = "center", out.height = "100%", out.width = "100%", message = FALSE}
+plot(reconstruction, what = "pp")
 ```
 
 Another utility functions allows to calculate the differences between the observed pattern and the randomized patterns (also called energy using summary functions). 
 
-```{r calculate-energy, eval = FALSE}
-calculate_energy(reconstruction, verbose = FALSE)
+```{r calculate-energy, message = FALSE}
+calculate_energy(reconstruction, return_mean = TRUE)
 ```
 
 The data was created that `species_a` has a negative association to habitat 4 and `species_b` has a positive association to habitat 5, which is reflected in the results. 
