@@ -111,18 +111,22 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_thre
 
 Of course, there are several utility functions. For example, you can
 plot the summary function of the observed pattern and the simulation
-envelopes of randomized patterns using the plot function.
+envelopes of randomized patterns (`what = "sf"`) or some randomized and
+the observed pattern (`what = "pp"`) using the plot function.
 
 ``` r
-plot(reconstruction)
+plot(reconstruction, what = "pp")
 ```
+
+<img src="man/figures/plot-random_pattern-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 
 Another utility functions allows to calculate the differences between
 the observed pattern and the randomized patterns (also called energy
 using summary functions).
 
 ``` r
-calculate_energy(reconstruction, verbose = FALSE)
+calculate_energy(reconstruction, return_mean = TRUE)
+## [1] 0.04908566
 ```
 
 The data was created that `species_a` has a negative association to
