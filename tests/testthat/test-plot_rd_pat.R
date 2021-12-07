@@ -20,7 +20,7 @@ testthat::test_that("plot returns plot", {
 
   testthat::expect_null(plot(pattern_random, verbose = FALSE, ask = FALSE))
 
-  testthat::expect_null(plot(pattern_random, what = "pp", verbose = FALSE, ask = FALSE))
+  testthat::expect_null(plot(pattern_random, what = "pp", verbose = FALSE))
 })
 
 testthat::test_that("plot returns error if observed is missing", {

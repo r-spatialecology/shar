@@ -5,6 +5,8 @@
 #' @param x rd_pat bject with randomized patterns.
 #' @param what Character specifying to plot summary functions of point patterns
 #' (\code{what = "sf"}) or actual patterns (\code{what = "pp"}).
+#' @param n Integer with number or vector of ids of randomized pattern to plot.
+#' See Details section for more information.
 #' @param probs Vector with quantiles of randomized data used for envelope construction.
 #' @param comp_fast Integer with threshold at which summary functions are estimated
 #' in a computational fast way.
@@ -18,8 +20,12 @@
 #' the observed pattern and the reconstructed patterns (as "simulation envelopes").
 #' For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
 #' correction is used and the pair correlation function is estimated based on Ripley's
-#' K-function. For more information see \code{\link{estimate_pcf_fast}}. It is also
-#' possible to plot 3 randomized patterns and the observed pattern using \code{what = "pp"}.
+#' K-function. For more information see \code{\link{estimate_pcf_fast}}.
+#'
+#' It is also possible to plot n randomized patterns and the observed pattern
+#' using \code{what = "pp"}. If \code{n} is a single number, \code{n} randomized
+#' patterns will be sampled to plot. If \code{n} is a vector, the corresponding patterns
+#' will be plotted.
 #'
 #' @seealso
 #' \code{\link{reconstruct_pattern}} \cr
@@ -41,7 +47,7 @@
 #' @rdname plot.rd_pat
 
 #' @export
-plot.rd_pat <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 1000,
+plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_fast = 1000,
                         ask = TRUE, verbose = TRUE, ...) {
 
   # check if class is correct
@@ -235,58 +241,35 @@ plot.rd_pat <- function(x, what = "sf", probs = c(0.025, 0.975), comp_fast = 100
 
   } else if (what == "pp") {
 
-    # check if observed pattern is present
-    if (!spatstat.geom::is.ppp(x$observed)) {
-
-      stop("Input must include 'observed' pattern.", call. = FALSE)
-
-    }
-
-    # get number of patterns
-    number_patterns <- length(x$randomized)
-
-    # check if at least 4 patterns are present, i.e. 3 randomized & observed
-    if (number_patterns < 3) {
-
-      stop("Please provide at least 3 randomizations and the observed pattern.",
-           call. = FALSE)
-
-    }
-
-    if (verbose) {
-
-      message("> Plotting observed pattern and 4 randomized patterns only")
-
-    }
-
-    # sample 3 randomized patterns
-    random_ids <- sample(x = seq(from = 1, to = number_patterns, by = 1), size = 3)
+    # get randomized pattern
+    subset_pattern <- sample_randomized(randomized = x$randomized, n = n,
+                                        verbose = verbose)
 
     # get randomized and observed patterns
-    pattern_randomized <- x$randomized[random_ids]
-    pattern <- c(x, observed = list(x$observed))
+    subset_pattern$observed <- x$observed
 
     # get names for plot main title
-    names_pattern <- names(pattern)
+    names_pattern <- names(subset_pattern)
 
     # get range of observed pattern window
-    x_range <- pattern$observed$window$xrange
-    y_range <- pattern$observed$window$yrange
-    current_window <- pattern$observed$window
+    x_range <- subset_pattern$observed$window$xrange
+    y_range <- subset_pattern$observed$window$yrange
+    current_window <- subset_pattern$observed$window
 
-    # plot 4 plots next to each other
-    graphics::par(mfrow = c(2, 2))
+    # get number of cols and rows
+    n_col <- ceiling(sqrt(length(subset_pattern)))
+    n_row <- ceiling(length(subset_pattern) / n_col)
 
-    lapply(seq_along(pattern), function(x) {
+    graphics::par(mfrow = c(n_row, n_col))
+
+    lapply(seq_along(subset_pattern), function(x) {
 
       # convert to dataframe
-      current_pattern <- as.data.frame(pattern[[x]])
+      current_pattern <- as.data.frame(subset_pattern[[x]])
 
       # plot points
-      graphics::plot(x = current_pattern$x,
-                     y = current_pattern$y,
-                     type = "p",
-                     asp = 1, xlim = x_range, ylim = y_range,
+      graphics::plot(x = current_pattern$x, y = current_pattern$y,
+                     type = "p", asp = 1, xlim = x_range, ylim = y_range,
                      main  = names_pattern[[x]],
                      xlab = "x coordinate", ylab = "y coordinate")
 

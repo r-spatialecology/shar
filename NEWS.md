@@ -1,3 +1,8 @@
+# shar 1.3.1
+* Improvements
+  * Bugfix in `plot.rd_pat()`
+  * Adding internal `sample_randomized()` function
+
 # shar 1.3
 * Improvements
   * Better documentation

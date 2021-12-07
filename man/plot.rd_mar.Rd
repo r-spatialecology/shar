@@ -7,6 +7,7 @@
 \method{plot}{rd_mar}(
   x,
   what = "sf",
+  n = NULL,
   probs = c(0.025, 0.975),
   comp_fast = 1000,
   ask = TRUE,
@@ -19,6 +20,9 @@
 
 \item{what}{Character specifying to plot summary functions of point patterns
 (\code{what = "sf"}) or actual patterns (\code{what = "pp"}).}
+
+\item{n}{Integer with number or vector of ids of randomized pattern to plot.
+See Details section for more information.}
 
 \item{probs}{Vector with quantiles of randomized data used for envelope construction.}
 
@@ -43,8 +47,12 @@ The function plots the pair correlation function and the nearest neighbour funct
 the observed pattern and the reconstructed patterns (as "simulation envelopes").
 For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
 correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see \code{\link{estimate_pcf_fast}}. It is also
-possible to plot 3 randomized patterns and the observed pattern using \code{what = "pp"}.
+K-function. For more information see \code{\link{estimate_pcf_fast}}.
+
+It is also possible to plot n randomized patterns and the observed pattern
+using \code{what = "pp"}. If \code{n} is a single number, \code{n} randomized
+patterns will be sampled to plot. If \code{n} is a vector, the corresponding patterns
+will be plotted.
 }
 \examples{
 \dontrun{

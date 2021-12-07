@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md.
 
+## shar 1.3.1
+Bug fixes
+
 ## shar 1.3
 Improvements of general package structure
 
