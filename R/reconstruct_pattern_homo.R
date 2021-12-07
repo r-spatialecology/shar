@@ -40,11 +40,15 @@
 #' @rdname reconstruct_pattern_homo
 #'
 #' @references
-#' Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point
-#' patterns. Computational Statistics and Data Analysis, 51(2), 859-871.
+#' Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated
+#' annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>
 #'
-#' Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis
-#' in ecology. Boca Raton: Chapman and Hall/CRC Press.
+#' Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point
+#' patterns. Computational Statistics and Data Analysis 51, 859–871.
+#' <https://doi.org/10.1016/j.csda.2005.09.007>
+#'
+#' Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in
+#' ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:978-1-4200-8254-8>
 #'
 #' @keywords internal
 reconstruct_pattern_homo <- function(pattern,

@@ -7,7 +7,6 @@ pattern_random <- lapply(X = 1:3, function(i) {
 pattern_conv <- shar::list_to_randomized(list = pattern_random,
                                          observed = shar::species_b)
 
-
 landscape_classified <- shar::classify_habitats(raster = shar::landscape,
                                                 classes = 3)
 

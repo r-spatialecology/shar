@@ -45,7 +45,7 @@
 #'
 #' @aliases plot.rd_pat
 #' @rdname plot.rd_pat
-
+#'
 #' @export
 plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_fast = 1000,
                         ask = TRUE, verbose = TRUE, ...) {

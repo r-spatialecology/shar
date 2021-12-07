@@ -21,7 +21,7 @@ The `shar` packages has no build-in parallelization, however, there are many `R`
 
 The following examples illustrates how to use `future` package to randomize patterns using `fit_point_process` in parallel using all available cores on a local machine. Similarly, the core idea of the following code could be used to run `shar` on a high performance cluster.
 
-First, we need to load all requried packages. This includes `future` and `future.apply`.
+First, we need to load all required packages. This includes `future` and `future.apply`.
 
 ```{r load-packages, message = FALSE}
 library(shar)

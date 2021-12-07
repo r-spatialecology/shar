@@ -21,8 +21,10 @@ Extract points
 The function extracts the number of points within each discrete habitat.
 }
 \examples{
+\dontrun{
 landscape_classified <- classify_habitats(landscape, classes = 5)
 extract_points(raster = landscape_classified, pattern = species_b)
+}
 
 }
 \seealso{

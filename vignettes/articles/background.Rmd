@@ -50,19 +50,24 @@ Pattern reconstruction (Tscheschel & Stoyan 2006) randomizes the point pattern u
 knitr::include_graphics("pattern_reconstruction.gif")
 ```
 
-#### References 
-Comita, L. S., Condit, R., & Hubbell, S. P. (2007). Developmental changes in habitat associations of tropical trees. Journal of Ecology, 95(3), 482–492.
+#### References
 
-Garzon-Lopez, C. X., Jansen, P. A., Bohlman, S. A., Ordonez, A., & Olff, H. (2014). Effects of sampling scale on patterns of habitat association in tropical trees. Journal of Vegetation Science, 25(2), 349–362.
+<font size="2">
 
-Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947–959.
+Comita, L.S., Condit, R., Hubbell, S.P., 2007. Developmental changes in habitat associations of tropical trees. Journal of Ecology 95, 482–492. <https://doi.org/10.1111/j.1365-2745.2007.01229.x>
 
-Kirkpatrick, S., Gelatt, C. D. J., & Vecchi, M. P. (1983). Optimization by simulated annealing. Science, 220(4598), 671–680.
+Garzon-Lopez, C.X., Jansen, P.A., Bohlman, S.A., Ordonez, A., Olff, H., 2014. Effects of sampling scale on patterns of habitat association in tropical trees. Journal of Vegetation Science 25, 349–362. <https://doi.org/10.1111/jvs.12090>
 
-Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000). Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology, 207(1), 81–99.
+Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959. <https://doi.org/10.1111/j.1365-2745.2001.00615.x>
 
-Tilman, D., & Pacala, S. W. (1993). The maintenance of species richness in plant communities. In R. E. Ricklefs & D. Schluter (Eds.), Species Diversity in Ecological Communities (pp. 13–25). Chicago: University of Chicago Press.
+Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>
 
-Tscheschel, A., & Stoyan, D. (2006). Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis, 51(2), 859–871.
+Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology 207, 81–99. <https://doi.org/10.1006/jtbi.2000.2158>
 
-Wiegand, T., & Moloney, K. A. (2014). Handbook of spatial point-pattern analysis in ecology. Boca Raton: Chapman and Hall/CRC Press.
+Tilman, D., Pacala, S.W., 1993. The maintenance of species richness in plant communities, in: Ricklefs, R.E., Schluter, D. (Eds.), Species Diversity in Ecological Communities. University of Chicago Press, Chicago, pp. 13–25. <isbn:978-0-226-71823-1>
+
+Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <https://doi.org/10.1016/j.csda.2005.09.007>
+
+Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:978-1-4200-8254-8>
+
+</font> 

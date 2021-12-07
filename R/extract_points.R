@@ -14,15 +14,15 @@
 #' @return data.frame
 #'
 #' @examples
+#' \dontrun{
 #' landscape_classified <- classify_habitats(landscape, classes = 5)
 #' extract_points(raster = landscape_classified, pattern = species_b)
+#' }
 #'
 #' @aliases extract_points
 #' @rdname extract_points
 #'
 #' @keywords internal
-
-#' @export
 extract_points <- function(raster, pattern){
 
   habitat_levels <- sort(unique(raster::values(raster))) # get all habitats sorted

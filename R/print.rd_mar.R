@@ -26,7 +26,7 @@
 #'
 #' @aliases print.rd_mar
 #' @rdname print.rd_mar
-
+#'
 #' @export
 print.rd_mar <- function(x,
                          digits = 4,
