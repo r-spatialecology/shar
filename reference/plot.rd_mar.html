@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,6 +109,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html" class="external-link">plot</a></span><span class="op">(</span>
   <span class="va">x</span>,
   what <span class="op">=</span> <span class="st">"sf"</span>,
+  n <span class="op">=</span> <span class="cn">NULL</span>,
   probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.975</span><span class="op">)</span>,
   comp_fast <span class="op">=</span> <span class="fl">1000</span>,
   ask <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -124,6 +125,9 @@
 <dt>what</dt>
 <dd><p>Character specifying to plot summary functions of point patterns
 (<code>what = "sf"</code>) or actual patterns (<code>what = "pp"</code>).</p></dd>
+<dt>n</dt>
+<dd><p>Integer with number or vector of ids of randomized pattern to plot.
+See Details section for more information.</p></dd>
 <dt>probs</dt>
 <dd><p>Vector with quantiles of randomized data used for envelope construction.</p></dd>
 <dt>comp_fast</dt>
@@ -147,8 +151,11 @@ is plotted (only used if <code>what = "sf"</code>).</p></dd>
 the observed pattern and the reconstructed patterns (as "simulation envelopes").
 For large patterns <code>comp_fast = TRUE</code> decreases the computational demand because no edge
 correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see <code><a href="estimate_pcf_fast.html">estimate_pcf_fast</a></code>. It is also
-possible to plot 3 randomized patterns and the observed pattern using <code>what = "pp"</code>.</p>
+K-function. For more information see <code><a href="estimate_pcf_fast.html">estimate_pcf_fast</a></code>.</p>
+<p>It is also possible to plot n randomized patterns and the observed pattern
+using <code>what = "pp"</code>. If <code>n</code> is a single number, <code>n</code> randomized
+patterns will be sampled to plot. If <code>n</code> is a vector, the corresponding patterns
+will be plotted.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
