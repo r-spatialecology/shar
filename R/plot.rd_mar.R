@@ -187,18 +187,18 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
     n_col <- ceiling(sqrt(length(subset_pattern)))
     n_row <- ceiling(length(subset_pattern) / n_col)
 
-    graphics::par(mfrow = c(n_row, n_col))
+    # set graphics options
+    graphics::par(mfrow = c(n_row, n_col), mar = c(0.0, 0.0, 1.0, 0.0))
 
-    lapply(seq_along(subset_pattern), function(x) {
+    lapply(seq_along(subset_pattern), function(i) {
 
       # convert to dataframe
-      current_pattern <- as.data.frame(subset_pattern[[x]])
+      current_pattern <- as.data.frame(subset_pattern[[i]])
 
       # plot points
       graphics::plot(x = current_pattern$x, y = current_pattern$y,
-                     type = "p", asp = 1, xlim = x_range, ylim = y_range,
-                     main  = names_pattern[[x]],
-                     xlab = "x coordinate", ylab = "y coordinate")
+                     type = "p", asp = 1, xlim = x_range, ylim = y_range, axes = FALSE,
+                     main  = names_pattern[[i]], xlab = "", ylab = "")
 
       # add window
       graphics::plot(current_window, add = TRUE)
@@ -206,7 +206,7 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
     })
 
     # reset plotting window settings
-    graphics::par(mfrow = c(1, 1))
+    graphics::par(mfrow = c(1, 1), mar = c(5.1, 4.1, 4.1, 2.1))
 
     invisible()
 
