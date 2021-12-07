@@ -87,7 +87,7 @@ calculate_energy(pattern = gamma_test, return_mean = TRUE)
 calculate_energy(pattern = reconstruction, return_mean = TRUE)
 ```
 
-Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster`) and even for repetitions of the same approach. However, general results and trends should be similar.
+Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. However, general results and trends should be similar.
 
 ### References
 
