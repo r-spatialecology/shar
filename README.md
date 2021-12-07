@@ -202,7 +202,9 @@ Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
-## References
+#### References
+
+<font size="2">
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns:
 Methodology and applications with R. Chapman and Hall/CRC Press, London.
@@ -231,9 +233,11 @@ point patterns. Computational Statistics and Data Analysis 51, 859–871.
 
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern
 analysis in ecology. Chapman and Hall/CRC Press, Boca Raton.
-<isbn:9781420082548>
+<isbn:978-1-4200-8254-8>
 
 Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M.,
 Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees
 in a Bornean rain forest plot. Journal of Vegetation Science 17,
 559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>
+
+</font>
