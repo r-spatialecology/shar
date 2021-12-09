@@ -189,16 +189,14 @@ results_habitat_association(pattern = reconstruction, raster = landscape_classif
 
 Contributions to **shar** are highly welcomed and appreciated. This
 includes any form of feedback, bug reports, feature
-requests/suggestions, or general questions about the usage. Please feel
-free to either open an
-[issue](https://github.com/r-spatialecology/shar/issues/), contact the
-authors via [mail](mailto:mhk.hesselbarth@gmail.com), or fork the repo
-and raise a pull request.
+requests/suggestions, or general questions about the usage.
 
-Please note that the **shar** project is released with a [Contributor
-Code of
-Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+Please note that the **shar** package is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.
+
+To see how to contribute to this project, please see the [Contributing
+guidelines](CONTRIBUTING.md).
 
 #### References
 
