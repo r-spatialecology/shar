@@ -17,3 +17,4 @@ vignettes/articles
 paper.md
 paper.bib
 ^CRAN-SUBMISSION$
+^CODE_OF_CONDUCT\.md$
