@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# **shar** | **S**pecies **h**abitat **a**ssociations in **R** <img src="man/figures/logo.png" align="right" alt="" width="150" />
+
 <!-- badges: start -->
 
 | CI                                                                                                                                                                                   | Development                                                                                                                        | CRAN                                                                                                                    | License                                                                                                                                              |
@@ -10,11 +12,7 @@
 
 <!-- badges: end -->
 
-<a href='https://r-spatialecology.github.io/shar/'><img src='man/figures/logo.png' align="right" width="150" /></a>
-
-# shar
-
-**S**pecies-**H**abitat **A**ssociations in **R** is a `R` package to
+**S**pecies-**h**abitat **a**ssociations in **R** is a `R` package to
 analyze species-habitat associations. Therefore, information about the
 location of the species is needed (as a point pattern) and about the
 environmental conditions (as a raster map). In order to analyse the data
