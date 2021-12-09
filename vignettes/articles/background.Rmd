@@ -52,7 +52,7 @@ knitr::include_graphics("pattern_reconstruction.gif")
 
 #### References
 
-<font size="2">
+<font size="1">
 
 Comita, L.S., Condit, R., Hubbell, S.P., 2007. Developmental changes in habitat associations of tropical trees. Journal of Ecology 95, 482–492. <https://doi.org/10.1111/j.1365-2745.2007.01229.x>
 
