@@ -26,6 +26,18 @@ al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on
 the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and
 [`raster`](https://rspatial.org/raster/) (Hijmans 2017) package.
 
+#### Citation
+
+The **shar** package is part of our academic work. To cite the package
+or acknowledge its use in publications, please cite the following paper.
+
+> Hesselbarth, M.H.K., (2021). shar: A R package to analyze
+> species-habitat associations using point pattern analysis. Journal of
+> Open Source Software, 6(67), 3811.
+> <https://doi.org/10.21105/joss.03811>
+
+The get a BibTex entry, please use `citation("shar")`.
+
 ## Installation
 
 You can install the released version of **shar** from
@@ -173,18 +185,6 @@ results_habitat_association(pattern = reconstruction, raster = landscape_classif
 ## 5       5   129 24.96 52.02     positive
 ```
 
-## Citation
-
-The **shar** package is part of our academic work. To cite the package
-or acknowledge its use in publications, please cite the following paper.
-
-> Hesselbarth, M.H.K., (2021). shar: A R package to analyze
-> species-habitat associations using point pattern analysis. Journal of
-> Open Source Software, 6(67), 3811.
-> <https://doi.org/10.21105/joss.03811>
-
-The get a BibTex entry, please use `citation("shar")`.
-
 ## Contributing and Code of Conduct
 
 Contributions to **shar** are highly welcomed and appreciated. This
@@ -202,7 +202,7 @@ By contributing to this project, you agree to abide by its terms.
 
 #### References
 
-<font size="2">
+<font size="1">
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns:
 Methodology and applications with R. Chapman and Hall/CRC Press, London.
