@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# **shar** | **S**pecies **h**abitat **a**ssociations in **R** <img src="man/figures/logo.png" align="right" alt="" width="150" />
+
 <!-- badges: start -->
 
 | CI                                                                                                                                                                                   | Development                                                                                                                        | CRAN                                                                                                                    | License                                                                                                                                              |
@@ -10,11 +12,7 @@
 
 <!-- badges: end -->
 
-<a href='https://r-spatialecology.github.io/shar/'><img src='man/figures/logo.png' align="right" width="150" /></a>
-
-# shar
-
-**S**pecies-**H**abitat **A**ssociations in **R** is a `R` package to
+**S**pecies-**h**abitat **a**ssociations in **R** is a `R` package to
 analyze species-habitat associations. Therefore, information about the
 location of the species is needed (as a point pattern) and about the
 environmental conditions (as a raster map). In order to analyse the data
@@ -27,6 +25,18 @@ Methods are mainly described in Plotkin et al. (2000), Harms et
 al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on
 the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and
 [`raster`](https://rspatial.org/raster/) (Hijmans 2017) package.
+
+#### Citation
+
+The **shar** package is part of our academic work. To cite the package
+or acknowledge its use in publications, please cite the following paper.
+
+> Hesselbarth, M.H.K., (2021). shar: A R package to analyze
+> species-habitat associations using point pattern analysis. Journal of
+> Open Source Software, 6(67), 3811.
+> <https://doi.org/10.21105/joss.03811>
+
+The get a BibTex entry, please use `citation("shar")`.
 
 ## Installation
 
@@ -41,7 +51,8 @@ And the development version from
 [GitHub](https://github.com/r-spatialecology/shar) with:
 
 ``` r
-# install.packages("remotes")
+install.packages("remotes")
+
 remotes::install_github("r-spatialecology/shar")
 ```
 
@@ -111,18 +122,22 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_thre
 
 Of course, there are several utility functions. For example, you can
 plot the summary function of the observed pattern and the simulation
-envelopes of randomized patterns using the plot function.
+envelopes of randomized patterns (`what = "sf"`) or some randomized and
+the observed pattern (`what = "pp"`) using the plot function.
 
 ``` r
-plot(reconstruction)
+plot(reconstruction, what = "pp")
 ```
+
+<img src="man/figures/README-plot-random_pattern-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 
 Another utility functions allows to calculate the differences between
 the observed pattern and the randomized patterns (also called energy
 using summary functions).
 
 ``` r
-calculate_energy(reconstruction, verbose = FALSE)
+calculate_energy(reconstruction, return_mean = TRUE)
+## [1] 0.04908566
 ```
 
 The data was created that `species_a` has a negative association to
@@ -170,34 +185,22 @@ results_habitat_association(pattern = reconstruction, raster = landscape_classif
 ## 5       5   129 24.96 52.02     positive
 ```
 
-## Citation
-
-The **shar** package is part of our academic work. To cite the package
-or acknowledge its use in publications, please cite the following paper.
-
-> Hesselbarth, M.H.K., (2021). shar: A R package to analyze
-> species-habitat associations using point pattern analysis. Journal of
-> Open Source Software, 6(67), 3811.
-> <https://doi.org/10.21105/joss.03811>
-
-The get a BibTex entry, please use `citation("shar")`.
-
 ## Contributing and Code of Conduct
 
 Contributions to **shar** are highly welcomed and appreciated. This
 includes any form of feedback, bug reports, feature
-requests/suggestions, or general questions about the usage. Please feel
-free to either open an
-[issue](https://github.com/r-spatialecology/shar/issues/), contact the
-authors via [mail](mailto:mhk.hesselbarth@gmail.com), or fork the repo
-and raise a pull request.
+requests/suggestions, or general questions about the usage.
 
-Please note that the **shar** project is released with a [Contributor
-Code of
-Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+Please note that the **shar** package is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.
 
-## References
+To see how to contribute to this project, please see the [Contributing
+guidelines](CONTRIBUTING.md).
+
+#### References
+
+<font size="1">
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns:
 Methodology and applications with R. Chapman and Hall/CRC Press, London.
@@ -226,9 +229,11 @@ point patterns. Computational Statistics and Data Analysis 51, 859–871.
 
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern
 analysis in ecology. Chapman and Hall/CRC Press, Boca Raton.
-<isbn:9781420082548>
+<isbn:978-1-4200-8254-8>
 
 Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M.,
 Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees
 in a Bornean rain forest plot. Journal of Vegetation Science 17,
 559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>
+
+</font>

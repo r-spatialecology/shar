@@ -16,3 +16,5 @@ vignettes/articles
 ^LICENSE\.md$
 paper.md
 paper.bib
+^CRAN-SUBMISSION$
+^CODE_OF_CONDUCT\.md$

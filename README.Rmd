@@ -7,9 +7,11 @@ output: github_document
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE, 
-  fig.path = "man/figures/"
+  fig.path = "man/figures/README-"
 )
 ```
+
+# **shar** | **S**pecies **h**abitat **a**ssociations in **R** <img src="man/figures/logo.png" align="right" alt="" width="150" />
 
 <!-- badges: start -->
 
@@ -20,11 +22,15 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-<a href='https://r-spatialecology.github.io/shar/'><img src='man/figures/logo.png' align="right" width="150" /></a>
+**S**pecies-**h**abitat **a**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and [`raster`](https://rspatial.org/raster/) (Hijmans 2017) package.
 
-# shar
+#### Citation
 
-**S**pecies-**H**abitat **A**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are mainly described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and [`raster`](https://rspatial.org/raster/) (Hijmans 2017) package.
+The **shar** package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the following paper.
+
+> Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811
+
+The get a BibTex entry, please use `citation("shar")`.
 
 ## Installation
 
@@ -37,7 +43,8 @@ install.packages("shar")
 And the development version from [GitHub](https://github.com/r-spatialecology/shar) with:
 
 ```{r install-github, eval = FALSE}
-# install.packages("remotes")
+install.packages("remotes")
+
 remotes::install_github("r-spatialecology/shar")
 ```
 
@@ -84,25 +91,23 @@ gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_rand
 reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_threshold = 0.05)
 ```
 
-Of course, there are several utility functions. For example, you can plot the summary function of the observed pattern and the simulation envelopes of randomized patterns using the plot function. 
+Of course, there are several utility functions. For example, you can plot the summary function of the observed pattern and the simulation envelopes of randomized patterns (`what = "sf"`) or some randomized and the observed pattern (`what = "pp"`) using the plot function. 
 
-```{r plot-random_pattern, eval = FALSE}
-plot(reconstruction)
+```{r plot-random_pattern, fig.align = "center", out.height = "100%", out.width = "100%", message = FALSE}
+plot(reconstruction, what = "pp")
 ```
 
 Another utility functions allows to calculate the differences between the observed pattern and the randomized patterns (also called energy using summary functions). 
 
-```{r calculate-energy, eval = FALSE}
-calculate_energy(reconstruction, verbose = FALSE)
+```{r calculate-energy, message = FALSE}
+calculate_energy(reconstruction, return_mean = TRUE)
 ```
 
 The data was created that `species_a` has a negative association to habitat 4 and `species_b` has a positive association to habitat 5, which is reflected in the results. 
 
 Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006). For example, a high amount of individual points in the positively associated habitat simultaneously mean that less individual points can be present in the other habitats.
 
-Furthermore, please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples.
-
-However, the counts of the observed data should be identical, and general results and trends should be similar.
+Furthermore, please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples. However, the counts of the observed data should be identical, and general results and trends should be similar.
 
 ```{r results}
 significance_level <- 0.01
@@ -112,22 +117,16 @@ results_habitat_association(pattern = species_a, raster = torus_trans, significa
 results_habitat_association(pattern = reconstruction, raster = landscape_classified, significance_level = significance_level)
 ```
 
-## Citation
-
-The **shar** package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the following paper.
-
-> Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811
-
-The get a BibTex entry, please use `citation("shar")`.
-
 ## Contributing and Code of Conduct
 
-Contributions to **shar** are highly welcomed and appreciated. This includes any form of feedback, bug reports, feature requests/suggestions, or general questions about the usage. Please feel free to either open an [issue](https://github.com/r-spatialecology/shar/issues/), 
-contact the authors via [mail](mailto:mhk.hesselbarth@gmail.com), or fork the repo and raise a pull request.
+Contributions to **shar** are highly welcomed and appreciated. This includes any form of feedback, bug reports, feature requests/suggestions, or general questions about the usage.
 
-Please note that the **shar** project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the **shar** package is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-## References 
+To see how to contribute to this project, please see the [Contributing guidelines](CONTRIBUTING.md).
+
+### References 
+
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns: Methodology and applications with R. Chapman and Hall/CRC Press, London. <isbn:9781482210200>  
 
 Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959. <https://doi.org/10.1111/j.1365-2745.2001.00615.x>
@@ -140,6 +139,6 @@ Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, 
 
 Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <https://doi.org/10.1016/j.csda.2005.09.007>
 
-Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:9781420082548>
+Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:978-1-4200-8254-8>
 
 Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M., Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees in a Bornean rain forest plot. Journal of Vegetation Science 17, 559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>

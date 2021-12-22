@@ -30,7 +30,7 @@
 #'
 #' @aliases plot.rd_ras
 #' @rdname plot.rd_ras
-
+#'
 #' @export
 plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
 
@@ -61,92 +61,9 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
     }
   }
 
-  # set n if not provided by user
-  if (is.null(n)) {
-
-    # check if less than 3 randomized raster are present
-    if (length(x$randomized) < 4) {
-
-      # set n to numer of randomized raster
-      n <- length(x$randomized)
-
-      # print message
-      if (verbose) {
-
-        message("> Setting n = ", n)
-
-      }
-
-      # more than 3 randomized rasters
-    } else {
-
-      # set n to 3
-      n <- 3
-
-      # print message
-      if (verbose) {
-
-        message("> Setting n = ", n)
-
-      }
-    }
-  }
-
-  # vector provided, subset rasters with corresponding ID
-  if (length(n) > 1) {
-
-    # check if any ID is larger than length of list
-    if (any(n > length(x$randomized))) {
-
-      # remove not valid IDs
-      n <- n[n <= length(x$randomized)]
-
-      if (length(n) == 0) {
-
-        stop("Please provide at least on valid ID for n.", call. = FALSE)
-
-      }
-
-      if (verbose) {
-
-        warning("Using only n IDs that are present in randomized data.", call. = FALSE)
-
-      }
-    }
-
-    subset_raster <- x$randomized[n]
-
-    # only one number provided for n
-  } else {
-
-    # n larger than number of randomized rasters
-    if (n > length(x$randomized)) {
-
-      # check if less than 3 randomized raster present
-      if (length(x$randomized) < 4) {
-
-        n <- length(x$randomized)
-
-        # more than 3 randomized raster
-      } else {
-
-        n <- 3
-
-      }
-
-      # print warning
-      if (verbose) {
-
-        warning("'n' larger than number of randomized rasters - setting n = ", n, ".",
-                call. = FALSE)
-
-      }
-    }
-
-    # sample raster
-    subset_raster <- sample(x = x$randomized, size = n)
-
-  }
+  # get randomized pattern
+  subset_raster <- sample_randomized(randomized = x$randomized, n = n,
+                                     verbose = verbose)
 
   # add observed raster to subset
   subset_raster$observed <- x$observed

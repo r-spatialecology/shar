@@ -51,8 +51,9 @@ steps_x = 1:10, steps_y = 1:5)
 
 }
 \references{
-Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
-of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
+Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations
+of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959.
+<https://doi.org/10.1111/j.1365-2745.2001.00615.x>
 }
 \seealso{
 \code{\link{randomize_raster}}

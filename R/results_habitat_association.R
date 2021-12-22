@@ -34,13 +34,15 @@
 #' @rdname results_habitat_association
 #'
 #' @references
-#' Harms, K. E., Condit, R., Hubbell, S. P., & Foster, R. B. (2001). Habitat associations
-#' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology, 89(6), 947-959.
+#' Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of
+#' trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959.
+#' <https://doi.org/10.1111/j.1365-2745.2001.00615.x>
 #'
-#' Plotkin, J. B., Potts, M. D., Leslie, N., Manokaran, N., LaFrankie, J. V., & Ashton, P. S. (2000).
-#' Species-area curves, spatial aggregation, and habitat specialization in tropical forests.
-#' Journal of Theoretical Biology, 207(1), 81-99.
-
+#' Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V.,
+#' Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization
+#' in tropical forests. Journal of Theoretical Biology 207, 81–99.
+#' <https://doi.org/10.1006/jtbi.2000.2158>
+#'
 #' @export
 results_habitat_association <- function(pattern, raster,
                                         significance_level = 0.05, verbose = TRUE) {

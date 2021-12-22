@@ -1,8 +1,8 @@
 testthat::context("test-plot_energy")
 
-pattern_reconstruction <- reconstruct_pattern_homo(pattern = species_a,
-                                                   n_random = 3, max_runs = 100,
-                                                   verbose = FALSE)
+pattern_reconstruction <- reconstruct_pattern(pattern = species_a,
+                                              n_random = 3, max_runs = 100,
+                                              verbose = FALSE)
 
 pattern_fitted <- fit_point_process(pattern = species_a, n_random = 3, verbose = FALSE)
 

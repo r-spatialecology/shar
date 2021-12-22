@@ -5,8 +5,6 @@ template:
   bootswatch: minty
 
 reference:
-  - contents:
-      - shar
   - title: Data sets
     contents:
       - species_a
@@ -41,18 +39,28 @@ reference:
       - print.rd_ras
 
 navbar:
-  left:
-    - text: "Functions"
-      icon: fa-gears
-      href: reference/index.html
-    - text: "Get Started"
+  structure:
+    left:  [getstarted, reference, background, articles, news]
+    right: [github, contact, search]
+  components:
+    getstarted:
+      text: "Get Started"
       icon: fa fa-magic
       href: articles/get_started.html
-    - text: "General Background"
+
+    reference:
+      icon: fa-gears
+      text: "Functions"
+      href: reference/index.html
+
+    background:
+      text: "General Background"
       icon: fa-book
       href: articles/background.html
-    - text: "More"
+
+    articles:
       icon: fa-graduation-cap
+      text: "More"
       menu:
         - text: "Reconstruct multiple pattern"
           icon: fa-book
@@ -63,13 +71,16 @@ navbar:
         - text: "Publication Record"
           icon: fa-file-text-o
           href: articles/publication_record.html
-  right:
-    - icon: fa-newspaper-o
+
+    news:
+      icon: fa-newspaper-o
       text: "News"
       href: news/index.html
-    - icon: fa-github fa-lg
-      text: "Github"
-      href: https://github.com/r-spatialecology/shar
-    - icon: fa-user
-      text: "Contact"
+
+    contact:
+      icon: fa-user
       hreft: https://mhesselbarth.rbind.io
+
+home:
+  sidebar:
+    structure: [authors, license, community]

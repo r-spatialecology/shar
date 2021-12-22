@@ -1,8 +1,7 @@
 testthat::context("test-print")
 
-pattern_reconstruction <- reconstruct_pattern_homo(pattern = species_a,
-                                                   n_random = 3, max_runs = 1,
-                                                   verbose = FALSE)
+pattern_reconstruction <- reconstruct_pattern(pattern = species_a, n_random = 3, max_runs = 1,
+                                              verbose = FALSE)
 
 pattern_fitted <- fit_point_process(pattern = species_a, n_random = 3,
                                     verbose = FALSE)

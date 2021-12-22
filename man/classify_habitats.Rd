@@ -31,19 +31,23 @@ landscape_classified <- classify_habitats(landscape, classes = 5)
 
 }
 \references{
-Armstrong, M. P., Xiao, N., Bennett, D. A., 2003. "Using genetic algorithms
-to create multicriteria class intervals for choropleth maps". Annals,
-Association of American Geographers, 93 (3), 595-623
+Armstrong, M.P., Xiao, N., Bennett, D.A., 2003. Using genetic algorithms to create
+multicriteria class intervals for choropleth maps. Annals of the Association of
+American Geographers 93, 595–623. <https://doi.org/10.1111/1467-8306.9303005>
 
-Jenks, G. F., Caspall, F. C., 1971. "Error on choroplethic maps: definition,
-measurement, reduction". Annals, Association of American Geographers, 61 (2), 217-244
+Dent, B.D., 1999. Cartography: Thematic map design, 5th ed. WCB/McGraw-Hill, Boston, USA.
+<isbn:978-0-697-38495-9>
 
-Dent, B. D., 1999, Cartography: thematic map design. McGraw-Hill, Boston, 417 pp.
-Slocum TA, McMaster RB, Kessler FC, Howard HH 2005 Thematic Cartography and
-Geographic Visualization, Prentice Hall, Upper Saddle River NJ.
+Fisher, W.D., 1958. On grouping for maximum homogeneity. Journal of the American
+Statistical Association 53, 789–798. <https://doi.org/10.1080/01621459.1958.10501479>
 
-Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American
-Statistical Association, 53, 789-798
+Jenks, G.F., Caspall, F.C., 1971. Error in choroplethic maps: Definition, measurement,
+reduction. Annals of the Association of American Geographers 61, 217–244.
+<https://doi.org/10.1111/j.1467-8306.1971.tb00779.x>
+
+Slocum, T.A., McMaster, R.B., Kessler, F.C., Howard, H.H., 2009. Thematic cartography
+and geovisualization, 3rd ed. ed, Prentice Hall Series in Geographic Information Science.
+Pearson Prentice Hall, Upper Saddle River, USA. <isbn:978-0-13-229834-6>
 }
 \seealso{
 \code{\link{classIntervals}}
