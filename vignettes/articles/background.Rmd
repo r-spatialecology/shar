@@ -50,9 +50,7 @@ Pattern reconstruction (Tscheschel & Stoyan 2006) randomizes the point pattern u
 knitr::include_graphics("pattern_reconstruction.gif")
 ```
 
-#### References
-
-<font size="1">
+### References
 
 Comita, L.S., Condit, R., Hubbell, S.P., 2007. Developmental changes in habitat associations of tropical trees. Journal of Ecology 95, 482–492. <https://doi.org/10.1111/j.1365-2745.2007.01229.x>
 
@@ -69,5 +67,3 @@ Tilman, D., Pacala, S.W., 1993. The maintenance of species richness in plant com
 Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <https://doi.org/10.1016/j.csda.2005.09.007>
 
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:978-1-4200-8254-8>
-
-</font> 

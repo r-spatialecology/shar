@@ -61,6 +61,6 @@ We try to follow the [GitHub flow](https://guides.github.com/introduction/flow/)
 
 New code should follow the tidyverse [style guide](https://style.tidyverse.org).
 
-#### References
+### References
 
 This CONTRIBUTING.md is adapted from [here](https://gist.github.com/peterdesmet/e90a1b0dc17af6c12daf6e8b2f044e7c) and [here](https://github.com/r-lib/usethis/blob/main/inst/templates/tidy-contributing.md).

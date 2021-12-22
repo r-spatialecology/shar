@@ -107,9 +107,7 @@ The data was created that `species_a` has a negative association to habitat 4 an
 
 Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006). For example, a high amount of individual points in the positively associated habitat simultaneously mean that less individual points can be present in the other habitats.
 
-Furthermore, please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples.
-
-However, the counts of the observed data should be identical, and general results and trends should be similar.
+Furthermore, please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples. However, the counts of the observed data should be identical, and general results and trends should be similar.
 
 ```{r results}
 significance_level <- 0.01
@@ -127,9 +125,7 @@ Please note that the **shar** package is released with a [Contributor Code of Co
 
 To see how to contribute to this project, please see the [Contributing guidelines](CONTRIBUTING.md).
 
-#### References 
-
- <font size="1">
+### References 
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns: Methodology and applications with R. Chapman and Hall/CRC Press, London. <isbn:9781482210200>  
 
@@ -146,5 +142,3 @@ Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point pat
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:978-1-4200-8254-8>
 
 Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M., Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees in a Bornean rain forest plot. Journal of Vegetation Science 17, 559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>
-
-</font> 

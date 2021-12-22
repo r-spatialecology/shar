@@ -65,6 +65,8 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99,
 
 The most important function to analyse results is `results_habitat_association()`. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data. 
 
+Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. However, the counts of the observed data should be identical, and general results and trends should be similar.
+
 ```{r results}
 results_habitat_association(pattern = species_a, raster = random_walk)
 
@@ -87,11 +89,7 @@ calculate_energy(pattern = gamma_test, return_mean = TRUE)
 calculate_energy(pattern = reconstruction, return_mean = TRUE)
 ```
 
-Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. However, general results and trends should be similar.
-
-#### References
-
-<font size="2">
+### References
 
 Fisher, W.D., 1958. On grouping for maximum homogeneity. Journal of the American Statistical Association 53, 789–798. <https://doi.org/10.1080/01621459.1958.10501479>
 
@@ -104,5 +102,3 @@ Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, 
 Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <https://doi.org/10.1016/j.csda.2005.09.007>
 
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <isbn:978-1-4200-8254-8>
-
-</font> 
