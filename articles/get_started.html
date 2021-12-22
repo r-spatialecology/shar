@@ -122,7 +122,7 @@
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get started</h1>
             
-            <h4 data-toc-skip class="date">2021-12-10</h4>
+            <h4 data-toc-skip class="date">2021-12-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/get_started.Rmd" class="external-link"><code>vignettes/get_started.Rmd</code></a></small>
       <div class="d-none name"><code>get_started.Rmd</code></div>
@@ -167,6 +167,7 @@
 <h2 id="analyse-results">Analyse results<a class="anchor" aria-label="anchor" href="#analyse-results"></a>
 </h2>
 <p>The most important function to analyse results is <code><a href="../reference/results_habitat_association.html">results_habitat_association()</a></code>. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data.</p>
+<p>Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> vs. <code><a href="../reference/translate_raster.html">translate_raster()</a></code>) and even for repetitions of the same approach. However, the counts of the observed data should be identical, and general results and trends should be similar.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_a</span>, raster <span class="op">=</span> <span class="va">random_walk</span><span class="op">)</span>
 <span class="co">#&gt; &gt; Input: randomized raster</span>
@@ -202,18 +203,15 @@
 
 <span class="fu"><a href="../reference/calculate_energy.html">calculate_energy</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">reconstruction</span>, return_mean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.04908566</span></code></pre></div>
-<p>Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> vs. <code><a href="../reference/translate_raster.html">translate_raster()</a></code>) and even for repetitions of the same approach. However, general results and trends should be similar.</p>
-<div class="section level4">
-<h4 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h4>
-<p><font size="2"></font></p>
+<div class="section level3">
+<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h3>
 <p>Fisher, W.D., 1958. On grouping for maximum homogeneity. Journal of the American Statistical Association 53, 789–798. <a href="https://doi.org/10.1080/01621459.1958.10501479" class="external-link uri">https://doi.org/10.1080/01621459.1958.10501479</a></p>
 <p>Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a></p>
 <p>Jenks, G.F., Caspall, F.C., 1971. Error in choroplethic maps: Definition, measurement, reduction. Annals of the Association of American Geographers 61, 217–244. <a href="https://doi.org/10.1111/j.1467-8306.1971.tb00779.x" class="external-link uri">https://doi.org/10.1111/j.1467-8306.1971.tb00779.x</a></p>
 <p>Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology 207, 81–99. <a href="https://doi.org/10.1006/jtbi.2000.2158" class="external-link uri">https://doi.org/10.1006/jtbi.2000.2158</a></p>
 <p>Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <a href="https://doi.org/10.1016/j.csda.2005.09.007" class="external-link uri">https://doi.org/10.1016/j.csda.2005.09.007</a></p>
 <p>Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. <a href="isbn:978-1-4200-8254-8" class="uri">isbn:978-1-4200-8254-8</a></p>
-<p></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
