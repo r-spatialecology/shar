@@ -201,7 +201,7 @@ guidelines](CONTRIBUTING.md).
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns:
 Methodology and applications with R. Chapman and Hall/CRC Press, London.
-<isbn:978-1-4822-1020-0>
+ISBN 978-1-4822-1020-0
 
 Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat
 associations of trees and shrubs in a 50-ha neotropical forest plot.
@@ -225,8 +225,8 @@ point patterns. Computational Statistics and Data Analysis 51, 859–871.
 <https://doi.org/10.1016/j.csda.2005.09.007>
 
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern
-analysis in ecology. Chapman and Hall/CRC Press, Boca Raton.
-<isbn:978-1-4200-8254-8>
+analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN
+978-1-4200-8254-8
 
 Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M.,
 Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees
