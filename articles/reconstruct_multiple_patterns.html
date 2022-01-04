@@ -152,11 +152,11 @@
                                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [[1]]</span>
 <span class="co">## randomized_1 randomized_2 randomized_3 </span>
-<span class="co">##   0.08942524   0.08443990   0.08883003 </span>
+<span class="co">##   0.06541099   0.06675327   0.06457685 </span>
 <span class="co">## </span>
 <span class="co">## [[2]]</span>
 <span class="co">## randomized_1 randomized_2 randomized_3 </span>
-<span class="co">##    0.1925496    0.1889719    0.1896211</span></code></pre>
+<span class="co">##    0.1617053    0.1725094    0.1704306</span></code></pre>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -184,15 +184,15 @@
                                                   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## $randomized_1</span>
 <span class="co">## randomized_1 randomized_2 randomized_3 </span>
-<span class="co">##   0.04259468   0.05047744   0.04947517 </span>
+<span class="co">##   0.03605095   0.03781273   0.03394090 </span>
 <span class="co">## </span>
 <span class="co">## $randomized_2</span>
 <span class="co">## randomized_1 randomized_2 randomized_3 </span>
-<span class="co">##   0.04153446   0.04210965   0.04041790 </span>
+<span class="co">##   0.05669084   0.05978935   0.05681526 </span>
 <span class="co">## </span>
 <span class="co">## $randomized_3</span>
 <span class="co">## randomized_1 randomized_2 randomized_3 </span>
-<span class="co">##   0.04444642   0.03388989   0.04175924</span></code></pre>
+<span class="co">##   0.03795778   0.04395651   0.03963576</span></code></pre>
   </main>
 </div>
 
