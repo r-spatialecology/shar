@@ -156,10 +156,9 @@ model data, results might slightly differ between different
 randomization approaches (e.g., `fit_point_process()`
 vs. `translate_raster()`) and even for repetitions of the same
 approach. Thus, the exact `lo` and `hi` thresholds might be slightly
-different when re-running the examples.
-
-However, the counts of the observed data should be identical, and
-general results and trends should be similar.
+different when re-running the examples. However, the counts of the
+observed data should be identical, and general results and trends should
+be similar.
 
 ``` r
 significance_level <- 0.01
@@ -198,13 +197,11 @@ you agree to abide by its terms.
 To see how to contribute to this project, please see the [Contributing
 guidelines](CONTRIBUTING.md).
 
-#### References
-
-<font size="1">
+### References
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns:
 Methodology and applications with R. Chapman and Hall/CRC Press, London.
-<isbn:9781482210200>
+<isbn:978-1-4822-1020-0>
 
 Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat
 associations of trees and shrubs in a 50-ha neotropical forest plot.
@@ -235,5 +232,3 @@ Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M.,
 Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees
 in a Bornean rain forest plot. Journal of Vegetation Science 17,
 559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>
-
-</font>
