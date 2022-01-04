@@ -42,7 +42,7 @@
 #' <https://doi.org/10.1016/j.csda.2005.09.007>
 #'
 #' Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in
-#' ecology. Chapman and Hall/CRC Press, Boca Raton. isbn:978-1-4200-8254-8
+#' ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8
 #'
 #' @keywords internal
 reconstruct_pattern_cluster <- function(pattern,

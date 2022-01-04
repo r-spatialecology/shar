@@ -30,14 +30,14 @@ pcf_species_b <- estimate_pcf_fast(species_a)
 \references{
 Chiu, S.N., Stoyan, D., Kendall, W.S., Mecke, J., 2013. Stochastic geometry and
 its applications, 3rd ed, Wiley Series in Probability and Statistics.
-John Wiley & Sons Inc, Chichester, UK. isbn:978-0-470-66481-0
+John Wiley & Sons Inc, Chichester, UK. ISBN 978-0-470-66481-0
 
 Ripley, B.D., 1977. Modelling spatial patterns. Journal of the Royal Statistical
 Society. Series B (Methodological) 39, 172–192.
 <https://doi.org/10.1111/j.2517-6161.1977.tb01615.x>
 
 Stoyan, D., Stoyan, H., 1994. Fractals, random shapes and point fields.
-John Wiley & Sons, Chichester. isbn:978-0-471-93757-9
+John Wiley & Sons, Chichester. ISBN 978-0-471-93757-9
 }
 \seealso{
 \code{\link{Kest}} \cr

@@ -62,8 +62,8 @@ Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated 
 
 Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology 207, 81–99. <https://doi.org/10.1006/jtbi.2000.2158>
 
-Tilman, D., Pacala, S.W., 1993. The maintenance of species richness in plant communities, in: Ricklefs, R.E., Schluter, D. (Eds.), Species Diversity in Ecological Communities. University of Chicago Press, Chicago, pp. 13–25. isbn:978-0-226-71823-1
+Tilman, D., Pacala, S.W., 1993. The maintenance of species richness in plant communities, in: Ricklefs, R.E., Schluter, D. (Eds.), Species Diversity in Ecological Communities. University of Chicago Press, Chicago, pp. 13–25. ISBN 978-0-226-71823-1
 
 Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <https://doi.org/10.1016/j.csda.2005.09.007>
 
-Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. isbn:978-1-4200-8254-8
+Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8
