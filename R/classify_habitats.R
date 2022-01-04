@@ -30,7 +30,7 @@
 #' American Geographers 93, 595–623. <https://doi.org/10.1111/1467-8306.9303005>
 #'
 #' Dent, B.D., 1999. Cartography: Thematic map design, 5th ed. WCB/McGraw-Hill, Boston, USA.
-#' <isbn:978-0-697-38495-9>
+#' isbn:978-0-697-38495-9
 #'
 #' Fisher, W.D., 1958. On grouping for maximum homogeneity. Journal of the American
 #' Statistical Association 53, 789–798. <https://doi.org/10.1080/01621459.1958.10501479>
@@ -41,7 +41,7 @@
 #'
 #' Slocum, T.A., McMaster, R.B., Kessler, F.C., Howard, H.H., 2009. Thematic cartography
 #' and geovisualization, 3rd ed. ed, Prentice Hall Series in Geographic Information Science.
-#' Pearson Prentice Hall, Upper Saddle River, USA. <isbn:978-0-13-229834-6>
+#' Pearson Prentice Hall, Upper Saddle River, USA. isbn:978-0-13-229834-6
 #'
 #' @export
 classify_habitats <- function(raster, classes = 5, style = "fisher"){
