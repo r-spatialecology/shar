@@ -43,7 +43,7 @@
     
     <a class="navbar-brand me-2" href="index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,7 +191,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></code></pre></div>
 <p><strong>shar</strong> comes with build-in example data sets. <code>species_a</code> and <code>species_b</code> are exemplary location of species, e.g. trees, as <code>ppp</code>-objects from the <code>spatstat</code> package. <code>landscape</code> contains exemplary continuous environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. However, all methods require “fully mapped data” in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape</span>, classes <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></code></pre></div>
 <p>There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click <a href="https://r-spatialecology.github.io/shar/articles/articles/background.html">here</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">torus_trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/translate_raster.html">translate_raster</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape_classified</span><span class="op">)</span>

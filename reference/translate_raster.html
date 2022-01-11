@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -154,7 +154,7 @@ of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 9
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="classify_habitats.html">classify_habitats</a></span><span class="op">(</span><span class="va">landscape</span>, classes <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="classify_habitats.html">classify_habitats</a></span><span class="op">(</span><span class="va">landscape</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">landscape_random</span> <span class="op">&lt;-</span> <span class="fu">translate_raster</span><span class="op">(</span><span class="va">landscape_classified</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">landscape_random_sub</span> <span class="op">&lt;-</span> <span class="fu">translate_raster</span><span class="op">(</span><span class="va">landscape_classified</span>,</span>
