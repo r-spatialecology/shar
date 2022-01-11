@@ -82,7 +82,7 @@ window of the point pattern. For the torus translation method, no NA
 values are allowed at all.
 
 ``` r
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 ```
 
 There are two possibilities to randomize the environmental data, both
