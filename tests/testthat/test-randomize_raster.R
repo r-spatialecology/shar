@@ -1,6 +1,6 @@
 testthat::context("test-randomize_raster")
 
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 
 # normal random
 landscape_random <- randomize_raster(raster = landscape_classified, n_random = 1,

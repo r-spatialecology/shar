@@ -34,7 +34,7 @@ The core of **shar** are functions to to simulate null model data by randomizing
 All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks & Caspall 1971)
 
 ```{r classify_habitats}
-landscape_discrete <- classify_habitats(raster = landscape, classes = 5)
+landscape_discrete <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 ```
 
 ## Randomize environmental data

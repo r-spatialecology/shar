@@ -1,3 +1,7 @@
+# shar 1.3.2
+* Improvements
+  * Improvement of `classify_habitats()` to be more variable
+
 # shar 1.3.1
 * Improvements
   * Bugfix in `plot.rd_pat()` and `plot.rd_mar()`

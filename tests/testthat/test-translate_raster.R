@@ -3,7 +3,7 @@ testthat::context("test-translate_raster")
 # n_random <- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4
 
 # create landscape
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 
 # normal translation
 landscape_random <- translate_raster(raster = landscape_classified, verbose = FALSE)
