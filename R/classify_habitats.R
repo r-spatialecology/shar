@@ -3,15 +3,22 @@
 #' @description Classify habitats
 #'
 #' @param raster RasterLayer with continuous environmental values.
-#' @param classes Integer with number of classes.
+#' @param classes Integer with number of classes or vector of class breaks.
 #' @param style Character with method of classification. See Details section for
 #' more information.
+#' @param return_classes Logical if breaks should be returned as well.
+#' @param ... Arguments passed on to \code{cut}.
 #'
 #' @details
 #' Classifies a RasterLayer from the \code{raster} packages with continuous
-#' values into n discrete classes. Consequently, classes are non-overlapping (and left-closed).
+#' values into n discrete classes.
+#'
+#' If \code{classes} is a single integer, breaks are determined using the \code{classInt} package.
 #' For more information about the classification method, see \code{\link{classIntervals}} from
 #' the \code{classInt} package and/or the provided References.
+#'
+#' If \code{classes}  is a numerical vector, the classes are used directly as \code{breaks}
+#' argument of the \code{cut} function.
 #'
 #' @seealso
 #' \code{\link{classIntervals}}
@@ -20,6 +27,8 @@
 #'
 #' @examples
 #' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' landscape_classified <- classify_habitats(landscape, classes = c(0, 0.25, 0.75, 1.0),
+#' return_classes = TRUE)
 #'
 #' @aliases classify_habitats
 #' @rdname classify_habitats
@@ -44,14 +53,31 @@
 #' Pearson Prentice Hall, Upper Saddle River, USA. ISBN 978-0-13-229834-6
 #'
 #' @export
-classify_habitats <- function(raster, classes = 5, style = "fisher"){
+classify_habitats <- function(raster, classes = 5, style = "fisher", return_classes = FALSE,
+                              ...){
 
   raster_values <- raster::values(raster) # get all values
 
-  breaks <- classInt::classIntervals(var = raster_values,
-                                     n = classes, style = style) # get class intervals
+  # number of classes provided; use classIntervals to find breaks
+  if (length(classes) == 1) {
 
-  result <- raster::cut(raster, breaks = breaks$brks, include.lowest = TRUE) # classify raster
+    classes <- classInt::classIntervals(var = raster_values,
+                                       n = classes, style = style) # get class intervals
 
-  return(result)
+    classes <- classes$brks
+
+  }
+
+  result <- raster::cut(raster, breaks = classes, ...) # classify raster
+
+  if (return_classes) {
+
+    return(list(raster = result, classes = classes))
+
+  # return only RasterLayer
+  } else {
+
+    return(result)
+
+  }
 }

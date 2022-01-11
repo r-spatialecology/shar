@@ -4,15 +4,25 @@
 \alias{classify_habitats}
 \title{classify_habitats}
 \usage{
-classify_habitats(raster, classes = 5, style = "fisher")
+classify_habitats(
+  raster,
+  classes = 5,
+  style = "fisher",
+  return_classes = FALSE,
+  ...
+)
 }
 \arguments{
 \item{raster}{RasterLayer with continuous environmental values.}
 
-\item{classes}{Integer with number of classes.}
+\item{classes}{Integer with number of classes or vector of class breaks.}
 
 \item{style}{Character with method of classification. See Details section for
 more information.}
+
+\item{return_classes}{Logical if breaks should be returned as well.}
+
+\item{...}{Arguments passed on to \code{cut}.}
 }
 \value{
 RasterLayer
@@ -22,12 +32,19 @@ Classify habitats
 }
 \details{
 Classifies a RasterLayer from the \code{raster} packages with continuous
-values into n discrete classes. Consequently, classes are non-overlapping (and left-closed).
+values into n discrete classes.
+
+If \code{classes} is a single integer, breaks are determined using the \code{classInt} package.
 For more information about the classification method, see \code{\link{classIntervals}} from
 the \code{classInt} package and/or the provided References.
+
+If \code{classes}  is a numerical vector, the classes are used directly as \code{breaks}
+argument of the \code{cut} function.
 }
 \examples{
 landscape_classified <- classify_habitats(landscape, classes = 5)
+landscape_classified <- classify_habitats(landscape, classes = c(0, 0.25, 0.75, 1.0),
+return_classes = TRUE)
 
 }
 \references{
