@@ -32,7 +32,8 @@ Classify habitats
 }
 \details{
 Classifies a RasterLayer from the \code{raster} packages with continuous
-values into n discrete classes.
+values into n discrete classes. The \code{cut} function used to classify the raster,
+uses \code{include.lowest = TRUE}.
 
 If \code{classes} is a single integer, breaks are determined using the \code{classInt} package.
 For more information about the classification method, see \code{\link{classIntervals}} from

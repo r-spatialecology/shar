@@ -11,7 +11,8 @@
 #'
 #' @details
 #' Classifies a RasterLayer from the \code{raster} packages with continuous
-#' values into n discrete classes.
+#' values into n discrete classes. The \code{cut} function used to classify the raster,
+#' uses \code{include.lowest = TRUE}.
 #'
 #' If \code{classes} is a single integer, breaks are determined using the \code{classInt} package.
 #' For more information about the classification method, see \code{\link{classIntervals}} from
@@ -68,7 +69,7 @@ classify_habitats <- function(raster, classes = 5, style = "fisher", return_clas
 
   }
 
-  result <- raster::cut(raster, breaks = classes, ...) # classify raster
+  result <- raster::cut(raster, breaks = classes, include.lowest = TRUE, ...) # classify raster
 
   if (return_classes) {
 
