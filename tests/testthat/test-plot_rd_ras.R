@@ -1,6 +1,6 @@
 testthat::context("test-plot_rd_ras")
 
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 
 raster_random <- translate_raster(raster = landscape_classified,
                                   steps_x = 1:2, steps_y = 1:1, verbose = FALSE)

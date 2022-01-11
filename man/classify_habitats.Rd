@@ -4,25 +4,14 @@
 \alias{classify_habitats}
 \title{classify_habitats}
 \usage{
-classify_habitats(
-  raster,
-  classes = 5,
-  style = "fisher",
-  return_classes = FALSE,
-  ...
-)
+classify_habitats(raster, return_classes = FALSE, ...)
 }
 \arguments{
 \item{raster}{RasterLayer with continuous environmental values.}
 
-\item{classes}{Integer with number of classes or vector of class breaks.}
-
-\item{style}{Character with method of classification. See Details section for
-more information.}
-
 \item{return_classes}{Logical if breaks should be returned as well.}
 
-\item{...}{Arguments passed on to \code{cut}.}
+\item{...}{Arguments passed on to \code{classIntervals}.}
 }
 \value{
 RasterLayer
@@ -35,17 +24,16 @@ Classifies a RasterLayer from the \code{raster} packages with continuous
 values into n discrete classes. The \code{cut} function used to classify the raster,
 uses \code{include.lowest = TRUE}.
 
-If \code{classes} is a single integer, breaks are determined using the \code{classInt} package.
-For more information about the classification method, see \code{\link{classIntervals}} from
-the \code{classInt} package and/or the provided References.
-
-If \code{classes}  is a numerical vector, the classes are used directly as \code{breaks}
-argument of the \code{cut} function.
+For more information about the classification methods, see \code{classIntervals} from
+the \code{classInt} package and/or the provided References. The help page of \code{classIntervals}
+also includes further possible arguments to find  breaks (e.g., different styles, number
+of classes, fixed breaks, etc.).
 }
 \examples{
-landscape_classified <- classify_habitats(landscape, classes = 5)
-landscape_classified <- classify_habitats(landscape, classes = c(0, 0.25, 0.75, 1.0),
-return_classes = TRUE)
+landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+
+landscape_classified <- classify_habitats(landscape, style = "fixed",
+fixedBreaks = c(0, 0.25, 0.75, 1.0), return_classes = TRUE)
 
 }
 \references{
@@ -63,9 +51,16 @@ Jenks, G.F., Caspall, F.C., 1971. Error in choroplethic maps: Definition, measur
 reduction. Annals of the Association of American Geographers 61, 217–244.
 <https://doi.org/10.1111/j.1467-8306.1971.tb00779.x>
 
+Jiang, B., 2013. Head/tail breaks: A new classification scheme for data with a
+heavy-tailed distribution. The Professional Geographer 65, 482-494.
+<https://doi.org/10.1080/00330124.2012.700499>
+
 Slocum, T.A., McMaster, R.B., Kessler, F.C., Howard, H.H., 2009. Thematic cartography
 and geovisualization, 3rd ed. ed, Prentice Hall Series in Geographic Information Science.
 Pearson Prentice Hall, Upper Saddle River, USA. ISBN 978-0-13-229834-6
+
+Wand, M. P., 1995. Data-based choice of histogram binwidth. The American
+Statistician 51, 59-64. <https://doi.org/10.1080/00031305.1997.10473591>
 }
 \seealso{
 \code{\link{classIntervals}}

@@ -39,7 +39,7 @@ In case the RasterLayer contains NA cells, this needs to be reflected in the obs
 window of the point pattern as well (i.e., no point locations possible in these areas).
 }
 \examples{
-landscape_classified <- classify_habitats(landscape, classes = 5)
+landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 species_a_random <- fit_point_process(species_a, n_random = 199)
 results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 

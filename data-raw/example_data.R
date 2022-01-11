@@ -14,7 +14,7 @@ set.seed(42)
 landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
                            fract_dim = 1.5, user_seed = 42)
 
-landscape_class <- classify_habitats(landscape, classes = 5)
+landscape_class <- classify_habitats(landscape, n = 5, style = "fisher")
 
 # Create species with negative
 pattern_a <- spatstat.core::runifpoint(n = 250, win = spatstat.geom::owin(c(0, 1000),

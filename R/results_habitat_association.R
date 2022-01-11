@@ -26,7 +26,7 @@
 #' @return data.frame
 #'
 #' @examples
-#' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 #' species_a_random <- fit_point_process(species_a, n_random = 199)
 #' results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 #'

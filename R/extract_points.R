@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 #' extract_points(raster = landscape_classified, pattern = species_b)
 #' }
 #'

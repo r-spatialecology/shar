@@ -8,7 +8,7 @@ random_a <- fit_point_process(pattern = species_a, n_random = 199,
 random_a_ni <- fit_point_process(pattern = species_a, n_random = 199,
                                  return_input = FALSE, verbose = FALSE)
 
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 
 raster_random <- randomize_raster(landscape_classified, n_random = 1, verbose = FALSE)
 

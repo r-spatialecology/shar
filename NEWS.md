@@ -1,6 +1,6 @@
 # shar 1.3.2
 * Improvements
-  * Allow to give classes to `classify_habitats()`
+  * Improvement of `classify_habitats()` to be more variable
 
 # shar 1.3.1
 * Improvements
