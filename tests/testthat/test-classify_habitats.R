@@ -19,7 +19,7 @@ testthat::test_that("classify_habitats useses breaks and returns them", {
 
   testthat::expect_type(object = landscape_classified_brks, type = "list")
 
-  testthat::expect_equal(object = landscape_classified_brks$classes$brks,
+  testthat::expect_equal(object = landscape_classified_brks$breaks$brks,
                          expected = c(0, 0.25, 0.75, 1.0))
 
   present_classes <- length(unique(raster::values(landscape_classified_brks$raster)))

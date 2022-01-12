@@ -9,7 +9,7 @@ classint_to_vector(x, digits = NULL)
 \arguments{
 \item{x}{classIntervals object}
 
-\item{digits}{Integer with digits used during rounding.}
+\item{digits}{Integer with digits used for rounding.}
 }
 \value{
 vector
@@ -19,7 +19,7 @@ Convert classIntervals to vector
 }
 \details{
 Returns a character vector with breaks of a \code{classIntervals} object. If
-\code(digits = NULL), results wiill not be rounded
+\code{digits = NULL}, results will not be rounded
 }
 \examples{
 \dontrun{
