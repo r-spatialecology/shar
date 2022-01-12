@@ -4,7 +4,7 @@ landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fi
 
 landscape_classified_brks <- classify_habitats(raster = landscape,
                                                fixedBreaks = c(0, 0.25, 0.75, 1.0),
-                                               style = "fixed", return_classes = TRUE)
+                                               style = "fixed", return_breaks = TRUE)
 
 ################################################################################
 

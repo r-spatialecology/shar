@@ -4,12 +4,12 @@
 \alias{classify_habitats}
 \title{classify_habitats}
 \usage{
-classify_habitats(raster, return_classes = FALSE, ...)
+classify_habitats(raster, return_breaks = FALSE, ...)
 }
 \arguments{
 \item{raster}{RasterLayer with continuous environmental values.}
 
-\item{return_classes}{Logical if breaks should be returned as well.}
+\item{return_breaks}{Logical if breaks should be returned as well.}
 
 \item{...}{Arguments passed on to \code{classIntervals}.}
 }
@@ -33,7 +33,7 @@ of classes, fixed breaks, etc.).
 landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 
 landscape_classified <- classify_habitats(landscape, style = "fixed",
-fixedBreaks = c(0, 0.25, 0.75, 1.0), return_classes = TRUE)
+fixedBreaks = c(0, 0.25, 0.75, 1.0), return_breaks = TRUE)
 
 }
 \references{
