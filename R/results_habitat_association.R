@@ -7,6 +7,8 @@
 #' @param raster RasterLayer with original discrete habitat data or rd_ras object with
 #' randomized environmental data.
 #' @param significance_level Double with significance level.
+#' @param breaks Vector with breaks of habitat classes.
+#' @param digits Integer with digits used during rounding.
 #' @param verbose Logical if messages should be printed.
 #'
 #' @details
@@ -18,6 +20,10 @@
 #'
 #' In case the RasterLayer contains NA cells, this needs to be reflected in the observation
 #' window of the point pattern as well (i.e., no point locations possible in these areas).
+#'
+#' If \code{breaks = NULL} (default), only habitat labels (but not breaks) will be
+#' returned. If a vector with \code{breaks} is provided (same order as increasing habitat values),
+#' they will be included as well.
 #'
 #' @seealso
 #' \code{\link{reconstruct_pattern}} \cr
@@ -44,8 +50,8 @@
 #' <https://doi.org/10.1006/jtbi.2000.2158>
 #'
 #' @export
-results_habitat_association <- function(pattern, raster,
-                                        significance_level = 0.05, verbose = TRUE) {
+results_habitat_association <- function(pattern, raster, significance_level = 0.05,
+                                        breaks = NULL, digits = NULL, verbose = TRUE) {
 
   if (!inherits(x = pattern, what = "rd_pat") && !inherits(x = raster, what = "rd_ras")) {
 
@@ -195,20 +201,14 @@ results_habitat_association <- function(pattern, raster,
     })
   }
 
-  # count number of habitats
-  number_habitats <- length(unique(habitats_count$observed$habitat))
-
-  # combine to one df
-  names <- names(habitats_count)
-
   # repeat each name as often as number of habitats
-  names <- rep(names, each = number_habitats)
+  names_obj <- rep(x = names(habitats_count), each = length(habitats))
 
   # rowbind to one dataframe
   habitats_count <- do.call(rbind, unname(habitats_count))
 
   # add id
-  habitats_count$type <- names
+  habitats_count$type <- names_obj
 
   # only randomized data
   habitats_count_random <- habitats_count[habitats_count$type != "observed", ]
@@ -224,6 +224,24 @@ results_habitat_association <- function(pattern, raster,
   # convert to dataframe
   names(habitats_count_random_summarised) <- c("habitat", "lo", "hi")
 
+  # adding breaks to data.frame
+  if (is.null(breaks)) {
+
+    habitats_count_random_summarised$breaks <- rep(x = NA, times = length(habitats))
+
+  } else {
+
+    # check class
+    if (inherits(x = breaks, what = "classIntervals")) {
+
+      breaks <- classint_to_vector(x = breaks, digits = digits)
+
+    }
+
+    habitats_count_random_summarised$breaks <- breaks
+
+  }
+
   # get observed data
   habitats_count_obs <- habitats_count[habitats_count$type == "observed", 1:2]
 
@@ -236,6 +254,9 @@ results_habitat_association <- function(pattern, raster,
                                 yes = "negative",
                                 no = ifelse(test = result$count > result$hi,
                                             yes = "positive", no = "n.s."))
+
+  # reorder columns
+  result <- result[, c("habitat", "breaks", "count", "lo", "hi", "significance")]
 
   return(result)
 }
