@@ -46,7 +46,7 @@ window of the point pattern as well (i.e., no point locations possible in these 
 
 If \code{breaks = NULL} (default), only habitat labels (but not breaks) will be
 returned. If a vector with \code{breaks} is provided (same order as increasing habitat values),
-they will be included as well.
+the breaks will be included as well.
 }
 \examples{
 landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")

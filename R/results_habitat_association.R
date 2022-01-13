@@ -23,7 +23,7 @@
 #'
 #' If \code{breaks = NULL} (default), only habitat labels (but not breaks) will be
 #' returned. If a vector with \code{breaks} is provided (same order as increasing habitat values),
-#' they will be included as well.
+#' the breaks will be included as well.
 #'
 #' @seealso
 #' \code{\link{reconstruct_pattern}} \cr
@@ -88,6 +88,14 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     }
 
+    # check if pattern is ppp
+    if (!inherits(x = pattern, what = "ppp")) {
+
+      stop("Pleaster provide 'ppp' as pattern argument.", call. = FALSE)
+
+    }
+
+
     # check if extent is identical
     same_extent <- raster::extent(raster$observed) == raster::extent(pattern$window$xrange,
                                                                      pattern$window$yrange)
@@ -101,12 +109,12 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
 
-    # print warning if more than 10 classes are present
+    # print warning if more than 25 classes are present
     if (verbose) {
 
-      if (length(habitats) > 10) {
+      if (length(habitats) > 25) {
 
-        warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+        warning("The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.",
                 call. = FALSE)
 
       }
@@ -147,6 +155,13 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     }
 
+    # check of raster is RasterLayer
+    if (!inherits(x = raster, what = "RasterLayer")) {
+
+      stop("Pleaster provide 'RasterLayer' as raster argument.", call. = FALSE)
+
+    }
+
     # check if extent is identical
     same_extent <- raster::extent(raster) == raster::extent(pattern$observed$window$xrange,
                                                             pattern$observed$window$yrange)
@@ -167,12 +182,12 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
 
-    # print warning if more than 10 classes are present
+    # print warning if more than 25 classes are present
     if (verbose) {
 
-      if (length(habitats) > 10) {
+      if (length(habitats) > 25) {
 
-        warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
+        warning("The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.",
                 call. = FALSE)
 
       }
