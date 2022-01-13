@@ -122,7 +122,7 @@
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get started</h1>
             
-            <h4 data-toc-skip class="date">2022-01-11</h4>
+            <h4 data-toc-skip class="date">2022-01-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/get_started.Rmd" class="external-link"><code>vignettes/get_started.Rmd</code></a></small>
       <div class="d-none name"><code>get_started.Rmd</code></div>
@@ -130,6 +130,8 @@
 
     
     
+<pre><code><span class="co">#&gt; Warning: multiple methods tables found for 'direction'</span>
+<span class="co">#&gt; Warning: multiple methods tables found for 'gridDistance'</span></code></pre>
 <div class="section level2">
 <h2 id="design">Design<a class="anchor" aria-label="anchor" href="#design"></a>
 </h2>
@@ -139,7 +141,7 @@
 <h2 id="preprocessing-of-input-data">Preprocessing of input data<a class="anchor" aria-label="anchor" href="#preprocessing-of-input-data"></a>
 </h2>
 <p>All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. <code>classify_habitats</code> provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks &amp; Caspall 1971)</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">landscape_discrete</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
@@ -147,7 +149,7 @@
 </h2>
 <p>There are two functions to randomize the environmental data: <code><a href="../reference/translate_raster.html">translate_raster()</a></code> and <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in <code>n_random &lt;- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4</code> randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the <code>n_random</code> argument.</p>
 <p>However, all methods require “fully mapped data” in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">torus_trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/translate_raster.html">translate_raster</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape_discrete</span><span class="op">)</span>
 
 <span class="va">random_walk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/randomize_raster.html">randomize_raster</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape_discrete</span>, n_random <span class="op">=</span> <span class="fl">99</span><span class="op">)</span></code></pre></div>
@@ -156,7 +158,7 @@
 <h2 id="randomize-location-data">Randomize location data<a class="anchor" aria-label="anchor" href="#randomize-location-data"></a>
 </h2>
 <p>To randomize the location data (i.e. the point pattern) either <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> or <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code> are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the <code>spatstat</code> package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel &amp; Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the <code>n_random</code> argument.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">gamma_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_b</span>, process <span class="op">=</span> <span class="st">"cluster"</span>, n_random <span class="op">=</span> <span class="fl">99</span><span class="op">)</span>
 
 <span class="co"># (this can takes some time)</span>
@@ -168,36 +170,36 @@
 </h2>
 <p>The most important function to analyse results is <code><a href="../reference/results_habitat_association.html">results_habitat_association()</a></code>. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data.</p>
 <p>Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> vs. <code><a href="../reference/translate_raster.html">translate_raster()</a></code>) and even for repetitions of the same approach. However, the counts of the observed data should be identical, and general results and trends should be similar.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_a</span>, raster <span class="op">=</span> <span class="va">random_walk</span><span class="op">)</span>
 <span class="co">#&gt; &gt; Input: randomized raster</span>
 <span class="co">#&gt; &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span>
-<span class="co">#&gt;   habitat count    lo    hi significance</span>
-<span class="co">#&gt; 1       1    35 10.45 32.10     positive</span>
-<span class="co">#&gt; 2       2    44 22.45 50.55         n.s.</span>
-<span class="co">#&gt; 3       3    36 20.00 48.55         n.s.</span>
-<span class="co">#&gt; 4       4     4 25.90 55.00     negative</span>
-<span class="co">#&gt; 5       5    73 46.80 79.10         n.s.</span>
+<span class="co">#&gt;   habitat breaks count    lo    hi significance</span>
+<span class="co">#&gt; 1       1     NA    35 10.45 32.10     positive</span>
+<span class="co">#&gt; 2       2     NA    44 22.45 50.55         n.s.</span>
+<span class="co">#&gt; 3       3     NA    36 20.00 48.55         n.s.</span>
+<span class="co">#&gt; 4       4     NA     4 25.90 55.00     negative</span>
+<span class="co">#&gt; 5       5     NA    73 46.80 79.10         n.s.</span>
 
 <span class="fu"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">reconstruction</span>, raster <span class="op">=</span> <span class="va">landscape_discrete</span><span class="op">)</span>
 <span class="co">#&gt; &gt; Input: randomized pattern</span>
 <span class="co">#&gt; &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span>
-<span class="co">#&gt;   habitat count    lo    hi significance</span>
-<span class="co">#&gt; 1       1     6 27.00 47.00     negative</span>
-<span class="co">#&gt; 2       2    18 35.35 63.55     negative</span>
-<span class="co">#&gt; 3       3    18 28.45 48.00     negative</span>
-<span class="co">#&gt; 4       4    21 20.00 38.55         n.s.</span>
-<span class="co">#&gt; 5       5   129 30.00 50.55     positive</span></code></pre></div>
+<span class="co">#&gt;   habitat breaks count    lo    hi significance</span>
+<span class="co">#&gt; 1       1     NA     6 27.00 47.00     negative</span>
+<span class="co">#&gt; 2       2     NA    18 35.35 63.55     negative</span>
+<span class="co">#&gt; 3       3     NA    18 28.45 48.00     negative</span>
+<span class="co">#&gt; 4       4     NA    21 20.00 38.55         n.s.</span>
+<span class="co">#&gt; 5       5     NA   129 30.00 50.55     positive</span></code></pre></div>
 <p>There is also the possibility to visualize the randomized data using the <code><a href="https://rdrr.io/pkg/raster/man/plot.html" class="external-link">plot()</a></code> function.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">random_walk</span><span class="op">)</span></code></pre></div>
 <p><img src="get_started_files/figure-html/plotting-1.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">reconstruction</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><img src="get_started_files/figure-html/plotting-2.png" width="100%" height="100%" style="display: block; margin: auto;"><img src="get_started_files/figure-html/plotting-3.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
 <p>For the randomized point pattern data, it is also possible to show the “difference” in terms of the energy (Tscheschel &amp; Stoyan 2006) between the patterns.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_energy.html">calculate_energy</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">gamma_test</span>, return_mean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.1346688</span>
 

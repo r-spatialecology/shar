@@ -107,6 +107,8 @@
   <span class="va">pattern</span>,
   <span class="va">raster</span>,
   significance_level <span class="op">=</span> <span class="fl">0.05</span>,
+  breaks <span class="op">=</span> <span class="cn">NULL</span>,
+  digits <span class="op">=</span> <span class="cn">NULL</span>,
   verbose <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -121,6 +123,10 @@ object with randomized point pattern.</p></dd>
 randomized environmental data.</p></dd>
 <dt>significance_level</dt>
 <dd><p>Double with significance level.</p></dd>
+<dt>breaks</dt>
+<dd><p>Vector with breaks of habitat classes.</p></dd>
+<dt>digits</dt>
+<dd><p>Integer with digits used during rounding.</p></dd>
 <dt>verbose</dt>
 <dd><p>Logical if messages should be printed.</p></dd>
 </dl></div>
@@ -137,6 +143,9 @@ if the observed count in a habitat is above or below a certain threshold of the
 randomized count, respectively.</p>
 <p>In case the RasterLayer contains NA cells, this needs to be reflected in the observation
 window of the point pattern as well (i.e., no point locations possible in these areas).</p>
+<p>If <code>breaks = NULL</code> (default), only habitat labels (but not breaks) will be
+returned. If a vector with <code>breaks</code> is provided (same order as increasing habitat values),
+the breaks will be included as well.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -361,12 +370,12 @@ in tropical forests. Journal of Theoretical Biology 207, 81–99.
 <span class="r-in"><span class="fu">results_habitat_association</span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_a_random</span>, raster <span class="op">=</span> <span class="va">landscape_classified</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Input: randomized pattern</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   habitat count    lo    hi significance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1    35 11.95 29.00     positive</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2    44 24.00 45.00         n.s.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3    36 21.00 43.05         n.s.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4     4 29.90 50.00     negative</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5    73 53.00 78.00         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   habitat breaks count    lo    hi significance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1     NA    35 11.00 28.00     positive</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2     NA    44 25.95 47.05         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3     NA    36 23.00 44.05         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4     NA     4 28.00 50.05     negative</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5     NA    73 53.00 78.00         n.s.</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
