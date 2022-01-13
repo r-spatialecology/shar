@@ -3,7 +3,7 @@
 #' @description Classify habitats
 #'
 #' @param raster RasterLayer with continuous environmental values.
-#' @param return_classes Logical if breaks should be returned as well.
+#' @param return_breaks Logical if breaks should be returned as well.
 #' @param ... Arguments passed on to \code{classIntervals}.
 #'
 #' @details
@@ -25,7 +25,7 @@
 #' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 #'
 #' landscape_classified <- classify_habitats(landscape, style = "fixed",
-#' fixedBreaks = c(0, 0.25, 0.75, 1.0), return_classes = TRUE)
+#' fixedBreaks = c(0, 0.25, 0.75, 1.0), return_breaks = TRUE)
 #'
 #' @aliases classify_habitats
 #' @rdname classify_habitats
@@ -57,18 +57,18 @@
 #' Statistician 51, 59-64. <https://doi.org/10.1080/00031305.1997.10473591>
 #'
 #' @export
-classify_habitats <- function(raster, return_classes = FALSE, ...){
+classify_habitats <- function(raster, return_breaks = FALSE, ...){
 
   raster_values <- raster::values(raster) # get all values
 
-  classes <- classInt::classIntervals(var = raster_values, ...) # use classInt to find breaks
+  breaks <- classInt::classIntervals(var = raster_values, ...) # use classInt to find breaks
 
-  result <- raster::cut(raster, breaks = classes$brks, include.lowest = TRUE) # classify raster
+  result <- raster::cut(raster, breaks = breaks$brks, include.lowest = TRUE) # classify raster
 
   # return RasterLayer and breaks
-  if (return_classes) {
+  if (return_breaks) {
 
-    return(list(raster = result, classes = classes))
+    return(list(raster = result, breaks = breaks))
 
   # return only RasterLayer
   } else {
