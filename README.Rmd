@@ -52,8 +52,9 @@ This also automatically installs all non-base `R` package dependencies, namely t
 
 ## How to use shar
 
-```{r import-libs, message = FALSE}
+```{r import-libs, message = FALSE, warning = FALSE}
 library(shar)
+library(spatstat)
 library(raster)
 
 set.seed(42)
