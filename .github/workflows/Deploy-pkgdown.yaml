@@ -23,7 +23,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: pkgdown, future, future.apply, rgbif, rnaturalearth, rnaturalearthdata, sf, terra, patchwork
+          extra-packages: pkgdown, future, future.apply, rgbif, rgdal, rnaturalearth, rnaturalearthdata, sf, terra, patchwork
           needs: website
 
       - name: Install dependencies
