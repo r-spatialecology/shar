@@ -7,7 +7,9 @@ Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "mhk.hesselbarth@
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
              role = "aut", comment = c(ORCID = "0000-0002-3042-5435")), 
              person("Zeke", "Marshall", email = "ee18zm@leeds.ac.uk",
-             role = "ctb", comment = c(ORCID = "0000-0001-9260-7827"))
+             role = "ctb", comment = c(ORCID = "0000-0001-9260-7827")), 
+             person("Thomas", "Etherington", email = "teth001@aucklanduni.ac.nz",
+             role = "ctb", comment = c(ORCID = "0000-0002-3187-075X"))
              )
 Maintainer: Maximillian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description:

@@ -31,6 +31,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Zeke Marshall \email{ee18zm@leeds.ac.uk} (\href{https://orcid.org/0000-0001-9260-7827}{ORCID}) [contributor]
+  \item Thomas Etherington \email{teth001@aucklanduni.ac.nz} (\href{https://orcid.org/0000-0002-3187-075X}{ORCID}) [contributor]
 }
 
 }
