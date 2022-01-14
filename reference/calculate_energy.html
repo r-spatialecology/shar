@@ -17,7 +17,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
   <a class="nav-link" href="../articles/get_started.html">
     <span class="fa fa fa fa-magic"></span>
@@ -55,6 +55,11 @@
       <span class="fa fa-book"></span>
        
       Parallelization
+    </a>
+    <a class="dropdown-item" href="../articles/cormus_domestica_tmp.html">
+      <span class="fa fa-book"></span>
+       
+      Analysing the climatic niche of Cormus domestica
     </a>
     <a class="dropdown-item" href="../articles/publication_record.html">
       <span class="fa fa-file-text-o"></span>
@@ -159,9 +164,6 @@ ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">pattern_random</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_point_process.html">fit_point_process</a></span><span class="op">(</span><span class="va">species_a</span>, n_random <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Registered S3 method overwritten by 'spatstat.geom':</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   method     from</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   print.boxx cli </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unmarked provided input pattern.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: n_random: 1/19		</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: n_random: 2/19		</span>
@@ -205,13 +207,13 @@ ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: 19/19		</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  randomized_1  randomized_2  randomized_3  randomized_4  randomized_5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.06718694    0.07332641    0.06411106    0.09791616    0.10279981 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.06507154    0.07969686    0.08623964    0.07851498    0.06374706 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  randomized_6  randomized_7  randomized_8  randomized_9 randomized_10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.07925672    0.07573287    0.07122433    0.06444150    0.06358375 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.06372200    0.06873254    0.07487459    0.06328327    0.04270752 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> randomized_11 randomized_12 randomized_13 randomized_14 randomized_15 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.07251323    0.07382638    0.06976994    0.06321826    0.07699683 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.06606353    0.04868596    0.06838858    0.08140548    0.05928617 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> randomized_16 randomized_17 randomized_18 randomized_19 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.07528372    0.06669587    0.05933997    0.07118160 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.05017103    0.06220034    0.07527473    0.07403668 </span>
 <span class="r-in"><span class="fu">calculate_energy</span><span class="op">(</span><span class="va">pattern_random</span>, return_mean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: 1/19		</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: 2/19		</span>
@@ -233,7 +235,7 @@ ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: 18/19		</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: 19/19		</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.07307397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.06695276</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="va">marks_sub</span> <span class="op">&lt;-</span> <span class="fu">spatstat.geom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/subset.ppp.html" class="external-link">subset.ppp</a></span><span class="op">(</span><span class="va">species_a</span>, select <span class="op">=</span> <span class="va">dbh</span><span class="op">)</span></span>
@@ -253,7 +255,7 @@ ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
     </footer></div>
