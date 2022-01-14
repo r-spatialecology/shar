@@ -1,0 +1,351 @@
+---
+title: "Analysing the climatic niche of Cormus domestica"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Analysing the climatic niche of Cormus domestica}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+
+# knitr::opts_chunk$set(out.width='750px', dpi=200)
+
+```
+
+## Outline
+
+This vignette demonstrates how to use `shar` to analyse species occurrence data obtained from the Global Biodiversity Information Facility (GBIF) and environmental raster data obtained from the Climate Research Unit (CRU) entirely in `R`, using the "pattern reconstruction" approach as detailed in the background vignette. The distribution of the tree species *Cormus domestica* in Europe is selected, a tree which tolerates a wide range of conditions but favors warm to mild climates, and is most commonly found in the FAO ecological zone "Subtropical Dry Forest", which occupies much of the Mediterranean coast (De Rigo et al., 2016).
+
+## Load required packages
+
+```{r packages, echo=TRUE, message=FALSE, warning=FALSE}
+
+library(dplyr) # For data wrangling
+library(rgbif) # For retrieving species occurrence data 
+library(rnaturalearth) # For retrieving geographical data
+library(getCRUCLdata) # For retrieving climate raster data
+library(sf) # For spatial data operations
+library(raster) # For spatial data operations
+library(terra) # For spatial data operations
+library(shar) # For species-habitat association analysis
+library(spatstat) # For spatial point pattern analysis
+library(spatstat.geom) # For spatial point pattern analysis
+library(patchwork) # For composing multiple plots
+
+```
+
+## Download occurrence data
+
+To retrieve species occurrence data the `R` package `rgbif` (Chamberlain & Boettiger, 2017) is used, which provides an interface to access the GBIF database.
+
+```{r gbif, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Retrieve key for Cormus domestica
+key <- rgbif::name_backbone(name = 'Cormus domestica', kingdom = 'plants')
+
+# Retrieve occurrences
+res <- rgbif::occ_search(taxonKey = as.numeric(key$usageKey), limit = 99999)
+
+# Create a simple data frame containing only the unique identifier (key),
+# latitude (lat), and longtitude (lon).
+data_simp <- data.frame(key = res$data$key, 
+                        lat = res$data$decimalLatitude, 
+                        lon = res$data$decimalLongitude) |> 
+  dplyr::filter(!is.na(lat) | !is.na(lon))
+
+```
+
+## Download map data
+
+Spatial polygon data for the world is obtained from the `rnaturalearth` package (South, 2022), the map is then restricted to the European region. The `spatstat` package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system [4336](https://epsg.io/4326) to the projected coordinate system [3395](https://epsg.io/3395). The `shar` function `reconstruct_pattern` requires a spatial point pattern (ppp) object bounded within an observation window of the class `owin`, which is then created.
+
+```{r maps, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Retrieve data from rnaturalearth
+# A scale of 50 is used, as it provides sufficient detail, without later slowing 
+# down shar::reconstruct pattern too much.
+worldmap <- rnaturalearth::ne_countries(returnclass = "sf", scale = 50) |>
+  sf::st_transform(crs = sf::st_crs(3395))
+
+# Manually establish bounding box
+eur_box <- sf::st_sfc(sf::st_point(c(-20, 30)),
+                      sf::st_point(c(45, 73)),
+                      crs = 4326) |>
+  sf::st_transform(crs = sf::st_crs(3395))
+
+# Crop world map to include polygons within Europe extent
+eur <- sf::st_crop(x = worldmap, y = eur_box)
+
+# Define observation window
+eur_owin <- spatstat.geom::as.owin(eur$geometry)
+```
+
+## Download climate data
+
+The environmental variable selected for demonstrative purposes is the mean temperature in June over the 1961-1990 period. Data is obtained through the `getCRUCLdata` package (Sparks, 2017) which provides access to the datasets described in (New et al., 2002).
+
+```{r cru_data, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Download data as a raster brick through the getCRUCLdata package
+# Mean temperature (tmn) data should be 180.4MB
+cru_data <- getCRUCLdata::get_CRU_stack(pre = FALSE,
+                                        pre_cv = FALSE,
+                                        rd0 = FALSE,
+                                        tmp = TRUE,
+                                        dtr = FALSE,
+                                        reh = FALSE,
+                                        tmn = FALSE,
+                                        tmx = FALSE,
+                                        sunp = FALSE,
+                                        frs = FALSE,
+                                        wnd = FALSE,
+                                        elv = FALSE,
+                                        cache = FALSE)
+
+
+```
+
+## Prepare landscape raster
+
+The climate data obtained above is restricted to the European region, then classified into 10 habitats, as set in the `fixedBreaks` argument of the `classify_habitats` function.
+
+```{r landscape_ras, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Select month
+tmp_raster_jun <- cru_data$tmp$jun
+
+# Crop tmp raster
+tmp_raster_jun_eur <- terra::crop(x = tmp_raster_jun, 
+                                  y = c(xmin=-20, xmax=45, ymin=30, ymax=73))
+
+# Reproject raster
+tmp_raster_jun_eur_3395 <- raster::projectRaster(tmp_raster_jun_eur, crs = 3395)
+
+# Classify landscape
+landscape_classified <- shar::classify_habitats(raster = tmp_raster_jun_eur_3395,
+                                                return_breaks = TRUE,
+                                                style = "fixed",
+                                                fixedBreaks = c(0, 5, 7.5,
+                                                                10, 12.5, 15, 
+                                                                17.5, 20, 25, 
+                                                                30, 35))
+
+```
+
+```{r land_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400}
+
+raster_unclassed_df <- terra::as.data.frame(tmp_raster_jun_eur_3395, xy = TRUE) |>
+  dplyr::rename("value" = "jun") |> 
+  dplyr::mutate("type" = "Unclassified")
+
+raster_classed_df <- terra::as.data.frame(landscape_classified$raster, xy = TRUE) |>
+  dplyr::rename("value" = "layer") |>
+  dplyr::mutate("type" = "Classified")
+
+plot_unclassed <- ggplot2::ggplot() +
+  ggplot2::geom_raster(data = raster_unclassed_df,
+                       mapping = ggplot2::aes(x = x, y = y, fill = value)) +
+  ggplot2::geom_sf(data = eur$geometry,
+                   mapping = ggplot2::aes(),
+                   colour = "black", fill = NA, size = 0.1) +
+  ggplot2::facet_wrap(~type) + 
+  ggplot2::theme_minimal() +
+  ggplot2::xlab(label = NULL) +
+  ggplot2::ylab(label = NULL) +
+  ggplot2::labs(fill = NULL) +
+  ggplot2::scale_fill_distiller(palette = "RdBu", 
+                                na.value = "transparent") +
+  ggplot2::theme(panel.grid.major = ggplot2::element_line(colour = "#c9c9c9", 
+                                                          linetype = "dashed", 
+                                                          size = 0.075), 
+                 panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
+                 panel.border = ggplot2::element_rect(fill = NA),
+                 text = ggplot2::element_text(size = 6),
+                 axis.text.x = ggplot2::element_text(size = 4),
+                 axis.text.y = ggplot2::element_text(size = 4),
+                 plot.margin = ggplot2::margin(t = 0,  # Top margin
+                                               r = 0,  # Right margin
+                                               b = 0,  # Bottom margin
+                                               l = 0),
+                 # legend.position = "bottom",
+                 legend.position = c(0.5, -0.2), 
+                 legend.direction = "horizontal",
+                 legend.justification = "center",
+                 legend.text = ggplot2::element_text(size = 3),
+                 legend.key.size = ggplot2::unit(0.125, 'cm'),
+                 legend.key.width = ggplot2::unit(0.3, "cm")
+                 ) +
+  NULL
+
+plot_classed <- ggplot2::ggplot() +
+  ggplot2::geom_raster(data = raster_classed_df,
+                       mapping = ggplot2::aes(x = x, y = y,
+                                              fill = factor(value)
+                                              # fill = value
+                                              )) +
+  ggplot2::geom_sf(data = eur$geometry,
+                   mapping = ggplot2::aes(),
+                   colour = "black", fill = NA, size = 0.1) +
+  ggplot2::facet_wrap(~type) + 
+  ggplot2::theme_minimal() +
+  ggplot2::xlab(label = NULL) +
+  ggplot2::ylab(label = NULL) +
+  ggplot2::labs(fill = NULL) +
+  ggplot2::scale_fill_brewer(palette = "RdBu", 
+                             direction = -1,
+                             na.value = "transparent", 
+                             guide = ggplot2::guide_legend()) +
+  ggplot2::theme(panel.grid.major = ggplot2::element_line(colour = "#c9c9c9", 
+                                                          linetype = "dashed", 
+                                                          size = 0.075), 
+                 panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
+                 panel.border = ggplot2::element_rect(fill = NA),
+                 text = ggplot2::element_text(size = 6),
+                 axis.text.x = ggplot2::element_text(size = 4),
+                 axis.text.y = ggplot2::element_blank(), # ggplot2::element_text(size = 4),
+                 plot.margin = ggplot2::margin(t = 0,  # Top margin
+                                               r = 0,  # Right margin
+                                               b = 0,  # Bottom margin
+                                               l = 0.25),
+                 # legend.position = "bottom",
+                 legend.position = c(0.5, -0.2),
+                 legend.direction = "horizontal",
+                 legend.justification = "center",
+                 legend.text = ggplot2::element_text(size = 3),
+                 legend.key.size = ggplot2::unit(0.125, 'cm'),
+                 legend.key.width = ggplot2::unit(0.3, "cm")
+                 ) +
+  NULL
+
+plot_unclassed + plot_classed
+
+```
+
+## Prepare occurrence data
+
+The occurrence data is prepared, then the `shar` function `reconstruct_pattern` is called, yielding the randomised occurrence data within the observation window as required by the `results_habitat_association` function.
+
+```{r occ_prep, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Convert occurrence data to a simple features object
+data_sf <- sf::st_as_sf(data_simp, 
+                        coords = c("lon", "lat"),
+                        crs = 4326)
+
+# Restrict occurences to those within the European region, then re-project the data
+data_sf_eur_3395 <- sf::st_crop(x = data_sf,
+                                y = c(xmin=-20, xmax=45, ymin=30, ymax=73)) |>
+  sf::st_transform(crs = sf::st_crs(3395))
+
+# Extract the coordinates as a matrix from the sf occurrences object
+data_sf_eur_coords <- sf::st_coordinates(data_sf_eur_3395)
+
+# Create a spatiral points pattern object containing the occurrence data
+data_sf_eur_ppp <- spatstat.geom::as.ppp(X = data_sf_eur_coords, 
+                                         W = eur_owin)
+
+# Reconstruct pattern
+recon_pattern <- shar::reconstruct_pattern(pattern = data_sf_eur_ppp,
+                                           max_runs = 1)
+
+```
+
+```{r occ_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400}
+
+recon_occ_df <- as.data.frame(recon_pattern$randomized$randomized_1) |> 
+  dplyr::mutate("type" = "Randomised Occurrences")
+
+real_occ_df <- data_sf_eur_coords |>
+  as.data.frame() |> 
+  dplyr::rename(x = "X",
+                y = "Y") |> 
+  dplyr::mutate("type" = "Real Occurrences")
+
+real_occ_plot <- ggplot2::ggplot() +
+  ggplot2::geom_sf(data = eur$geometry,
+                   mapping = ggplot2::aes(),
+                   colour = "black", fill = "white", size = 0.01) +
+  ggplot2::geom_point(real_occ_df, 
+                      mapping = ggplot2::aes(x = x, y = y),
+                      size = 0.2, stroke = 0, shape = 16, color = "Red") +
+  ggplot2::facet_wrap(~type) + 
+  ggplot2::theme_minimal() +
+  ggplot2::xlab(label = NULL) +
+  ggplot2::ylab(label = NULL) +
+  ggplot2::theme(panel.grid.major = ggplot2::element_line(colour = "#c9c9c9", 
+                                                          linetype = "dashed", 
+                                                          size = 0.075), 
+                 panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
+                 panel.border = ggplot2::element_rect(fill = NA),
+                 text = ggplot2::element_text(size = 6),
+                 axis.text.x = ggplot2::element_text(size = 4),
+                 axis.text.y = ggplot2::element_text(size = 4),
+                 plot.margin = ggplot2::margin(t = 0,  
+                                               r = 0,  
+                                               b = 0,  
+                                               l = 0)) + 
+  NULL
+
+recon_occ_plot <- ggplot2::ggplot() +
+  ggplot2::geom_sf(data = eur$geometry,
+                   mapping = ggplot2::aes(),
+                   colour = "black", fill = "white", size = 0.01) +
+  ggplot2::geom_point(recon_occ_df, 
+                      mapping = ggplot2::aes(x = x, y = y),
+                      size = 0.2, stroke = 0, shape = 16, color = "Red") +
+  ggplot2::facet_wrap(~type) + 
+  ggplot2::theme_minimal() +
+  ggplot2::xlab(label = NULL) +
+  ggplot2::ylab(label = NULL) +
+  ggplot2::theme(panel.grid.major = ggplot2::element_line(colour = "#c9c9c9", 
+                                                          linetype = "dashed", 
+                                                          size = 0.075), 
+                 panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
+                 panel.border = ggplot2::element_rect(fill = NA),
+                 text = ggplot2::element_text(size = 6),
+                 axis.text.x = ggplot2::element_text(size = 4),
+                 axis.text.y = ggplot2::element_blank(), # ggplot2::element_text(size = 4),
+                 plot.margin = ggplot2::margin(t = 0,  
+                                               r = 0,  
+                                               b = 0,  
+                                               l = 0)) + 
+  NULL
+
+real_occ_plot + recon_occ_plot
+
+```
+
+
+## Results
+
+The analysis function `results_habitat_association` is then called. The results of the pattern reconstruction analysis show that *Cormus domestica* is positively associated with locations which experience a mean June temperature of 15C-17.5C & 17.5C-20C.
+
+```{r model_run, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Establish significance level
+sig_level <- 0.01
+
+# Run analysis
+results <- shar::results_habitat_association(pattern = recon_pattern, 
+                                             raster = landscape_classified$raster,
+                                             breaks = landscape_classified$breaks,
+                                             significance_level = sig_level) |> 
+  dplyr::arrange(habitat)
+
+results
+
+```
+
+## References
+
+Chamberlain SA, Boettiger C. 2017. R Python, and Ruby clients for GBIF species occurrence data. PeerJ Preprints 5:e3304v1 <doi:10.7287/peerj.preprints.3304v1>
+
+De Rigo, D., Caudullo, G., Houston Durrant, T. and San-Miguel-Ayanz, J., 2016. The European Atlas of Forest Tree Species: modelling, data and information on forest tree species. *European Atlas of Forest Tree Species*, p.e01aa69. <doi:10.2788/4251>
+
+New, M., Lister, D., Hulme, M. and Makin, I., 2002. A high-resolution data set of surface climate over global land areas. *Climate research*, *21*(1), pp.1-25. <doi:10.3354/cr021001>
+
+South A (2022). *rnaturalearth: World Map Data from Natural Earth*. <https://docs.ropensci.org/rnaturalearth> (website) <https://github.com/ropensci/rnaturalearth.>
+
+Sparks, (2017). getCRUCLdata: Use and Explore CRU CL v. 2.0 Climatology Elements in R. Journal of Open Source Software, 2(12), 230, <doi:10.21105/joss.00230>
