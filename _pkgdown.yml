@@ -68,6 +68,9 @@ navbar:
         - text: "Parallelization"
           icon: fa-book
           href: articles/parallelization.html
+        - text: "Analysing the climatic niche of Cormus domestica"
+          icon: fa-book
+          href: articles/cormus_domestica_tmp.html
         - text: "Publication Record"
           icon: fa-file-text-o
           href: articles/publication_record.html
