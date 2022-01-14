@@ -1,5 +1,6 @@
 ---
 title: "How to reconstruct multiple patterns"
+author: "Maximilian H.K. Hesselbarth"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
