@@ -16,7 +16,7 @@ vignette: >
 
 ## Outline
 
-This vignette demonstrates how to use `shar` to analyse species occurrence data obtained from the Global Biodiversity Information Facility (GBIF) and environmental raster data obtained from the Climate Research Unit (CRU) entirely in `R`, using the "pattern reconstruction" approach as detailed in the background vignette. The distribution of the tree species *Cormus domestica* in Europe is selected, a tree which tolerates a wide range of conditions but favors warm to mild climates, and is most commonly found in the FAO ecological zone "Subtropical Dry Forest", which occupies much of the Mediterranean coast (De Rigo et al., 2016).
+This vignette demonstrates how to use `shar` to analyse species occurrence data obtained from the Global Biodiversity Information Facility (GBIF) and environmental raster data obtained from the Climate Research Unit (CRU) entirely in `R`. The "pattern reconstruction" approach as detailed in the background vignette is used. The distribution of the tree species *Cormus domestica* in Europe is selected, a tree which tolerates a wide range of conditions but favors warm to mild climates, occurring in the "Subtropical dry forest" and "Temperate Continental" FAO ecological zones. *Cormus domestica* is most commonly found in Southern Europe, though there it's natural range is uncertain owing to it's cultivation and distribution by the Roman Empire (De Rigo et al., 2016; Rotach, 2003).
 
 ## Load required packages
 
@@ -113,7 +113,7 @@ The climate data obtained above is restricted to the European region, then class
 
 ```{r landscape_ras, echo=TRUE, message=FALSE, warning=FALSE}
 
-# Select month
+# Select temperature variable and the month of June
 tmp_raster_jun <- cru_data$tmp$jun
 
 # Crop tmp raster
@@ -345,6 +345,8 @@ Chamberlain SA, Boettiger C. 2017. R Python, and Ruby clients for GBIF species o
 De Rigo, D., Caudullo, G., Houston Durrant, T. and San-Miguel-Ayanz, J., 2016. The European Atlas of Forest Tree Species: modelling, data and information on forest tree species. *European Atlas of Forest Tree Species*, p.e01aa69. <doi:10.2788/4251>
 
 New, M., Lister, D., Hulme, M. and Makin, I., 2002. A high-resolution data set of surface climate over global land areas. *Climate research*, *21*(1), pp.1-25. <doi:10.3354/cr021001>
+
+Rotach, P., 2003. EUFORGEN Technical Guidelines for genetic conservation and use for service tree (Sorbus domestica). Bioversity International.
 
 South A (2022). *rnaturalearth: World Map Data from Natural Earth*. <https://docs.ropensci.org/rnaturalearth> (website) <https://github.com/ropensci/rnaturalearth.>
 
