@@ -23,8 +23,14 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: pkgdown, future, future.apply
+          extra-packages: pkgdown, future, future.apply, rgbif, rgdal, rnaturalearth, rnaturalearthdata, sf, terra, patchwork
           needs: website
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes"))
+          remotes::install_github(repo = "ropensci/getCRUCLdata")
+        shell: Rscript {0}
 
       - name: Deploy package
         run: |

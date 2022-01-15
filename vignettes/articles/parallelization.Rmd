@@ -1,5 +1,6 @@
 ---
 title: "Parallelization"
+author: "Maximilian H.K. Hesselbarth"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -23,8 +24,10 @@ The following examples illustrates how to use `future` package to randomize patt
 
 First, we need to load all required packages. This includes `future` and `future.apply`.
 
-```{r load-packages, message = FALSE}
+```{r load-packages, message = FALSE, warning = FALSE}
 library(shar)
+library(spatstat)
+library(raster)
 
 library(future)
 library(future.apply)
