@@ -26,6 +26,7 @@ This vignette demonstrates how to use `shar` to analyse species occurrence data 
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(dplyr) # For data wrangling
+library(magrittr) # For the non-base R pipe function (%>%)
 library(rgbif) # For retrieving species occurrence data 
 library(rnaturalearth) # For retrieving geographical data
 library(getCRUCLdata) # For retrieving climate raster data
@@ -48,21 +49,19 @@ key <- rgbif::name_backbone(name = 'Cormus domestica', kingdom = 'plants')
 # Retrieve occurrences
 res <- rgbif::occ_search(taxonKey = as.numeric(key$usageKey), limit = 99999)
 
-# Create a simple data frame containing only the unique identifier (key),
+# Create a simple data frame containing only the unique identifier (id),
 # latitude (lat), and longtitude (lon).
-data_simp <- data.frame(key = res$data$key, 
+data_simp <- data.frame(id = res$data$key, 
                         lat = res$data$decimalLatitude, lon = res$data$decimalLongitude) %>% 
   dplyr::filter(!is.na(lat) | !is.na(lon))
 ```
 
 ## Download map data
 
-Spatial polygon data for the world is obtained from the `rnaturalearth` package (South, 2022), the map is then restricted to the European region. The `spatstat` package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system [4336](https://epsg.io/4326) to the projected coordinate system [3395](https://epsg.io/3395). The `shar` function `reconstruct_pattern` requires a spatial point pattern (`ppp`) object bounded within an observation window of the class `owin`, which is then created.
+Spatial polygon data for the world is obtained from the `rnaturalearth` package (South, 2022), the map is then restricted to the European region. The `spatstat` package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system [4336](https://epsg.io/4326) to the projected coordinate system [3395](https://epsg.io/3395). The `shar` function `fit_point_process` requires a spatial point pattern (`ppp`) object bounded within an observation window of the class `owin`, which is then created.
 
 ```{r maps, echo=TRUE, message=FALSE, warning=FALSE}
 # Retrieve data from rnaturalearth
-# A scale of 50 is used, as it provides sufficient detail, without later slowing 
-# down shar::reconstruct pattern too much.
 worldmap <- rnaturalearth::ne_countries(returnclass = "sf", scale = 50) %>%
   sf::st_transform(crs = sf::st_crs(3395))
 
@@ -93,7 +92,7 @@ cru_data <- getCRUCLdata::get_CRU_stack(pre = FALSE, pre_cv = FALSE, rd0 = FALSE
 
 ## Prepare landscape raster
 
-The climate data obtained above is restricted to the European region, then classified into 10 habitats, as set in the `fixedBreaks` argument of the `classify_habitats` function.
+The climate data obtained above is restricted to the European region. It is then classified into 10 habitats based on temperature ranges, achieved by setting the lower and upper bounds of these ranges in the `fixedBreaks` argument of the `classify_habitats` function.
 
 ```{r landscape_ras, echo=TRUE, message=FALSE, warning=FALSE}
 # Select temperature variable and the month of June
@@ -111,7 +110,7 @@ landscape_classified <- shar::classify_habitats(raster = tmp_raster_jun_eur_3395
                                                 return_breaks = TRUE, style = "fixed",
                                                 fixedBreaks = c(0, 5, 7.5,
                                                                 10, 12.5, 15, 
-                                                                17.5, 20, 25, 
+                                                                17.5, 20, 25,
                                                                 30, 35))
 ```
 
@@ -130,7 +129,6 @@ plot_unclassed <- ggplot2::ggplot() +
   ggplot2::geom_sf(data = eur$geometry,
                    mapping = ggplot2::aes(),
                    colour = "black", fill = NA, size = 0.1) +
-  ggplot2::facet_wrap(~type) + 
   ggplot2::theme_minimal() +
   ggplot2::xlab(label = NULL) +
   ggplot2::ylab(label = NULL) +
@@ -142,32 +140,29 @@ plot_unclassed <- ggplot2::ggplot() +
                                                           size = 0.075), 
                  panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
                  panel.border = ggplot2::element_rect(fill = NA),
-                 text = ggplot2::element_text(size = 6),
-                 axis.text.x = ggplot2::element_text(size = 4),
-                 axis.text.y = ggplot2::element_text(size = 4),
+                 text = ggplot2::element_text(size = 12),
+                 axis.text.x = ggplot2::element_text(size = 9),
+                 axis.text.y = ggplot2::element_text(size = 9),
                  plot.margin = ggplot2::margin(t = 0,  # Top margin
                                                r = 0,  # Right margin
                                                b = 0,  # Bottom margin
                                                l = 0),
-                 # legend.position = "bottom",
-                 legend.position = c(0.5, -0.2), 
+                 legend.position = "bottom",
+                 # legend.position = c(0.5, -0.2), 
                  legend.direction = "horizontal",
                  legend.justification = "center",
-                 legend.text = ggplot2::element_text(size = 3),
-                 legend.key.size = ggplot2::unit(0.125, 'cm'),
-                 legend.key.width = ggplot2::unit(0.3, "cm")
+                 legend.text = ggplot2::element_text(size = 8),
+                 legend.key.height = ggplot2::unit(0.25, 'cm'),
+                 legend.key.width = ggplot2::unit(0.75, "cm")
                  )
 
 plot_classed <- ggplot2::ggplot() +
   ggplot2::geom_raster(data = raster_classed_df,
                        mapping = ggplot2::aes(x = x, y = y,
-                                              fill = factor(value)
-                                              # fill = value
-                                              )) +
+                                              fill = factor(value))) +
   ggplot2::geom_sf(data = eur$geometry,
                    mapping = ggplot2::aes(),
                    colour = "black", fill = NA, size = 0.1) +
-  ggplot2::facet_wrap(~type) + 
   ggplot2::theme_minimal() +
   ggplot2::xlab(label = NULL) +
   ggplot2::ylab(label = NULL) +
@@ -181,20 +176,20 @@ plot_classed <- ggplot2::ggplot() +
                                                           size = 0.075), 
                  panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
                  panel.border = ggplot2::element_rect(fill = NA),
-                 text = ggplot2::element_text(size = 6),
-                 axis.text.x = ggplot2::element_text(size = 4),
+                 text = ggplot2::element_text(size = 12),
+                 axis.text.x = ggplot2::element_text(size = 9),
                  axis.text.y = ggplot2::element_blank(), # ggplot2::element_text(size = 4),
                  plot.margin = ggplot2::margin(t = 0,  # Top margin
                                                r = 0,  # Right margin
                                                b = 0,  # Bottom margin
-                                               l = 0.25),
-                 # legend.position = "bottom",
-                 legend.position = c(0.5, -0.2),
+                                               l = 0),
+                 legend.position = "bottom",
+                 # legend.position = c(0.5, -0.2),
                  legend.direction = "horizontal",
                  legend.justification = "center",
-                 legend.text = ggplot2::element_text(size = 3),
-                 legend.key.size = ggplot2::unit(0.125, 'cm'),
-                 legend.key.width = ggplot2::unit(0.3, "cm")
+                 legend.text = ggplot2::element_text(size = 8),
+                 legend.key.height = ggplot2::unit(0.25, 'cm'),
+                 legend.key.width = ggplot2::unit(0.75, "cm")
                  )
 
 plot_unclassed + plot_classed
@@ -202,7 +197,7 @@ plot_unclassed + plot_classed
 
 ## Prepare occurrence data
 
-The occurrence data is prepared, then the `shar` function `reconstruct_pattern` is called, yielding the randomized occurrence data within the observation window as required by the `results_habitat_association` function.
+The occurrence data is prepared, then the `shar` function `fit_point_process` is called, yielding the randomized occurrence data within the observation window as required by the `results_habitat_association` function.
 
 ```{r occ_prep, echo=TRUE, message=FALSE, warning=FALSE}
 # Convert occurrence data to a simple features object
@@ -219,11 +214,7 @@ data_sf_eur_coords <- sf::st_coordinates(data_sf_eur_3395)
 # Create a spatial points pattern object containing the occurrence data
 data_sf_eur_ppp <- spatstat.geom::as.ppp(X = data_sf_eur_coords, W = eur_owin)
 
-# # Reconstruct pattern
-# rand_pattern <- shar::reconstruct_pattern(pattern = data_sf_eur_ppp, n_random = 1, 
-#                                           max_runs = 1)
-
-# fit point pattern process to data
+# Fit point pattern process to data
 rand_pattern <- shar::fit_point_process(pattern = data_sf_eur_ppp, n_random = 19)
 ```
 
@@ -239,11 +230,10 @@ real_occ_df <- data_sf_eur_coords %>%
 real_occ_plot <- ggplot2::ggplot() +
   ggplot2::geom_sf(data = eur$geometry,
                    mapping = ggplot2::aes(),
-                   colour = "black", fill = "white", size = 0.01) +
+                   colour = "black", fill = "white", size = 0.1) +
   ggplot2::geom_point(real_occ_df, 
                       mapping = ggplot2::aes(x = x, y = y),
                       size = 0.2, stroke = 0, shape = 16, color = "Red") +
-  ggplot2::facet_wrap(~type) + 
   ggplot2::theme_minimal() +
   ggplot2::xlab(label = NULL) +
   ggplot2::ylab(label = NULL) +
@@ -252,9 +242,9 @@ real_occ_plot <- ggplot2::ggplot() +
                                                           size = 0.075), 
                  panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
                  panel.border = ggplot2::element_rect(fill = NA),
-                 text = ggplot2::element_text(size = 6),
-                 axis.text.x = ggplot2::element_text(size = 4),
-                 axis.text.y = ggplot2::element_text(size = 4),
+                 text = ggplot2::element_text(size = 12),
+                 axis.text.x = ggplot2::element_text(size = 9),
+                 axis.text.y = ggplot2::element_text(size = 9),
                  plot.margin = ggplot2::margin(t = 0,  
                                                r = 0,  
                                                b = 0,  
@@ -263,11 +253,10 @@ real_occ_plot <- ggplot2::ggplot() +
 recon_occ_plot <- ggplot2::ggplot() +
   ggplot2::geom_sf(data = eur$geometry,
                    mapping = ggplot2::aes(),
-                   colour = "black", fill = "white", size = 0.01) +
+                   colour = "black", fill = "white", size = 0.1) +
   ggplot2::geom_point(recon_occ_df, 
                       mapping = ggplot2::aes(x = x, y = y),
                       size = 0.2, stroke = 0, shape = 16, color = "Red") +
-  ggplot2::facet_wrap(~type) + 
   ggplot2::theme_minimal() +
   ggplot2::xlab(label = NULL) +
   ggplot2::ylab(label = NULL) +
@@ -276,8 +265,8 @@ recon_occ_plot <- ggplot2::ggplot() +
                                                           size = 0.075), 
                  panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
                  panel.border = ggplot2::element_rect(fill = NA),
-                 text = ggplot2::element_text(size = 6),
-                 axis.text.x = ggplot2::element_text(size = 4),
+                 text = ggplot2::element_text(size = 12),
+                 axis.text.x = ggplot2::element_text(size = 9),
                  axis.text.y = ggplot2::element_blank(), # ggplot2::element_text(size = 4),
                  plot.margin = ggplot2::margin(t = 0,  
                                                r = 0,  
@@ -289,7 +278,7 @@ real_occ_plot + recon_occ_plot
 
 ## Results
 
-The analysis function `results_habitat_association` is then called. The results of the pattern reconstruction analysis show that *Cormus domestica* is positively associated with locations which experience a mean June temperature of 15C-17.5C & 17.5C-20C. Furthermore, *Cormus domestica* is negatively associated with all other locations classified by temperature.
+The analysis function `results_habitat_association` is then called. The results of the analysis show that *Cormus domestica* is positively associated with locations which experience a mean June temperature of 15C - 17.5C (habitat 6) & 17.5C - 20C (habitat 7). Furthermore, *Cormus domestica* is negatively associated with all other locations classified by temperature.
 
 ```{r model_run, echo=TRUE, message=FALSE, warning=FALSE}
 # Establish significance level
