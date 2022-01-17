@@ -131,7 +131,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Analysing the climatic niche of Cormus domestica</h1>
                         <h4 data-toc-skip class="author">Zeke Marshall</h4>
             
-            <h4 data-toc-skip class="date">2022-01-14</h4>
+            <h4 data-toc-skip class="date">2022-01-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/cormus_domestica_tmp.Rmd" class="external-link"><code>vignettes/articles/cormus_domestica_tmp.Rmd</code></a></small>
       <div class="d-none name"><code>cormus_domestica_tmp.Rmd</code></div>
@@ -149,6 +149,7 @@
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># For data wrangling</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span> <span class="co"># For the non-base R pipe function (%&gt;%)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rgbif" class="external-link">rgbif</a></span><span class="op">)</span> <span class="co"># For retrieving species occurrence data </span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth" class="external-link">rnaturalearth</a></span><span class="op">)</span> <span class="co"># For retrieving geographical data</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/getCRUCLdata/" class="external-link">getCRUCLdata</a></span><span class="op">)</span> <span class="co"># For retrieving climate raster data</span>
@@ -170,20 +171,18 @@
 <span class="co"># Retrieve occurrences</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">rgbif</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rgbif/reference/occ_search.html" class="external-link">occ_search</a></span><span class="op">(</span>taxonKey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/catalyze.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">key</span><span class="op">$</span><span class="va">usageKey</span><span class="op">)</span>, limit <span class="op">=</span> <span class="fl">99999</span><span class="op">)</span>
 
-<span class="co"># Create a simple data frame containing only the unique identifier (key),</span>
+<span class="co"># Create a simple data frame containing only the unique identifier (id),</span>
 <span class="co"># latitude (lat), and longtitude (lon).</span>
-<span class="va">data_simp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">res</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">key</span>, 
+<span class="va">data_simp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">res</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">key</span>, 
                         lat <span class="op">=</span> <span class="va">res</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">decimalLatitude</span>, lon <span class="op">=</span> <span class="va">res</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">decimalLongitude</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lat</span><span class="op">)</span> <span class="op">|</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">lon</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="download-map-data">Download map data<a class="anchor" aria-label="anchor" href="#download-map-data"></a>
 </h2>
-<p>Spatial polygon data for the world is obtained from the <code>rnaturalearth</code> package (South, 2022), the map is then restricted to the European region. The <code>spatstat</code> package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system <a href="https://epsg.io/4326" class="external-link">4336</a> to the projected coordinate system <a href="https://epsg.io/3395" class="external-link">3395</a>. The <code>shar</code> function <code>reconstruct_pattern</code> requires a spatial point pattern (<code>ppp</code>) object bounded within an observation window of the class <code>owin</code>, which is then created.</p>
+<p>Spatial polygon data for the world is obtained from the <code>rnaturalearth</code> package (South, 2022), the map is then restricted to the European region. The <code>spatstat</code> package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system <a href="https://epsg.io/4326" class="external-link">4336</a> to the projected coordinate system <a href="https://epsg.io/3395" class="external-link">3395</a>. The <code>shar</code> function <code>fit_point_process</code> requires a spatial point pattern (<code>ppp</code>) object bounded within an observation window of the class <code>owin</code>, which is then created.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve data from rnaturalearth</span>
-<span class="co"># A scale of 50 is used, as it provides sufficient detail, without later slowing </span>
-<span class="co"># down shar::reconstruct pattern too much.</span>
 <span class="va">worldmap</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="fl">3395</span><span class="op">)</span><span class="op">)</span>
 
@@ -213,7 +212,7 @@
 <div class="section level2">
 <h2 id="prepare-landscape-raster">Prepare landscape raster<a class="anchor" aria-label="anchor" href="#prepare-landscape-raster"></a>
 </h2>
-<p>The climate data obtained above is restricted to the European region, then classified into 10 habitats, as set in the <code>fixedBreaks</code> argument of the <code>classify_habitats</code> function.</p>
+<p>The climate data obtained above is restricted to the European region. It is then classified into 10 habitats based on temperature ranges, achieved by setting the lower and upper bounds of these ranges in the <code>fixedBreaks</code> argument of the <code>classify_habitats</code> function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Select temperature variable and the month of June</span>
 <span class="va">tmp_raster_jun</span> <span class="op">&lt;-</span> <span class="va">cru_data</span><span class="op">$</span><span class="va">tmp</span><span class="op">$</span><span class="va">jun</span>
@@ -230,14 +229,14 @@
                                                 return_breaks <span class="op">=</span> <span class="cn">TRUE</span>, style <span class="op">=</span> <span class="st">"fixed"</span>,
                                                 fixedBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">7.5</span>,
                                                                 <span class="fl">10</span>, <span class="fl">12.5</span>, <span class="fl">15</span>, 
-                                                                <span class="fl">17.5</span>, <span class="fl">20</span>, <span class="fl">25</span>, 
+                                                                <span class="fl">17.5</span>, <span class="fl">20</span>, <span class="fl">25</span>,
                                                                 <span class="fl">30</span>, <span class="fl">35</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="cormus_domestica_tmp_files/figure-html/land_plots-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="prepare-occurrence-data">Prepare occurrence data<a class="anchor" aria-label="anchor" href="#prepare-occurrence-data"></a>
 </h2>
-<p>The occurrence data is prepared, then the <code>shar</code> function <code>reconstruct_pattern</code> is called, yielding the randomized occurrence data within the observation window as required by the <code>results_habitat_association</code> function.</p>
+<p>The occurrence data is prepared, then the <code>shar</code> function <code>fit_point_process</code> is called, yielding the randomized occurrence data within the observation window as required by the <code>results_habitat_association</code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Convert occurrence data to a simple features object</span>
 <span class="va">data_sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">data_simp</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
@@ -253,18 +252,14 @@
 <span class="co"># Create a spatial points pattern object containing the occurrence data</span>
 <span class="va">data_sf_eur_ppp</span> <span class="op">&lt;-</span> <span class="fu">spatstat.geom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/as.ppp.html" class="external-link">as.ppp</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">data_sf_eur_coords</span>, W <span class="op">=</span> <span class="va">eur_owin</span><span class="op">)</span>
 
-<span class="co"># # Reconstruct pattern</span>
-<span class="co"># rand_pattern &lt;- shar::reconstruct_pattern(pattern = data_sf_eur_ppp, n_random = 1, </span>
-<span class="co">#                                           max_runs = 1)</span>
-
-<span class="co"># fit point pattern process to data</span>
+<span class="co"># Fit point pattern process to data</span>
 <span class="va">rand_pattern</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">data_sf_eur_ppp</span>, n_random <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></code></pre></div>
 <p><img src="cormus_domestica_tmp_files/figure-html/occ_plots-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h2>
-<p>The analysis function <code>results_habitat_association</code> is then called. The results of the pattern reconstruction analysis show that <em>Cormus domestica</em> is positively associated with locations which experience a mean June temperature of 15C-17.5C &amp; 17.5C-20C. Furthermore, <em>Cormus domestica</em> is negatively associated with all other locations classified by temperature.</p>
+<p>The analysis function <code>results_habitat_association</code> is then called. The results of the analysis show that <em>Cormus domestica</em> is positively associated with locations which experience a mean June temperature of 15C - 17.5C (habitat 6) &amp; 17.5C - 20C (habitat 7). Furthermore, <em>Cormus domestica</em> is negatively associated with all other locations classified by temperature.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Establish significance level</span>
 <span class="va">sig_level</span> <span class="op">&lt;-</span> <span class="fl">0.01</span>
@@ -278,16 +273,16 @@
 
 <span class="va">results</span>
 <span class="co">#&gt;    habitat    breaks count      lo      hi significance</span>
-<span class="co">#&gt; 1        1     [0,5)     0   80.00  122.73     negative</span>
-<span class="co">#&gt; 2        2   [5,7.5)     2 1137.81 1232.55     negative</span>
-<span class="co">#&gt; 3        3  [7.5,10)   108 2039.54 2177.14     negative</span>
-<span class="co">#&gt; 4        4 [10,12.5)   319 3106.45 3225.56     negative</span>
-<span class="co">#&gt; 5        5 [12.5,15)  1698 5451.26 5663.21     negative</span>
-<span class="co">#&gt; 6        6 [15,17.5) 15170 6597.82 6882.39     positive</span>
-<span class="co">#&gt; 7        7 [17.5,20)  9376 3485.24 3747.68     positive</span>
-<span class="co">#&gt; 8        8   [20,25)   750 2722.32 2894.64     negative</span>
-<span class="co">#&gt; 9        9   [25,30)     0 1363.97 1522.48     negative</span>
-<span class="co">#&gt; 10      10   [30,35)     0  627.71  708.46     negative</span></code></pre></div>
+<span class="co">#&gt; 1        1     [0,5)     0   79.09  116.91     negative</span>
+<span class="co">#&gt; 2        2   [5,7.5)     2 1116.59 1261.02     negative</span>
+<span class="co">#&gt; 3        3  [7.5,10)   108 2011.72 2167.28     negative</span>
+<span class="co">#&gt; 4        4 [10,12.5)   319 3017.95 3239.56     negative</span>
+<span class="co">#&gt; 5        5 [12.5,15)  1698 5395.59 5719.01     negative</span>
+<span class="co">#&gt; 6        6 [15,17.5) 15173 6637.78 6900.55     positive</span>
+<span class="co">#&gt; 7        7 [17.5,20)  9376 3473.63 3669.39     positive</span>
+<span class="co">#&gt; 8        8   [20,25)   750 2737.06 2884.55     negative</span>
+<span class="co">#&gt; 9        9   [25,30)     0 1379.00 1513.39     negative</span>
+<span class="co">#&gt; 10      10   [30,35)     0  617.98  737.58     negative</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

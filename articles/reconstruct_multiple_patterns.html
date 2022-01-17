@@ -131,7 +131,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>How to reconstruct multiple patterns</h1>
                         <h4 data-toc-skip class="author">Maximilian H.K. Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-01-14</h4>
+            <h4 data-toc-skip class="date">2022-01-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multiple_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multiple_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -163,11 +163,11 @@
                                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.06554604   0.06769696   0.05924290 </span>
+<span class="co">#&gt;   0.06415892   0.06405296   0.06249934 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;    0.2104747    0.2094026    0.2045207</span></code></pre></div>
+<span class="co">#&gt;    0.2054187    0.2066297    0.2083730</span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -195,15 +195,15 @@
                                                   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; $randomized_1</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.05243763   0.05786751   0.05842877 </span>
+<span class="co">#&gt;   0.04022884   0.05080867   0.04621597 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $randomized_2</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.04158488   0.03718378   0.04083537 </span>
+<span class="co">#&gt;   0.05220485   0.03844401   0.04679414 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $randomized_3</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.05022936   0.03693273   0.04787444</span></code></pre></div>
+<span class="co">#&gt;   0.04494914   0.04145671   0.04407961</span></code></pre></div>
   </main>
 </div>
 
