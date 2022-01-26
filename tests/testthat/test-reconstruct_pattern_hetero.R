@@ -1,6 +1,6 @@
 testthat::context("test-reconstruct_pattern_hetero")
 
-input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {500 * exp(-3 * x)}, nsim = 1)
+input_pattern <- spatstat.random::rpoispp(lambda = function(x, y) {500 * exp(-3 * x)}, nsim = 1)
 
 # normal reconstruction
 pattern_recon <- reconstruct_pattern_hetero(pattern = input_pattern,

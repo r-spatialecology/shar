@@ -27,7 +27,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' input_pattern <- spatstat.core::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)},
+#' input_pattern <- spatstat.random::rpoispp(lambda = function(x, y) {100 * exp(-3 * x)},
 #' nsim = 1)
 #' pattern_recon <- reconstruct_pattern_hetero(input_pattern, n_random = 19, max_runs = 1000)
 #' }
@@ -131,7 +131,7 @@ reconstruct_pattern_hetero <- function(pattern,
   lambda <- spatstat.core::density.ppp(pattern)
 
   # create starting pattern
-  simulated <- spatstat.core::rpoint(n = pattern$n, f = lambda, win = pattern$window)
+  simulated <- spatstat.random::rpoint(n = pattern$n, f = lambda, win = pattern$window)
 
 
   # fast computation of summary functions
@@ -186,7 +186,7 @@ reconstruct_pattern_hetero <- function(pattern,
     rp_id <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat.core::rpoint(n = max_runs, f = lambda, win = pattern$window)
+    rp_coords <- spatstat.random::rpoint(n = max_runs, f = lambda, win = pattern$window)
 
     # create random number for annealing prob
     if (annealing != 0) {

@@ -30,6 +30,7 @@ Imports:
     raster,
     spatstat.core,
     spatstat.geom,
+    spatstat.random,
     stats,
     utils
 RoxygenNote: 7.1.2
@@ -40,7 +41,7 @@ Suggests:
     future.apply,
     knitr, 
     rmarkdown,
-    spatstat,
+    spatstat (>= 2.0.0),
     testthat (>= 2.1.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
