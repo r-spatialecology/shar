@@ -67,7 +67,7 @@ fit_point_process <- function(pattern,
 
     result <- lapply(seq_len(n_random), function(x) {
 
-      simulated <- spatstat.core::runifpoint(n = pattern$n, win = pattern$window) # simulate poisson process
+      simulated <- spatstat.random::runifpoint(n = pattern$n, win = pattern$window) # simulate poisson process
 
       if (verbose) {
 
@@ -113,7 +113,7 @@ fit_point_process <- function(pattern,
         difference <- pattern$n - simulated$n
 
         # create missing points
-        missing_points <- spatstat.core::runifpoint(n = difference, win = pattern$window,
+        missing_points <- spatstat.random::runifpoint(n = difference, win = pattern$window,
                                                     nsim = 1, drop = TRUE)
 
         # add missing points to simulated
