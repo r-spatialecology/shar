@@ -1,3 +1,6 @@
+# shar 1.4
+* Using `terra` instead of `raster`
+
 # shar 1.3.2
 * Improvements
   * Improvement of `classify_habitats()` to be more variable
