@@ -131,7 +131,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>How to reconstruct multiple patterns</h1>
                         <h4 data-toc-skip class="author">Maximilian H.K. Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-01-17</h4>
+            <h4 data-toc-skip class="date">2022-02-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multiple_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multiple_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -154,6 +154,21 @@
                                                                max_runs <span class="op">=</span> <span class="fl">10</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; &gt; Using number of points 'pattern'.</span>
 <span class="co">#&gt; &gt; Using window of 'pattern'.</span>
+<span class="co">#&gt; Registered S3 methods overwritten by 'spatstat.random':</span>
+<span class="co">#&gt;   method                  from         </span>
+<span class="co">#&gt;   as.owin.rmhmodel        spatstat.core</span>
+<span class="co">#&gt;   domain.rmhmodel         spatstat.core</span>
+<span class="co">#&gt;   print.rmhcontrol        spatstat.core</span>
+<span class="co">#&gt;   print.rmhexpand         spatstat.core</span>
+<span class="co">#&gt;   print.rmhInfoList       spatstat.core</span>
+<span class="co">#&gt;   print.rmhmodel          spatstat.core</span>
+<span class="co">#&gt;   print.rmhstart          spatstat.core</span>
+<span class="co">#&gt;   print.summary.rmhexpand spatstat.core</span>
+<span class="co">#&gt;   rjitter.psp             spatstat.core</span>
+<span class="co">#&gt;   summary.rmhexpand       spatstat.core</span>
+<span class="co">#&gt;   update.rmhcontrol       spatstat.core</span>
+<span class="co">#&gt;   update.rmhstart         spatstat.core</span>
+<span class="co">#&gt;   Window.rmhmodel         spatstat.core</span>
 <span class="co">#&gt; &gt; Using number of points 'pattern'.</span>
 <span class="co">#&gt; &gt; Using window of 'pattern'.</span></code></pre></div>
 <p>The result will be a nested list including all <em>m</em> randomization (including the observed pattern) of the <em>n</em> provided input patterns.</p>
@@ -163,11 +178,11 @@
                                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.06415892   0.06405296   0.06249934 </span>
+<span class="co">#&gt;   0.08045826   0.07693987   0.08372565 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;    0.2054187    0.2066297    0.2083730</span></code></pre></div>
+<span class="co">#&gt;    0.2183359    0.2112676    0.2105540</span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -195,15 +210,15 @@
                                                   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; $randomized_1</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.04022884   0.05080867   0.04621597 </span>
+<span class="co">#&gt;   0.04452781   0.05363155   0.05027107 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $randomized_2</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.05220485   0.03844401   0.04679414 </span>
+<span class="co">#&gt;   0.05244024   0.05670840   0.05631658 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $randomized_3</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.04494914   0.04145671   0.04407961</span></code></pre></div>
+<span class="co">#&gt;   0.04176878   0.04537554   0.04026323</span></code></pre></div>
   </main>
 </div>
 
