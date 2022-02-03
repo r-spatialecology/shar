@@ -61,7 +61,7 @@ testthat::test_that("Output includes randomizations and original objects", {
 testthat::test_that("list_to_randomized returns errors", {
 
   testthat::expect_error(object = shar::list_to_randomized(list = shar::species_b),
-                         regexp = "Please provide list of either 'ppp' or 'RasterLayer' objects.",)
+                         regexp = "Please provide list of either 'ppp' or 'SpatRaster' objects.",)
 
 })
 

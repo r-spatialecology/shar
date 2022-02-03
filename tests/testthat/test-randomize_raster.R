@@ -46,7 +46,7 @@ testthat::test_that("Input raster can not be returned for randomize_raster", {
 
 testthat::test_that("simplify works for randomize_raster", {
 
-  testthat::expect_is(raster_random_simple, "RasterLayer")
+  testthat::expect_is(raster_random_simple, "SpatRaster")
 })
 
 testthat::test_that("randomize_raster returns error of n_random < 1", {

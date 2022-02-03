@@ -21,7 +21,7 @@ knitr::include_graphics("methods_overview.png")
 
 ## Randomize environmental data
 
-The following two methods randomize the environmental data, i.e. the RasterLayer data, while keeping the point pattern data fixed.
+The following two methods randomize the environmental data, i.e. the SpatRaster data, while keeping the point pattern data fixed.
 
 ### Torus-translation-test
 The torus-translation test (Harms et al. 2001) shifts the habitat map in all four cardinal directions around a torus. This is only possible for square rasters. To use this method in **shar** use `translate_raster()`.

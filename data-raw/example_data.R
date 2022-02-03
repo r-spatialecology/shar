@@ -2,7 +2,9 @@ library(dplyr)
 library(NLMR)
 library(maptools)
 library(usethis)
+library(sp)
 library(spatstat)
+library(terra)
 
 library(shar)
 
@@ -12,7 +14,8 @@ set.seed(42)
 
 # Create landscape
 landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
-                           fract_dim = 1.5, user_seed = 42)
+                           fract_dim = 1.5, user_seed = 42) %>%
+  terra::rast()
 
 landscape_class <- classify_habitats(landscape, n = 5, style = "fisher")
 
@@ -21,11 +24,10 @@ pattern_a <- spatstat.random::runifpoint(n = 250, win = spatstat.geom::owin(c(0,
                                                                           c(0, 1000)))
 
 # get habitat 4 as owin
-owin_pattern <- raster::rasterToPolygons(landscape_class,
-                                         fun = function(x){x == 4},
-                                         dissolve = TRUE) %>%
+owin_pattern <- terra::as.polygons(landscape_class) %>%
+  terra::subset(.$layer == 4) %>%
+  as("Spatial") %>%
   maptools::as.owin.SpatialPolygons()
-
 
 # create pattern with no point in habitat 4
 species_a <- pattern_a[!spatstat.geom::inside.owin(x = pattern_a, w = owin_pattern)]
@@ -43,12 +45,13 @@ marks_df_a <- data.frame(status = factor(sample(c("dead", "alive"),
 spatstat.geom::marks(species_a) <- marks_df_a
 
 # Create species with positive associations
-pattern_b <- spatstat.random::runifpoint(n = species_a$n / 2,
-                                       win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
+pattern_b <- spatstat.random::runifpoint(n = floor(species_a$n / 2),
+                                         win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
 # create pattern with more points in habitat 5
-species_b <- raster::rasterToPolygons(landscape_class,
-                                      fun = function(x){x == 5}, dissolve = TRUE) %>%
+species_b <- terra::as.polygons(landscape_class) %>%
+  terra::subset(.$layer == 5) %>%
+  as("Spatial") %>%
   maptools::as.owin.SpatialPolygons() %>%
   spatstat.random::runifpoint(n = floor(pattern_b$n * 1), win = .) %>%
   spatstat.geom::superimpose.ppp(pattern_b, W = spatstat.geom::owin(c(0, 1000), c(0, 1000)))

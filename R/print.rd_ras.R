@@ -32,7 +32,7 @@ print.rd_ras <- function(x,
 
   # set length observed pattern to 0 and
   # return warning that energy can't be calculated
-  if (!methods::is(x$observed, "RasterLayer")) {
+  if (!methods::is(x$observed, "SpatRaster")) {
 
     number_raster_obs <- 0
 
@@ -50,10 +50,8 @@ print.rd_ras <- function(x,
   }
 
   # get extent of window
-  extent_window <- paste0(c(raster::xmin(x$randomized[[1]]),
-                            raster::xmax(x$randomized[[1]]),
-                            raster::ymin(x$randomized[[1]]),
-                            raster::ymax(x$randomized[[1]])),
+  extent_window <- paste0(c(terra::xmin(x$randomized[[1]]), terra::xmax(x$randomized[[1]]),
+                            terra::ymin(x$randomized[[1]]), terra::ymax(x$randomized[[1]])),
                           collapse = " ")
 
   # get number of randomized patterns plus observed pattern

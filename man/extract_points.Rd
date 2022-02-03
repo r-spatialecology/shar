@@ -7,7 +7,7 @@
 extract_points(raster, pattern)
 }
 \arguments{
-\item{raster}{RasterLayer with environmental data}
+\item{raster}{SpatRaster with environmental data}
 
 \item{pattern}{ppp object with point pattern.}
 }

@@ -42,7 +42,7 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
   }
 
   # check if observed is present
-  if (!methods::is(x$observed, "RasterLayer")) {
+  if (!methods::is(x$observed, "SpatRaster")) {
 
     stop("Input must include 'observed' raster.", call. = FALSE)
 
@@ -69,10 +69,10 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
   subset_raster$observed <- x$observed
 
   # stack rasters
-  raster_stack <- raster::stack(subset_raster)
+  raster_stack <- terra::rast(subset_raster)
 
   # plot result
-  raster::plot(raster_stack, col = col, nc = ncol, nr = nrow, colNA = "grey")
+  terra::plot(raster_stack, col = col, nc = ncol, nr = nrow, colNA = "grey")
 
   invisible()
 }

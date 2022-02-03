@@ -63,7 +63,7 @@ testthat::test_that("Providing steps is working for translate_raster", {
 testthat::test_that("simplify is working for translate_raster", {
 
   testthat::expect_is(landscape_random_simple,
-                      class = "RasterLayer")
+                      class = "SpatRaster")
 })
 
 testthat::test_that("Warning if more than 10 classes are present for translate_raster", {

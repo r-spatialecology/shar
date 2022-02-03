@@ -27,11 +27,11 @@ Imports:
     graphics,
     grDevices,
     methods,
-    raster,
     spatstat.core,
     spatstat.geom,
     spatstat.random,
     stats,
+    terra,
     utils
 RoxygenNote: 7.1.2
 Suggests:

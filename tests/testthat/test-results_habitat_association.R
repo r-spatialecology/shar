@@ -117,7 +117,7 @@ testthat::expect_error(results_habitat_association(raster = landscape_classified
 
 testthat::expect_error(results_habitat_association(raster = landscape_classified,
                                                    pattern = random_a, verbose = FALSE),
-                       regexp = "Pleaster provide 'RasterLayer' as raster argument.")
+                       regexp = "Pleaster provide 'SpatRaster' as raster argument.")
 
 testthat::expect_error(results_habitat_association(raster = raster_random,
                                                    pattern = list(species_a), verbose = FALSE),
