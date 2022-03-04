@@ -1,7 +1,7 @@
 For details changes, please see NEWS.md.
 
 ## shar 1.3.2
-Improvements of existing functions
+Improvements of existing functions and spatstat update
 
 ## shar 1.3.1
 Bug fixes
