@@ -14,7 +14,7 @@ marks_reconstruction <- reconstruct_pattern_marks(pattern = pattern_reconstructi
                                                   verbose = FALSE)
 
 # random landscape
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 
 landscape_random <- translate_raster(raster = landscape_classified,
                                      steps_x = 1, steps_y = 1, verbose = FALSE,

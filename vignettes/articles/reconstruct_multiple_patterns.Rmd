@@ -1,5 +1,6 @@
 ---
 title: "How to reconstruct multiple patterns"
+author: "Maximilian H.K. Hesselbarth"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -10,10 +11,19 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
 In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code. Please be aware that the maximum number of iterations was set to `max_runs = 10` to keep the computational time low for this example. For an applied case, this value should be increased.
 
-```{r load-packages, message = FALSE}
+```{r load-packages, message = FALSE, warning = FALSE}
 library(shar)
+library(spatstat)
+library(raster)
 ```
 
 In case you want to only create the spatial characteristics, this is straightforward using `lapply()`. 

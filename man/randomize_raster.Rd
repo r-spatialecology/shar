@@ -46,7 +46,7 @@ window of the point pattern as well (i.e., no point locations possible in these 
 }
 \examples{
 \dontrun{
-landscape_classified <- classify_habitats(landscape, classes = 5)
+landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 }
 

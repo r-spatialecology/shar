@@ -14,10 +14,10 @@ set.seed(42)
 landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
                            fract_dim = 1.5, user_seed = 42)
 
-landscape_class <- classify_habitats(landscape, classes = 5)
+landscape_class <- classify_habitats(landscape, n = 5, style = "fisher")
 
 # Create species with negative
-pattern_a <- spatstat.core::runifpoint(n = 250, win = spatstat.geom::owin(c(0, 1000),
+pattern_a <- spatstat.random::runifpoint(n = 250, win = spatstat.geom::owin(c(0, 1000),
                                                                           c(0, 1000)))
 
 # get habitat 4 as owin
@@ -31,7 +31,7 @@ owin_pattern <- raster::rasterToPolygons(landscape_class,
 species_a <- pattern_a[!spatstat.geom::inside.owin(x = pattern_a, w = owin_pattern)]
 
 # create pattern with no point in habitat 4
-species_a <- spatstat.core::rthin(pattern_a[spatstat.geom::inside.owin(x = pattern_a,
+species_a <- spatstat.random::rthin(pattern_a[spatstat.geom::inside.owin(x = pattern_a,
                                                                        w = owin_pattern)],
                                   P = 0.05) %>%
   spatstat.geom::superimpose.ppp(species_a, W = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
@@ -43,14 +43,14 @@ marks_df_a <- data.frame(status = factor(sample(c("dead", "alive"),
 spatstat.geom::marks(species_a) <- marks_df_a
 
 # Create species with positive associations
-pattern_b <- spatstat.core::runifpoint(n = species_a$n / 2,
+pattern_b <- spatstat.random::runifpoint(n = species_a$n / 2,
                                        win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
 # create pattern with more points in habitat 5
 species_b <- raster::rasterToPolygons(landscape_class,
                                       fun = function(x){x == 5}, dissolve = TRUE) %>%
   maptools::as.owin.SpatialPolygons() %>%
-  spatstat.core::runifpoint(n = floor(pattern_b$n * 1), win = .) %>%
+  spatstat.random::runifpoint(n = floor(pattern_b$n * 1), win = .) %>%
   spatstat.geom::superimpose.ppp(pattern_b, W = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
 marks_df_b <- factor(sample(c("dominant", "understorey"),

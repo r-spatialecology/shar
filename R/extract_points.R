@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, classes = 5)
+#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 #' extract_points(raster = landscape_classified, pattern = species_b)
 #' }
 #'
@@ -30,7 +30,7 @@ extract_points <- function(raster, pattern){
   pattern <- spatstat.geom::coords(pattern) # extract only coords of points
 
   # get habitat points are located within
-  pattern_extracted <- factor(raster::extract(x = raster,  y = pattern, factor = TRUE),
+  pattern_extracted <- factor(raster::extract(x = raster, y = pattern, factor = TRUE),
                               levels = habitat_levels)
 
   result <- utils::stack(table(pattern_extracted)) # count number of points within each habitat

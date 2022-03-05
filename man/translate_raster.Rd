@@ -42,7 +42,7 @@ The method does not allow any NA values to be present in the RasterLayer.
 }
 \examples{
 \dontrun{
-landscape_classified <- classify_habitats(landscape, classes = 5)
+landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 
 landscape_random <- translate_raster(landscape_classified)
 landscape_random_sub <- translate_raster(landscape_classified,

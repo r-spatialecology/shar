@@ -1,5 +1,6 @@
 ---
 title: "Parallelization"
+author: "Maximilian H.K. Hesselbarth"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -23,8 +24,10 @@ The following examples illustrates how to use `future` package to randomize patt
 
 First, we need to load all required packages. This includes `future` and `future.apply`.
 
-```{r load-packages, message = FALSE}
+```{r load-packages, message = FALSE, warning = FALSE}
 library(shar)
+library(spatstat)
+library(raster)
 
 library(future)
 library(future.apply)
@@ -52,7 +55,7 @@ fitted_rd <- shar::list_to_randomized(list = fitted_list, observed = shar::speci
 Lastly, the created objects can be used to analyse if species-habitat associations are present as usual.
 
 ```{r results}
-landscape_classified <- shar::classify_habitats(raster = landscape)
+landscape_classified <- shar::classify_habitats(raster = landscape, n = 5, style = "fisher")
 
 results_habitat_association(pattern = fitted_rd, raster = landscape_classified)
 ```

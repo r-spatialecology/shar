@@ -155,7 +155,7 @@ reconstruct_pattern_cluster <- function(pattern,
     # difference between patterns
     difference <- pattern$n - simulated$n
     # create missing points
-    missing_points <- spatstat.core::runifpoint(n = difference, nsim = 1, drop = TRUE,
+    missing_points <- spatstat.random::runifpoint(n = difference, nsim = 1, drop = TRUE,
                                                 win = pattern$window,
                                                 warn = FALSE)
     # add missing points to simulated
@@ -216,7 +216,7 @@ reconstruct_pattern_cluster <- function(pattern,
     rp_id <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat.core::runifpoint(n = max_runs, nsim = 1, drop = TRUE,
+    rp_coords <- spatstat.random::runifpoint(n = max_runs, nsim = 1, drop = TRUE,
                                            win = simulated_current$window, warn = FALSE)
 
     # create random number for annealing prob

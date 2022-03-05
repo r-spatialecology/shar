@@ -64,6 +64,7 @@ namely the following packages: `classInt`, `raster`, `spatstat.core`,
 
 ``` r
 library(shar)
+library(spatstat)
 library(raster)
 
 set.seed(42)
@@ -82,7 +83,7 @@ window of the point pattern. For the torus translation method, no NA
 values are allowed at all.
 
 ``` r
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 ```
 
 There are two possibilities to randomize the environmental data, both
@@ -166,22 +167,22 @@ significance_level <- 0.01
 results_habitat_association(pattern = species_a, raster = torus_trans, significance_level = significance_level)
 ## > Input: randomized raster
 ## > Quantile thresholds: negative < 0.005 || positive > 0.995
-##   habitat count lo hi significance
-## 1       1    35 10 35         n.s.
-## 2       2    44 19 53         n.s.
-## 3       3    36 15 49         n.s.
-## 4       4     4 15 58     negative
-## 5       5    73 48 90         n.s.
+##   habitat breaks count lo hi significance
+## 1       1     NA    35 10 35         n.s.
+## 2       2     NA    44 19 53         n.s.
+## 3       3     NA    36 15 49         n.s.
+## 4       4     NA     4 15 58     negative
+## 5       5     NA    73 48 90         n.s.
 
 results_habitat_association(pattern = reconstruction, raster = landscape_classified, significance_level = significance_level)
 ## > Input: randomized pattern
 ## > Quantile thresholds: negative < 0.005 || positive > 0.995
-##   habitat count    lo    hi significance
-## 1       1     6 21.96 49.02     negative
-## 2       2    18 32.47 64.51     negative
-## 3       3    18 26.98 56.10     negative
-## 4       4    21 17.98 40.00         n.s.
-## 5       5   129 24.96 52.02     positive
+##   habitat breaks count    lo    hi significance
+## 1       1     NA     6 21.96 49.02     negative
+## 2       2     NA    18 32.47 64.51     negative
+## 3       3     NA    18 26.98 56.10     negative
+## 4       4     NA    21 17.98 40.00         n.s.
+## 5       5     NA   129 24.96 52.02     positive
 ```
 
 ## Contributing and Code of Conduct

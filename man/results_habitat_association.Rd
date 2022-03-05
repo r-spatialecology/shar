@@ -8,6 +8,8 @@ results_habitat_association(
   pattern,
   raster,
   significance_level = 0.05,
+  breaks = NULL,
+  digits = NULL,
   verbose = TRUE
 )
 }
@@ -19,6 +21,10 @@ object with randomized point pattern.}
 randomized environmental data.}
 
 \item{significance_level}{Double with significance level.}
+
+\item{breaks}{Vector with breaks of habitat classes.}
+
+\item{digits}{Integer with digits used during rounding.}
 
 \item{verbose}{Logical if messages should be printed.}
 }
@@ -37,9 +43,13 @@ randomized count, respectively.
 
 In case the RasterLayer contains NA cells, this needs to be reflected in the observation
 window of the point pattern as well (i.e., no point locations possible in these areas).
+
+If \code{breaks = NULL} (default), only habitat labels (but not breaks) will be
+returned. If a vector with \code{breaks} is provided (same order as increasing habitat values),
+the breaks will be included as well.
 }
 \examples{
-landscape_classified <- classify_habitats(landscape, classes = 5)
+landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 species_a_random <- fit_point_process(species_a, n_random = 199)
 results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 

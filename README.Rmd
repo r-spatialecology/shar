@@ -52,8 +52,9 @@ This also automatically installs all non-base `R` package dependencies, namely t
 
 ## How to use shar
 
-```{r import-libs, message = FALSE}
+```{r import-libs, message = FALSE, warning = FALSE}
 library(shar)
+library(spatstat)
 library(raster)
 
 set.seed(42)
@@ -63,7 +64,7 @@ set.seed(42)
 However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
 
 ```{r environmental-data}
-landscape_classified <- classify_habitats(raster = landscape, classes = 5)
+landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
 ```
 
 There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click [here](https://r-spatialecology.github.io/shar/articles/articles/background.html).

@@ -1,6 +1,6 @@
 testthat::context("test-extract_points")
 
-landscape_classified <- classify_habitats(landscape, classes = 5)
+landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
 
 points_df <- extract_points(raster = landscape_classified, pattern = species_b)
 
