@@ -153,7 +153,7 @@ reconstruct_pattern_homo <- function(pattern,
            length.out = r_length)
 
   # create Poisson simulation data
-  simulated <- spatstat.core::runifpoint(n = n_points, nsim = 1, drop = TRUE,
+  simulated <- spatstat.random::runifpoint(n = n_points, nsim = 1, drop = TRUE,
                                          win = window, warn = FALSE)
 
   # fast computation of summary functions
@@ -208,7 +208,7 @@ reconstruct_pattern_homo <- function(pattern,
     rp_id <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random new points
-    rp_coords <- spatstat.core::runifpoint(n = max_runs, nsim = 1, drop = TRUE,
+    rp_coords <- spatstat.random::runifpoint(n = max_runs, nsim = 1, drop = TRUE,
                                            win = simulated_current$window,
                                            warn = FALSE)
 
