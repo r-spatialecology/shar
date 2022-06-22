@@ -5,8 +5,8 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Analysing the climatic niche of Cormus domestica}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
@@ -90,7 +90,7 @@ roi_owin <- spatstat.geom::as.owin(roi_map$geometry)
 
 ## Download climate data
 
-The environmental variable selected for demonstrative purposes is the mean temperature in June over the 1961-1990 period. Data is obtained through the `getCRUCLdata` package (Sparks, 2017) which provides access to the datasets described in New et al. (2002).
+The environmental variable selected for demonstrative purposes is the mean temperature in January over the 1961-1990 period. Data is obtained through the `getCRUCLdata` package (Sparks, 2017) which provides access to the datasets described in New et al. (2002).
 
 ```{r cru_data, echo=TRUE, message=FALSE, warning=FALSE}
 # Download data as a raster brick through the getCRUCLdata package
@@ -100,6 +100,9 @@ cru_data <- getCRUCLdata::get_CRU_stack(pre = FALSE, pre_cv = FALSE, rd0 = FALSE
                                         tmn = FALSE, tmx = FALSE, sunp = FALSE,
                                         frs = FALSE, wnd = FALSE, elv = FALSE,
                                         cache = FALSE)
+
+# Select temperature variable and the month of January
+tmp_raster <- cru_data$tmp$jan
 ```
 
 ## Prepare landscape raster
@@ -111,28 +114,25 @@ in the `fixedBreaks` argument of the `classify_habitats` function.
 Figure 1 displays the unclassified and classified habitat.
 
 ```{r landscape_ras, echo=TRUE, message=FALSE, warning=FALSE}
-# Select temperature variable and the month of June
-tmp_raster_jun <- cru_data$tmp$jun
-
 # Crop tmp raster
-tmp_raster_jun_eur <- terra::crop(x = tmp_raster_jun, 
-                                  y = roi)
+tmp_raster_eur <- terra::crop(x = tmp_raster,
+                              y = roi)
 
 # Re-project raster
-tmp_raster_jun_eur_3395 <- raster::projectRaster(tmp_raster_jun_eur, crs = "EPSG:3395")
+tmp_raster_eur_3395 <- raster::projectRaster(tmp_raster_eur, crs = "EPSG:3395")
 
 # Classify landscape
-landscape_classified <- shar::classify_habitats(raster = tmp_raster_jun_eur_3395,
+landscape_classified <- shar::classify_habitats(raster = tmp_raster_eur_3395,
                                                 return_breaks = TRUE, style = "fixed",
-                                                fixedBreaks = c(0, 5, 7.5,
-                                                                10, 12.5, 15, 
-                                                                17.5, 20, 25,
-                                                                30, 35))
+                                                fixedBreaks = c(-20, -10,
+                                                                -7.5, -5, -2.5, 
+                                                                0, 2.5, 5,
+                                                                7.5, 10, 20))
 ```
 
-```{r land_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 1 - The mean temperature in June over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right)."}
-raster_unclassed_df <- terra::as.data.frame(tmp_raster_jun_eur_3395, xy = TRUE) %>%
-  dplyr::rename("value" = "jun") %>% 
+```{r land_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 1 - The mean temperature in January over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right)."}
+raster_unclassed_df <- terra::as.data.frame(tmp_raster_eur_3395, xy = TRUE) %>%
+  dplyr::rename("value" = "jan") %>% 
   dplyr::mutate("type" = "Unclassified")
 
 raster_classed_df <- terra::as.data.frame(landscape_classified$raster, xy = TRUE) %>%
@@ -289,7 +289,7 @@ real_occ_plot + recon_occ_plot
 
 ## Results
 
-The analysis function `results_habitat_association` is then called. The results of the analysis show that *Cormus domestica* is positively associated with locations which experience a mean June temperature of 15C - 17.5C (habitat 6) & 17.5C - 20C (habitat 7). Furthermore, *Cormus domestica* is negatively associated with all other locations classified by temperature.
+The analysis function `results_habitat_association` is then called. The results of the analysis show that *Cormus domestica* is positively associated with locations which experience a mean January temperature of -2.5C - 10C (habitats 5, 6, 7, 8, and 9). Furthermore, *Cormus domestica* is negatively associated with all other habitats classified by temperature.
 
 ```{r model_run, echo=TRUE, message=FALSE, warning=FALSE}
 # Establish significance level
@@ -305,7 +305,7 @@ results <- shar::results_habitat_association(pattern = rand_pattern,
 results
 ```
 
-```{r result_plot, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean June temperature of 15C - 20C."}
+```{r result_plot, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C"}
 
 # Create a data frame containing only the cells containing values positively
 # associated with Cormus domestica occurrences
@@ -419,11 +419,12 @@ plot_res_classed + plot_res_classed_occs
 ```
 
 By visually inspecting Figure 3 we can see that occurrences of Cormus domestica 
-are mostly restricted to the associated habitat as defined by a mean June 
-temperature of 15C - 20C.
-However, Cormus domestica does not exist in all areas experiencing a mean June 
-temperature of 15C - 20C, highlighting the need to assess further environmental
-variables in order to identify the multiple conditions which constitute its niche.
+are mostly restricted to the associated habitat as defined by a mean January 
+temperature of -2.5C - 10C.
+However, Cormus domestica does not exist in all areas experiencing a mean January 
+temperature of -2.5C - 10C, additionally there are a number of occurrences 
+outside these areas, highlighting the need for further analysis
+to identify the multiple conditions which constitute the climatic niche of Cormus domestica.
 
 ## References
 
