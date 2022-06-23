@@ -127,11 +127,11 @@
 
 
 <script src="cormus_domestica_tmp_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Analysing the climatic niche of Cormus domestica</h1>
                         <h4 data-toc-skip class="author">Zeke Marshall</h4>
             
-            <h4 data-toc-skip class="date">2022-03-04</h4>
+            <h4 data-toc-skip class="date">2022-06-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/cormus_domestica_tmp.Rmd" class="external-link"><code>vignettes/articles/cormus_domestica_tmp.Rmd</code></a></small>
       <div class="d-none name"><code>cormus_domestica_tmp.Rmd</code></div>
@@ -163,13 +163,21 @@
 <div class="section level2">
 <h2 id="download-occurrence-data">Download occurrence data<a class="anchor" aria-label="anchor" href="#download-occurrence-data"></a>
 </h2>
-<p>To retrieve species occurrence data the <code>R</code> package <code>rgbif</code> (Chamberlain &amp; Boettiger, 2017) is used, which provides an interface to access the GBIF database.</p>
+<p>To retrieve species occurrence data the <code>R</code> package <code>rgbif</code> (Chamberlain &amp; Boettiger, 2017) is used, which provides an interface to access the GBIF database. For this vignette we are interested in observations within the likely natural distribution of Cormus domestica, which includes Europe, the wider Mediterranean, the Black Sea Region, and potentially North Africa.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve key for Cormus domestica</span>
 <span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">rgbif</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rgbif/reference/name_backbone.html" class="external-link">name_backbone</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">'Cormus domestica'</span>, kingdom <span class="op">=</span> <span class="st">'plants'</span><span class="op">)</span>
 
-<span class="co"># Retrieve occurrences</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">rgbif</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rgbif/reference/occ_search.html" class="external-link">occ_search</a></span><span class="op">(</span>taxonKey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/catalyze.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">key</span><span class="op">$</span><span class="va">usageKey</span><span class="op">)</span>, limit <span class="op">=</span> <span class="fl">99999</span><span class="op">)</span>
+<span class="co"># Establish region of interest</span>
+<span class="va">roi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="op">-</span><span class="fl">20</span>, xmax <span class="op">=</span> <span class="fl">45</span>, ymin <span class="op">=</span> <span class="fl">30</span>, ymax <span class="op">=</span> <span class="fl">73</span><span class="op">)</span>
+<span class="va">roi_bbox</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">roi</span>, crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"EPSG:4326"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">roi_sfc</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">roi</span><span class="op">[[</span><span class="st">"xmin"</span><span class="op">]</span><span class="op">]</span>, <span class="va">roi</span><span class="op">[[</span><span class="st">"ymin"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, 
+                      <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">roi</span><span class="op">[[</span><span class="st">"xmax"</span><span class="op">]</span><span class="op">]</span>, <span class="va">roi</span><span class="op">[[</span><span class="st">"ymax"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, 
+                      crs <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span>
+
+<span class="co"># Retrieve occurrences for the region of interest</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">rgbif</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rgbif/reference/occ_search.html" class="external-link">occ_search</a></span><span class="op">(</span>taxonKey <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/catalyze.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">key</span><span class="op">$</span><span class="va">usageKey</span><span class="op">)</span>, limit <span class="op">=</span> <span class="fl">99999</span>,
+                         geometry <span class="op">=</span> <span class="va">roi_bbox</span><span class="op">)</span>
 
 <span class="co"># Create a simple data frame containing only the unique identifier (id),</span>
 <span class="co"># latitude (lat), and longtitude (lon).</span>
@@ -180,26 +188,26 @@
 <div class="section level2">
 <h2 id="download-map-data">Download map data<a class="anchor" aria-label="anchor" href="#download-map-data"></a>
 </h2>
-<p>Spatial polygon data for the world is obtained from the <code>rnaturalearth</code> package (South, 2022), the map is then restricted to the European region. The <code>spatstat</code> package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system <a href="https://epsg.io/4326" class="external-link">4336</a> to the projected coordinate system <a href="https://epsg.io/3395" class="external-link">3395</a>. The <code>shar</code> function <code>fit_point_process</code> requires a spatial point pattern (<code>ppp</code>) object bounded within an observation window of the class <code>owin</code>, which is then created.</p>
+<p>Spatial polygon data for the world is obtained from the <code>rnaturalearth</code> package (South, 2022), the map is then restricted to the region of interest. The <code>spatstat</code> package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system <a href="https://epsg.io/4326" class="external-link">4336</a> to the projected coordinate system <a href="https://epsg.io/3395" class="external-link">3395</a>. The <code>shar</code> function <code>fit_point_process</code> requires a spatial point pattern (<code>ppp</code>) object bounded within an observation window of the class <code>owin</code>, which is then created.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Retrieve data from rnaturalearth</span>
 <span class="va">worldmap</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="fl">3395</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"EPSG:3395"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># Manually establish bounding box</span>
-<span class="va">eur_box</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span>, <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">45</span>, <span class="fl">73</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="fl">3395</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># Re-project simple features region of interest</span>
+<span class="va">roi_sfc_3395</span> <span class="op">&lt;-</span> <span class="va">roi_sfc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"EPSG:3395"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># Crop world map to include polygons within Europe extent</span>
-<span class="va">eur</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crop.html" class="external-link">st_crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">worldmap</span>, y <span class="op">=</span> <span class="va">eur_box</span><span class="op">)</span>
+<span class="co"># Crop world map to include polygons within the region of interest</span>
+<span class="va">roi_map</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crop.html" class="external-link">st_crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">worldmap</span>, y <span class="op">=</span> <span class="va">roi_sfc_3395</span><span class="op">)</span>
 
 <span class="co"># Define observation window</span>
-<span class="va">eur_owin</span> <span class="op">&lt;-</span> <span class="fu">spatstat.geom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/as.owin.html" class="external-link">as.owin</a></span><span class="op">(</span><span class="va">eur</span><span class="op">$</span><span class="va">geometry</span><span class="op">)</span></code></pre></div>
+<span class="va">roi_owin</span> <span class="op">&lt;-</span> <span class="fu">spatstat.geom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/as.owin.html" class="external-link">as.owin</a></span><span class="op">(</span><span class="va">roi_map</span><span class="op">$</span><span class="va">geometry</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="download-climate-data">Download climate data<a class="anchor" aria-label="anchor" href="#download-climate-data"></a>
 </h2>
-<p>The environmental variable selected for demonstrative purposes is the mean temperature in June over the 1961-1990 period. Data is obtained through the <code>getCRUCLdata</code> package (Sparks, 2017) which provides access to the datasets described in New et al. (2002).</p>
+<p>The environmental variable selected for demonstrative purposes is the mean temperature in January over the 1961-1990 period. Data is obtained through the <code>getCRUCLdata</code> package (Sparks, 2017) which provides access to the datasets described in New et al. (2002).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Download data as a raster brick through the getCRUCLdata package</span>
 <span class="co"># Mean temperature (tmn) data should be 180.4MB</span>
@@ -207,59 +215,66 @@
                                         tmp <span class="op">=</span> <span class="cn">TRUE</span>, dtr <span class="op">=</span> <span class="cn">FALSE</span>, reh <span class="op">=</span> <span class="cn">FALSE</span>,
                                         tmn <span class="op">=</span> <span class="cn">FALSE</span>, tmx <span class="op">=</span> <span class="cn">FALSE</span>, sunp <span class="op">=</span> <span class="cn">FALSE</span>,
                                         frs <span class="op">=</span> <span class="cn">FALSE</span>, wnd <span class="op">=</span> <span class="cn">FALSE</span>, elv <span class="op">=</span> <span class="cn">FALSE</span>,
-                                        cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+                                        cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="co"># Select temperature variable and the month of January</span>
+<span class="va">tmp_raster</span> <span class="op">&lt;-</span> <span class="va">cru_data</span><span class="op">$</span><span class="va">tmp</span><span class="op">$</span><span class="va">jan</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="prepare-landscape-raster">Prepare landscape raster<a class="anchor" aria-label="anchor" href="#prepare-landscape-raster"></a>
 </h2>
-<p>The climate data obtained above is restricted to the European region. It is then classified into 10 habitats based on temperature ranges, achieved by setting the lower and upper bounds of these ranges in the <code>fixedBreaks</code> argument of the <code>classify_habitats</code> function.</p>
+<p>The climate data obtained above is restricted to the region of interest, then classified into 10 habitats based on temperature ranges, achieved by setting the lower and upper bounds of these ranges in the <code>fixedBreaks</code> argument of the <code>classify_habitats</code> function. Figure 1 displays the unclassified and classified habitat.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Select temperature variable and the month of June</span>
-<span class="va">tmp_raster_jun</span> <span class="op">&lt;-</span> <span class="va">cru_data</span><span class="op">$</span><span class="va">tmp</span><span class="op">$</span><span class="va">jun</span>
+<code class="sourceCode R"><span class="co"># Crop tmp raster</span>
+<span class="va">tmp_raster_eur</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crop.html" class="external-link">crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster</span>,
+                              y <span class="op">=</span> <span class="va">roi</span><span class="op">)</span>
 
-<span class="co"># Crop tmp raster</span>
-<span class="va">tmp_raster_jun_eur</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crop.html" class="external-link">crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster_jun</span>, 
-                                  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="op">-</span><span class="fl">20</span>, xmax <span class="op">=</span> <span class="fl">45</span>, ymin <span class="op">=</span> <span class="fl">30</span>, ymax <span class="op">=</span> <span class="fl">73</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Reproject raster</span>
-<span class="va">tmp_raster_jun_eur_3395</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/projectRaster.html" class="external-link">projectRaster</a></span><span class="op">(</span><span class="va">tmp_raster_jun_eur</span>, crs <span class="op">=</span> <span class="fl">3395</span><span class="op">)</span>
+<span class="co"># Re-project raster</span>
+<span class="va">tmp_raster_eur_3395</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/projectRaster.html" class="external-link">projectRaster</a></span><span class="op">(</span><span class="va">tmp_raster_eur</span>, crs <span class="op">=</span> <span class="st">"EPSG:3395"</span><span class="op">)</span>
 
 <span class="co"># Classify landscape</span>
-<span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">tmp_raster_jun_eur_3395</span>,
+<span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">tmp_raster_eur_3395</span>,
                                                 return_breaks <span class="op">=</span> <span class="cn">TRUE</span>, style <span class="op">=</span> <span class="st">"fixed"</span>,
-                                                fixedBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">5</span>, <span class="fl">7.5</span>,
-                                                                <span class="fl">10</span>, <span class="fl">12.5</span>, <span class="fl">15</span>, 
-                                                                <span class="fl">17.5</span>, <span class="fl">20</span>, <span class="fl">25</span>,
-                                                                <span class="fl">30</span>, <span class="fl">35</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="cormus_domestica_tmp_files/figure-html/land_plots-1.png" width="100%"></p>
+                                                fixedBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="op">-</span><span class="fl">10</span>,
+                                                                <span class="op">-</span><span class="fl">7.5</span>, <span class="op">-</span><span class="fl">5</span>, <span class="op">-</span><span class="fl">2.5</span>, 
+                                                                <span class="fl">0</span>, <span class="fl">2.5</span>, <span class="fl">5</span>,
+                                                                <span class="fl">7.5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="cormus_domestica_tmp_files/figure-html/land_plots-1.png" alt="Figure 1 - The mean temperature in January over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right)." width="100%"><p class="caption">
+Figure 1 - The mean temperature in January over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right).
+</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="prepare-occurrence-data">Prepare occurrence data<a class="anchor" aria-label="anchor" href="#prepare-occurrence-data"></a>
 </h2>
-<p>The occurrence data is prepared, then the <code>shar</code> function <code>fit_point_process</code> is called, yielding the randomized occurrence data within the observation window as required by the <code>results_habitat_association</code> function.</p>
+<p>The occurrence data is prepared, then the <code>shar</code> function <code>fit_point_process</code> is called, yielding the randomized occurrence data within the observation window as required by the <code>results_habitat_association</code> function. Figure 2 displays the real and randomised occurrence data.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Convert occurrence data to a simple features object</span>
-<span class="va">data_sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">data_simp</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
+<span class="va">data_sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">data_simp</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span>
 
-<span class="co"># Restrict occurrences to those within the European region, then re-project the data</span>
-<span class="va">data_sf_eur_3395</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crop.html" class="external-link">st_crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">data_sf</span>,
-                                y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="op">-</span><span class="fl">20</span>, xmax <span class="op">=</span> <span class="fl">45</span>, ymin <span class="op">=</span> <span class="fl">30</span>, ymax <span class="op">=</span> <span class="fl">73</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="fl">3395</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># Re-project the occurrence data</span>
+<span class="va">data_sf_3395</span> <span class="op">&lt;-</span> <span class="va">data_sf</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"EPSG:3395"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Extract the coordinates as a matrix from the sf occurrences object</span>
-<span class="va">data_sf_eur_coords</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="va">data_sf_eur_3395</span><span class="op">)</span>
+<span class="va">data_sf_coords</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="va">data_sf_3395</span><span class="op">)</span>
 
 <span class="co"># Create a spatial points pattern object containing the occurrence data</span>
-<span class="va">data_sf_eur_ppp</span> <span class="op">&lt;-</span> <span class="fu">spatstat.geom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/as.ppp.html" class="external-link">as.ppp</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">data_sf_eur_coords</span>, W <span class="op">=</span> <span class="va">eur_owin</span><span class="op">)</span>
+<span class="va">data_sf_ppp</span> <span class="op">&lt;-</span> <span class="fu">spatstat.geom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/as.ppp.html" class="external-link">as.ppp</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">data_sf_coords</span>, W <span class="op">=</span> <span class="va">roi_owin</span><span class="op">)</span>
 
 <span class="co"># Fit point pattern process to data</span>
-<span class="va">rand_pattern</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">data_sf_eur_ppp</span>, n_random <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></code></pre></div>
-<p><img src="cormus_domestica_tmp_files/figure-html/occ_plots-1.png" width="100%"></p>
+<span class="va">rand_pattern</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">data_sf_ppp</span>, n_random <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></code></pre></div>
+<div class="figure">
+<img src="cormus_domestica_tmp_files/figure-html/occ_plots-1.png" alt="Figure 2 - Real (left) and randomised (right) occurrences of Cormus domestica." width="100%"><p class="caption">
+Figure 2 - Real (left) and randomised (right) occurrences of Cormus domestica.
+</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h2>
-<p>The analysis function <code>results_habitat_association</code> is then called. The results of the analysis show that <em>Cormus domestica</em> is positively associated with locations which experience a mean June temperature of 15C - 17.5C (habitat 6) &amp; 17.5C - 20C (habitat 7). Furthermore, <em>Cormus domestica</em> is negatively associated with all other locations classified by temperature.</p>
+<p>The analysis function <code>results_habitat_association</code> is then called. The results of the analysis show that <em>Cormus domestica</em> is positively associated with locations which experience a mean January temperature of -2.5C - 10C (habitats 5, 6, 7, 8, and 9). Furthermore, <em>Cormus domestica</em> is negatively associated with all other habitats classified by temperature.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Establish significance level</span>
 <span class="va">sig_level</span> <span class="op">&lt;-</span> <span class="fl">0.01</span>
@@ -272,17 +287,23 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">habitat</span><span class="op">)</span>
 
 <span class="va">results</span>
-<span class="co">#&gt;    habitat    breaks count      lo      hi significance</span>
-<span class="co">#&gt; 1        1     [0,5)     0   78.63  117.73     negative</span>
-<span class="co">#&gt; 2        2   [5,7.5)     2 1105.35 1231.03     negative</span>
-<span class="co">#&gt; 3        3  [7.5,10)   110 1973.71 2156.77     negative</span>
-<span class="co">#&gt; 4        4 [10,12.5)   324 2940.42 3157.73     negative</span>
-<span class="co">#&gt; 5        5 [12.5,15)  1700 5361.25 5614.26     negative</span>
-<span class="co">#&gt; 6        6 [15,17.5) 14452 6531.25 6724.21     positive</span>
-<span class="co">#&gt; 7        7 [17.5,20)  9578 3440.05 3689.05     positive</span>
-<span class="co">#&gt; 8        8   [20,25)   771 2717.07 2836.37     negative</span>
-<span class="co">#&gt; 9        9   [25,30)     0 1388.27 1465.82     negative</span>
-<span class="co">#&gt; 10      10   [30,35)     0  609.54  694.73     negative</span></code></pre></div>
+<span class="co">#&gt;    habitat     breaks count      lo      hi significance</span>
+<span class="co">#&gt; 1        1  [-20,-10)     0 7917.26 8170.74     negative</span>
+<span class="co">#&gt; 2        2 [-10,-7.5)     0 2675.36 2861.13     negative</span>
+<span class="co">#&gt; 3        3  [-7.5,-5)     5 2867.98 3089.38     negative</span>
+<span class="co">#&gt; 4        4  [-5,-2.5)   164 2799.00 2958.74     negative</span>
+<span class="co">#&gt; 5        5   [-2.5,0)  3218 2392.27 2524.20     positive</span>
+<span class="co">#&gt; 6        6    [0,2.5)  4855 1575.42 1708.74     positive</span>
+<span class="co">#&gt; 7        7    [2.5,5) 10378 1775.99 1917.66     positive</span>
+<span class="co">#&gt; 8        8    [5,7.5)  6681 1523.45 1636.19     positive</span>
+<span class="co">#&gt; 9        9   [7.5,10)  1645 1233.53 1376.66     positive</span>
+<span class="co">#&gt; 10      10    [10,20)    47 1490.36 1595.65     negative</span></code></pre></div>
+<div class="figure">
+<img src="cormus_domestica_tmp_files/figure-html/result_plot-1.png" alt="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C" width="100%"><p class="caption">
+Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C
+</p>
+</div>
+<p>By visually inspecting Figure 3 we can see that occurrences of Cormus domestica are mostly restricted to the associated habitat as defined by a mean January temperature of -2.5C - 10C. However, Cormus domestica does not exist in all areas experiencing a mean January temperature of -2.5C - 10C, additionally there are a number of occurrences outside these areas, highlighting the need for further analysis to identify the multiple conditions which constitute the climatic niche of Cormus domestica.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -307,7 +328,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer>

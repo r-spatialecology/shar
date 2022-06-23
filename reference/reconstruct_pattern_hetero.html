@@ -129,41 +129,68 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>pattern</dt>
 <dd><p>ppp object with pattern.</p></dd>
+
+
 <dt>n_random</dt>
 <dd><p>Integer with number of randomizations.</p></dd>
+
+
 <dt>e_threshold</dt>
 <dd><p>Double with minimum energy to stop reconstruction.</p></dd>
+
+
 <dt>max_runs</dt>
 <dd><p>Integer with maximum number of iterations if <code>e_threshold</code>
 is not reached.</p></dd>
+
+
 <dt>no_change</dt>
 <dd><p>Integer with number of iterations at which the reconstruction will
 stop if the energy does not decrease.</p></dd>
+
+
 <dt>annealing</dt>
 <dd><p>Double with probability to keep relocated point even if energy
 did not decrease.</p></dd>
+
+
 <dt>comp_fast</dt>
 <dd><p>Integer with threshold at which summary functions are estimated
 in a computational fast way.</p></dd>
+
+
 <dt>weights</dt>
 <dd><p>Vector with weights used to calculate energy.
 The first number refers to Gest(r), the second number to pcf(r).</p></dd>
+
+
 <dt>r_length</dt>
 <dd><p>Integer with number of intervals from <code>r = 0</code> to <code>r = rmax</code> for which
 the summary functions are evaluated.</p></dd>
+
+
 <dt>return_input</dt>
 <dd><p>Logical if the original input data is returned.</p></dd>
+
+
 <dt>simplify</dt>
 <dd><p>Logical if only pattern will be returned if <code>n_random = 1</code>
 and <code>return_input = FALSE</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Logical if progress report is printed.</p></dd>
+
+
 <dt>plot</dt>
 <dd><p>Logical if pcf(r) function is plotted and updated during optimization.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>rd_pat</p>
+    
+
+<p>rd_pat</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -195,7 +222,7 @@ ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

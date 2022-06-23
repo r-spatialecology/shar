@@ -127,11 +127,11 @@
 
 
 <script src="reconstruct_multiple_patterns_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>How to reconstruct multiple patterns</h1>
                         <h4 data-toc-skip class="author">Maximilian H.K. Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-03-04</h4>
+            <h4 data-toc-skip class="date">2022-06-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multiple_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multiple_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -163,11 +163,11 @@
                                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.07481393   0.07601249   0.06867100 </span>
+<span class="co">#&gt;   0.05299510   0.05462218   0.04614606 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;    0.2060749    0.1988821    0.2085605</span></code></pre></div>
+<span class="co">#&gt;    0.1954624    0.1962769    0.2001445</span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -195,16 +195,17 @@
                                                   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; $randomized_1</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.03999877   0.04761978   0.04533785 </span>
+<span class="co">#&gt;   0.05429936   0.05721867   0.05694423 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $randomized_2</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.04822763   0.04772778   0.05030091 </span>
+<span class="co">#&gt;   0.05020702   0.04665331   0.04632030 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $randomized_3</span>
 <span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span>
-<span class="co">#&gt;   0.04936192   0.03941011   0.04769394</span></code></pre></div>
-  </main>
+<span class="co">#&gt;   0.04062801   0.04215827   0.03955494</span></code></pre></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
@@ -216,7 +217,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer>
