@@ -34,9 +34,11 @@ reference:
       - classify_habitats
       - estimate_pcf_fast
       - list_to_randomized
+      - pack_randomized
       - print.rd_mar
       - print.rd_pat
       - print.rd_ras
+      - unpack_randomized
 
 navbar:
   structure:
