@@ -7,6 +7,7 @@
   * Improvement of `classify_habitats()` to be more variable
   * Adding breaks argument to `results_habitat_association()`
   * Adding `classint_to_vector()` helper function
+  * Include new `spatstat` package structure
 
 # shar 1.3.1
 * Improvements
