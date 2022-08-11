@@ -24,7 +24,7 @@
 #' @aliases pack_randomized
 #' @rdname pack_randomized
 #'
-#' @keywords internal
+#' @export
 pack_randomized <- function(raster) {
 
   # wrap observerd raster

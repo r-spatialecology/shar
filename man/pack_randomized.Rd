@@ -31,4 +31,3 @@ x <- pack_randomized(raster = landscape_random)
 \code{\link{unpack_randomized}}
 \code{\link{wrap}}
 }
-\keyword{internal}

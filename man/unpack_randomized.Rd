@@ -33,4 +33,3 @@ y <- unpack_randomized(raster = y)
 \code{\link{pack_randomized}}
 \code{\link{wrap}}
 }
-\keyword{internal}
