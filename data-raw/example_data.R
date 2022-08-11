@@ -1,8 +1,7 @@
 library(dplyr)
-library(NLMR)
-library(maptools)
+# library(NLMR)
 library(usethis)
-library(sp)
+library(sf)
 library(spatstat)
 library(terra)
 
@@ -12,22 +11,24 @@ library(shar)
 
 set.seed(42)
 
-# Create landscape
-landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
-                           fract_dim = 1.5, user_seed = 42) %>%
-  terra::rast()
+# # Create landscape
+# landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
+#                            fract_dim = 1.5, user_seed = 42) %>%
+#   terra::rast()
+
+landscape <- terra::rast(ncol = 50, nrow = 50, resolution = 20, extent = c(0, 1000, 0, 1000),
+                         crs = NA, vals = seq(from = 0, to = 1, length.out = 2500))
 
 landscape_class <- classify_habitats(landscape, n = 5, style = "fisher")
 
 # Create species with negative
-pattern_a <- spatstat.random::runifpoint(n = 250, win = spatstat.geom::owin(c(0, 1000),
-                                                                          c(0, 1000)))
+pattern_a <- spatstat.random::runifpoint(n = 250, win = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
 # get habitat 4 as owin
 owin_pattern <- terra::as.polygons(landscape_class) %>%
-  terra::subset(.$layer == 4) %>%
-  as("Spatial") %>%
-  maptools::as.owin.SpatialPolygons()
+  terra::subset(.$lyr.1 == 4) %>%
+  sf::st_as_sf() %>%
+  spatstat.geom::as.owin()
 
 # create pattern with no point in habitat 4
 species_a <- pattern_a[!spatstat.geom::inside.owin(x = pattern_a, w = owin_pattern)]
@@ -50,9 +51,9 @@ pattern_b <- spatstat.random::runifpoint(n = floor(species_a$n / 2),
 
 # create pattern with more points in habitat 5
 species_b <- terra::as.polygons(landscape_class) %>%
-  terra::subset(.$layer == 5) %>%
-  as("Spatial") %>%
-  maptools::as.owin.SpatialPolygons() %>%
+  terra::subset(.$lyr.1 == 5) %>%
+  sf::st_as_sf() %>%
+  spatstat.geom::as.owin() %>%
   spatstat.random::runifpoint(n = floor(pattern_b$n * 1), win = .) %>%
   spatstat.geom::superimpose.ppp(pattern_b, W = spatstat.geom::owin(c(0, 1000), c(0, 1000)))
 
@@ -62,7 +63,7 @@ marks_df_b <- factor(sample(c("dominant", "understorey"),
 spatstat.geom::marks(species_b) <- marks_df_b
 
 # set number of repetitions
-n_random <- 99
+n_random <- 3
 
 # translate raster
 torus_trans <- translate_raster(raster = landscape_class)
@@ -79,9 +80,10 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = n_random,
 
 #### Save data ####
 
-overwrite <- FALSE
+overwrite <- TRUE
 
 # save landscape
+landscape <- terra::wrap(landscape)
 usethis::use_data(landscape, overwrite = overwrite)
 
 # save species data
@@ -90,8 +92,10 @@ usethis::use_data(species_a, overwrite = overwrite)
 usethis::use_data(species_b, overwrite = overwrite)
 
 # save random landscape data
+torus_trans <- pack_randomized(raster = torus_trans)
 usethis::use_data(torus_trans, overwrite = overwrite)
 
+random_walk <- pack_randomized(raster = random_walk)
 usethis::use_data(random_walk, overwrite = overwrite)
 
 # save random point data
