@@ -5,7 +5,7 @@
 \alias{landscape}
 \title{Example landscape (random cluster neutral landscape model).}
 \format{
-A RasterLayer object.
+A SpatRaster object.
 }
 \source{
 Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/

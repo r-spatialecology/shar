@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #' landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 #' plot(landscape_random)
 #' }
@@ -42,13 +42,13 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
   }
 
   # check if observed is present
-  if (!methods::is(x$observed, "RasterLayer")) {
+  if (!methods::is(x$observed, "SpatRaster")) {
 
     stop("Input must include 'observed' raster.", call. = FALSE)
 
   }
 
-  habitats <- sort(table(x$observed@data@values, useNA = "no")) # get table of habitats
+  habitats <- sort(table(terra::values(x$observed), useNA = "no")) # get table of habitats
 
   # print warning if more than 10 classes are present
   if (verbose) {
@@ -69,10 +69,10 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
   subset_raster$observed <- x$observed
 
   # stack rasters
-  raster_stack <- raster::stack(subset_raster)
+  raster_stack <- terra::rast(subset_raster)
 
   # plot result
-  raster::plot(raster_stack, col = col, nc = ncol, nr = nrow, colNA = "grey")
+  terra::plot(raster_stack, col = col, nc = ncol, nr = nrow, colNA = "grey")
 
   invisible()
 }

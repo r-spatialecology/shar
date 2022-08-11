@@ -4,7 +4,7 @@
 #'
 #' @param pattern ppp object with original point pattern data or rd_pat or rd_mar
 #' object with randomized point pattern.
-#' @param raster RasterLayer with original discrete habitat data or rd_ras object with
+#' @param raster SpatRaster with original discrete habitat data or rd_ras object with
 #' randomized environmental data.
 #' @param significance_level Double with significance level.
 #' @param breaks Vector with breaks of habitat classes.
@@ -18,7 +18,7 @@
 #' if the observed count in a habitat is above or below a certain threshold of the
 #' randomized count, respectively.
 #'
-#' In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+#' In case the SpatRaster contains NA cells, this needs to be reflected in the observation
 #' window of the point pattern as well (i.e., no point locations possible in these areas).
 #'
 #' If \code{breaks = NULL} (default), only habitat labels (but not breaks) will be
@@ -32,7 +32,7 @@
 #' @return data.frame
 #'
 #' @examples
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #' species_a_random <- fit_point_process(species_a, n_random = 199)
 #' results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 #'
@@ -81,7 +81,7 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
   if (inherits(x = raster, what = "rd_ras")) {
 
     # check if randomized and observed is present
-    if (!methods::is(raster$observed, "RasterLayer")) {
+    if (!methods::is(raster$observed, "SpatRaster")) {
 
       stop("The observed raster needs to be included in the input 'raster'.",
            call. = FALSE)
@@ -97,8 +97,8 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
 
     # check if extent is identical
-    same_extent <- raster::extent(raster$observed) == raster::extent(pattern$window$xrange,
-                                                                     pattern$window$yrange)
+    same_extent <- terra::ext(raster$observed) == terra::ext(pattern$window$xrange,
+                                                             pattern$window$yrange)
 
     # error if extent is not identical
     if (!same_extent) {
@@ -107,7 +107,7 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     }
 
-    habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
+    habitats <- sort(table(terra::values(raster$observed), useNA = "no")) # get table of habitats
 
     # print warning if more than 25 classes are present
     if (verbose) {
@@ -155,16 +155,16 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     }
 
-    # check of raster is RasterLayer
-    if (!inherits(x = raster, what = "RasterLayer")) {
+    # check of raster is SpatRaster
+    if (!inherits(x = raster, what = "SpatRaster")) {
 
-      stop("Pleaster provide 'RasterLayer' as raster argument.", call. = FALSE)
+      stop("Pleaster provide 'SpatRaster' as raster argument.", call. = FALSE)
 
     }
 
     # check if extent is identical
-    same_extent <- raster::extent(raster) == raster::extent(pattern$observed$window$xrange,
-                                                            pattern$observed$window$yrange)
+    same_extent <- terra::ext(raster) == terra::ext(pattern$observed$window$xrange,
+                                                    pattern$observed$window$yrange)
 
     # error if extent is not identical
     if (!same_extent) {
@@ -174,13 +174,13 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
     }
 
     # warning if NA are present
-    if (anyNA(raster@data@values)) {
+    if (anyNA(terra::values(raster, mat = FALSE))) {
 
       warning("NA values present. Please make sure the observation window of the point pattern reflects this.", call. = FALSE)
 
     }
 
-    habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
+    habitats <- sort(table(terra::values(raster, mat = FALSE))) # get table of habitats
 
     # print warning if more than 25 classes are present
     if (verbose) {

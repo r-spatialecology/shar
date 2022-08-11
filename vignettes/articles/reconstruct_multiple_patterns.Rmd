@@ -23,7 +23,7 @@ In case you want to reconstruct several patterns at once (e.g. for different poi
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(shar)
 library(spatstat)
-library(raster)
+library(terra)
 ```
 
 In case you want to only create the spatial characteristics, this is straightforward using `lapply()`. 

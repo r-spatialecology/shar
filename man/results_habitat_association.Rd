@@ -17,7 +17,7 @@ results_habitat_association(
 \item{pattern}{ppp object with original point pattern data or rd_pat or rd_mar
 object with randomized point pattern.}
 
-\item{raster}{RasterLayer with original discrete habitat data or rd_ras object with
+\item{raster}{SpatRaster with original discrete habitat data or rd_ras object with
 randomized environmental data.}
 
 \item{significance_level}{Double with significance level.}
@@ -41,7 +41,7 @@ Plotkin et al. (2000) and Harms et al. (2001). Significant positive or associati
 if the observed count in a habitat is above or below a certain threshold of the
 randomized count, respectively.
 
-In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+In case the SpatRaster contains NA cells, this needs to be reflected in the observation
 window of the point pattern as well (i.e., no point locations possible in these areas).
 
 If \code{breaks = NULL} (default), only habitat labels (but not breaks) will be
@@ -49,7 +49,7 @@ returned. If a vector with \code{breaks} is provided (same order as increasing h
 the breaks will be included as well.
 }
 \examples{
-landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 species_a_random <- fit_point_process(species_a, n_random = 199)
 results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 

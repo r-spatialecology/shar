@@ -2,7 +2,7 @@
 #'
 #' @description Randomized-habitats procedure
 #'
-#' @param raster RasterLayer with discrete habitat classes.
+#' @param raster SpatRaster with discrete habitat classes.
 #' @param n_random Integer with number of randomizations.
 #' @param directions Interger with cells neighbourhood rule: 4 (rook's case), 8 (queen's case).
 #' @param return_input Logical if the original input data is returned.
@@ -11,14 +11,14 @@
 #' @param verbose Logical if progress report is printed.
 #'
 #' @details
-#' The function randomizes a habitat map with discrete classes (as RasterLayer) as proposed
+#' The function randomizes a habitat map with discrete classes (as SpatRaster) as proposed
 #' by Harms et al. (2001) as “randomized-habitats procedure”. The algorithm starts with an
 #' empty habitat map and starts to assign random neighbouring cells to each habitat
 #' (in increasing order of abundance in observed map). We modified the procedure
 #' slightly by increasing a probability to jump to a non-neighbouring cell as the
 #' current patch becomes larger.
 #'
-#' In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+#' In case the SpatRaster contains NA cells, this needs to be reflected in the observation
 #' window of the point pattern as well (i.e., no point locations possible in these areas).
 #'
 #' @seealso
@@ -28,7 +28,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #' landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 #' }
 #'
@@ -49,7 +49,7 @@ randomize_raster <- function(raster,
                              verbose = TRUE){
 
   # warning if NA are present
-  if (anyNA(raster@data@values)) {
+  if (anyNA(terra::values(raster, mat = FALSE))) {
 
     warning("NA values present. Please make sure the observation window of the point pattern reflects this.", call. = FALSE)
 
@@ -65,7 +65,7 @@ randomize_raster <- function(raster,
   # set names of randomization randomized_1 ... randomized_n
   names_randomization <- paste0("randomized_", seq_len(n_random))
 
-  habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
+  habitats <- sort(table(terra::values(raster, mat = FALSE))) # get table of habitats
 
   # print warning if more than 10 classes are present
   if (verbose) {
@@ -83,7 +83,7 @@ randomize_raster <- function(raster,
   # create n_random rasters
   result_list <- lapply(seq_len(n_random), function(current_raster) {
 
-    random_matrix <- raster::as.matrix(raster) # new raster without values
+    random_matrix <- terra::as.matrix(raster, wide = TRUE, na.rm = FALSE) # new raster without values
 
     random_matrix[!is.na(random_matrix)] <- -999 # set all non-NAs to unique number
 
@@ -179,7 +179,7 @@ randomize_raster <- function(raster,
     random_matrix[empty_cells] <- as.numeric(names(habitats[length(habitats)]))
 
     # convert back to raster
-    random_raster <- raster::setValues(x = raster, values = random_matrix)
+    random_raster <- terra::setValues(x = raster, values = random_matrix)
 
     return(random_raster)
 

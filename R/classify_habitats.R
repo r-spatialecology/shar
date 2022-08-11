@@ -2,12 +2,12 @@
 #'
 #' @description Classify habitats
 #'
-#' @param raster RasterLayer with continuous environmental values.
+#' @param raster SpatRaster with continuous environmental values.
 #' @param return_breaks Logical if breaks should be returned as well.
 #' @param ... Arguments passed on to \code{classIntervals}.
 #'
 #' @details
-#' Classifies a RasterLayer from the \code{raster} packages with continuous
+#' Classifies a SpatRaster from the \code{raster} packages with continuous
 #' values into n discrete classes. The \code{cut} function used to classify the raster,
 #' uses \code{include.lowest = TRUE}.
 #'
@@ -19,12 +19,12 @@
 #' @seealso
 #' \code{\link{classIntervals}}
 #'
-#' @return RasterLayer
+#' @return SpatRaster
 #'
 #' @examples
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #'
-#' landscape_classified <- classify_habitats(landscape, style = "fixed",
+#' landscape_classified <- classify_habitats(terra::rast(landscape), style = "fixed",
 #' fixedBreaks = c(0, 0.25, 0.75, 1.0), return_breaks = TRUE)
 #'
 #' @aliases classify_habitats
@@ -59,18 +59,20 @@
 #' @export
 classify_habitats <- function(raster, return_breaks = FALSE, ...){
 
-  raster_values <- raster::values(raster) # get all values
+  raster_values <- terra::values(raster) # get all values
 
   breaks <- classInt::classIntervals(var = raster_values, ...) # use classInt to find breaks
 
-  result <- raster::cut(raster, breaks = breaks$brks, include.lowest = TRUE) # classify raster
+  result <- terra::classify(x = raster, rcl = breaks$brks, include.lowest = TRUE)
 
-  # return RasterLayer and breaks
+  terra::values(result) <- terra::values(result) + 1
+
+  # return SpatRaster and breaks
   if (return_breaks) {
 
     return(list(raster = result, breaks = breaks))
 
-  # return only RasterLayer
+  # return only SpatRaster
   } else {
 
     return(result)

@@ -54,13 +54,13 @@ list_to_randomized <- function(list, observed = NULL) {
     }
 
   # randomized raster
-  } else if (all(list_class == "RasterLayer")) {
+  } else if (all(list_class == "SpatRaster")) {
 
     result_class <- "rd_ras"
 
   } else {
 
-    stop("Please provide list of either 'ppp' or 'RasterLayer' objects.", call. = FALSE)
+    stop("Please provide list of either 'ppp' or 'SpatRaster' objects.", call. = FALSE)
 
   }
 

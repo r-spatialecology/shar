@@ -31,7 +31,6 @@ library(rgbif) # For retrieving species occurrence data
 library(rnaturalearth) # For retrieving geographical data
 library(getCRUCLdata) # For retrieving climate raster data
 library(sf) # For spatial data operations
-library(raster) # For spatial data operations
 library(terra) # For spatial data operations
 library(shar) # For species-habitat association analysis
 library(spatstat) # For spatial point pattern analysis
@@ -118,8 +117,7 @@ Figure 1 displays the unclassified and classified habitat.
 tmp_raster_eur <- terra::crop(x = tmp_raster,
                               y = roi)
 
-# Re-project raster
-tmp_raster_eur_3395 <- raster::projectRaster(tmp_raster_eur, crs = "EPSG:3395")
+tmp_raster_jun_eur_3395 <- terra::project(tmp_raster_jun_eur,  "EPSG:2169")
 
 # Classify landscape
 landscape_classified <- shar::classify_habitats(raster = tmp_raster_eur_3395,

@@ -14,7 +14,7 @@ translate_raster(
 )
 }
 \arguments{
-\item{raster}{RasterLayer with discrete habitat classes.}
+\item{raster}{SpatRaster with discrete habitat classes.}
 
 \item{steps_x, steps_y}{Integer with number of steps (cells) the raster is translated
 into the corresponding direction. If both are null, all possible combinations are used
@@ -38,11 +38,11 @@ Torus translation test as described in Harms et al. (2001). The raster is shifte
 in all four cardinal directions by steps equal to the raster resolution. If a cell
 exits the extent on one side, it enters the extent on the opposite side.
 
-The method does not allow any NA values to be present in the RasterLayer.
+The method does not allow any NA values to be present in the SpatRaster.
 }
 \examples{
 \dontrun{
-landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 
 landscape_random <- translate_raster(landscape_classified)
 landscape_random_sub <- translate_raster(landscape_classified,

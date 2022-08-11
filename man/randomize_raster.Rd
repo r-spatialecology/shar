@@ -14,7 +14,7 @@ randomize_raster(
 )
 }
 \arguments{
-\item{raster}{RasterLayer with discrete habitat classes.}
+\item{raster}{SpatRaster with discrete habitat classes.}
 
 \item{n_random}{Integer with number of randomizations.}
 
@@ -34,19 +34,19 @@ rd_ras
 Randomized-habitats procedure
 }
 \details{
-The function randomizes a habitat map with discrete classes (as RasterLayer) as proposed
+The function randomizes a habitat map with discrete classes (as SpatRaster) as proposed
 by Harms et al. (2001) as “randomized-habitats procedure”. The algorithm starts with an
 empty habitat map and starts to assign random neighbouring cells to each habitat
 (in increasing order of abundance in observed map). We modified the procedure
 slightly by increasing a probability to jump to a non-neighbouring cell as the
 current patch becomes larger.
 
-In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+In case the SpatRaster contains NA cells, this needs to be reflected in the observation
 window of the point pattern as well (i.e., no point locations possible in these areas).
 }
 \examples{
 \dontrun{
-landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 }
 
