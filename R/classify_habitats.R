@@ -22,9 +22,9 @@
 #' @return SpatRaster
 #'
 #' @examples
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #'
-#' landscape_classified <- classify_habitats(landscape, style = "fixed",
+#' landscape_classified <- classify_habitats(terra::rast(landscape), style = "fixed",
 #' fixedBreaks = c(0, 0.25, 0.75, 1.0), return_breaks = TRUE)
 #'
 #' @aliases classify_habitats

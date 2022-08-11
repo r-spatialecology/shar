@@ -8,7 +8,7 @@ random_a <- fit_point_process(pattern = species_a, n_random = 199,
 random_a_ni <- fit_point_process(pattern = species_a, n_random = 199,
                                  return_input = FALSE, verbose = FALSE)
 
-landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher",
+landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher",
                                           return_breaks = TRUE)
 
 raster_random <- randomize_raster(landscape_classified$raster, n_random = 1, verbose = FALSE)
@@ -16,7 +16,7 @@ raster_random <- randomize_raster(landscape_classified$raster, n_random = 1, ver
 raster_random_ni <- randomize_raster(landscape_classified$raster, n_random = 1,
                                      return_input = FALSE, verbose = FALSE)
 
-raster_random_cont <- randomize_raster(landscape, n_random = 1, verbose = FALSE)
+raster_random_cont <- randomize_raster(terra::rast(landscape), n_random = 1, verbose = FALSE)
 
 result_pattern <- results_habitat_association(raster = landscape_classified$raster,
                                               pattern = random_a, verbose = FALSE)
@@ -28,8 +28,8 @@ result_breaks <- results_habitat_association(raster = raster_random, pattern = s
                                              breaks = landscape_classified$breaks,
                                              digits = 3, verbose = FALSE)
 
-landscape_wrong_a <- raster::crop(x = landscape_classified$raster,
-                                y = raster::extent(c(0, 500, 0, 500)))
+landscape_wrong_a <- terra::crop(x = landscape_classified$raster,
+                                 y = terra::ext(c(0, 500, 0, 500)))
 
 landscape_wrong_a <- randomize_raster(landscape_wrong_a, n_random = 1, verbose = FALSE)
 
@@ -88,7 +88,7 @@ testthat::test_that("results_habitat_association returns warning if significance
 
 testthat::test_that("results_habitat_association returns warning if more than 25 classes are present", {
 
-  testthat::expect_warning(results_habitat_association(raster = landscape,
+  testthat::expect_warning(results_habitat_association(raster = terra::rast(landscape),
                                                        pattern = random_a),
                            regexp = "The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.")
 

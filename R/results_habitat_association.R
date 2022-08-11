@@ -32,7 +32,7 @@
 #' @return data.frame
 #'
 #' @examples
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #' species_a_random <- fit_point_process(species_a, n_random = 199)
 #' results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 #'
@@ -107,7 +107,7 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     }
 
-    habitats <- sort(table(raster$observed@data@values, useNA = "no")) # get table of habitats
+    habitats <- sort(table(terra::values(raster$observed), useNA = "no")) # get table of habitats
 
     # print warning if more than 25 classes are present
     if (verbose) {

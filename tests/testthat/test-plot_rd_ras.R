@@ -1,6 +1,6 @@
 testthat::context("test-plot_rd_ras")
 
-landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 
 raster_random <- translate_raster(raster = landscape_classified,
                                   steps_x = 1:2, steps_y = 1:1, verbose = FALSE)
@@ -12,7 +12,7 @@ raster_random_ni <- translate_raster(raster = landscape_classified,
                                      steps_x = 1:1, steps_y = 1:1,
                                      return_input = FALSE, verbose = FALSE)
 
-raster_random_cont <- translate_raster(raster = landscape,
+raster_random_cont <- translate_raster(raster = terra::rast(landscape),
                                        steps_x = 1:1, steps_y = 1:1, verbose = FALSE)
 
 ################################################################################

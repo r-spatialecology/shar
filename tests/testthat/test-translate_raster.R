@@ -1,9 +1,10 @@
 testthat::context("test-translate_raster")
 
-# n_random <- (raster::nrow(landscape) + 1) * (raster::ncol(landscape) + 1)  - 4
+# n_random <- (terra::nrow(terra::rast(landscape)) + 1) *
+#   terra::ncol(terra::rast(landscape)) + 1)  - 4
 
 # create landscape
-landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 
 # normal translation
 landscape_random <- translate_raster(raster = landscape_classified, verbose = FALSE)
@@ -48,7 +49,7 @@ testthat::test_that("Input raster can not be returned for translate_raster", {
 
     landscape_diff <- landscape_classified - x
 
-    all(raster::values(landscape_diff) == 0)
+    all(terra::values(landscape_diff) == 0)
   }, FUN.VALUE = logical(1))
 
   testthat::expect_false(all(check))
@@ -68,7 +69,7 @@ testthat::test_that("simplify is working for translate_raster", {
 
 testthat::test_that("Warning if more than 10 classes are present for translate_raster", {
 
-  testthat::expect_warning(translate_raster(raster = landscape, steps_x = 5, steps_y = 5),
+  testthat::expect_warning(translate_raster(raster = terra::rast(landscape), steps_x = 5, steps_y = 5),
                            regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 })
 

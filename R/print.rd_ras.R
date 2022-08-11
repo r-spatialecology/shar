@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #' landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 #'
 #' print(landscape_random)
@@ -27,21 +27,17 @@
 #' @rdname print.rd_ras
 #'
 #' @export
-print.rd_ras <- function(x,
-                         ...) {
+print.rd_ras <- function(x, ...) {
 
-  # set length observed pattern to 0 and
-  # return warning that energy can't be calculated
+  # check if observed raster is included
   if (!methods::is(x$observed, "SpatRaster")) {
 
     number_raster_obs <- 0
 
     includes_observed <- "NA"
 
-  }
-
   # observed pattern is present
-  else {
+  } else {
 
     number_raster_obs <- 1
 

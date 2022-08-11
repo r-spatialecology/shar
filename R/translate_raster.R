@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #'
 #' landscape_random <- translate_raster(landscape_classified)
 #' landscape_random_sub <- translate_raster(landscape_classified,

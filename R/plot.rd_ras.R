@@ -23,7 +23,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #' landscape_random <- randomize_raster(landscape_classified, n_random = 19)
 #' plot(landscape_random)
 #' }
@@ -48,7 +48,7 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
 
   }
 
-  habitats <- sort(table(x$observed@data@values, useNA = "no")) # get table of habitats
+  habitats <- sort(table(terra::values(x$observed), useNA = "no")) # get table of habitats
 
   # print warning if more than 10 classes are present
   if (verbose) {

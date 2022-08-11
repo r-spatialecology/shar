@@ -1,6 +1,6 @@
 testthat::context("test-randomize_raster")
 
-landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 
 # normal random
 landscape_random <- randomize_raster(raster = landscape_classified, n_random = 1,
@@ -39,7 +39,7 @@ testthat::test_that("Input raster can not be returned for randomize_raster", {
 
   landscape_diff <- landscape_classified - raster_random_simple
 
-  check <- all(raster::values(landscape_diff) == 0)
+  check <- all(terra::values(landscape_diff) == 0)
 
   testthat::expect_false(check)
 })
@@ -69,7 +69,7 @@ testthat::test_that("randomize_raster returns all warnings", {
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
                            fixed = TRUE)
 
-  testthat::expect_warning(randomize_raster(raster = landscape, n_random = 1),
+  testthat::expect_warning(randomize_raster(raster = terra::rast(landscape), n_random = 1),
                            regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
                            fixed = TRUE)
 })

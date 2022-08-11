@@ -1,5 +1,6 @@
 # shar 1.4
 * Using `terra` instead of `raster`
+* Adding `pack_randomized()` and `unpack_randomized()` due to `terra` saving behavior
 
 # shar 1.3.2
 * Improvements
