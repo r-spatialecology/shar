@@ -1,4 +1,4 @@
-# shar 1.4
+# shar 2.0
 * Using `terra` instead of `raster`
 * Adding `pack_randomized()` and `unpack_randomized()` due to `terra` saving behavior
 
