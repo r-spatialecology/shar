@@ -47,7 +47,7 @@ However, all methods require "fully mapped data" in a sense that NA cells of the
 ```{r randomize_raster, eval = FALSE}
 torus_trans <- translate_raster(raster = landscape_discrete)
 
-random_walk <- randomize_raster(raster = landscape_discrete, n_random = 99)
+random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
 ```
 
 ## Randomize location data
@@ -55,10 +55,10 @@ random_walk <- randomize_raster(raster = landscape_discrete, n_random = 99)
 To randomize the location data (i.e. the point pattern) either `fit_point_process()` or `reconstruct_pattern()` are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the `spatstat` package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel & Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the `n_random` argument. 
 
 ```{r randomize_pp, eval = FALSE}
-gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
+gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 39)
 
 # (this can takes some time)
-reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, 
+reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 39, 
                                       e_threshold = 0.05, method = "cluster")
 ``` 
 

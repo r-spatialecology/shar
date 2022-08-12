@@ -1,5 +1,5 @@
 library(dplyr)
-# library(NLMR)
+library(NLMR)
 library(usethis)
 library(sf)
 library(spatstat)
@@ -11,13 +11,10 @@ library(shar)
 
 set.seed(42)
 
-# # Create landscape
-# landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
-#                            fract_dim = 1.5, user_seed = 42) %>%
-#   terra::rast()
-
-landscape <- terra::rast(ncol = 50, nrow = 50, resolution = 20, extent = c(0, 1000, 0, 1000),
-                         crs = NA, vals = seq(from = 0, to = 1, length.out = 2500))
+# Create landscape
+landscape <- NLMR::nlm_fbm(ncol = 50, nrow = 50, resolution = 20,
+                           fract_dim = 1.5, user_seed = 42) %>%
+  terra::rast()
 
 landscape_class <- classify_habitats(landscape, n = 5, style = "fisher")
 
@@ -26,7 +23,7 @@ pattern_a <- spatstat.random::runifpoint(n = 250, win = spatstat.geom::owin(c(0,
 
 # get habitat 4 as owin
 owin_pattern <- terra::as.polygons(landscape_class) %>%
-  terra::subset(.$lyr.1 == 4) %>%
+  terra::subset(.$layer == 4) %>%
   sf::st_as_sf() %>%
   spatstat.geom::as.owin()
 
@@ -51,7 +48,7 @@ pattern_b <- spatstat.random::runifpoint(n = floor(species_a$n / 2),
 
 # create pattern with more points in habitat 5
 species_b <- terra::as.polygons(landscape_class) %>%
-  terra::subset(.$lyr.1 == 5) %>%
+  terra::subset(.$layer == 5) %>%
   sf::st_as_sf() %>%
   spatstat.geom::as.owin() %>%
   spatstat.random::runifpoint(n = floor(pattern_b$n * 1), win = .) %>%
@@ -63,7 +60,7 @@ marks_df_b <- factor(sample(c("dominant", "understorey"),
 spatstat.geom::marks(species_b) <- marks_df_b
 
 # set number of repetitions
-n_random <- 3
+n_random <- 39
 
 # translate raster
 torus_trans <- translate_raster(raster = landscape_class)
