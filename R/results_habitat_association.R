@@ -107,7 +107,7 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     }
 
-    habitats <- sort(table(terra::values(raster$observed), useNA = "no")) # get table of habitats
+    habitats <- table(terra::values(raster$observed, mat = FALSE), useNA = "no") # get table of habitats
 
     # print warning if more than 25 classes are present
     if (verbose) {
@@ -180,7 +180,7 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
     }
 
-    habitats <- sort(table(terra::values(raster, mat = FALSE))) # get table of habitats
+    habitats <- table(terra::values(raster, mat = FALSE), useNA = "no") # get table of habitats
 
     # print warning if more than 25 classes are present
     if (verbose) {
@@ -262,13 +262,12 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
   # combine (join) with quantiles of randomized data
   result <- merge(x = habitats_count_obs, y = habitats_count_random_summarised,
-                  by = "habitat")
+                  by = "habitat", sort = FALSE)
 
   # classify results to positive/negative/n.s.
   result$significance <- ifelse(test = result$count < result$lo,
-                                yes = "negative",
-                                no = ifelse(test = result$count > result$hi,
-                                            yes = "positive", no = "n.s."))
+                                yes = "negative", no = ifelse(test = result$count > result$hi,
+                                                              yes = "positive", no = "n.s."))
 
   # reorder columns
   result <- result[, c("habitat", "breaks", "count", "lo", "hi", "significance")]
