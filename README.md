@@ -21,10 +21,10 @@ environmental data is randomized n-times. Then, counts within the
 habitats are compared between the randomized data and the observed data.
 Positive or negative associations are present if the observed counts is
 higher or lower than the randomized counts (using quantile thresholds).
-Methods are mainly described in Plotkin et al. (2000), Harms et
-al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on
-the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and
-[`raster`](https://rspatial.org/raster/) (Hijmans 2017) package.
+Methods are described in Plotkin et al. (2000), Harms et al. (2001) and
+Wiegand & Moloney (2014). **shar** is mainly based on the
+[`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and
+[`terra`](https://rspatial.org/terra/) (Hijmans 2022) package.
 
 #### Citation
 
@@ -65,7 +65,7 @@ namely the following packages: `classInt`, `raster`, `spatstat.core`,
 ``` r
 library(shar)
 library(spatstat)
-library(raster)
+library(terra)
 
 set.seed(42)
 ```
@@ -83,7 +83,7 @@ window of the point pattern. For the torus translation method, no NA
 values are allowed at all.
 
 ``` r
-landscape_classified <- classify_habitats(raster = landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 ```
 
 There are two possibilities to randomize the environmental data, both
@@ -97,7 +97,7 @@ For more information on the methods, please click
 ``` r
 torus_trans <- translate_raster(raster = landscape_classified)
 
-random_walk <- randomize_raster(raster = landscape_classified, n_random = 99)
+random_walk <- randomize_raster(raster = landscape_classified, n_random = 39)
 ```
 
 To plot the randomized raster, you can use the plot function and specify
@@ -115,10 +115,10 @@ Plotkin et al. (2000) or pattern reconstruction (Kirkpatrick et
 al. 1983; Tscheschel & Stoyan 2006).
 
 ``` r
-gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 99)
+gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 39)
 
 # (this can takes some time)
-reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 99, e_threshold = 0.05)
+reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 39, e_threshold = 0.05)
 ```
 
 Of course, there are several utility functions. For example, you can
@@ -138,7 +138,7 @@ using summary functions).
 
 ``` r
 calculate_energy(reconstruction, return_mean = TRUE)
-## [1] 0.04908566
+## [1] 0.04907375
 ```
 
 The data was created that `species_a` has a negative association to
@@ -178,11 +178,11 @@ results_habitat_association(pattern = reconstruction, raster = landscape_classif
 ## > Input: randomized pattern
 ## > Quantile thresholds: negative < 0.005 || positive > 0.995
 ##   habitat breaks count    lo    hi significance
-## 1       1     NA     6 21.96 49.02     negative
-## 2       2     NA    18 32.47 64.51     negative
-## 3       3     NA    18 26.98 56.10     negative
-## 4       4     NA    21 17.98 40.00         n.s.
-## 5       5     NA   129 24.96 52.02     positive
+## 1       1     NA     6  2.19 13.43         n.s.
+## 2       2     NA    18 17.57 55.86         n.s.
+## 3       3     NA    18 33.19 58.00     negative
+## 4       4     NA    21 35.38 54.81     negative
+## 5       5     NA   129 37.38 84.10     positive
 ```
 
 ## Contributing and Code of Conduct
@@ -209,8 +209,8 @@ associations of trees and shrubs in a 50-ha neotropical forest plot.
 Journal of Ecology 89, 947–959.
 <https://doi.org/10.1111/j.1365-2745.2001.00615.x>
 
-Hijmans, R.J., 2019. raster: Geographic data analysis and modeling. R
-package version 2.9-5. <https://cran.r-project.org/package=raster>.
+Hijmans, R.J., 2022 terra: Spatial Data Analysis. R package version
+1.6-7. <https://CRAN.R-project.org/package=terra>.
 
 Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by
 simulated annealing. Science 220, 671–680.
