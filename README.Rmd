@@ -110,6 +110,11 @@ Given the characteristics of the method, a positive association to one habitat i
 
 Furthermore, please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples. However, the counts of the observed data should be identical, and general results and trends should be similar.
 
+```{result-unpack, echo = FALSE}
+torus_trans <- unpack_randomized(torus_trans)
+```
+
+
 ```{r results}
 significance_level <- 0.01
 
