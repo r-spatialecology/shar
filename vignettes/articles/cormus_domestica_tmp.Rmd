@@ -26,15 +26,15 @@ This vignette demonstrates how to use `shar` to analyse species occurrence data 
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(dplyr) # For data wrangling
-library(magrittr) # For the non-base R pipe function (%>%)
-library(rgbif) # For retrieving species occurrence data 
-library(rnaturalearth) # For retrieving geographical data
 library(getCRUCLdata) # For retrieving climate raster data
-library(sf) # For spatial data operations
-library(terra) # For spatial data operations
-library(shar) # For species-habitat association analysis
-library(spatstat) # For spatial point pattern analysis
 library(patchwork) # For composing multiple plots
+library(rgbif) # For retrieving species occurrence data
+library(rnaturalearth) # For retrieving geographical data
+library(sf) # For spatial data operations
+library(spatstat) # For spatial point pattern analysis
+library(terra) # For spatial data operations
+
+library(shar) # For species-habitat association analysis
 ```
 
 ## Download occurrence data
@@ -45,7 +45,19 @@ database. For this vignette we are interested in observations within
 the likely natural distribution of Cormus domestica, which includes Europe, the 
 wider Mediterranean, the Black Sea Region, and potentially North Africa.
 
-```{r gbif, echo=TRUE, message=FALSE, warning=FALSE}
+```{r gbif, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+# Establish region of interest
+roi <- c(xmin = -20, xmax = 45, ymin = 30, ymax = 73)
+roi_sfc <- sf::st_sfc(sf::st_point(c(roi[["xmin"]], roi[["ymin"]])), 
+                      sf::st_point(c(roi[["xmax"]], roi[["ymax"]])), 
+                      crs = "EPSG:4326")
+
+# Create a simple data frame containing only the unique identifier (id),
+# latitude (lat), and longtitude (lon).
+data_simp <- shar:::data_simp_precomp
+```
+
+```{r gbif_dummy, echo=TRUE, eval=FALSE}
 # Retrieve key for Cormus domestica
 key <- rgbif::name_backbone(name = 'Cormus domestica', kingdom = 'plants')
 
@@ -57,7 +69,7 @@ roi_sfc <- sf::st_sfc(sf::st_point(c(roi[["xmin"]], roi[["ymin"]])),
                       crs = "EPSG:4326")
 
 # Retrieve occurrences for the region of interest
-res <- rgbif::occ_search(taxonKey = as.numeric(key$usageKey), limit = 99999,
+res <- rgbif::occ_search(taxonKey = as.numeric(key$usageKey), limit = 99999, 
                          geometry = roi_bbox)
 
 # Create a simple data frame containing only the unique identifier (id),
@@ -94,11 +106,7 @@ The environmental variable selected for demonstrative purposes is the mean tempe
 ```{r cru_data, echo=TRUE, message=FALSE, warning=FALSE}
 # Download data as a raster brick through the getCRUCLdata package
 # Mean temperature (tmn) data should be 180.4MB
-cru_data <- getCRUCLdata::get_CRU_stack(pre = FALSE, pre_cv = FALSE, rd0 = FALSE,
-                                        tmp = TRUE, dtr = FALSE, reh = FALSE,
-                                        tmn = FALSE, tmx = FALSE, sunp = FALSE,
-                                        frs = FALSE, wnd = FALSE, elv = FALSE,
-                                        cache = FALSE)
+cru_data <- getCRUCLdata::get_CRU_stack(tmp = TRUE)
 
 # Select temperature variable and the month of January
 tmp_raster <- cru_data$tmp$jan
@@ -114,18 +122,15 @@ Figure 1 displays the unclassified and classified habitat.
 
 ```{r landscape_ras, echo=TRUE, message=FALSE, warning=FALSE}
 # Crop tmp raster
-tmp_raster_eur <- terra::crop(x = tmp_raster,
-                              y = roi)
+tmp_raster_eur <- terra::crop(x = tmp_raster, y = roi)
 
-tmp_raster_jun_eur_3395 <- terra::project(tmp_raster_jun_eur,  "EPSG:2169")
+tmp_raster_eur_3395 <- terra::project(tmp_raster_eur,  "EPSG:2169")
 
 # Classify landscape
 landscape_classified <- shar::classify_habitats(raster = tmp_raster_eur_3395,
                                                 return_breaks = TRUE, style = "fixed",
-                                                fixedBreaks = c(-20, -10,
-                                                                -7.5, -5, -2.5, 
-                                                                0, 2.5, 5,
-                                                                7.5, 10, 20))
+                                                fixedBreaks = c(-20, -10, -7.5, -5, -2.5, 
+                                                                0, 2.5, 5, 7.5, 10, 20))
 ```
 
 ```{r land_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 1 - The mean temperature in January over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right)."}
@@ -134,7 +139,7 @@ raster_unclassed_df <- terra::as.data.frame(tmp_raster_eur_3395, xy = TRUE) %>%
   dplyr::mutate("type" = "Unclassified")
 
 raster_classed_df <- terra::as.data.frame(landscape_classified$raster, xy = TRUE) %>%
-  dplyr::rename("value" = "layer") %>%
+  dplyr::rename("value" = "jan") %>%
   dplyr::mutate("type" = "Classified")
 
 plot_unclassed <- ggplot2::ggplot() +
@@ -319,16 +324,17 @@ matrix <- c(1, 1,
             8, 1,
             9, 1,
             10, 1)
-rclmat <- matrix(matrix, ncol=2, byrow=TRUE)
 
-landscape_classified_results <- raster::reclassify(x = landscape_classified$raster, rcl = rclmat)
+rclmat <- matrix(matrix, ncol = 2, byrow = TRUE)
 
-landscape_classified_results <- terra::as.data.frame(landscape_classified_results, xy = TRUE) |> 
+landscape_classified_results <- terra::classify(x = landscape_classified$raster, rcl = rclmat)
+
+landscape_classified_results <- terra::as.data.frame(landscape_classified_results, xy = TRUE) %>% 
   dplyr::mutate(layer =
                   dplyr::case_when(
-                    layer == 1 ~ "Unassociated habitat",
-                    layer == 2 ~ "Associated habitat",
-                    TRUE ~ as.character(layer)
+                    jan == 1 ~ "Unassociated habitat",
+                    jan == 2 ~ "Associated habitat",
+                    TRUE ~ as.character(jan)
                   ))
 
   
