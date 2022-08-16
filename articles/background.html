@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +90,11 @@
        
       Publication Record
     </a>
+    <a class="dropdown-item" href="../inst/Hesselbarth_2021_Journal_of_Open_Source_Software_6_68.pdf">
+      <span class="fa fa-file-text-o"></span>
+       
+      JOSS Publication
+    </a>
   </div>
 </li>
 <li class="nav-item">
@@ -131,7 +136,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Background</h1>
                         <h4 data-toc-skip class="author">Maximilian H.K. Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-08-11</h4>
+            <h4 data-toc-skip class="date">2022-08-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/background.Rmd" class="external-link"><code>vignettes/articles/background.Rmd</code></a></small>
       <div class="d-none name"><code>background.Rmd</code></div>
@@ -140,13 +145,13 @@
     
     
 <p>Species-habitat associations are present if species are specialized to small-scale environmental conditions (Tilman &amp; Pacala, 1993) and are more common within suitable habitats (Comita et al., 2007; Harms et al., 2001). Following, species-habitat associations show the importance of abiotic processes on the spatial patterning of plant populations (Garzon-Lopez et al., 2014).</p>
-<p>There are mainly two methods that can be found in the literature to analyse such small-scale species-habitat associations, namely the gamma-test (Plotkin et al., 2000) and the torus-translation test (Harms et al., 2001). Both methods require data on the locations of plants (as <code>spatstat::ppp</code> point pattern) and on the environmental conditions (classified into discrete habitats as <code><a href="https://rdrr.io/pkg/raster/man/raster.html" class="external-link">raster::raster</a></code>). To show significance species-habitat associations, both methods randomize one of the components. Because the locations of plants as well as the habitats are most likely auto-correlated, the spatial structure must be kept while randomizing the data (Wiegand &amp; Moloney, 2014).</p>
+<p>There are mainly two methods that can be found in the literature to analyse such small-scale species-habitat associations, namely the gamma-test (Plotkin et al., 2000) and the torus-translation test (Harms et al., 2001). Both methods require data on the locations of plants (as <code>spatstat::ppp</code> point pattern) and on the environmental conditions (classified into discrete habitats as <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast</a></code>). To show significance species-habitat associations, both methods randomize one of the components. Because the locations of plants as well as the habitats are most likely auto-correlated, the spatial structure must be kept while randomizing the data (Wiegand &amp; Moloney, 2014).</p>
 <p>All methods compare the abundance within a habitat between the observed data and the randomized null model data. If the count is below or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles), negative or positive associations, respectively, are present.</p>
 <p><img src="methods_overview.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
 <div class="section level2">
 <h2 id="randomize-environmental-data">Randomize environmental data<a class="anchor" aria-label="anchor" href="#randomize-environmental-data"></a>
 </h2>
-<p>The following two methods randomize the environmental data, i.e. the RasterLayer data, while keeping the point pattern data fixed.</p>
+<p>The following two methods randomize the environmental data, i.e. the SpatRaster data, while keeping the point pattern data fixed.</p>
 <div class="section level3">
 <h3 id="torus-translation-test">Torus-translation-test<a class="anchor" aria-label="anchor" href="#torus-translation-test"></a>
 </h3>

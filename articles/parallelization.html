@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +90,11 @@
        
       Publication Record
     </a>
+    <a class="dropdown-item" href="../inst/Hesselbarth_2021_Journal_of_Open_Source_Software_6_68.pdf">
+      <span class="fa fa-file-text-o"></span>
+       
+      JOSS Publication
+    </a>
   </div>
 </li>
 <li class="nav-item">
@@ -131,7 +136,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Parallelization</h1>
                         <h4 data-toc-skip class="author">Maximilian H.K. Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-08-11</h4>
+            <h4 data-toc-skip class="date">2022-08-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/parallelization.Rmd" class="external-link"><code>vignettes/articles/parallelization.Rmd</code></a></small>
       <div class="d-none name"><code>parallelization.Rmd</code></div>
@@ -145,7 +150,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.apply.futureverse.org" class="external-link">future.apply</a></span><span class="op">)</span></span></code></pre></div>
@@ -155,15 +160,15 @@
 <code class="sourceCode R"><span><span class="fu">future</span><span class="fu">::</span><span class="fu"><a href="https://future.futureverse.org/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span><span class="va">multisession</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fitted_list</span> <span class="op">&lt;-</span> <span class="fu">future.apply</span><span class="fu">::</span><span class="fu"><a href="https://future.apply.futureverse.org/reference/future_lapply.html" class="external-link">future_lapply</a></span><span class="op">(</span>X <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">39</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
-<span>   <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="fu">shar</span><span class="fu">::</span><span class="va"><a href="../reference/species_b.html">species_b</a></span>, n_random <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                          return_input <span class="op">=</span> <span class="cn">FALSE</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>   <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_b</span>, n_random <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>                           return_input <span class="op">=</span> <span class="cn">FALSE</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">}</span>, future.seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span></span></code></pre></div>
 <p>Next, you can use the <code><a href="../reference/list_to_randomized.html">list_to_randomized()</a></code> function to convert this list of randomized pattern to a <code>rd_pat</code> object that will work will all other functions of the <code>shar</code> package.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fitted_rd</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/list_to_randomized.html">list_to_randomized</a></span><span class="op">(</span>list <span class="op">=</span> <span class="va">fitted_list</span>, observed <span class="op">=</span> <span class="fu">shar</span><span class="fu">::</span><span class="va"><a href="../reference/species_b.html">species_b</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fitted_rd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/list_to_randomized.html">list_to_randomized</a></span><span class="op">(</span>list <span class="op">=</span> <span class="va">fitted_list</span>, observed <span class="op">=</span> <span class="fu">shar</span><span class="fu">::</span><span class="va"><a href="../reference/species_b.html">species_b</a></span><span class="op">)</span></span></code></pre></div>
 <p>Lastly, the created objects can be used to analyse if species-habitat associations are present as usual.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">fitted_rd</span>, raster <span class="op">=</span> <span class="va">landscape_classified</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Input: randomized pattern</span></span>

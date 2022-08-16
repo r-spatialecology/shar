@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,11 @@
       <span class="fa fa-file-text-o"></span>
        
       Publication Record
+    </a>
+    <a class="dropdown-item" href="../inst/Hesselbarth_2021_Journal_of_Open_Source_Software_6_68.pdf">
+      <span class="fa fa-file-text-o"></span>
+       
+      JOSS Publication
     </a>
   </div>
 </li>
@@ -126,7 +131,7 @@ object with randomized point pattern.</p></dd>
 
 
 <dt>raster</dt>
-<dd><p>RasterLayer with original discrete habitat data or rd_ras object with
+<dd><p>SpatRaster with original discrete habitat data or rd_ras object with
 randomized environmental data.</p></dd>
 
 
@@ -159,7 +164,7 @@ points within a habitat between the observed data and randomized data as describ
 Plotkin et al. (2000) and Harms et al. (2001). Significant positive or associations are present
 if the observed count in a habitat is above or below a certain threshold of the
 randomized count, respectively.</p>
-<p>In case the RasterLayer contains NA cells, this needs to be reflected in the observation
+<p>In case the SpatRaster contains NA cells, this needs to be reflected in the observation
 window of the point pattern as well (i.e., no point locations possible in these areas).</p>
 <p>If <code>breaks = NULL</code> (default), only habitat labels (but not breaks) will be
 returned. If a vector with <code>breaks</code> is provided (same order as increasing habitat values),
@@ -182,7 +187,7 @@ in tropical forests. Journal of Theoretical Biology 207, 81–99.
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="classify_habitats.html">classify_habitats</a></span><span class="op">(</span><span class="va">landscape</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="classify_habitats.html">classify_habitats</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">species_a_random</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_point_process.html">fit_point_process</a></span><span class="op">(</span><span class="va">species_a</span>, n_random <span class="op">=</span> <span class="fl">199</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unmarked provided input pattern.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: n_random: 1/199		</span>
@@ -388,12 +393,12 @@ in tropical forests. Journal of Theoretical Biology 207, 81–99.
 <span class="r-in"><span><span class="fu">results_habitat_association</span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_a_random</span>, raster <span class="op">=</span> <span class="va">landscape_classified</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Input: randomized pattern</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   habitat breaks count    lo    hi significance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1     NA    35 12.00 27.05     positive</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2     NA    44 24.95 46.05         n.s.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3     NA    36 25.00 42.00         n.s.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4     NA     4 29.00 51.00     negative</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5     NA    73 53.95 78.05         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   habitat breaks count    lo hi significance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1     NA    35 13.00 28     positive</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2     NA    44 23.95 46         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3     NA    36 23.00 43         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4     NA     4 28.95 49     negative</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5     NA    73 54.95 79         n.s.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

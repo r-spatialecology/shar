@@ -43,9 +43,6 @@
     <loc>https://r-spatialecology.github.io/shar/news/index.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/shar/paper.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/calculate_energy.html</loc>
   </url>
   <url>
@@ -77,6 +74,9 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/list_to_randomized.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/pack_randomized.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/plot.rd_mar.html</loc>
@@ -143,5 +143,8 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/translate_raster.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/unpack_randomized.html</loc>
   </url>
 </urlset>
