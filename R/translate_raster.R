@@ -109,19 +109,33 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
     y_shift <- steps_xy[current_row, 2] - (nrow(matrix_raster) *
                                              (steps_xy[current_row, 2] %/% nrow(matrix_raster)))
 
-    if (x_shift == 0) {matrix_shifted <- matrix_raster}
+    if (x_shift == 0) {
 
-    else {matrix_shifted <- cbind(matrix_raster[, (x_shift + 1):dim(matrix_raster)[2]],
-                                  matrix_raster[, seq_len(x_shift)])}
+      matrix_shifted <- matrix_raster
 
-    if (y_shift == 0) {matrix_shifted <- matrix_shifted}
+    } else {
 
-    else{matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1], ],
-                                 matrix_shifted[seq_len(y_shift), ])}
+      matrix_shifted <- cbind(matrix_raster[, (x_shift + 1):dim(matrix_raster)[2]],
+                              matrix_raster[, seq_len(x_shift)])
+
+    }
+
+    if (y_shift == 0) {
+
+      matrix_shifted <- matrix_shifted
+
+    } else {
+
+      matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1], ],
+                                 matrix_shifted[seq_len(y_shift), ])
+
+    }
 
     # convert back to raster
     raster_shifted <- terra::rast(matrix_shifted, crs = terra::crs(raster),
                                   extent = terra::ext(raster))
+
+    names(raster_shifted) <- "layer"
 
     # print progress
     if (verbose) {

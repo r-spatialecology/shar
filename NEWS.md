@@ -1,6 +1,8 @@
 # shar 2.0
 * Using `terra` instead of `raster`
 * Adding `pack_randomized()` and `unpack_randomized()` due to `terra` saving behavior
+* Naming raster values "layer"
+* Adding `n` argument to `classify_habitats`
 
 # shar 1.3.2
 * Improvements

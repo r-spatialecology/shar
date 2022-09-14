@@ -181,6 +181,8 @@ randomize_raster <- function(raster,
     # convert back to raster
     random_raster <- terra::setValues(x = raster, values = random_matrix)
 
+    names(random_raster) <- "layer"
+
     return(random_raster)
 
   })
