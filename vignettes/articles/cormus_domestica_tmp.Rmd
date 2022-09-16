@@ -25,7 +25,7 @@ This vignette demonstrates how to use `shar` to analyse species occurrence data 
 ## Load required packages
 
 ```{r packages, message=FALSE, warning=FALSE}
-library(dplyr) # For data wrangling
+library(tidyverse) # For data wrangling
 library(getCRUCLdata) # For retrieving climate raster data
 library(patchwork) # For composing multiple plots
 library(rgbif) # For retrieving species occurrence data
@@ -33,7 +33,6 @@ library(rnaturalearth) # For retrieving geographical data
 library(sf) # For spatial data operations
 library(spatstat) # For spatial point pattern analysis
 library(terra) # For spatial data operations
-
 library(shar) # For species-habitat association analysis
 ```
 
@@ -46,15 +45,20 @@ the likely natural distribution of Cormus domestica, which includes Europe, the
 wider Mediterranean, the Black Sea Region, and potentially North Africa.
 
 ```{r gbif, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+# Load bundled GBIF occurrence data 
+data_simp <- shar:::data_simp_precomp
+```
+
+```{r roi, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+
 # Establish region of interest
+# *** We need to do this here as the chinnk below is not evaluated ***
 roi <- c(xmin = -20, xmax = 45, ymin = 30, ymax = 73)
+roi_bbox <- sf::st_bbox(roi, crs = sf::st_crs("EPSG:4326"))
 roi_sfc <- sf::st_sfc(sf::st_point(c(roi[["xmin"]], roi[["ymin"]])), 
                       sf::st_point(c(roi[["xmax"]], roi[["ymax"]])), 
                       crs = "EPSG:4326")
 
-# Create a simple data frame containing only the unique identifier (id),
-# latitude (lat), and longtitude (lon).
-data_simp <- shar:::data_simp_precomp
 ```
 
 ```{r gbif_dummy, echo=TRUE, eval=FALSE}
@@ -124,7 +128,12 @@ Figure 1 displays the unclassified and classified habitat.
 # Crop tmp raster
 tmp_raster_eur <- terra::crop(x = tmp_raster, y = roi)
 
-tmp_raster_eur_3395 <- terra::project(tmp_raster_eur,  "EPSG:2169")
+# Create SpatRaster object
+tmp_raster_eur <- terra::rast(tmp_raster_eur)
+
+# Project raster to EPSG:3395
+tmp_raster_eur_3395 <- terra::project(x = tmp_raster_eur, y = "EPSG:3395", 
+                                      method = "bilinear")
 
 # Classify landscape
 landscape_classified <- shar::classify_habitats(raster = tmp_raster_eur_3395,
@@ -139,7 +148,7 @@ raster_unclassed_df <- terra::as.data.frame(tmp_raster_eur_3395, xy = TRUE) %>%
   dplyr::mutate("type" = "Unclassified")
 
 raster_classed_df <- terra::as.data.frame(landscape_classified$raster, xy = TRUE) %>%
-  dplyr::rename("value" = "jan") %>%
+  dplyr::rename("value" = "layer") %>%
   dplyr::mutate("type" = "Classified")
 
 plot_unclassed <- ggplot2::ggplot() +
@@ -332,9 +341,9 @@ landscape_classified_results <- terra::classify(x = landscape_classified$raster,
 landscape_classified_results <- terra::as.data.frame(landscape_classified_results, xy = TRUE) %>% 
   dplyr::mutate(layer =
                   dplyr::case_when(
-                    jan == 1 ~ "Unassociated habitat",
-                    jan == 2 ~ "Associated habitat",
-                    TRUE ~ as.character(jan)
+                    layer == 1 ~ "Unassociated habitat",
+                    layer == 2 ~ "Associated habitat",
+                    TRUE ~ as.character(layer)
                   ))
 
   
@@ -422,13 +431,14 @@ plot_res_classed_occs <- ggplot2::ggplot() +
 plot_res_classed + plot_res_classed_occs
 ```
 
-By visually inspecting Figure 3 we can see that occurrences of Cormus domestica 
+By visually inspecting Figure 3 we can see that occurrences of *Cormus domestica*
 are mostly restricted to the associated habitat as defined by a mean January 
 temperature of -2.5C - 10C.
-However, Cormus domestica does not exist in all areas experiencing a mean January 
+However, *Cormus domestica* does not exist in all areas experiencing a mean January 
 temperature of -2.5C - 10C, additionally there are a number of occurrences 
-outside these areas, highlighting the need for further analysis
-to identify the multiple conditions which constitute the climatic niche of Cormus domestica.
+outside these areas. The next step assessing in the climatic niche of *Cormus domestica*
+would be to repeat the above analysis for more environmental variables, 
+which is beyond the scope of this minimal example.
 
 ## References
 
