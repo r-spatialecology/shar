@@ -136,7 +136,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Analysing the climatic niche of Cormus domestica</h1>
                         <h4 data-toc-skip class="author">Zeke Marshall</h4>
             
-            <h4 data-toc-skip class="date">2022-09-08</h4>
+            <h4 data-toc-skip class="date">2022-09-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/cormus_domestica_tmp.Rmd" class="external-link"><code>vignettes/articles/cormus_domestica_tmp.Rmd</code></a></small>
       <div class="d-none name"><code>cormus_domestica_tmp.Rmd</code></div>
@@ -155,13 +155,14 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># For data wrangling</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/getCRUCLdata/" class="external-link">getCRUCLdata</a></span><span class="op">)</span> <span class="co"># For retrieving climate raster data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># For plotting</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span> <span class="co"># For composing multiple plots</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rgbif" class="external-link">rgbif</a></span><span class="op">)</span> <span class="co"># For retrieving species occurrence data</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth" class="external-link">rnaturalearth</a></span><span class="op">)</span> <span class="co"># For retrieving geographical data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearthdata" class="external-link">rnaturalearthdata</a></span><span class="op">)</span> <span class="co"># For retrieving geographical data</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span> <span class="co"># For spatial data operations</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span> <span class="co"># For spatial point pattern analysis</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span> <span class="co"># For spatial data operations</span></span>
-<span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span> <span class="co"># For species-habitat association analysis</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -228,7 +229,9 @@
 <code class="sourceCode R"><span><span class="co"># Crop tmp raster</span></span>
 <span><span class="va">tmp_raster_eur</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crop.html" class="external-link">crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster</span>, y <span class="op">=</span> <span class="va">roi</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tmp_raster_eur_3395</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/project.html" class="external-link">project</a></span><span class="op">(</span><span class="va">tmp_raster_eur</span>,  <span class="st">"EPSG:2169"</span><span class="op">)</span></span>
+<span><span class="co"># Project raster to EPSG:3395</span></span>
+<span><span class="va">tmp_raster_eur_3395</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/project.html" class="external-link">project</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster_eur</span>, y <span class="op">=</span> <span class="st">"EPSG:3395"</span>, </span>
+<span>                                      method <span class="op">=</span> <span class="st">"bilinear"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Classify landscape</span></span>
 <span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">tmp_raster_eur_3395</span>,</span>
@@ -283,23 +286,23 @@ Figure 2 - Real (left) and randomised (right) occurrences of Cormus domestica.
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">habitat</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">results</span></span>
-<span><span class="co">#&gt;    habitat     breaks count lo hi significance</span></span>
-<span><span class="co">#&gt; 1        1  [-20,-10)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 2        2 [-10,-7.5)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 3        3  [-7.5,-5)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 4        4  [-5,-2.5)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 5        5   [-2.5,0)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 6        6    [0,2.5)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 7        7    [2.5,5)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 8        8    [5,7.5)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 9        9   [7.5,10)     0  0  0         n.s.</span></span>
-<span><span class="co">#&gt; 10      10    [10,20)     0  0  0         n.s.</span></span></code></pre></div>
+<span><span class="co">#&gt;    habitat     breaks count      lo      hi significance</span></span>
+<span><span class="co">#&gt; 1        1  [-20,-10)     1 7987.78 8324.12     negative</span></span>
+<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2667.04 2923.35     negative</span></span>
+<span><span class="co">#&gt; 3        3  [-7.5,-5)     6 2951.87 3118.55     negative</span></span>
+<span><span class="co">#&gt; 4        4  [-5,-2.5)   156 2816.00 3016.48     negative</span></span>
+<span><span class="co">#&gt; 5        5   [-2.5,0)  3113 2395.96 2581.10     positive</span></span>
+<span><span class="co">#&gt; 6        6    [0,2.5)  5010 1586.54 1744.05     positive</span></span>
+<span><span class="co">#&gt; 7        7    [2.5,5) 10725 1799.90 1950.92     positive</span></span>
+<span><span class="co">#&gt; 8        8    [5,7.5)  6693 1497.61 1676.59     positive</span></span>
+<span><span class="co">#&gt; 9        9   [7.5,10)  1609 1200.41 1380.39     positive</span></span>
+<span><span class="co">#&gt; 10      10    [10,20)    49 1463.78 1591.37     negative</span></span></code></pre></div>
 <div class="figure">
 <img src="cormus_domestica_tmp_files/figure-html/result_plot-1.png" alt="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C" width="100%"><p class="caption">
 Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C
 </p>
 </div>
-<p>By visually inspecting Figure 3 we can see that occurrences of Cormus domestica are mostly restricted to the associated habitat as defined by a mean January temperature of -2.5C - 10C. However, Cormus domestica does not exist in all areas experiencing a mean January temperature of -2.5C - 10C, additionally there are a number of occurrences outside these areas, highlighting the need for further analysis to identify the multiple conditions which constitute the climatic niche of Cormus domestica.</p>
+<p>By visually inspecting Figure 3 we can see that occurrences of <em>Cormus domestica</em> are mostly restricted to the associated habitat as defined by a mean January temperature of -2.5C - 10C. However, <em>Cormus domestica</em> does not exist in all areas experiencing a mean January temperature of -2.5C - 10C, additionally there are a number of occurrences outside these areas. The next step assessing in the climatic niche of <em>Cormus domestica</em> would be to repeat the above analysis for more environmental variables, which is beyond the scope of this minimal example.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
