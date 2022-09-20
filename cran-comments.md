@@ -1,7 +1,7 @@
 For details changes, please see NEWS.md.
 
 ## shar 2.0
-Replace raster with terra and minor updates related to this.
+Replace `raster` with `terra` and several code changes related to this
 
 ## shar 1.3.2
 Improvements of existing functions and spatstat update

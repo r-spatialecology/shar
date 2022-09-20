@@ -5,10 +5,10 @@ on:
     branches: [main, development]
   workflow_dispatch:
 
-name: pkgdown
+name: deploy-pkgdown
 
 jobs:
-  pkgdown:
+  deploy-pkgdown:
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:

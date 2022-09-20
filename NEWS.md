@@ -1,7 +1,10 @@
 # shar 2.0
-* Using `terra` instead of `raster`
-* Adding `pack_randomized()` and `unpack_randomized()` due to `terra` saving behavior
-* Naming raster values "layer"
+* Improvements
+  * Using `terra` instead of `raster`
+* Bugfixes
+  * Naming raster values "layer"
+* New functionality
+  * Adding `pack_randomized()` and `unpack_randomized()` due to `terra` saving behavior
 
 # shar 1.3.2
 * Improvements

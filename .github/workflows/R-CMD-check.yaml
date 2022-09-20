@@ -6,10 +6,10 @@ on:
   pull_request:
     branches: [CRAN, main]
 
-name: R-CMD-check
+name: r-cmd-check
 
 jobs:
-  R-CMD-check:
+  r-cmd-check:
     if: "!contains(github.event.commits[0].message, '[skip-ci]')"
     runs-on: ${{ matrix.config.os }}
 
@@ -19,9 +19,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
+          - {os: macOS-latest, r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest, r: 'release'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -29,12 +29,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      # - name: Install spatial dependencies
-      #   if: runner.os == 'macOS'
-      #   run: |
-      #     brew install gdal
-      #     brew install proj
 
       - uses: r-lib/actions/setup-pandoc@v2
 
