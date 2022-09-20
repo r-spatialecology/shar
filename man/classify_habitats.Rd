@@ -4,12 +4,10 @@
 \alias{classify_habitats}
 \title{classify_habitats}
 \usage{
-classify_habitats(raster, n, return_breaks = FALSE, ...)
+classify_habitats(raster, return_breaks = FALSE, ...)
 }
 \arguments{
 \item{raster}{SpatRaster with continuous environmental values.}
-
-\item{n}{Integer with number of classes.}
 
 \item{return_breaks}{Logical if breaks should be returned as well.}
 

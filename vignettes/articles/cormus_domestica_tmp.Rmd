@@ -130,9 +130,6 @@ Figure 1 displays the unclassified and classified habitat.
 # Crop tmp raster
 tmp_raster_eur <- terra::crop(x = tmp_raster, y = roi)
 
-# Create SpatRaster object
-tmp_raster_eur <- terra::rast(tmp_raster_eur)
-
 # Project raster to EPSG:3395
 tmp_raster_eur_3395 <- terra::project(x = tmp_raster_eur, y = "EPSG:3395", 
                                       method = "bilinear")

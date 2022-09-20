@@ -3,7 +3,6 @@
 #' @description Classify habitats
 #'
 #' @param raster SpatRaster with continuous environmental values.
-#' @param n Integer with number of classes.
 #' @param return_breaks Logical if breaks should be returned as well.
 #' @param ... Arguments passed on to \code{classIntervals}.
 #'
@@ -58,11 +57,11 @@
 #' Statistician 51, 59-64. <https://doi.org/10.1080/00031305.1997.10473591>
 #'
 #' @export
-classify_habitats <- function(raster, n, return_breaks = FALSE, ...){
+classify_habitats <- function(raster, return_breaks = FALSE, ...){
 
   raster_values <- terra::values(raster) # get all values
 
-  breaks <- classInt::classIntervals(var = raster_values, n = n, ...) # use classInt to find breaks
+  breaks <- classInt::classIntervals(var = raster_values, ...) # use classInt to find breaks
 
   result <- terra::classify(x = raster, rcl = breaks$brks, include.lowest = TRUE)
 
