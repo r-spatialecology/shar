@@ -25,11 +25,13 @@ This vignette demonstrates how to use `shar` to analyse species occurrence data 
 ## Load required packages
 
 ```{r packages, message=FALSE, warning=FALSE}
-library(tidyverse) # For data wrangling
+library(dplyr) # For data wrangling
 library(getCRUCLdata) # For retrieving climate raster data
+library(ggplot2) # For plotting
 library(patchwork) # For composing multiple plots
 library(rgbif) # For retrieving species occurrence data
 library(rnaturalearth) # For retrieving geographical data
+library(rnaturalearthdata) # For retrieving geographical data
 library(sf) # For spatial data operations
 library(spatstat) # For spatial point pattern analysis
 library(terra) # For spatial data operations
