@@ -7,20 +7,20 @@
 classify_habitats(raster, return_breaks = FALSE, ...)
 }
 \arguments{
-\item{raster}{RasterLayer with continuous environmental values.}
+\item{raster}{SpatRaster with continuous environmental values.}
 
 \item{return_breaks}{Logical if breaks should be returned as well.}
 
 \item{...}{Arguments passed on to \code{classIntervals}.}
 }
 \value{
-RasterLayer
+SpatRaster
 }
 \description{
 Classify habitats
 }
 \details{
-Classifies a RasterLayer from the \code{raster} packages with continuous
+Classifies a SpatRaster from the \code{raster} packages with continuous
 values into n discrete classes. The \code{cut} function used to classify the raster,
 uses \code{include.lowest = TRUE}.
 
@@ -30,9 +30,9 @@ also includes further possible arguments to find  breaks (e.g., different styles
 of classes, fixed breaks, etc.).
 }
 \examples{
-landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 
-landscape_classified <- classify_habitats(landscape, style = "fixed",
+landscape_classified <- classify_habitats(terra::rast(landscape), style = "fixed",
 fixedBreaks = c(0, 0.25, 0.75, 1.0), return_breaks = TRUE)
 
 }

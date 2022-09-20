@@ -20,9 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
+          - {os: macOS-latest, r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest, r: 'release'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -33,7 +33,7 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: Install spatial dependencie
+      - name: Install spatial dependencies
         if: runner.os == 'macOS'
         run: |
           brew install gdal

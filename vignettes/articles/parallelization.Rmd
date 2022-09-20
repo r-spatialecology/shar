@@ -27,7 +27,7 @@ First, we need to load all required packages. This includes `future` and `future
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(shar)
 library(spatstat)
-library(raster)
+library(terra)
 
 library(future)
 library(future.apply)
@@ -41,21 +41,21 @@ Importantly with this approach, you need one randomization per core (`n_random =
 future::plan(multisession)
 
 fitted_list <- future.apply::future_lapply(X = 1:39, FUN = function(i) {
-   shar::fit_point_process(pattern = shar::species_b, n_random = 1,
-                          return_input = FALSE, simplify = TRUE, verbose = FALSE)
+   shar::fit_point_process(pattern = species_b, n_random = 1, 
+                           return_input = FALSE, simplify = TRUE, verbose = FALSE)
 }, future.seed = 42)
 ```
 
 Next, you can use the `list_to_randomized()` function to convert this list of randomized pattern to a `rd_pat` object that will work will all other functions of the `shar` package.
 
 ```{r convert-list}
-fitted_rd <- shar::list_to_randomized(list = fitted_list, observed = shar::species_b)
+fitted_rd <- list_to_randomized(list = fitted_list, observed = shar::species_b)
 ```
 
 Lastly, the created objects can be used to analyse if species-habitat associations are present as usual.
 
 ```{r results}
-landscape_classified <- shar::classify_habitats(raster = landscape, n = 5, style = "fisher")
+landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 
 results_habitat_association(pattern = fitted_rd, raster = landscape_classified)
 ```

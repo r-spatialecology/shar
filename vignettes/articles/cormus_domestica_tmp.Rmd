@@ -5,8 +5,8 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Analysing the climatic niche of Cormus domestica}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 ---
@@ -26,28 +26,57 @@ This vignette demonstrates how to use `shar` to analyse species occurrence data 
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(dplyr) # For data wrangling
-library(magrittr) # For the non-base R pipe function (%>%)
-library(rgbif) # For retrieving species occurrence data 
-library(rnaturalearth) # For retrieving geographical data
 library(getCRUCLdata) # For retrieving climate raster data
+library(ggplot2) # For plotting
+library(patchwork) # For composing multiple plots
+library(rgbif) # For retrieving species occurrence data
+library(rnaturalearth) # For retrieving geographical data
+library(rnaturalearthdata) # For retrieving geographical data
 library(sf) # For spatial data operations
-library(raster) # For spatial data operations
+library(spatstat) # For spatial point pattern analysis
 library(terra) # For spatial data operations
 library(shar) # For species-habitat association analysis
-library(spatstat) # For spatial point pattern analysis
-library(patchwork) # For composing multiple plots
 ```
 
 ## Download occurrence data
 
-To retrieve species occurrence data the `R` package `rgbif` (Chamberlain & Boettiger, 2017) is used, which provides an interface to access the GBIF database.
+To retrieve species occurrence data the `R` package `rgbif` (Chamberlain & 
+Boettiger, 2017) is used, which provides an interface to access the GBIF 
+database. For this vignette we are interested in observations within 
+the likely natural distribution of Cormus domestica, which includes Europe, the 
+wider Mediterranean, the Black Sea Region, and potentially North Africa.
 
-```{r gbif, echo=TRUE, message=FALSE, warning=FALSE}
+```{r gbif, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+# Load bundled GBIF occurrence data 
+data_simp <- shar:::data_simp_precomp
+```
+
+```{r roi, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+
+# Establish region of interest
+# *** We need to do this here as the chinnk below is not evaluated ***
+roi <- c(xmin = -20, xmax = 45, ymin = 30, ymax = 73)
+roi_bbox <- sf::st_bbox(roi, crs = sf::st_crs("EPSG:4326"))
+roi_sfc <- sf::st_sfc(sf::st_point(c(roi[["xmin"]], roi[["ymin"]])), 
+                      sf::st_point(c(roi[["xmax"]], roi[["ymax"]])), 
+                      crs = "EPSG:4326")
+
+```
+
+```{r gbif_dummy, echo=TRUE, eval=FALSE}
 # Retrieve key for Cormus domestica
 key <- rgbif::name_backbone(name = 'Cormus domestica', kingdom = 'plants')
 
-# Retrieve occurrences
-res <- rgbif::occ_search(taxonKey = as.numeric(key$usageKey), limit = 99999)
+# Establish region of interest
+roi <- c(xmin = -20, xmax = 45, ymin = 30, ymax = 73)
+roi_bbox <- sf::st_bbox(roi, crs = sf::st_crs("EPSG:4326"))
+roi_sfc <- sf::st_sfc(sf::st_point(c(roi[["xmin"]], roi[["ymin"]])), 
+                      sf::st_point(c(roi[["xmax"]], roi[["ymax"]])), 
+                      crs = "EPSG:4326")
+
+# Retrieve occurrences for the region of interest
+res <- rgbif::occ_search(taxonKey = as.numeric(key$usageKey), limit = 99999, 
+                         geometry = roi_bbox)
 
 # Create a simple data frame containing only the unique identifier (id),
 # latitude (lat), and longtitude (lon).
@@ -58,65 +87,63 @@ data_simp <- data.frame(id = res$data$key,
 
 ## Download map data
 
-Spatial polygon data for the world is obtained from the `rnaturalearth` package (South, 2022), the map is then restricted to the European region. The `spatstat` package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system [4336](https://epsg.io/4326) to the projected coordinate system [3395](https://epsg.io/3395). The `shar` function `fit_point_process` requires a spatial point pattern (`ppp`) object bounded within an observation window of the class `owin`, which is then created.
+Spatial polygon data for the world is obtained from the `rnaturalearth` package (South, 2022), the map is then restricted to the region of interest. The `spatstat` package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system [4336](https://epsg.io/4326) to the projected coordinate system [3395](https://epsg.io/3395). The `shar` function `fit_point_process` requires a spatial point pattern (`ppp`) object bounded within an observation window of the class `owin`, which is then created.
 
 ```{r maps, echo=TRUE, message=FALSE, warning=FALSE}
 # Retrieve data from rnaturalearth
 worldmap <- rnaturalearth::ne_countries(returnclass = "sf", scale = 50) %>%
-  sf::st_transform(crs = sf::st_crs(3395))
+  sf::st_transform(crs = sf::st_crs("EPSG:3395"))
 
-# Manually establish bounding box
-eur_box <- sf::st_sfc(sf::st_point(c(-20, 30)), sf::st_point(c(45, 73)), crs = 4326) %>%
-  sf::st_transform(crs = sf::st_crs(3395))
+# Re-project simple features region of interest
+roi_sfc_3395 <- roi_sfc %>%
+  sf::st_transform(crs = sf::st_crs("EPSG:3395"))
 
-# Crop world map to include polygons within Europe extent
-eur <- sf::st_crop(x = worldmap, y = eur_box)
+# Crop world map to include polygons within the region of interest
+roi_map <- sf::st_crop(x = worldmap, y = roi_sfc_3395)
 
 # Define observation window
-eur_owin <- spatstat.geom::as.owin(eur$geometry)
+roi_owin <- spatstat.geom::as.owin(roi_map$geometry)
 ```
 
 ## Download climate data
 
-The environmental variable selected for demonstrative purposes is the mean temperature in June over the 1961-1990 period. Data is obtained through the `getCRUCLdata` package (Sparks, 2017) which provides access to the datasets described in New et al. (2002).
+The environmental variable selected for demonstrative purposes is the mean temperature in January over the 1961-1990 period. Data is obtained through the `getCRUCLdata` package (Sparks, 2017) which provides access to the datasets described in New et al. (2002).
 
 ```{r cru_data, echo=TRUE, message=FALSE, warning=FALSE}
 # Download data as a raster brick through the getCRUCLdata package
 # Mean temperature (tmn) data should be 180.4MB
-cru_data <- getCRUCLdata::get_CRU_stack(pre = FALSE, pre_cv = FALSE, rd0 = FALSE,
-                                        tmp = TRUE, dtr = FALSE, reh = FALSE,
-                                        tmn = FALSE, tmx = FALSE, sunp = FALSE,
-                                        frs = FALSE, wnd = FALSE, elv = FALSE,
-                                        cache = FALSE)
+cru_data <- getCRUCLdata::get_CRU_stack(tmp = TRUE)
+
+# Select temperature variable and the month of January
+tmp_raster <- cru_data$tmp$jan
 ```
 
 ## Prepare landscape raster
 
-The climate data obtained above is restricted to the European region. It is then classified into 10 habitats based on temperature ranges, achieved by setting the lower and upper bounds of these ranges in the `fixedBreaks` argument of the `classify_habitats` function.
+The climate data obtained above is restricted to the region of interest, 
+then classified into 10 habitats based on temperature ranges, 
+achieved by setting the lower and upper bounds of these ranges 
+in the `fixedBreaks` argument of the `classify_habitats` function. 
+Figure 1 displays the unclassified and classified habitat.
 
 ```{r landscape_ras, echo=TRUE, message=FALSE, warning=FALSE}
-# Select temperature variable and the month of June
-tmp_raster_jun <- cru_data$tmp$jun
-
 # Crop tmp raster
-tmp_raster_jun_eur <- terra::crop(x = tmp_raster_jun, 
-                                  y = c(xmin = -20, xmax = 45, ymin = 30, ymax = 73))
+tmp_raster_eur <- terra::crop(x = tmp_raster, y = roi)
 
-# Reproject raster
-tmp_raster_jun_eur_3395 <- raster::projectRaster(tmp_raster_jun_eur, crs = 3395)
+# Project raster to EPSG:3395
+tmp_raster_eur_3395 <- terra::project(x = tmp_raster_eur, y = "EPSG:3395", 
+                                      method = "bilinear")
 
 # Classify landscape
-landscape_classified <- shar::classify_habitats(raster = tmp_raster_jun_eur_3395,
+landscape_classified <- shar::classify_habitats(raster = tmp_raster_eur_3395,
                                                 return_breaks = TRUE, style = "fixed",
-                                                fixedBreaks = c(0, 5, 7.5,
-                                                                10, 12.5, 15, 
-                                                                17.5, 20, 25,
-                                                                30, 35))
+                                                fixedBreaks = c(-20, -10, -7.5, -5, -2.5, 
+                                                                0, 2.5, 5, 7.5, 10, 20))
 ```
 
-```{r land_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400}
-raster_unclassed_df <- terra::as.data.frame(tmp_raster_jun_eur_3395, xy = TRUE) %>%
-  dplyr::rename("value" = "jun") %>% 
+```{r land_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 1 - The mean temperature in January over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right)."}
+raster_unclassed_df <- terra::as.data.frame(tmp_raster_eur_3395, xy = TRUE) %>%
+  dplyr::rename("value" = "jan") %>% 
   dplyr::mutate("type" = "Unclassified")
 
 raster_classed_df <- terra::as.data.frame(landscape_classified$raster, xy = TRUE) %>%
@@ -126,8 +153,7 @@ raster_classed_df <- terra::as.data.frame(landscape_classified$raster, xy = TRUE
 plot_unclassed <- ggplot2::ggplot() +
   ggplot2::geom_raster(data = raster_unclassed_df,
                        mapping = ggplot2::aes(x = x, y = y, fill = value)) +
-  ggplot2::geom_sf(data = eur$geometry,
-                   mapping = ggplot2::aes(),
+  ggplot2::geom_sf(data = roi_map$geometry,
                    colour = "black", fill = NA, size = 0.1) +
   ggplot2::theme_minimal() +
   ggplot2::xlab(label = NULL) +
@@ -148,7 +174,6 @@ plot_unclassed <- ggplot2::ggplot() +
                                                b = 0,  # Bottom margin
                                                l = 0),
                  legend.position = "bottom",
-                 # legend.position = c(0.5, -0.2), 
                  legend.direction = "horizontal",
                  legend.justification = "center",
                  legend.text = ggplot2::element_text(size = 8),
@@ -160,8 +185,7 @@ plot_classed <- ggplot2::ggplot() +
   ggplot2::geom_raster(data = raster_classed_df,
                        mapping = ggplot2::aes(x = x, y = y,
                                               fill = factor(value))) +
-  ggplot2::geom_sf(data = eur$geometry,
-                   mapping = ggplot2::aes(),
+  ggplot2::geom_sf(data = roi_map$geometry,
                    colour = "black", fill = NA, size = 0.1) +
   ggplot2::theme_minimal() +
   ggplot2::xlab(label = NULL) +
@@ -184,7 +208,6 @@ plot_classed <- ggplot2::ggplot() +
                                                b = 0,  # Bottom margin
                                                l = 0),
                  legend.position = "bottom",
-                 # legend.position = c(0.5, -0.2),
                  legend.direction = "horizontal",
                  legend.justification = "center",
                  legend.text = ggplot2::element_text(size = 8),
@@ -197,39 +220,38 @@ plot_unclassed + plot_classed
 
 ## Prepare occurrence data
 
-The occurrence data is prepared, then the `shar` function `fit_point_process` is called, yielding the randomized occurrence data within the observation window as required by the `results_habitat_association` function.
+The occurrence data is prepared, then the `shar` function `fit_point_process` is called, yielding the randomized occurrence data within the observation window as required by the `results_habitat_association` function. Figure 2 displays the real and randomised occurrence data.
 
 ```{r occ_prep, echo=TRUE, message=FALSE, warning=FALSE}
 # Convert occurrence data to a simple features object
-data_sf <- sf::st_as_sf(data_simp, coords = c("lon", "lat"), crs = 4326)
+data_sf <- sf::st_as_sf(data_simp, coords = c("lon", "lat"), crs = "EPSG:4326")
 
-# Restrict occurrences to those within the European region, then re-project the data
-data_sf_eur_3395 <- sf::st_crop(x = data_sf,
-                                y = c(xmin = -20, xmax = 45, ymin = 30, ymax = 73)) %>%
-  sf::st_transform(crs = sf::st_crs(3395))
+# Re-project the occurrence data
+data_sf_3395 <- data_sf %>%
+  sf::st_transform(crs = sf::st_crs("EPSG:3395"))
 
 # Extract the coordinates as a matrix from the sf occurrences object
-data_sf_eur_coords <- sf::st_coordinates(data_sf_eur_3395)
+data_sf_coords <- sf::st_coordinates(data_sf_3395)
 
 # Create a spatial points pattern object containing the occurrence data
-data_sf_eur_ppp <- spatstat.geom::as.ppp(X = data_sf_eur_coords, W = eur_owin)
+data_sf_ppp <- spatstat.geom::as.ppp(X = data_sf_coords, W = roi_owin)
 
 # Fit point pattern process to data
-rand_pattern <- shar::fit_point_process(pattern = data_sf_eur_ppp, n_random = 19)
+rand_pattern <- shar::fit_point_process(pattern = data_sf_ppp, n_random = 19)
 ```
 
-```{r occ_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400}
+```{r occ_plots, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 2 - Real (left) and randomised (right) occurrences of Cormus domestica."}
 recon_occ_df <- as.data.frame(rand_pattern$randomized$randomized_1) %>% 
   dplyr::mutate("type" = "Randomised Occurrences")
 
-real_occ_df <- data_sf_eur_coords %>%
+real_occ_df <- data_sf_coords %>%
   as.data.frame() %>% 
   dplyr::rename(x = "X", y = "Y") %>% 
   dplyr::mutate("type" = "Real Occurrences")
 
 real_occ_plot <- ggplot2::ggplot() +
-  ggplot2::geom_sf(data = eur$geometry,
-                   mapping = ggplot2::aes(),
+  ggplot2::geom_sf(data = roi_map$geometry,
+                   # mapping = ggplot2::aes(),
                    colour = "black", fill = "white", size = 0.1) +
   ggplot2::geom_point(real_occ_df, 
                       mapping = ggplot2::aes(x = x, y = y),
@@ -251,7 +273,7 @@ real_occ_plot <- ggplot2::ggplot() +
                                                l = 0))
 
 recon_occ_plot <- ggplot2::ggplot() +
-  ggplot2::geom_sf(data = eur$geometry,
+  ggplot2::geom_sf(data = roi_map$geometry,
                    mapping = ggplot2::aes(),
                    colour = "black", fill = "white", size = 0.1) +
   ggplot2::geom_point(recon_occ_df, 
@@ -278,7 +300,7 @@ real_occ_plot + recon_occ_plot
 
 ## Results
 
-The analysis function `results_habitat_association` is then called. The results of the analysis show that *Cormus domestica* is positively associated with locations which experience a mean June temperature of 15C - 17.5C (habitat 6) & 17.5C - 20C (habitat 7). Furthermore, *Cormus domestica* is negatively associated with all other locations classified by temperature.
+The analysis function `results_habitat_association` is then called. The results of the analysis show that *Cormus domestica* is positively associated with locations which experience a mean January temperature of -2.5C - 10C (habitats 5, 6, 7, 8, and 9). Furthermore, *Cormus domestica* is negatively associated with all other habitats classified by temperature.
 
 ```{r model_run, echo=TRUE, message=FALSE, warning=FALSE}
 # Establish significance level
@@ -293,6 +315,129 @@ results <- shar::results_habitat_association(pattern = rand_pattern,
 
 results
 ```
+
+```{r result_plot, echo=FALSE, message=FALSE, warning=FALSE, fig.retina=FALSE, out.width="100%", dpi=400, fig.cap="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C"}
+
+# Create a data frame containing only the cells containing values positively
+# associated with Cormus domestica occurrences
+# First reclassify the cells which corresponding with associated habitats 
+# (6 and 7) to the value 2, and all other cells to the value 1
+matrix <- c(1, 1,
+            2, 1,
+            3, 1,
+            4, 1,
+            5, 1,
+            6, 2,
+            7, 2,
+            8, 1,
+            9, 1,
+            10, 1)
+
+rclmat <- matrix(matrix, ncol = 2, byrow = TRUE)
+
+landscape_classified_results <- terra::classify(x = landscape_classified$raster, rcl = rclmat)
+
+landscape_classified_results <- terra::as.data.frame(landscape_classified_results, xy = TRUE) %>% 
+  dplyr::mutate(layer =
+                  dplyr::case_when(
+                    layer == 1 ~ "Unassociated habitat",
+                    layer == 2 ~ "Associated habitat",
+                    TRUE ~ as.character(layer)
+                  ))
+
+  
+plot_res_classed <- ggplot2::ggplot() +
+  ggplot2::geom_raster(data = landscape_classified_results,
+                       mapping = ggplot2::aes(x = x, y = y,
+                                              fill = factor(layer,
+                                                            levels = c("Associated habitat",
+                                                                       "Unassociated habitat")))) +
+  ggplot2::geom_sf(data = roi_map$geometry,
+                   colour = "black", fill = NA, size = 0.1) +
+  ggplot2::theme_minimal() +
+  ggplot2::xlab(label = NULL) +
+  ggplot2::ylab(label = NULL) +
+  ggplot2::labs(fill = NULL) +
+  # ggplot2::scale_fill_brewer(type = "seq",
+  #                               palette = 1,
+  #                               direction = -1,
+  #                               na.value = "transparent",
+  #                               guide = ggplot2::guide_legend(ncol = 1)) +
+  ggplot2::scale_fill_discrete(type = c("#a4ddab", "white"),
+                               na.value = "transparent",
+                               guide = ggplot2::guide_legend(ncol = 1)) +
+  ggplot2::theme(panel.grid.major = ggplot2::element_line(colour = "#c9c9c9", 
+                                                          linetype = "dashed", 
+                                                          size = 0.075), 
+                 panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
+                 panel.border = ggplot2::element_rect(fill = NA),
+                 text = ggplot2::element_text(size = 12),
+                 axis.text.x = ggplot2::element_text(size = 9),
+                 axis.text.y = ggplot2::element_text(size = 9),
+                 plot.margin = ggplot2::margin(t = 0,  # Top margin
+                                               r = 0,  # Right margin
+                                               b = 0,  # Bottom margin
+                                               l = 0),
+                 legend.position = "bottom",
+                 legend.direction = "horizontal",
+                 legend.justification = "center",
+                 legend.text = ggplot2::element_text(size = 8),
+                 legend.key.height = ggplot2::unit(0.25, 'cm'),
+                 legend.key.width = ggplot2::unit(0.75, "cm"))
+
+plot_res_classed_occs <- ggplot2::ggplot() +
+  ggplot2::geom_raster(data = landscape_classified_results,
+                       mapping = ggplot2::aes(x = x, y = y,
+                                              fill = factor(layer,
+                                                            levels = c("Associated habitat",
+                                                                       "Unassociated habitat")))) +
+  ggplot2::geom_sf(data = roi_map$geometry,
+                   colour = "black", fill = NA, size = 0.1) +
+  ggplot2::geom_point(real_occ_df, 
+                      mapping = ggplot2::aes(x = x, y = y),
+                      size = 0.2, stroke = 0, shape = 16, color = "Red") +
+  ggplot2::theme_minimal() +
+  ggplot2::xlab(label = NULL) +
+  ggplot2::ylab(label = NULL) +
+  ggplot2::labs(fill = NULL) +
+  # ggplot2::scale_fill_brewer(type = "seq",
+  #                               palette = 1,
+  #                               direction = -1,
+  #                               na.value = "transparent",
+  #                               guide = ggplot2::guide_legend(ncol = 1)) +
+  ggplot2::scale_fill_discrete(type = c("#a4ddab", "white"),
+                               na.value = "transparent",
+                               guide = ggplot2::guide_legend(ncol = 1)) +
+  ggplot2::theme(panel.grid.major = ggplot2::element_line(colour = "#c9c9c9", 
+                                                          linetype = "dashed", 
+                                                          size = 0.075), 
+                 panel.background = ggplot2::element_rect(fill = "#f0f8ff"), 
+                 panel.border = ggplot2::element_rect(fill = NA),
+                 text = ggplot2::element_text(size = 12),
+                 axis.text.x = ggplot2::element_text(size = 9),
+                 axis.text.y = ggplot2::element_text(size = 9),
+                 plot.margin = ggplot2::margin(t = 0,  # Top margin
+                                               r = 0,  # Right margin
+                                               b = 0,  # Bottom margin
+                                               l = 0),
+                 legend.position = "bottom",
+                 legend.direction = "horizontal",
+                 legend.justification = "center",
+                 legend.text = ggplot2::element_text(size = 8),
+                 legend.key.height = ggplot2::unit(0.25, 'cm'),
+                 legend.key.width = ggplot2::unit(0.75, "cm"))
+
+plot_res_classed + plot_res_classed_occs
+```
+
+By visually inspecting Figure 3 we can see that occurrences of *Cormus domestica*
+are mostly restricted to the associated habitat as defined by a mean January 
+temperature of -2.5C - 10C.
+However, *Cormus domestica* does not exist in all areas experiencing a mean January 
+temperature of -2.5C - 10C, additionally there are a number of occurrences 
+outside these areas. The next step assessing in the climatic niche of *Cormus domestica*
+would be to repeat the above analysis for more environmental variables, 
+which is beyond the scope of this minimal example.
 
 ## References
 

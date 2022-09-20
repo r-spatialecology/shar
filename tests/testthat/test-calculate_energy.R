@@ -87,3 +87,4 @@ testthat::test_that("calculate_energy returns error if weights are wrong ", {
                          regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
                          fixed = TRUE)
 })
+

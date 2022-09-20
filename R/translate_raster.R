@@ -2,7 +2,7 @@
 #'
 #' @description Torus translation
 #'
-#' @param raster RasterLayer with discrete habitat classes.
+#' @param raster SpatRaster with discrete habitat classes.
 #' @param steps_x,steps_y Integer with number of steps (cells) the raster is translated
 #' into the corresponding direction. If both are null, all possible combinations are used
 #' resulting in n = ((50 + 1) * (50 + 1)) - 4 rasters.
@@ -16,7 +16,7 @@
 #' in all four cardinal directions by steps equal to the raster resolution. If a cell
 #' exits the extent on one side, it enters the extent on the opposite side.
 #'
-#' The method does not allow any NA values to be present in the RasterLayer.
+#' The method does not allow any NA values to be present in the SpatRaster.
 #'
 #' @seealso
 #' \code{\link{randomize_raster}}
@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' landscape_classified <- classify_habitats(landscape, n = 5, style = "fisher")
+#' landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 #'
 #' landscape_random <- translate_raster(landscape_classified)
 #' landscape_random_sub <- translate_raster(landscape_classified,
@@ -46,13 +46,13 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
                              verbose = TRUE) {
 
   # stop if NA are present
-  if (anyNA(raster@data@values)) {
+  if (anyNA(terra::values(raster, mat = FALSE))) {
 
     stop("NA values are not allowed for 'translate_raster()'.", call. = FALSE)
 
   }
 
-  habitats <- sort(table(raster@data@values, useNA = "no")) # get table of habitats
+  habitats <- sort(table(terra::values(raster, mat = FALSE))) # get table of habitats
 
   # print warning if more than 10 classes are present
   if (verbose) {
@@ -68,9 +68,9 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
   # use all possible combinations
   if (is.null(steps_x) & is.null(steps_y)) {
 
-    steps_x <- seq(from = 0, to = raster::ncol(raster), by = 1) # all steps in x-direction
+    steps_x <- seq(from = 0, to = terra::ncol(raster), by = 1) # all steps in x-direction
 
-    steps_y <- seq(from = 0, to = raster::nrow(raster), by = 1) # all steps in y-direction
+    steps_y <- seq(from = 0, to = terra::nrow(raster), by = 1) # all steps in y-direction
 
     steps_xy <- expand.grid(x = steps_x, y = steps_y) # grid with all possible x-y combinations
 
@@ -87,9 +87,9 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
 
     # remove combinations identical to original raster
     remove_id <- c(which(steps_xy[, 1] + steps_xy[, 2] == 0),
-                   which(steps_xy[, 1] + steps_xy[, 2] ==  raster::ncol(raster) + raster::nrow(raster)),
-                   which(steps_xy[, 1] == 0 & steps_xy[, 2] == raster::ncol(raster)),
-                   which(steps_xy[, 2] == 0 & steps_xy[, 1] == raster::nrow(raster)))
+                   which(steps_xy[, 1] + steps_xy[, 2] ==  terra::ncol(raster) + terra::nrow(raster)),
+                   which(steps_xy[, 1] == 0 & steps_xy[, 2] == terra::ncol(raster)),
+                   which(steps_xy[, 2] == 0 & steps_xy[, 1] == terra::nrow(raster)))
 
     if (length(remove_id) > 0) {
 
@@ -98,7 +98,7 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
     }
   }
 
-  matrix_raster <- raster::as.matrix(raster) # convert to matrix
+  matrix_raster <- terra::as.matrix(raster, wide = TRUE, na.rm = TRUE) # convert to matrix
 
   # loop through all possible steps
   result_list <- lapply(seq_len(nrow(steps_xy)), function(current_row) {
@@ -109,20 +109,33 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
     y_shift <- steps_xy[current_row, 2] - (nrow(matrix_raster) *
                                              (steps_xy[current_row, 2] %/% nrow(matrix_raster)))
 
-    if (x_shift == 0) {matrix_shifted <- matrix_raster}
+    if (x_shift == 0) {
 
-    else {matrix_shifted <- cbind(matrix_raster[, (x_shift + 1):dim(matrix_raster)[2]],
-                                  matrix_raster[, seq_len(x_shift)])}
+      matrix_shifted <- matrix_raster
 
-    if (y_shift == 0) {matrix_shifted <- matrix_shifted}
+    } else {
 
-    else{matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1], ],
-                                 matrix_shifted[seq_len(y_shift), ])}
+      matrix_shifted <- cbind(matrix_raster[, (x_shift + 1):dim(matrix_raster)[2]],
+                              matrix_raster[, seq_len(x_shift)])
+
+    }
+
+    if (y_shift == 0) {
+
+      matrix_shifted <- matrix_shifted
+
+    } else {
+
+      matrix_shifted <- rbind(matrix_shifted[(y_shift + 1):dim(matrix_shifted)[1], ],
+                                 matrix_shifted[seq_len(y_shift), ])
+
+    }
 
     # convert back to raster
-    raster_shifted <- raster::raster(matrix_shifted,
-                                     xmn = raster::xmin(raster), xmx = raster::xmax(raster),
-                                     ymn = raster::ymin(raster), ymx = raster::ymax(raster))
+    raster_shifted <- terra::rast(matrix_shifted, crs = terra::crs(raster),
+                                  extent = terra::ext(raster))
+
+    names(raster_shifted) <- "layer"
 
     # print progress
     if (verbose) {

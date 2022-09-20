@@ -34,9 +34,11 @@ reference:
       - classify_habitats
       - estimate_pcf_fast
       - list_to_randomized
+      - pack_randomized
       - print.rd_mar
       - print.rd_pat
       - print.rd_ras
+      - unpack_randomized
 
 navbar:
   structure:
@@ -74,6 +76,9 @@ navbar:
         - text: "Publication Record"
           icon: fa-file-text-o
           href: articles/publication_record.html
+        - text: "JOSS Publication"
+          icon: fa-file-text-o
+          href: inst/Hesselbarth_2021_Journal_of_Open_Source_Software_6_68.pdf
 
     news:
       icon: fa-newspaper-o
