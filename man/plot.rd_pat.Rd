@@ -16,7 +16,7 @@
 )
 }
 \arguments{
-\item{x}{rd_pat bject with randomized patterns.}
+\item{x}{rd_pat object with randomized patterns.}
 
 \item{what}{Character specifying to plot summary functions of point patterns
 (\code{what = "sf"}) or actual patterns (\code{what = "pp"}).}

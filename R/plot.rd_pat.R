@@ -2,7 +2,7 @@
 #'
 #' @description Plot method for rd_pat object
 #'
-#' @param x rd_pat bject with randomized patterns.
+#' @param x rd_pat object with randomized patterns.
 #' @param what Character specifying to plot summary functions of point patterns
 #' (\code{what = "sf"}) or actual patterns (\code{what = "pp"}).
 #' @param n Integer with number or vector of ids of randomized pattern to plot.
