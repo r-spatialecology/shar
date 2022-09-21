@@ -1,11 +1,11 @@
 For details changes, please see NEWS.md.
 
-## shar 2.0
+## shar 2.0.0
 * Replace `raster` with `terra` and several code changes related to this
 * Fixed issue of earlier submission "Unknown, possibly misspelled, fields in DESCRIPTION: 'Remotes'"
 
 ## shar 1.3.2
-Improvements of existing functions and spatstat update
+Improvements of existing functions and `spatstat` update
 
 ## shar 1.3.1
 Bug fixes
@@ -17,25 +17,25 @@ Improvements of general package structure
 Improvement of existing functions
 
 ## shar 1.2
-Update spatstat dependencies
+Update `spatstat` dependencies
 
 ## shar 1.1.1
-Minor improvments and new license
+Minor improvements and new license
 
 ## shar 1.1
-Improvments of existing functions
+Improvements of existing functions
 
 ## shar 1.0.1
-Some minor improvments to existing functions
+Some minor improvements to existing functions
 
 ## shar 1.0
-New functionality and renameing/splitting of some functions
+New functionality and renaming/splitting of some functions
 
 ## shar 0.5
-Improvments of existing functions
+Improvements of existing functions
 
 ## shar 0.4
-Improvments of general package structure
+Improvements of general package structure
 
 ## shar 0.3.1
 Some minor bugfixes
