@@ -51,7 +51,7 @@ Suggests:
     sf,
     spatstat (>= 2.0.0),
     testthat (>= 2.1.0)
-Remotes: ropensci/getCRUCLdata
+Additional_repositories: http://packages.ropensci.org
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
