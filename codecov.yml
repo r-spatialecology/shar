@@ -1,7 +1,7 @@
 comment: false
 
 coverage:
-  precision: 1
+  precision: 2
   round: nearest
   range: 70..100
   target: 80%
