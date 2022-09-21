@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -169,11 +169,11 @@
 <span>                                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.05416239   0.05239390   0.05443920 </span></span>
+<span><span class="co">#&gt;   0.06136405   0.06250816   0.06154161 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;    0.2197068    0.2204562    0.2160710</span></span></code></pre></div>
+<span><span class="co">#&gt;    0.2093811    0.2048390    0.2063764</span></span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the spatial characteristics and afterwards reconstruct the marks <em>m</em> times for each of the <em>n</em> spatial reconstructions.</p>
 <p>Firstly, reconstruct only the spatial characteristics <em>n</em> times. The observed pattern is not needed in this case, so you can put <code>return_input = FALSE</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -201,15 +201,15 @@
 <span>                                                  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $randomized_1</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.04862413   0.06239095   0.06989361 </span></span>
+<span><span class="co">#&gt;   0.05717782   0.05273323   0.05532283 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_2</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.05526533   0.04448515   0.04960158 </span></span>
+<span><span class="co">#&gt;   0.03790262   0.04187694   0.03858132 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_3</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.07118572   0.08110527   0.07659966</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.03158778   0.04325282   0.03199084</span></span></code></pre></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
