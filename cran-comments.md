@@ -1,7 +1,8 @@
 For details changes, please see NEWS.md.
 
 ## shar 2.0
-Replace `raster` with `terra` and several code changes related to this
+* Replace `raster` with `terra` and several code changes related to this
+* Fixed issue of earlier submission "Unknown, possibly misspelled, fields in DESCRIPTION: 'Remotes'"
 
 ## shar 1.3.2
 Improvements of existing functions and spatstat update
@@ -66,9 +67,9 @@ which is together alreadyv more than 10 min which is the CRAN threshold for a pa
 * Renamed package from `SHAR` to `shar`
 
 ## Test environments
-* Windows 10, R 3.5.1
-* macOS Mojave, R 3.5.1
-* https://win-builder.r-project.org (devel and release)
+* macOS-latest,   R: 'release'
+* windows-latest, R: 'release'
+* ubuntu-latest,  R: 'release'
 
 ## R CMD check results
 0 errors | 0 warnings | 0 note
