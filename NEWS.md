@@ -1,4 +1,4 @@
-# shar 2.0
+# shar 2.0.0
 * Improvements
   * Using `terra` instead of `raster`
 * Bugfixes
