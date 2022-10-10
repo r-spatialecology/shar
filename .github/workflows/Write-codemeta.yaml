@@ -4,7 +4,7 @@ on:
   push:
     paths: ['DESCRIPTION']
 
-name: Write-codemeta
+name: write-codemeta
 
 jobs:
   render-readme:
