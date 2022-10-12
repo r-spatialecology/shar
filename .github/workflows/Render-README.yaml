@@ -24,7 +24,7 @@ jobs:
       - uses: r-lib/actions/setup-renv@v2
 
       - name: Install rmarkdown
-        run: Rscript -e 'install.packages("rmarkdown", "shar", "spatstat", "terra")'
+        run: Rscript -e 'install.packages(c("rmarkdown", "shar", "spatstat", "terra"))'
 
       - name: Render README files
         run: Rscript -e 'rmarkdown::render("README.Rmd")'

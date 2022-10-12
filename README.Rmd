@@ -114,7 +114,6 @@ Furthermore, please be aware that due to the randomization of the null model dat
 torus_trans <- unpack_randomized(torus_trans)
 ```
 
-
 ```{r results}
 significance_level <- 0.01
 
