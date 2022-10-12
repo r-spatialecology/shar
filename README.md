@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# **shar** | **S**pecies **h**abitat **a**ssociations in **R** <img src="man/figures/logo.png" align="right" alt="" width="150" />
+# **shar** \| **S**pecies **h**abitat **a**ssociations in **R** <img src="man/figures/logo.png" align="right" alt="" width="150" />
 
 <!-- badges: start -->
 
 | CI                                                                                                                                                                                   | Development                                                                                                                | CRAN                                                                                                                    | License                                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [![R-CMD-check](https://github.com/r-spatialecology/shar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/shar/actions/workflows/R-CMD-check.yaml) | [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)               | [![CRAN status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar)                    | [![JOSS](https://joss.theoj.org/papers/1b786c028a5425858cb0e5428bd9173b/status.svg)](https://joss.theoj.org/papers/1b786c028a5425858cb0e5428bd9173b) |
 | [![codecov](https://codecov.io/gh/r-spatialecology/shar/branch/main/graph/badge.svg?token=XMo844ABs4)](https://codecov.io/gh/r-spatialecology/shar)                                  | [![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html) | [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)                                              |
 
@@ -132,9 +132,9 @@ plot(reconstruction, what = "pp")
 
 <img src="man/figures/README-plot-random_pattern-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 
-Another utility functions allows to calculate the differences between
-the observed pattern and the randomized patterns (also called energy
-using summary functions).
+Another utility function allows to calculate the differences between the
+observed pattern and the randomized patterns (also called energy using
+summary functions).
 
 ``` r
 calculate_energy(reconstruction, return_mean = TRUE)
@@ -155,11 +155,10 @@ other habitats.
 Furthermore, please be aware that due to the randomization of the null
 model data, results might slightly differ between different
 randomization approaches (e.g., `fit_point_process()`
-vs. `translate_raster()`) and even for repetitions of the same
-approach. Thus, the exact `lo` and `hi` thresholds might be slightly
-different when re-running the examples. However, the counts of the
-observed data should be identical, and general results and trends should
-be similar.
+vs. `translate_raster()`) and even for repetitions of the same approach.
+Thus, the exact `lo` and `hi` thresholds might be slightly different
+when re-running the examples. However, the counts of the observed data
+should be identical, and general results and trends should be similar.
 
 ``` r
 significance_level <- 0.01
@@ -195,7 +194,7 @@ Please note that the **shar** package is released with a [Contributor
 Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
 you agree to abide by its terms.
 
-To see how to contribute to this project, please see the [Contributing
+To contribute to this project, please see the [Contributing
 guidelines](CONTRIBUTING.md).
 
 ### References
