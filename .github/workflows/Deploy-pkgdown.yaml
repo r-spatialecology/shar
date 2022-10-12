@@ -1,18 +1,16 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+
 on:
   push:
     branches: [main, development]
-  workflow_dispatch:
+    tags: ['*']
 
-name: deploy-pkgdown
+name: Deploy-pkgdown
 
 jobs:
   deploy-pkgdown:
     runs-on: ubuntu-latest
-    # Only restrict concurrency for non-PR jobs
-    concurrency:
-      group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -23,7 +21,6 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
-          extra-repositories: 'http://packages.ropensci.org'
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
