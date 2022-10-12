@@ -98,7 +98,7 @@ Of course, there are several utility functions. For example, you can plot the su
 plot(reconstruction, what = "pp")
 ```
 
-Another utility functions allows to calculate the differences between the observed pattern and the randomized patterns (also called energy using summary functions). 
+Another utility function allows to calculate the differences between the observed pattern and the randomized patterns (also called energy using summary functions). 
 
 ```{r calculate-energy, message = FALSE}
 calculate_energy(reconstruction, return_mean = TRUE)
