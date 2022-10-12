@@ -51,8 +51,7 @@ And the development version from
 [GitHub](https://github.com/r-spatialecology/shar) with:
 
 ``` r
-install.packages("remotes")
-
+# install.packages("remotes")
 remotes::install_github("r-spatialecology/shar")
 ```
 
