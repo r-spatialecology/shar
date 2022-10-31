@@ -18,6 +18,22 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, echo = FALSE}
+check_pkgs <- requireNamespace("getCRUCLdata", quietly = TRUE)
+
+if (!check_pkgs) {
+  
+  message <- paste("The vignettes of this package require the 'getCRUCLdata' package",
+                   "which is not available on CRAN anymore. To install the package, please",
+                   "run 'install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')'.")
+
+  message <- paste(strwrap(message), collapse = "\n")
+
+  message(message)
+}
+```
+
+
 ## Outline
 
 This vignette demonstrates how to use `shar` to analyse species occurrence data obtained from the Global Biodiversity Information Facility [(GBIF)](https://www.gbif.org) and environmental raster data obtained from the Climate Research Unit [(CRU)](https://www.uea.ac.uk/groups-and-centres/climatic-research-unit) entirely in `R`. The "Gamma test" approach as detailed in the `vignette("background")` is used. The distribution of the tree species *Cormus domestica* in Europe is selected, a tree which tolerates a wide range of conditions but favors warm to mild climates, occurring in the "Subtropical dry forest" and "Temperate Continental" FAO ecological zones. *Cormus domestica* is most commonly found in Southern Europe, though there it's natural range is uncertain owing to it's cultivation and distribution by the Roman Empire (De Rigo et al., 2016; Rotach, 2003).
