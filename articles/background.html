@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,9 +135,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Background</h1>
-                        <h4 data-toc-skip class="author">Maximilian H.K. Hesselbarth</h4>
+                        <h4 data-toc-skip class="author">Maximilian H.K.
+Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-10-12</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/background.Rmd" class="external-link"><code>vignettes/articles/background.Rmd</code></a></small>
       <div class="d-none name"><code>background.Rmd</code></div>
@@ -145,53 +146,106 @@
 
     
     
-<p>Species-habitat associations are present if species are specialized to small-scale environmental conditions (Tilman &amp; Pacala, 1993) and are more common within suitable habitats (Comita et al., 2007; Harms et al., 2001). Following, species-habitat associations show the importance of abiotic processes on the spatial patterning of plant populations (Garzon-Lopez et al., 2014).</p>
-<p>There are mainly two methods that can be found in the literature to analyse such small-scale species-habitat associations, namely the gamma-test (Plotkin et al., 2000) and the torus-translation test (Harms et al., 2001). Both methods require data on the locations of plants (as <code>spatstat::ppp</code> point pattern) and on the environmental conditions (classified into discrete habitats as <code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast</a></code>). To show significance species-habitat associations, both methods randomize one of the components. Because the locations of plants as well as the habitats are most likely auto-correlated, the spatial structure must be kept while randomizing the data (Wiegand &amp; Moloney, 2014).</p>
-<p>All methods compare the abundance within a habitat between the observed data and the randomized null model data. If the count is below or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles), negative or positive associations, respectively, are present.</p>
+<p>Species-habitat associations are present if species are specialized
+to small-scale environmental conditions (Tilman &amp; Pacala, 1993) and
+are more common within suitable habitats (Comita et al., 2007; Harms et
+al., 2001). Following, species-habitat associations show the importance
+of abiotic processes on the spatial patterning of plant populations
+(Garzon-Lopez et al., 2014).</p>
+<p>There are mainly two methods that can be found in the literature to
+analyse such small-scale species-habitat associations, namely the
+gamma-test (Plotkin et al., 2000) and the torus-translation test (Harms
+et al., 2001). Both methods require data on the locations of plants (as
+<code>spatstat::ppp</code> point pattern) and on the environmental
+conditions (classified into discrete habitats as
+<code><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">terra::rast</a></code>). To show significance species-habitat
+associations, both methods randomize one of the components. Because the
+locations of plants as well as the habitats are most likely
+auto-correlated, the spatial structure must be kept while randomizing
+the data (Wiegand &amp; Moloney, 2014).</p>
+<p>All methods compare the abundance within a habitat between the
+observed data and the randomized null model data. If the count is below
+or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles),
+negative or positive associations, respectively, are present.</p>
 <p><img src="methods_overview.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
 <div class="section level2">
 <h2 id="randomize-environmental-data">Randomize environmental data<a class="anchor" aria-label="anchor" href="#randomize-environmental-data"></a>
 </h2>
-<p>The following two methods randomize the environmental data, i.e. the SpatRaster data, while keeping the point pattern data fixed.</p>
+<p>The following two methods randomize the environmental data, i.e. the
+SpatRaster data, while keeping the point pattern data fixed.</p>
 <div class="section level3">
 <h3 id="torus-translation-test">Torus-translation-test<a class="anchor" aria-label="anchor" href="#torus-translation-test"></a>
 </h3>
-<p>The torus-translation test (Harms et al. 2001) shifts the habitat map in all four cardinal directions around a torus. This is only possible for square rasters. To use this method in <strong>shar</strong> use <code><a href="../reference/translate_raster.html">translate_raster()</a></code>.</p>
+<p>The torus-translation test (Harms et al. 2001) shifts the habitat map
+in all four cardinal directions around a torus. This is only possible
+for square rasters. To use this method in <strong>shar</strong> use
+<code><a href="../reference/translate_raster.html">translate_raster()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="randomized-habitats-procedure">Randomized-habitats procedure<a class="anchor" aria-label="anchor" href="#randomized-habitats-procedure"></a>
 </h3>
-<p>The randomized-habitats procedure (Harms et al. 2001) is also possible for non-square raster and randomizes the habitats using a random-walk algorithm. To use this method in <strong>shar</strong> use <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>.</p>
+<p>The randomized-habitats procedure (Harms et al. 2001) is also
+possible for non-square raster and randomizes the habitats using a
+random-walk algorithm. To use this method in <strong>shar</strong> use
+<code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>.</p>
 <p><img src="random_walk.gif" width="35%" height="35%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="randomize-point-pattern-data">Randomize point pattern data<a class="anchor" aria-label="anchor" href="#randomize-point-pattern-data"></a>
 </h2>
-<p>Contrastingly to the two methods described above, the following two methods randomize the point pattern data, while keeping the environmental data fixed.</p>
+<p>Contrastingly to the two methods described above, the following two
+methods randomize the point pattern data, while keeping the
+environmental data fixed.</p>
 <p><img src="gamma_vs_reconstruction.png" width="75%" height="75%" style="display: block; margin: auto;"></p>
 <div class="section level3">
 <h3 id="gamma-test">Gamma-test<a class="anchor" aria-label="anchor" href="#gamma-test"></a>
 </h3>
-<p>The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a point process model to the observed data and simulation n random point patterns using the fitted point process model. However, the method only works for point patterns that can be described by a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code>.</p>
+<p>The gamma-test (Plotkin et al. 2000) randomizes the data by fitting a
+point process model to the observed data and simulation n random point
+patterns using the fitted point process model. However, the method only
+works for point patterns that can be described by a theoretical point
+process model. To use this method in <strong>shar</strong> use
+<code><a href="../reference/fit_point_process.html">fit_point_process()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="pattern-reconstruction">Pattern reconstruction<a class="anchor" aria-label="anchor" href="#pattern-reconstruction"></a>
 </h3>
-<p>Pattern reconstruction (Tscheschel &amp; Stoyan 2006) randomizes the point pattern using simulated annealing (Kirkpatrick et al. 1983). This allows to randomize also complex point patterns without a theoretical point process model. To use this method in <strong>shar</strong> use <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code>.</p>
+<p>Pattern reconstruction (Tscheschel &amp; Stoyan 2006) randomizes the
+point pattern using simulated annealing (Kirkpatrick et al. 1983). This
+allows to randomize also complex point patterns without a theoretical
+point process model. To use this method in <strong>shar</strong> use
+<code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code>.</p>
 <p><img src="pattern_reconstruction.gif" width="75%" height="75%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
-<p>Comita, L.S., Condit, R., Hubbell, S.P., 2007. Developmental changes in habitat associations of tropical trees. Journal of Ecology 95, 482–492. <a href="https://doi.org/10.1111/j.1365-2745.2007.01229.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2007.01229.x</a></p>
-<p>Garzon-Lopez, C.X., Jansen, P.A., Bohlman, S.A., Ordonez, A., Olff, H., 2014. Effects of sampling scale on patterns of habitat association in tropical trees. Journal of Vegetation Science 25, 349–362. <a href="https://doi.org/10.1111/jvs.12090" class="external-link uri">https://doi.org/10.1111/jvs.12090</a></p>
-<p>Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a></p>
-<p>Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated annealing. Science 220, 671–680. <a href="https://doi.org/10.1126/science.220.4598.671" class="external-link uri">https://doi.org/10.1126/science.220.4598.671</a></p>
-<p>Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology 207, 81–99. <a href="https://doi.org/10.1006/jtbi.2000.2158" class="external-link uri">https://doi.org/10.1006/jtbi.2000.2158</a></p>
-<p>Tilman, D., Pacala, S.W., 1993. The maintenance of species richness in plant communities, in: Ricklefs, R.E., Schluter, D. (Eds.), Species Diversity in Ecological Communities. University of Chicago Press, Chicago, pp. 13–25. ISBN 978-0-226-71823-1</p>
-<p>Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <a href="https://doi.org/10.1016/j.csda.2005.09.007" class="external-link uri">https://doi.org/10.1016/j.csda.2005.09.007</a></p>
-<p>Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
+<p>Comita, L.S., Condit, R., Hubbell, S.P., 2007. Developmental changes
+in habitat associations of tropical trees. Journal of Ecology 95,
+482–492. <a href="https://doi.org/10.1111/j.1365-2745.2007.01229.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2007.01229.x</a></p>
+<p>Garzon-Lopez, C.X., Jansen, P.A., Bohlman, S.A., Ordonez, A., Olff,
+H., 2014. Effects of sampling scale on patterns of habitat association
+in tropical trees. Journal of Vegetation Science 25, 349–362. <a href="https://doi.org/10.1111/jvs.12090" class="external-link uri">https://doi.org/10.1111/jvs.12090</a></p>
+<p>Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat
+associations of trees and shrubs in a 50-ha neotropical forest plot.
+Journal of Ecology 89, 947–959. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a></p>
+<p>Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by
+simulated annealing. Science 220, 671–680. <a href="https://doi.org/10.1126/science.220.4598.671" class="external-link uri">https://doi.org/10.1126/science.220.4598.671</a></p>
+<p>Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie,
+J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and
+habitat specialization in tropical forests. Journal of Theoretical
+Biology 207, 81–99. <a href="https://doi.org/10.1006/jtbi.2000.2158" class="external-link uri">https://doi.org/10.1006/jtbi.2000.2158</a></p>
+<p>Tilman, D., Pacala, S.W., 1993. The maintenance of species richness
+in plant communities, in: Ricklefs, R.E., Schluter, D. (Eds.), Species
+Diversity in Ecological Communities. University of Chicago Press,
+Chicago, pp. 13–25. ISBN 978-0-226-71823-1</p>
+<p>Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of
+random point patterns. Computational Statistics and Data Analysis 51,
+859–871. <a href="https://doi.org/10.1016/j.csda.2005.09.007" class="external-link uri">https://doi.org/10.1016/j.csda.2005.09.007</a></p>
+<p>Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern
+analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN
+978-1-4200-8254-8</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

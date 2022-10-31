@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,9 +135,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Analysing the climatic niche of Cormus domestica</h1>
-                        <h4 data-toc-skip class="author">Zeke Marshall</h4>
+                        <h4 data-toc-skip class="author">Zeke
+Marshall</h4>
             
-            <h4 data-toc-skip class="date">2022-10-12</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/cormus_domestica_tmp.Rmd" class="external-link"><code>vignettes/articles/cormus_domestica_tmp.Rmd</code></a></small>
       <div class="d-none name"><code>cormus_domestica_tmp.Rmd</code></div>
@@ -148,7 +149,19 @@
 <div class="section level2">
 <h2 id="outline">Outline<a class="anchor" aria-label="anchor" href="#outline"></a>
 </h2>
-<p>This vignette demonstrates how to use <code>shar</code> to analyse species occurrence data obtained from the Global Biodiversity Information Facility <a href="https://www.gbif.org" class="external-link">(GBIF)</a> and environmental raster data obtained from the Climate Research Unit <a href="https://www.uea.ac.uk/groups-and-centres/climatic-research-unit" class="external-link">(CRU)</a> entirely in <code>R</code>. The “Gamma test” approach as detailed in the <code><a href="../articles/background.html">vignette("background")</a></code> is used. The distribution of the tree species <em>Cormus domestica</em> in Europe is selected, a tree which tolerates a wide range of conditions but favors warm to mild climates, occurring in the “Subtropical dry forest” and “Temperate Continental” FAO ecological zones. <em>Cormus domestica</em> is most commonly found in Southern Europe, though there it’s natural range is uncertain owing to it’s cultivation and distribution by the Roman Empire (De Rigo et al., 2016; Rotach, 2003).</p>
+<p>This vignette demonstrates how to use <code>shar</code> to analyse
+species occurrence data obtained from the Global Biodiversity
+Information Facility <a href="https://www.gbif.org" class="external-link">(GBIF)</a> and
+environmental raster data obtained from the Climate Research Unit <a href="https://www.uea.ac.uk/groups-and-centres/climatic-research-unit" class="external-link">(CRU)</a>
+entirely in <code>R</code>. The “Gamma test” approach as detailed in the
+<code><a href="../articles/background.html">vignette("background")</a></code> is used. The distribution of the
+tree species <em>Cormus domestica</em> in Europe is selected, a tree
+which tolerates a wide range of conditions but favors warm to mild
+climates, occurring in the “Subtropical dry forest” and “Temperate
+Continental” FAO ecological zones. <em>Cormus domestica</em> is most
+commonly found in Southern Europe, though there it’s natural range is
+uncertain owing to it’s cultivation and distribution by the Roman Empire
+(De Rigo et al., 2016; Rotach, 2003).</p>
 </div>
 <div class="section level2">
 <h2 id="load-required-packages">Load required packages<a class="anchor" aria-label="anchor" href="#load-required-packages"></a>
@@ -169,7 +182,12 @@
 <div class="section level2">
 <h2 id="download-occurrence-data">Download occurrence data<a class="anchor" aria-label="anchor" href="#download-occurrence-data"></a>
 </h2>
-<p>To retrieve species occurrence data the <code>R</code> package <code>rgbif</code> (Chamberlain &amp; Boettiger, 2017) is used, which provides an interface to access the GBIF database. For this vignette we are interested in observations within the likely natural distribution of Cormus domestica, which includes Europe, the wider Mediterranean, the Black Sea Region, and potentially North Africa.</p>
+<p>To retrieve species occurrence data the <code>R</code> package
+<code>rgbif</code> (Chamberlain &amp; Boettiger, 2017) is used, which
+provides an interface to access the GBIF database. For this vignette we
+are interested in observations within the likely natural distribution of
+Cormus domestica, which includes Europe, the wider Mediterranean, the
+Black Sea Region, and potentially North Africa.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve key for Cormus domestica</span></span>
 <span><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">rgbif</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rgbif/reference/name_backbone.html" class="external-link">name_backbone</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">'Cormus domestica'</span>, kingdom <span class="op">=</span> <span class="st">'plants'</span><span class="op">)</span></span>
@@ -194,7 +212,15 @@
 <div class="section level2">
 <h2 id="download-map-data">Download map data<a class="anchor" aria-label="anchor" href="#download-map-data"></a>
 </h2>
-<p>Spatial polygon data for the world is obtained from the <code>rnaturalearth</code> package (South, 2022), the map is then restricted to the region of interest. The <code>spatstat</code> package requires geospatial data in the format of a projected coordinate system; the data is therefore converted from the geographic coordinate system <a href="https://epsg.io/4326" class="external-link">4336</a> to the projected coordinate system <a href="https://epsg.io/3395" class="external-link">3395</a>. The <code>shar</code> function <code>fit_point_process</code> requires a spatial point pattern (<code>ppp</code>) object bounded within an observation window of the class <code>owin</code>, which is then created.</p>
+<p>Spatial polygon data for the world is obtained from the
+<code>rnaturalearth</code> package (South, 2022), the map is then
+restricted to the region of interest. The <code>spatstat</code> package
+requires geospatial data in the format of a projected coordinate system;
+the data is therefore converted from the geographic coordinate system <a href="https://epsg.io/4326" class="external-link">4336</a> to the projected coordinate system
+<a href="https://epsg.io/3395" class="external-link">3395</a>. The <code>shar</code> function
+<code>fit_point_process</code> requires a spatial point pattern
+(<code>ppp</code>) object bounded within an observation window of the
+class <code>owin</code>, which is then created.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve data from rnaturalearth</span></span>
 <span><span class="va">worldmap</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -213,7 +239,10 @@
 <div class="section level2">
 <h2 id="download-climate-data">Download climate data<a class="anchor" aria-label="anchor" href="#download-climate-data"></a>
 </h2>
-<p>The environmental variable selected for demonstrative purposes is the mean temperature in January over the 1961-1990 period. Data is obtained through the <code>getCRUCLdata</code> package (Sparks, 2017) which provides access to the datasets described in New et al. (2002).</p>
+<p>The environmental variable selected for demonstrative purposes is the
+mean temperature in January over the 1961-1990 period. Data is obtained
+through the <code>getCRUCLdata</code> package (Sparks, 2017) which
+provides access to the datasets described in New et al. (2002).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download data as a raster brick through the getCRUCLdata package</span></span>
 <span><span class="co"># Mean temperature (tmn) data should be 180.4MB</span></span>
@@ -225,7 +254,11 @@
 <div class="section level2">
 <h2 id="prepare-landscape-raster">Prepare landscape raster<a class="anchor" aria-label="anchor" href="#prepare-landscape-raster"></a>
 </h2>
-<p>The climate data obtained above is restricted to the region of interest, then classified into 10 habitats based on temperature ranges, achieved by setting the lower and upper bounds of these ranges in the <code>fixedBreaks</code> argument of the <code>classify_habitats</code> function. Figure 1 displays the unclassified and classified habitat.</p>
+<p>The climate data obtained above is restricted to the region of
+interest, then classified into 10 habitats based on temperature ranges,
+achieved by setting the lower and upper bounds of these ranges in the
+<code>fixedBreaks</code> argument of the <code>classify_habitats</code>
+function. Figure 1 displays the unclassified and classified habitat.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Crop tmp raster</span></span>
 <span><span class="va">tmp_raster_eur</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crop.html" class="external-link">crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster</span>, y <span class="op">=</span> <span class="va">roi</span><span class="op">)</span></span>
@@ -241,14 +274,20 @@
 <span>                                                                <span class="fl">0</span>, <span class="fl">2.5</span>, <span class="fl">5</span>, <span class="fl">7.5</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="cormus_domestica_tmp_files/figure-html/land_plots-1.png" alt="Figure 1 - The mean temperature in January over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right)." width="100%"><p class="caption">
-Figure 1 - The mean temperature in January over the 1961-1990 period on a continuous scale (left) and classified in to ten discrete categories (right).
+Figure 1 - The mean temperature in January over the 1961-1990 period on
+a continuous scale (left) and classified in to ten discrete categories
+(right).
 </p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="prepare-occurrence-data">Prepare occurrence data<a class="anchor" aria-label="anchor" href="#prepare-occurrence-data"></a>
 </h2>
-<p>The occurrence data is prepared, then the <code>shar</code> function <code>fit_point_process</code> is called, yielding the randomized occurrence data within the observation window as required by the <code>results_habitat_association</code> function. Figure 2 displays the real and randomised occurrence data.</p>
+<p>The occurrence data is prepared, then the <code>shar</code> function
+<code>fit_point_process</code> is called, yielding the randomized
+occurrence data within the observation window as required by the
+<code>results_habitat_association</code> function. Figure 2 displays the
+real and randomised occurrence data.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Convert occurrence data to a simple features object</span></span>
 <span><span class="va">data_sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">data_simp</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="st">"EPSG:4326"</span><span class="op">)</span></span>
@@ -267,14 +306,20 @@ Figure 1 - The mean temperature in January over the 1961-1990 period on a contin
 <span><span class="va">rand_pattern</span> <span class="op">&lt;-</span> <span class="fu">shar</span><span class="fu">::</span><span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">data_sf_ppp</span>, n_random <span class="op">=</span> <span class="fl">19</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="cormus_domestica_tmp_files/figure-html/occ_plots-1.png" alt="Figure 2 - Real (left) and randomised (right) occurrences of Cormus domestica." width="100%"><p class="caption">
-Figure 2 - Real (left) and randomised (right) occurrences of Cormus domestica.
+Figure 2 - Real (left) and randomised (right) occurrences of Cormus
+domestica.
 </p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a>
 </h2>
-<p>The analysis function <code>results_habitat_association</code> is then called. The results of the analysis show that <em>Cormus domestica</em> is positively associated with locations which experience a mean January temperature of -2.5C - 10C (habitats 5, 6, 7, 8, and 9). Furthermore, <em>Cormus domestica</em> is negatively associated with all other habitats classified by temperature.</p>
+<p>The analysis function <code>results_habitat_association</code> is
+then called. The results of the analysis show that <em>Cormus
+domestica</em> is positively associated with locations which experience
+a mean January temperature of -2.5C - 10C (habitats 5, 6, 7, 8, and 9).
+Furthermore, <em>Cormus domestica</em> is negatively associated with all
+other habitats classified by temperature.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Establish significance level</span></span>
 <span><span class="va">sig_level</span> <span class="op">&lt;-</span> <span class="fl">0.01</span></span>
@@ -288,32 +333,52 @@ Figure 2 - Real (left) and randomised (right) occurrences of Cormus domestica.
 <span></span>
 <span><span class="va">results</span></span>
 <span><span class="co">#&gt;    habitat     breaks count      lo      hi significance</span></span>
-<span><span class="co">#&gt; 1        1  [-20,-10)     1 8032.18 8368.59     negative</span></span>
-<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2680.34 2887.71     negative</span></span>
-<span><span class="co">#&gt; 3        3  [-7.5,-5)     6 2939.45 3106.31     negative</span></span>
-<span><span class="co">#&gt; 4        4  [-5,-2.5)   156 2858.71 2987.73     negative</span></span>
-<span><span class="co">#&gt; 5        5   [-2.5,0)  3113 2431.61 2557.93     positive</span></span>
-<span><span class="co">#&gt; 6        6    [0,2.5)  5010 1587.09 1746.93     positive</span></span>
-<span><span class="co">#&gt; 7        7    [2.5,5) 10725 1766.61 1954.58     positive</span></span>
-<span><span class="co">#&gt; 8        8    [5,7.5)  6693 1534.71 1648.73     positive</span></span>
-<span><span class="co">#&gt; 9        9   [7.5,10)  1609 1208.34 1355.19     positive</span></span>
-<span><span class="co">#&gt; 10      10    [10,20)    49 1466.69 1593.01     negative</span></span></code></pre></div>
+<span><span class="co">#&gt; 1        1  [-20,-10)     1 8042.42 8290.41     negative</span></span>
+<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2725.36 2883.66     negative</span></span>
+<span><span class="co">#&gt; 3        3  [-7.5,-5)     6 2952.18 3110.22     negative</span></span>
+<span><span class="co">#&gt; 4        4  [-5,-2.5)   156 2860.90 3010.91     negative</span></span>
+<span><span class="co">#&gt; 5        5   [-2.5,0)  3113 2421.09 2581.58     positive</span></span>
+<span><span class="co">#&gt; 6        6    [0,2.5)  5010 1634.63 1718.91     positive</span></span>
+<span><span class="co">#&gt; 7        7    [2.5,5) 10725 1783.27 1987.29     positive</span></span>
+<span><span class="co">#&gt; 8        8    [5,7.5)  6693 1546.90 1643.46     positive</span></span>
+<span><span class="co">#&gt; 9        9   [7.5,10)  1609 1213.42 1339.10     positive</span></span>
+<span><span class="co">#&gt; 10      10    [10,20)    49 1477.54 1598.82     negative</span></span></code></pre></div>
 <div class="figure">
 <img src="cormus_domestica_tmp_files/figure-html/result_plot-1.png" alt="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C" width="100%"><p class="caption">
-Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C
+Figure 3 - The climatic niche of Cormus domestica, as defined by a
+positive association with a mean January temperature of -2.5C - 10C
 </p>
 </div>
-<p>By visually inspecting Figure 3 we can see that occurrences of <em>Cormus domestica</em> are mostly restricted to the associated habitat as defined by a mean January temperature of -2.5C - 10C. However, <em>Cormus domestica</em> does not exist in all areas experiencing a mean January temperature of -2.5C - 10C, additionally there are a number of occurrences outside these areas. The next step assessing in the climatic niche of <em>Cormus domestica</em> would be to repeat the above analysis for more environmental variables, which is beyond the scope of this minimal example.</p>
+<p>By visually inspecting Figure 3 we can see that occurrences of
+<em>Cormus domestica</em> are mostly restricted to the associated
+habitat as defined by a mean January temperature of -2.5C - 10C.
+However, <em>Cormus domestica</em> does not exist in all areas
+experiencing a mean January temperature of -2.5C - 10C, additionally
+there are a number of occurrences outside these areas. The next step
+assessing in the climatic niche of <em>Cormus domestica</em> would be to
+repeat the above analysis for more environmental variables, which is
+beyond the scope of this minimal example.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<p>Chamberlain SA, Boettiger C. 2017. R Python, and Ruby clients for GBIF species occurrence data. PeerJ Preprints 5:e3304v1 <a href="doi:10.7287/peerj.preprints.3304v1" class="uri">doi:10.7287/peerj.preprints.3304v1</a></p>
-<p>De Rigo, D., Caudullo, G., Houston Durrant, T. and San-Miguel-Ayanz, J., 2016. The European Atlas of Forest Tree Species: modelling, data and information on forest tree species. <em>European Atlas of Forest Tree Species</em>, p.e01aa69. <a href="doi:10.2788/4251" class="uri">doi:10.2788/4251</a></p>
-<p>New, M., Lister, D., Hulme, M. and Makin, I., 2002. A high-resolution data set of surface climate over global land areas. <em>Climate research</em>, <em>21</em>(1), pp.1-25. <a href="doi:10.3354/cr021001" class="uri">doi:10.3354/cr021001</a></p>
-<p>Rotach, P., 2003. EUFORGEN Technical Guidelines for genetic conservation and use for service tree (Sorbus domestica). Bioversity International.</p>
-<p>South A (2022). <em>rnaturalearth: World Map Data from Natural Earth</em>. <a href="https://docs.ropensci.org/rnaturalearth" class="external-link uri">https://docs.ropensci.org/rnaturalearth</a> (website) <a href="https://github.com/ropensci/rnaturalearth." class="external-link uri">https://github.com/ropensci/rnaturalearth.</a></p>
-<p>Sparks, (2017). getCRUCLdata: Use and Explore CRU CL v. 2.0 Climatology Elements in R. Journal of Open Source Software, 2(12), 230, <a href="doi:10.21105/joss.00230" class="uri">doi:10.21105/joss.00230</a></p>
+<p>Chamberlain SA, Boettiger C. 2017. R Python, and Ruby clients for
+GBIF species occurrence data. PeerJ Preprints 5:e3304v1 <a href="doi:10.7287/peerj.preprints.3304v1" class="uri">doi:10.7287/peerj.preprints.3304v1</a></p>
+<p>De Rigo, D., Caudullo, G., Houston Durrant, T. and San-Miguel-Ayanz,
+J., 2016. The European Atlas of Forest Tree Species: modelling, data and
+information on forest tree species. <em>European Atlas of Forest Tree
+Species</em>, p.e01aa69. <a href="doi:10.2788/4251" class="uri">doi:10.2788/4251</a></p>
+<p>New, M., Lister, D., Hulme, M. and Makin, I., 2002. A high-resolution
+data set of surface climate over global land areas. <em>Climate
+research</em>, <em>21</em>(1), pp.1-25. <a href="doi:10.3354/cr021001" class="uri">doi:10.3354/cr021001</a></p>
+<p>Rotach, P., 2003. EUFORGEN Technical Guidelines for genetic
+conservation and use for service tree (Sorbus domestica). Bioversity
+International.</p>
+<p>South A (2022). <em>rnaturalearth: World Map Data from Natural
+Earth</em>. <a href="https://docs.ropensci.org/rnaturalearth" class="external-link uri">https://docs.ropensci.org/rnaturalearth</a> (website) <a href="https://github.com/ropensci/rnaturalearth." class="external-link uri">https://github.com/ropensci/rnaturalearth.</a></p>
+<p>Sparks, (2017). getCRUCLdata: Use and Explore CRU CL v. 2.0
+Climatology Elements in R. Journal of Open Source Software, 2(12), 230,
+<a href="doi:10.21105/joss.00230" class="uri">doi:10.21105/joss.00230</a></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

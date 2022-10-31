@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,9 +135,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get started</h1>
-                        <h4 data-toc-skip class="author">Maximilian H.K. Hesselbarth</h4>
+                        <h4 data-toc-skip class="author">Maximilian H.K.
+Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-10-12</h4>
+            <h4 data-toc-skip class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/get_started.Rmd" class="external-link"><code>vignettes/get_started.Rmd</code></a></small>
       <div class="d-none name"><code>get_started.Rmd</code></div>
@@ -154,20 +155,46 @@
 <div class="section level2">
 <h2 id="design">Design<a class="anchor" aria-label="anchor" href="#design"></a>
 </h2>
-<p>The core of <strong>shar</strong> are functions to to simulate null model data by randomizing either the environmental data (i.e. raster data) or the locations of species (i.e. point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000) and Wiegand &amp; Moloney (2014). The methods are not necessary complementary, but are rather different approaches for the same result.</p>
+<p>The core of <strong>shar</strong> are functions to to simulate null
+model data by randomizing either the environmental data (i.e. raster
+data) or the locations of species (i.e. point pattern data). The null
+data is then used to analyse if significant species-habitat associations
+are present. Additionally, functions to visualize and analyse the
+results are available as well as some utility functions. The methods are
+mainly described in Harms et al. (2001), Plotkin et al. (2000) and
+Wiegand &amp; Moloney (2014). The methods are not necessary
+complementary, but are rather different approaches for the same
+result.</p>
 </div>
 <div class="section level2">
 <h2 id="preprocessing-of-input-data">Preprocessing of input data<a class="anchor" aria-label="anchor" href="#preprocessing-of-input-data"></a>
 </h2>
-<p>All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. <code>classify_habitats</code> provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks &amp; Caspall 1971)</p>
+<p>All functions are designed for discrete habitat classes. Following,
+in case only continuous data is available, this has to be classified to
+discrete classes. <code>classify_habitats</code> provides several ways
+to classify the data such as the Fisher-Jenks algorithm (Fisher 1958,
+Jenks &amp; Caspall 1971)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">landscape_discrete</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="randomize-environmental-data">Randomize environmental data<a class="anchor" aria-label="anchor" href="#randomize-environmental-data"></a>
 </h2>
-<p>There are two functions to randomize the environmental data: <code><a href="../reference/translate_raster.html">translate_raster()</a></code> and <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in <code>n_random &lt;- (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4</code> randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the <code>n_random</code> argument.</p>
-<p>However, all methods require “fully mapped data” in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.</p>
+<p>There are two functions to randomize the environmental data:
+<code><a href="../reference/translate_raster.html">translate_raster()</a></code> and <code><a href="../reference/randomize_raster.html">randomize_raster()</a></code>. The
+first function is a torus translation of the raster, shifting the
+habitat map in all four cardinal directions. This is only possible for
+rectangular observation areas and results in
+<code>n_random &lt;- (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4</code>
+randomized rasters. The other function randomizes the environmental data
+using a random-walk algorithm. Here, the number of randomized rasters
+can be specified using the <code>n_random</code> argument.</p>
+<p>However, all methods require “fully mapped data” in a sense that NA
+cells of the environmental data are allowed only if simultaneously these
+areas cannot accommodate any locations of the point pattern (e.g., a
+water body within a forest area). This needs to be reflected in the
+observation window of the point pattern. For the torus translation
+method, no NA values are allowed at all.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">torus_trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/translate_raster.html">translate_raster</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape_discrete</span><span class="op">)</span></span>
 <span></span>
@@ -176,7 +203,16 @@
 <div class="section level2">
 <h2 id="randomize-location-data">Randomize location data<a class="anchor" aria-label="anchor" href="#randomize-location-data"></a>
 </h2>
-<p>To randomize the location data (i.e. the point pattern) either <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> or <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code> are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the <code>spatstat</code> package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel &amp; Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the <code>n_random</code> argument.</p>
+<p>To randomize the location data (i.e. the point pattern) either
+<code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> or <code><a href="../reference/reconstruct_pattern.html">reconstruct_pattern()</a></code>
+are available. The first fits either a Poisson process or a cluster
+process to the data. The difference to solutions from the
+<code>spatstat</code> package is that the number of points is always
+identical. The second functions reconstructs the spatial characteristics
+of the data using pattern reconstruction (Tscheschel &amp; Stoyan 2006).
+This is advantageous for point patterns not describable by simple point
+process models. For both function, the number of patterns can be
+specified by the <code>n_random</code> argument.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gamma_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_b</span>, process <span class="op">=</span> <span class="st">"cluster"</span>, n_random <span class="op">=</span> <span class="fl">39</span><span class="op">)</span></span>
 <span></span>
@@ -187,8 +223,17 @@
 <div class="section level2">
 <h2 id="analyse-results">Analyse results<a class="anchor" aria-label="anchor" href="#analyse-results"></a>
 </h2>
-<p>The most important function to analyse results is <code><a href="../reference/results_habitat_association.html">results_habitat_association()</a></code>. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data.</p>
-<p>Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code> vs. <code><a href="../reference/translate_raster.html">translate_raster()</a></code>) and even for repetitions of the same approach. However, the counts of the observed data should be identical, and general results and trends should be similar.</p>
+<p>The most important function to analyse results is
+<code><a href="../reference/results_habitat_association.html">results_habitat_association()</a></code>. This function compares the
+observed data to the null model data and by that is able to show
+significant species-habitat associations. The functions work for both,
+randomized environmental data or randomized location data.</p>
+<p>Please be aware that due to the randomization of the null model data,
+results might slightly differ between different randomization approaches
+(e.g., <code><a href="../reference/fit_point_process.html">fit_point_process()</a></code>
+vs. <code><a href="../reference/translate_raster.html">translate_raster()</a></code>) and even for repetitions of the
+same approach. However, the counts of the observed data should be
+identical, and general results and trends should be similar.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_a</span>, raster <span class="op">=</span> <span class="va">random_walk</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Input: randomized raster</span></span>
@@ -209,7 +254,8 @@
 <span><span class="co">#&gt; 3       3     NA    18 33.95 58.00     negative</span></span>
 <span><span class="co">#&gt; 4       4     NA    21 36.90 54.05     negative</span></span>
 <span><span class="co">#&gt; 5       5     NA   129 38.90 76.50     positive</span></span></code></pre></div>
-<p>There is also the possibility to visualize the randomized data using the <code><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot()</a></code> function.</p>
+<p>There is also the possibility to visualize the randomized data using
+the <code><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot()</a></code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">random_walk</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get_started_files/figure-html/plotting-1.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
@@ -217,7 +263,9 @@
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">reconstruction</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get_started_files/figure-html/plotting-2.png" width="100%" height="100%" style="display: block; margin: auto;"><img src="get_started_files/figure-html/plotting-3.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
-<p>For the randomized point pattern data, it is also possible to show the “difference” in terms of the energy (Tscheschel &amp; Stoyan 2006) between the patterns.</p>
+<p>For the randomized point pattern data, it is also possible to show
+the “difference” in terms of the energy (Tscheschel &amp; Stoyan 2006)
+between the patterns.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/calculate_energy.html">calculate_energy</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">gamma_test</span>, return_mean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 0.1312198</span></span>
@@ -227,12 +275,24 @@
 <div class="section level3">
 <h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
-<p>Fisher, W.D., 1958. On grouping for maximum homogeneity. Journal of the American Statistical Association 53, 789–798. <a href="https://doi.org/10.1080/01621459.1958.10501479" class="external-link uri">https://doi.org/10.1080/01621459.1958.10501479</a></p>
-<p>Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a></p>
-<p>Jenks, G.F., Caspall, F.C., 1971. Error in choroplethic maps: Definition, measurement, reduction. Annals of the Association of American Geographers 61, 217–244. <a href="https://doi.org/10.1111/j.1467-8306.1971.tb00779.x" class="external-link uri">https://doi.org/10.1111/j.1467-8306.1971.tb00779.x</a></p>
-<p>Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology 207, 81–99. <a href="https://doi.org/10.1006/jtbi.2000.2158" class="external-link uri">https://doi.org/10.1006/jtbi.2000.2158</a></p>
-<p>Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <a href="https://doi.org/10.1016/j.csda.2005.09.007" class="external-link uri">https://doi.org/10.1016/j.csda.2005.09.007</a></p>
-<p>Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
+<p>Fisher, W.D., 1958. On grouping for maximum homogeneity. Journal of
+the American Statistical Association 53, 789–798. <a href="https://doi.org/10.1080/01621459.1958.10501479" class="external-link uri">https://doi.org/10.1080/01621459.1958.10501479</a></p>
+<p>Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat
+associations of trees and shrubs in a 50-ha neotropical forest plot.
+Journal of Ecology 89, 947–959. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a></p>
+<p>Jenks, G.F., Caspall, F.C., 1971. Error in choroplethic maps:
+Definition, measurement, reduction. Annals of the Association of
+American Geographers 61, 217–244. <a href="https://doi.org/10.1111/j.1467-8306.1971.tb00779.x" class="external-link uri">https://doi.org/10.1111/j.1467-8306.1971.tb00779.x</a></p>
+<p>Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie,
+J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and
+habitat specialization in tropical forests. Journal of Theoretical
+Biology 207, 81–99. <a href="https://doi.org/10.1006/jtbi.2000.2158" class="external-link uri">https://doi.org/10.1006/jtbi.2000.2158</a></p>
+<p>Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of
+random point patterns. Computational Statistics and Data Analysis 51,
+859–871. <a href="https://doi.org/10.1016/j.csda.2005.09.007" class="external-link uri">https://doi.org/10.1016/j.csda.2005.09.007</a></p>
+<p>Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern
+analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN
+978-1-4200-8254-8</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
