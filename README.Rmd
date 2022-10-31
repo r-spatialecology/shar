@@ -131,7 +131,7 @@ Please note that the **shar** package is released with a [Contributor Code of Co
 
 To contribute to this project, please see the [Contributing guidelines](CONTRIBUTING.md).
 
-### References 
+#### References 
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns: Methodology and applications with R. Chapman and Hall/CRC Press, London. ISBN 978-1-4822-1020-0
 

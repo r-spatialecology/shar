@@ -6,7 +6,7 @@ on:
     branches: [main, development]
     tags: ['*']
 
-name: Deploy-pkgdown
+name: deploy-pkgdown
 
 jobs:
   deploy-pkgdown:
