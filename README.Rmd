@@ -22,6 +22,8 @@ knitr::opts_chunk$set(
 | [![R-CMD-check](https://github.com/r-spatialecology/shar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/r-spatialecology/shar/actions/workflows/R-CMD-check.yaml) | [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) | [![CRAN status](https://www.r-pkg.org/badges/version/shar)](https://cran.r-project.org/package=shar) |[![JOSS](https://joss.theoj.org/papers/1b786c028a5425858cb0e5428bd9173b/status.svg)](https://joss.theoj.org/papers/1b786c028a5425858cb0e5428bd9173b) |
 | [![codecov](https://codecov.io/gh/r-spatialecology/shar/branch/main/graph/badge.svg?token=XMo844ABs4)](https://codecov.io/gh/r-spatialecology/shar) | [![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) | [![CRAN logs](http://cranlogs.r-pkg.org/badges/grand-total/shar)](http://cran.rstudio.com/web/packages/shar/index.html) | [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) |
 
+Updated: `r Sys.Date()`
+
 <!-- badges: end -->
 
 **S**pecies-**h**abitat **a**ssociations in **R** is a `R` package to analyze species-habitat associations. Therefore, information about the location of the species is needed (as a point pattern) and about the environmental conditions (as a raster map). In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized n-times. Then, counts within the habitats are compared between the randomized data and the observed data. Positive or negative associations are present if the observed counts is higher or lower than the randomized counts (using quantile thresholds). Methods are described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and [`terra`](https://rspatial.org/terra/) (Hijmans 2022) package.
@@ -131,7 +133,7 @@ Please note that the **shar** package is released with a [Contributor Code of Co
 
 To contribute to this project, please see the [Contributing guidelines](CONTRIBUTING.md).
 
-#### References 
+### References 
 
 Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns: Methodology and applications with R. Chapman and Hall/CRC Press, London. ISBN 978-1-4822-1020-0
 
