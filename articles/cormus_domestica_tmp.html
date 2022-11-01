@@ -138,7 +138,7 @@
                         <h4 data-toc-skip class="author">Zeke
 Marshall</h4>
             
-            <h4 data-toc-skip class="date">2022-10-31</h4>
+            <h4 data-toc-skip class="date">2022-11-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/cormus_domestica_tmp.Rmd" class="external-link"><code>vignettes/articles/cormus_domestica_tmp.Rmd</code></a></small>
       <div class="d-none name"><code>cormus_domestica_tmp.Rmd</code></div>
@@ -166,6 +166,10 @@ uncertain owing to it’s cultivation and distribution by the Roman Empire
 <div class="section level2">
 <h2 id="load-required-packages">Load required packages<a class="anchor" aria-label="anchor" href="#load-required-packages"></a>
 </h2>
+<p>The vignettes of this package require the <code>getCRUCLdata</code>
+package, which is not available on CRAN anymore. To install the package,
+please run
+<code>install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># For data wrangling</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/getCRUCLdata/" class="external-link">getCRUCLdata</a></span><span class="op">)</span> <span class="co"># For retrieving climate raster data</span></span>
@@ -333,16 +337,16 @@ other habitats classified by temperature.</p>
 <span></span>
 <span><span class="va">results</span></span>
 <span><span class="co">#&gt;    habitat     breaks count      lo      hi significance</span></span>
-<span><span class="co">#&gt; 1        1  [-20,-10)     1 8042.42 8290.41     negative</span></span>
-<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2725.36 2883.66     negative</span></span>
-<span><span class="co">#&gt; 3        3  [-7.5,-5)     6 2952.18 3110.22     negative</span></span>
-<span><span class="co">#&gt; 4        4  [-5,-2.5)   156 2860.90 3010.91     negative</span></span>
-<span><span class="co">#&gt; 5        5   [-2.5,0)  3113 2421.09 2581.58     positive</span></span>
-<span><span class="co">#&gt; 6        6    [0,2.5)  5010 1634.63 1718.91     positive</span></span>
-<span><span class="co">#&gt; 7        7    [2.5,5) 10725 1783.27 1987.29     positive</span></span>
-<span><span class="co">#&gt; 8        8    [5,7.5)  6693 1546.90 1643.46     positive</span></span>
-<span><span class="co">#&gt; 9        9   [7.5,10)  1609 1213.42 1339.10     positive</span></span>
-<span><span class="co">#&gt; 10      10    [10,20)    49 1477.54 1598.82     negative</span></span></code></pre></div>
+<span><span class="co">#&gt; 1        1  [-20,-10)     1 8038.67 8352.69     negative</span></span>
+<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2648.51 2884.92     negative</span></span>
+<span><span class="co">#&gt; 3        3  [-7.5,-5)     6 2939.45 3155.12     negative</span></span>
+<span><span class="co">#&gt; 4        4  [-5,-2.5)   156 2732.71 3031.03     negative</span></span>
+<span><span class="co">#&gt; 5        5   [-2.5,0)  3113 2401.96 2574.85     positive</span></span>
+<span><span class="co">#&gt; 6        6    [0,2.5)  5010 1596.08 1738.28     positive</span></span>
+<span><span class="co">#&gt; 7        7    [2.5,5) 10725 1815.99 1932.84     positive</span></span>
+<span><span class="co">#&gt; 8        8    [5,7.5)  6693 1536.27 1674.83     positive</span></span>
+<span><span class="co">#&gt; 9        9   [7.5,10)  1609 1204.52 1316.73     positive</span></span>
+<span><span class="co">#&gt; 10      10    [10,20)    49 1466.16 1579.91     negative</span></span></code></pre></div>
 <div class="figure">
 <img src="cormus_domestica_tmp_files/figure-html/result_plot-1.png" alt="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C" width="100%"><p class="caption">
 Figure 3 - The climatic niche of Cormus domestica, as defined by a
