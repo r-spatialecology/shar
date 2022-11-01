@@ -11,10 +11,12 @@ name: deploy-pkgdown
 jobs:
   deploy-pkgdown:
     runs-on: ubuntu-latest
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -27,10 +29,6 @@ jobs:
         with:
           extra-packages: any::pkgdown, local::.
           needs: website
-
-      - name: Install getCRUCLdata
-        run: install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')
-        shell: Rscript {0}
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
