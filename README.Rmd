@@ -1,5 +1,7 @@
 ---
-output: github_document
+output: 
+    github_document:
+      html_preview: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -14,6 +16,8 @@ knitr::opts_chunk$set(
 # **shar** | **S**pecies **h**abitat **a**ssociations in **R** <img src="man/figures/logo.png" align="right" alt="" width="150" />
 
 <!-- badges: start -->
+
+Last updated: `r Sys.Date()`
 
 | CI | Development | CRAN | License |
 |----|-------------|------|---------|
@@ -43,8 +47,7 @@ install.packages("shar")
 And the development version from [GitHub](https://github.com/r-spatialecology/shar) with:
 
 ```{r install-github, eval = FALSE}
-install.packages("remotes")
-
+# install.packages("remotes")
 remotes::install_github("r-spatialecology/shar")
 ```
 
@@ -98,7 +101,7 @@ Of course, there are several utility functions. For example, you can plot the su
 plot(reconstruction, what = "pp")
 ```
 
-Another utility functions allows to calculate the differences between the observed pattern and the randomized patterns (also called energy using summary functions). 
+Another utility function allows to calculate the differences between the observed pattern and the randomized patterns (also called energy using summary functions). 
 
 ```{r calculate-energy, message = FALSE}
 calculate_energy(reconstruction, return_mean = TRUE)
@@ -114,7 +117,6 @@ Furthermore, please be aware that due to the randomization of the null model dat
 torus_trans <- unpack_randomized(torus_trans)
 ```
 
-
 ```{r results}
 significance_level <- 0.01
 
@@ -129,7 +131,7 @@ Contributions to **shar** are highly welcomed and appreciated. This includes any
 
 Please note that the **shar** package is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-To see how to contribute to this project, please see the [Contributing guidelines](CONTRIBUTING.md).
+To contribute to this project, please see the [Contributing guidelines](CONTRIBUTING.md).
 
 ### References 
 

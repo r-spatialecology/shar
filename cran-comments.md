@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md.
 
+## shar 2.0.1
+Fixing external repo, typo maintainer name
+
 ## shar 2.0.0
 * Replace `raster` with `terra` and several code changes related to this
 * Fixed issue of earlier submission "Unknown, possibly misspelled, fields in DESCRIPTION: 'Remotes'"

@@ -1,0 +1,263 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "shar",
+  "description": " Analyse species-habitat associations in R. Therefore, information about the location of the species (as a point pattern) is needed together with environmental conditions (as a categorical raster). To test for significance habitat associations, one of the two components is randomized. Methods are mainly based on Plotkin et al. (2000) <doi:10.1006/jtbi.2000.2158> and Harms et al. (2001) <doi:10.1111/j.1365-2745.2001.00615.x>.",
+  "name": "shar: Species-Habitat Associations",
+  "codeRepository": "https://r-spatialecology.github.io/shar/",
+  "issueTracker": "https://github.com/r-spatialecology/shar/issues/",
+  "license": "https://spdx.org/licenses/GPL-3.0",
+  "version": "2.0.1",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Maximilian H.K.",
+      "familyName": "Hesselbarth",
+      "email": "mhk.hesselbarth@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1125-9918"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Marco",
+      "familyName": "Sciaini",
+      "email": "marco.sciaini@posteo.net",
+      "@id": "https://orcid.org/0000-0002-3042-5435"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Zeke",
+      "familyName": "Marshall",
+      "email": "ee18zm@leeds.ac.uk",
+      "@id": "https://orcid.org/0000-0001-9260-7827"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Thomas",
+      "familyName": "Etherington",
+      "email": "teth001@aucklanduni.ac.nz",
+      "@id": "https://orcid.org/0000-0002-3187-075X"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Maximilian H.K.",
+      "familyName": "Hesselbarth",
+      "email": "mhk.hesselbarth@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1125-9918"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "spatstat",
+      "name": "spatstat",
+      "version": ">= 2.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spatstat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 2.1.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    }
+  ],
+  "softwareRequirements": {
+    "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.1.0"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "classInt",
+      "name": "classInt",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=classInt"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "graphics",
+      "name": "graphics"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "grDevices",
+      "name": "grDevices"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "methods",
+      "name": "methods"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "spatstat.core",
+      "name": "spatstat.core",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spatstat.core"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
+      "identifier": "spatstat.geom",
+      "name": "spatstat.geom",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spatstat.geom"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "spatstat.random",
+      "name": "spatstat.random",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spatstat.random"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
+      "identifier": "terra",
+      "name": "terra",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=terra"
+    },
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "1016.53KB",
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2021",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["Maximilian", "H.K."],
+          "familyName": "Hesselbarth"
+        }
+      ],
+      "name": "shar: A R package to analyze species-habitat associations using point pattern analysis",
+      "identifier": "10.21105/joss.03811",
+      "pagination": "3811",
+      "@id": "https://doi.org/10.21105/joss.03811",
+      "sameAs": "https://doi.org/10.21105/joss.03811",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "67",
+        "datePublished": "2021",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "6",
+          "name": "Journal of Open Source Software"
+        }
+      }
+    }
+  ]
+}

@@ -18,11 +18,29 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, echo = FALSE}
+check_pkgs <- requireNamespace("getCRUCLdata", quietly = TRUE)
+
+if (!check_pkgs) {
+  
+  message <- paste("This article of the package requires the 'getCRUCLdata' package",
+                   "which is not available on CRAN anymore. To install the package, please",
+                   "run 'install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')'.")
+
+  message <- paste(strwrap(message), collapse = "\n")
+
+  message(message)
+  
+}
+```
+
 ## Outline
 
 This vignette demonstrates how to use `shar` to analyse species occurrence data obtained from the Global Biodiversity Information Facility [(GBIF)](https://www.gbif.org) and environmental raster data obtained from the Climate Research Unit [(CRU)](https://www.uea.ac.uk/groups-and-centres/climatic-research-unit) entirely in `R`. The "Gamma test" approach as detailed in the `vignette("background")` is used. The distribution of the tree species *Cormus domestica* in Europe is selected, a tree which tolerates a wide range of conditions but favors warm to mild climates, occurring in the "Subtropical dry forest" and "Temperate Continental" FAO ecological zones. *Cormus domestica* is most commonly found in Southern Europe, though there it's natural range is uncertain owing to it's cultivation and distribution by the Roman Empire (De Rigo et al., 2016; Rotach, 2003).
 
 ## Load required packages
+
+This article of the package requires the `getCRUCLdata` package, which is not available on CRAN anymore. To install the package, please run `install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')`.
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(dplyr) # For data wrangling
@@ -40,11 +58,7 @@ library(shar) # For species-habitat association analysis
 
 ## Download occurrence data
 
-To retrieve species occurrence data the `R` package `rgbif` (Chamberlain & 
-Boettiger, 2017) is used, which provides an interface to access the GBIF 
-database. For this vignette we are interested in observations within 
-the likely natural distribution of Cormus domestica, which includes Europe, the 
-wider Mediterranean, the Black Sea Region, and potentially North Africa.
+To retrieve species occurrence data the `R` package `rgbif` (Chamberlain & Boettiger, 2017) is used, which provides an interface to access the GBIF database. For this vignette we are interested in observations within the likely natural distribution of Cormus domestica, which includes Europe, the wider Mediterranean, the Black Sea Region, and potentially North Africa.
 
 ```{r gbif, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 # Load bundled GBIF occurrence data 
@@ -120,11 +134,7 @@ tmp_raster <- cru_data$tmp$jan
 
 ## Prepare landscape raster
 
-The climate data obtained above is restricted to the region of interest, 
-then classified into 10 habitats based on temperature ranges, 
-achieved by setting the lower and upper bounds of these ranges 
-in the `fixedBreaks` argument of the `classify_habitats` function. 
-Figure 1 displays the unclassified and classified habitat.
+The climate data obtained above is restricted to the region of interest, then classified into 10 habitats based on temperature ranges, achieved by setting the lower and upper bounds of these ranges in the `fixedBreaks` argument of the `classify_habitats` function. Figure 1 displays the unclassified and classified habitat.
 
 ```{r landscape_ras, echo=TRUE, message=FALSE, warning=FALSE}
 # Crop tmp raster
@@ -430,14 +440,7 @@ plot_res_classed_occs <- ggplot2::ggplot() +
 plot_res_classed + plot_res_classed_occs
 ```
 
-By visually inspecting Figure 3 we can see that occurrences of *Cormus domestica*
-are mostly restricted to the associated habitat as defined by a mean January 
-temperature of -2.5C - 10C.
-However, *Cormus domestica* does not exist in all areas experiencing a mean January 
-temperature of -2.5C - 10C, additionally there are a number of occurrences 
-outside these areas. The next step assessing in the climatic niche of *Cormus domestica*
-would be to repeat the above analysis for more environmental variables, 
-which is beyond the scope of this minimal example.
+By visually inspecting Figure 3 we can see that occurrences of *Cormus domestica* are mostly restricted to the associated habitat as defined by a mean January temperature of -2.5C - 10C. However, *Cormus domestica* does not exist in all areas experiencing a mean January temperature of -2.5C - 10C, additionally there are a number of occurrences outside these areas. The next step assessing in the climatic niche of *Cormus domestica* would be to repeat the above analysis for more environmental variables, which is beyond the scope of this minimal example.
 
 ## References
 

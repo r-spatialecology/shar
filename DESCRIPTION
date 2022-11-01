@@ -1,8 +1,8 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 2.0.0
-Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
+Version: 2.0.1
+Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
              role = "aut", comment = c(ORCID = "0000-0002-3042-5435")), 
@@ -11,7 +11,7 @@ Authors@R: c(person("Maximillian H.K.", "Hesselbarth", email = "mhk.hesselbarth@
              person("Thomas", "Etherington", email = "teth001@aucklanduni.ac.nz",
              role = "ctb", comment = c(ORCID = "0000-0002-3187-075X"))
              )
-Maintainer: Maximillian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
+Maintainer: Maximilian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description:
   Analyse species-habitat associations in R. Therefore, information about the location 
   of the species (as a point pattern) is needed together with environmental conditions 
@@ -37,18 +37,8 @@ RoxygenNote: 7.2.1
 Suggests:
     covr,
     dplyr,
-    getCRUCLdata,
-    ggplot2,
-    future,
-    future.apply,
     knitr,
-    patchwork,
-    rgbif,
-    rgdal,
     rmarkdown,
-    rnaturalearth, 
-    rnaturalearthdata,
-    sf,
     spatstat (>= 2.0.0),
     testthat (>= 2.1.0)
 Additional_repositories: http://packages.ropensci.org
