@@ -1,6 +1,8 @@
 # shar 2.0.1
 * Improvements
-  * Better approach for external repos
+  * Better approach for external repo
+* Various
+  * Fixing typo in maintainer name
 
 # shar 2.0.0
 * Improvements
