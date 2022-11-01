@@ -37,18 +37,8 @@ RoxygenNote: 7.2.1
 Suggests:
     covr,
     dplyr,
-    getCRUCLdata,
-    ggplot2,
-    future,
-    future.apply,
     knitr,
-    patchwork,
-    rgbif,
-    rgdal,
     rmarkdown,
-    rnaturalearth, 
-    rnaturalearthdata,
-    sf,
     spatstat (>= 2.0.0),
     testthat (>= 2.1.0)
 Additional_repositories: http://packages.ropensci.org

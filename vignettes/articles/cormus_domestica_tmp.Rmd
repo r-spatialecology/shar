@@ -23,7 +23,7 @@ check_pkgs <- requireNamespace("getCRUCLdata", quietly = TRUE)
 
 if (!check_pkgs) {
   
-  message <- paste("The vignettes of this package require the 'getCRUCLdata' package",
+  message <- paste("This article of the package requires the 'getCRUCLdata' package",
                    "which is not available on CRAN anymore. To install the package, please",
                    "run 'install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')'.")
 
@@ -40,7 +40,7 @@ This vignette demonstrates how to use `shar` to analyse species occurrence data 
 
 ## Load required packages
 
-The vignettes of this package require the `getCRUCLdata` package, which is not available on CRAN anymore. To install the package, please run `install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')`.
+This article of the package requires the `getCRUCLdata` package, which is not available on CRAN anymore. To install the package, please run `install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')`.
 
 ```{r packages, message=FALSE, warning=FALSE}
 library(dplyr) # For data wrangling

@@ -1,7 +1,7 @@
 For details changes, please see NEWS.md.
 
 ## shar 2.0.1
-Fixings external repo
+Fixing external repos
 
 ## shar 2.0.0
 * Replace `raster` with `terra` and several code changes related to this

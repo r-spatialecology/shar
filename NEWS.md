@@ -1,6 +1,6 @@
 # shar 2.0.1
 * Improvements
-  * Better approach for external repo
+  * Better approach for external repos
 
 # shar 2.0.0
 * Improvements
