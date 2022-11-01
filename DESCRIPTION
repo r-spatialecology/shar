@@ -41,7 +41,6 @@ Suggests:
     rmarkdown,
     spatstat (>= 2.0.0),
     testthat (>= 2.1.0)
-Additional_repositories: http://packages.ropensci.org
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
