@@ -14,3 +14,5 @@ shar.Rproj
 vignettes/articles
 .github
 _pkgdown.yml
+^.*\.Rproj$
+^\.Rproj\.user$
