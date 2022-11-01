@@ -3,11 +3,12 @@
 on:
   push:
     paths: ['DESCRIPTION']
+  workflow_dispatch:
 
 name: write-codemeta
 
 jobs:
-  render-readme:
+  write-codemeta:
     runs-on: ubuntu-latest
 
     env:
