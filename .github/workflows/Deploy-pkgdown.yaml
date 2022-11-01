@@ -5,6 +5,7 @@ on:
   push:
     branches: [main, development]
     tags: ['*']
+  workflow_dispatch:
 
 name: deploy-pkgdown
 
