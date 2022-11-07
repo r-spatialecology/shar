@@ -82,17 +82,17 @@ fit_point_process <- function(pattern,
   } else if (process == "cluster") {
 
     # fit cluster process
-    fitted_process <- spatstat.core::kppm(pattern, cluster = "Thomas",
-                                     statistic = "pcf",
-                                     statargs = list(divisor = "d",
-                                                     correction = "best"),
-                                     method = "mincon", improve.type = "none")
+    fitted_process <- spatstat.model::kppm(pattern, cluster = "Thomas",
+                                           statistic = "pcf",
+                                           statargs = list(divisor = "d",
+                                                           correction = "best"),
+                                           method = "mincon", improve.type = "none")
 
     result <- lapply(seq_len(n_random), function(x) {
 
       # simulate clustered pattern
-      simulated <- spatstat.core::simulate.kppm(fitted_process, window = pattern$window,
-                                                nsim = 1, drop = TRUE)
+      simulated <- spatstat.model::simulate.kppm(fitted_process, window = pattern$window,
+                                                 nsim = 1, drop = TRUE)
 
       # remove points because more points in simulated
       if (pattern$n < simulated$n) {

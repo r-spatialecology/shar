@@ -38,9 +38,9 @@
 #' @export
 estimate_pcf_fast <- function(pattern, ...){
 
-  k_fun <- suppressMessages(spatstat.core::Kest(X = pattern, ...)) # estimate K-fct
+  k_fun <- suppressMessages(spatstat.explore::Kest(X = pattern, ...)) # estimate K-fct
 
-  result <- spatstat.core::pcf.fv(X = k_fun, ...) # estimate pcf from K-fct
+  result <- spatstat.explore::pcf.fv(X = k_fun, ...) # estimate pcf from K-fct
 
   return(result)
 }
