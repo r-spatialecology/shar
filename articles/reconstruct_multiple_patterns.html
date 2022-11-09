@@ -138,7 +138,7 @@
                         <h4 data-toc-skip class="author">Maximilian H.K.
 Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2022-11-01</h4>
+            <h4 data-toc-skip class="date">2022-11-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multiple_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multiple_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -167,6 +167,104 @@ straightforward using <code><a href="https://rdrr.io/r/base/lapply.html" class="
 <span>                                                               max_runs <span class="op">=</span> <span class="fl">10</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Using number of points 'pattern'.</span></span>
 <span><span class="co">#&gt; &gt; Using window of 'pattern'.</span></span>
+<span><span class="co">#&gt; Registered S3 methods overwritten by 'spatstat.explore':</span></span>
+<span><span class="co">#&gt;   method                 from         </span></span>
+<span><span class="co">#&gt;   as.data.frame.bw.optim spatstat.core</span></span>
+<span><span class="co">#&gt;   as.data.frame.envelope spatstat.core</span></span>
+<span><span class="co">#&gt;   as.data.frame.fv       spatstat.core</span></span>
+<span><span class="co">#&gt;   as.function.fv         spatstat.core</span></span>
+<span><span class="co">#&gt;   as.function.rhohat     spatstat.core</span></span>
+<span><span class="co">#&gt;   as.function.ssf        spatstat.core</span></span>
+<span><span class="co">#&gt;   as.im.scan.test        spatstat.core</span></span>
+<span><span class="co">#&gt;   as.im.ssf              spatstat.core</span></span>
+<span><span class="co">#&gt;   as.owin.quadrattest    spatstat.core</span></span>
+<span><span class="co">#&gt;   as.ppp.ssf             spatstat.core</span></span>
+<span><span class="co">#&gt;   cbind.fv               spatstat.core</span></span>
+<span><span class="co">#&gt;   collapse.anylist                    </span></span>
+<span><span class="co">#&gt;   collapse.fv                         </span></span>
+<span><span class="co">#&gt;   compatible.fasp        spatstat.core</span></span>
+<span><span class="co">#&gt;   compatible.fv                       </span></span>
+<span><span class="co">#&gt;   compatible.rat         spatstat.core</span></span>
+<span><span class="co">#&gt;   contour.ssf            spatstat.core</span></span>
+<span><span class="co">#&gt;   density.ppp                         </span></span>
+<span><span class="co">#&gt;   density.ppplist        spatstat.core</span></span>
+<span><span class="co">#&gt;   density.psp            spatstat.core</span></span>
+<span><span class="co">#&gt;   density.splitppp       spatstat.core</span></span>
+<span><span class="co">#&gt;   deriv.fv                            </span></span>
+<span><span class="co">#&gt;   dim.fasp               spatstat.core</span></span>
+<span><span class="co">#&gt;   dimnames.fasp          spatstat.core</span></span>
+<span><span class="co">#&gt;   domain.quadrattest     spatstat.core</span></span>
+<span><span class="co">#&gt;   [.fasp                 spatstat.core</span></span>
+<span><span class="co">#&gt;   formula.fv             spatstat.core</span></span>
+<span><span class="co">#&gt;   [.fv                   spatstat.core</span></span>
+<span><span class="co">#&gt;   harmonise.fv                        </span></span>
+<span><span class="co">#&gt;   harmonize.fv                        </span></span>
+<span><span class="co">#&gt;   image.ssf              spatstat.core</span></span>
+<span><span class="co">#&gt;   integral.ssf           spatstat.core</span></span>
+<span><span class="co">#&gt;   [.localpcfmatrix       spatstat.core</span></span>
+<span><span class="co">#&gt;   marks.ssf              spatstat.core</span></span>
+<span><span class="co">#&gt;   max.fv                 spatstat.core</span></span>
+<span><span class="co">#&gt;   max.ssf                spatstat.core</span></span>
+<span><span class="co">#&gt;   min.fv                 spatstat.core</span></span>
+<span><span class="co">#&gt;   min.ssf                spatstat.core</span></span>
+<span><span class="co">#&gt;   pairs.im                            </span></span>
+<span><span class="co">#&gt;   pairs.listof           spatstat.core</span></span>
+<span><span class="co">#&gt;   pairs.solist           spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.bermantest        spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.bw.frac           spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.bw.optim          spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.cdftest           spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.envelope          spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.fasp              spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.fv                             </span></span>
+<span><span class="co">#&gt;   plot.laslett           spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.localpcfmatrix    spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.plotpairsim       spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.quadrattest                    </span></span>
+<span><span class="co">#&gt;   plot.rho2hat           spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.rhohat            spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.scan.test         spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.spatialcdf        spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.ssf               spatstat.core</span></span>
+<span><span class="co">#&gt;   plot.studpermutest                  </span></span>
+<span><span class="co">#&gt;   predict.rho2hat        spatstat.core</span></span>
+<span><span class="co">#&gt;   predict.rhohat                      </span></span>
+<span><span class="co">#&gt;   print.bw.frac          spatstat.core</span></span>
+<span><span class="co">#&gt;   print.bw.optim         spatstat.core</span></span>
+<span><span class="co">#&gt;   print.densityfun       spatstat.core</span></span>
+<span><span class="co">#&gt;   print.envelope         spatstat.core</span></span>
+<span><span class="co">#&gt;   print.fasp             spatstat.core</span></span>
+<span><span class="co">#&gt;   print.fv                            </span></span>
+<span><span class="co">#&gt;   print.fvfun            spatstat.core</span></span>
+<span><span class="co">#&gt;   print.hasenvelope      spatstat.core</span></span>
+<span><span class="co">#&gt;   print.laslett          spatstat.core</span></span>
+<span><span class="co">#&gt;   print.localpcfmatrix   spatstat.core</span></span>
+<span><span class="co">#&gt;   print.plotpairsim      spatstat.core</span></span>
+<span><span class="co">#&gt;   print.quadrattest      spatstat.core</span></span>
+<span><span class="co">#&gt;   print.rat              spatstat.core</span></span>
+<span><span class="co">#&gt;   print.rho2hat          spatstat.core</span></span>
+<span><span class="co">#&gt;   print.rhohat           spatstat.core</span></span>
+<span><span class="co">#&gt;   print.Smoothfun        spatstat.core</span></span>
+<span><span class="co">#&gt;   print.ssf              spatstat.core</span></span>
+<span><span class="co">#&gt;   print.summary.ssf      spatstat.core</span></span>
+<span><span class="co">#&gt;   quantile.density                    </span></span>
+<span><span class="co">#&gt;   range.fv                            </span></span>
+<span><span class="co">#&gt;   range.ssf              spatstat.core</span></span>
+<span><span class="co">#&gt;   [.rat                  spatstat.core</span></span>
+<span><span class="co">#&gt;   shift.quadrattest      spatstat.core</span></span>
+<span><span class="co">#&gt;   simulate.rhohat        spatstat.core</span></span>
+<span><span class="co">#&gt;   [.ssf                  spatstat.core</span></span>
+<span><span class="co">#&gt;   summary.envelope       spatstat.core</span></span>
+<span><span class="co">#&gt;   summary.ssf            spatstat.core</span></span>
+<span><span class="co">#&gt;   unmark.ssf             spatstat.core</span></span>
+<span><span class="co">#&gt;   Window.quadrattest     spatstat.core</span></span>
+<span><span class="co">#&gt;   with.fv                spatstat.core</span></span>
+<span><span class="co">#&gt;   with.ssf               spatstat.core</span></span>
+<span><span class="co">#&gt;   $&lt;-.fv                 spatstat.core</span></span>
+<span><span class="co">#&gt;   dimnames&lt;-.fasp        spatstat.core</span></span>
+<span><span class="co">#&gt;   [&lt;-.fv                 spatstat.core</span></span>
+<span><span class="co">#&gt;   marks&lt;-.ssf            spatstat.core</span></span>
+<span><span class="co">#&gt;   names&lt;-.fv             spatstat.core</span></span>
 <span><span class="co">#&gt; &gt; Using number of points 'pattern'.</span></span>
 <span><span class="co">#&gt; &gt; Using window of 'pattern'.</span></span></code></pre></div>
 <p>The result will be a nested list including all <em>m</em>
@@ -178,11 +276,11 @@ provided input patterns.</p>
 <span>                                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.07690126   0.07498324   0.07057557 </span></span>
+<span><span class="co">#&gt;     69088.63     62816.93     68660.06 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;    0.1721044    0.1869119    0.1946278</span></span></code></pre></div>
+<span><span class="co">#&gt;     197348.1     203570.6     194093.5</span></span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the
 spatial characteristics and afterwards reconstruct the marks <em>m</em>
 times for each of the <em>n</em> spatial reconstructions.</p>
@@ -218,15 +316,15 @@ provided input patterns and reconstructions.</p>
 <span>                                                  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $randomized_1</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.04404258   0.05054837   0.04807252 </span></span>
+<span><span class="co">#&gt;   0.06171601   0.06887531   0.06901067 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_2</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.06859971   0.06013992   0.06984010 </span></span>
+<span><span class="co">#&gt;   0.07134254   0.07068683   0.06887480 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_3</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.03636136   0.03861335   0.03737322</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.05910366   0.06785150   0.05776081</span></span></code></pre></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
