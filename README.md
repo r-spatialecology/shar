@@ -58,7 +58,7 @@ remotes::install_github("r-spatialecology/shar")
 ```
 
 This also automatically installs all non-base `R` package dependencies,
-namely the following packages: `classInt`, `raster`, `spatstat.core`,
+namely the following packages: `classInt`, `raster`, `spatstat.explore`, `spatstat.model`,
 `spatstat.geom`.
 
 ## How to use shar

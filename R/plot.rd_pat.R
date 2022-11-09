@@ -83,7 +83,7 @@ plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
     name_unit <- spatstat.geom::unitname(x$observed)[[1]] # unit name for labels
 
     # calculate r
-    r <- seq(from = 0, to = spatstat.core::rmax.rule(W = x$observed$window,
+    r <- seq(from = 0, to = spatstat.explore::rmax.rule(W = x$observed$window,
                                                      lambda = spatstat.geom::intensity.ppp(x$observed)),
              length.out = 250)
 
@@ -98,16 +98,16 @@ plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
       # calculate summary functions
       if (comp_fast) {
 
-        gest_result <- spatstat.core::Gest(pattern[[x]], correction = "none", r = r)
+        gest_result <- spatstat.explore::Gest(pattern[[x]], correction = "none", r = r)
 
         pcf_result <- estimate_pcf_fast(pattern[[x]], correction = "none",
                                         method = "c", spar = 0.5, r = r)
 
       } else {
 
-        gest_result <- spatstat.core::Gest(pattern[[x]], correction = "han", r = r)
+        gest_result <- spatstat.explore::Gest(pattern[[x]], correction = "han", r = r)
 
-        pcf_result <- spatstat.core::pcf(pattern[[x]], divisor = "d",
+        pcf_result <- spatstat.explore::pcf(pattern[[x]], divisor = "d",
                                          correction = "best", r = r)
 
       }

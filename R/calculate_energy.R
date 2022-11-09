@@ -82,7 +82,7 @@ calculate_energy <- function(pattern,
 
   # calculate r sequence
   r <- seq(from = 0,
-           to = spatstat.core::rmax.rule(W = pattern_observed$window,
+           to = spatstat.explore::rmax.rule(W = pattern_observed$window,
                                          lambda = spatstat.geom::intensity.ppp(pattern_observed)),
            length.out = 250)
 
@@ -117,7 +117,7 @@ calculate_energy <- function(pattern,
       # calculate summary functions for observed pattern
       if (comp_fast) {
 
-        gest_observed <- spatstat.core::Gest(X = pattern_observed, correction = "none",
+        gest_observed <- spatstat.explore::Gest(X = pattern_observed, correction = "none",
                                              r = r)
 
         pcf_observed <- estimate_pcf_fast(pattern = pattern_observed,
@@ -126,10 +126,10 @@ calculate_energy <- function(pattern,
 
       } else {
 
-        gest_observed <- spatstat.core::Gest(X = pattern_observed,
+        gest_observed <- spatstat.explore::Gest(X = pattern_observed,
                                         correction = "han", r = r)
 
-        pcf_observed <- spatstat.core::pcf(X = pattern_observed,
+        pcf_observed <- spatstat.explore::pcf(X = pattern_observed,
                                       correction = "best", divisor = "d", r = r)
 
       }
@@ -140,7 +140,7 @@ calculate_energy <- function(pattern,
         # fast computation of summary stats
         if (comp_fast) {
 
-          gest_reconstruction <- spatstat.core::Gest(X = pattern_randomized[[x]],
+          gest_reconstruction <- spatstat.explore::Gest(X = pattern_randomized[[x]],
                                                 correction = "none",
                                                 r = r)
 
@@ -151,11 +151,11 @@ calculate_energy <- function(pattern,
         # normal computation of summary stats
         } else {
 
-          gest_reconstruction <- spatstat.core::Gest(X = pattern_randomized[[x]],
+          gest_reconstruction <- spatstat.explore::Gest(X = pattern_randomized[[x]],
                                                 correction = "han",
                                                 r = r)
 
-          pcf_reconstruction <- spatstat.core::pcf(X = pattern_randomized[[x]],
+          pcf_reconstruction <- spatstat.explore::pcf(X = pattern_randomized[[x]],
                                               correction = "best",
                                               divisor = "d",
                                               r = r)
@@ -193,13 +193,13 @@ calculate_energy <- function(pattern,
     } else {
 
       # calculate summary functions
-      kmmr_observed <- spatstat.core::markcorr(pattern_observed, correction = "Ripley",
+      kmmr_observed <- spatstat.explore::markcorr(pattern_observed, correction = "Ripley",
                                                r = r)
 
       result <- vapply(seq_along(pattern_randomized), function(x) {
 
         # calculate summary functions
-        kmmr_reconstruction <- spatstat.core::markcorr(pattern_randomized[[x]],
+        kmmr_reconstruction <- spatstat.explore::markcorr(pattern_randomized[[x]],
                                                        correction = "Ripley",
                                                        r = r)
 
