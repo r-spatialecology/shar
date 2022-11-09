@@ -185,6 +185,18 @@
     },
     "7": {
       "@type": "SoftwareApplication",
+      "identifier": "spatstat.model",
+      "name": "spatstat.model",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spatstat.model"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
       "identifier": "spatstat.geom",
       "name": "spatstat.geom",
       "provider": {
@@ -195,7 +207,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=spatstat.geom"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "spatstat.random",
       "name": "spatstat.random",
@@ -207,12 +219,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=spatstat.random"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "terra",
       "name": "terra",
@@ -224,14 +236,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=terra"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1004.811KB",
+  "fileSize": "1005.051KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
