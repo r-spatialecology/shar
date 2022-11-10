@@ -7,7 +7,7 @@
   "codeRepository": "https://r-spatialecology.github.io/shar/",
   "issueTracker": "https://github.com/r-spatialecology/shar/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -114,7 +114,7 @@
       "@type": "SoftwareApplication",
       "identifier": "spatstat",
       "name": "spatstat",
-      "version": ">= 2.0.0",
+      "version": ">= 2.0-0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -127,7 +127,7 @@
       "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
-      "version": ">= 2.1.0",
+      "version": ">= 3.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -243,7 +243,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1005.051KB",
+  "fileSize": "1005.108KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
