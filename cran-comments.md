@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md.
 
+## shar 2.0.2
+Update `spatstat` dependency
+
 ## shar 2.0.1
 Fixing external repo, typo maintainer name
 

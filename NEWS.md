@@ -1,3 +1,7 @@
+# shar 2.0.2
+* Various
+  * Update `spatstat` dependency
+
 # shar 2.0.1
 * Improvements
   * Better approach for external repo
