@@ -1,7 +1,7 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 2.0.1
+Version: 2.0.2
 Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
@@ -27,7 +27,8 @@ Imports:
     graphics,
     grDevices,
     methods,
-    spatstat.core,
+    spatstat.explore,
+    spatstat.model,
     spatstat.geom,
     spatstat.random,
     stats,
@@ -39,9 +40,8 @@ Suggests:
     dplyr,
     knitr,
     rmarkdown,
-    spatstat (>= 2.0.0),
-    testthat (>= 2.1.0)
-Additional_repositories: http://packages.ropensci.org
+    spatstat (>= 2.0-0),
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

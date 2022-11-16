@@ -122,7 +122,7 @@ reconstruct_pattern_marks <- function(pattern,
 
   # calculate r
   r <- seq(from = 0,
-           to = spatstat.core::rmax.rule(W = pattern$window,
+           to = spatstat.explore::rmax.rule(W = pattern$window,
                                          lambda = spatstat.geom::intensity.ppp(pattern)),
            length.out = r_length)
 
@@ -134,10 +134,10 @@ reconstruct_pattern_marks <- function(pattern,
                                             replace = TRUE)
 
   # calculate summary functions
-  kmmr_observed <- spatstat.core::markcorr(marked_pattern, correction = "Ripley",
+  kmmr_observed <- spatstat.explore::markcorr(marked_pattern, correction = "Ripley",
                                            r = r)
 
-  kmmr_simulated <- spatstat.core::markcorr(simulated, correction = "Ripley",
+  kmmr_simulated <- spatstat.explore::markcorr(simulated, correction = "Ripley",
                                             r = r)
 
   # energy before reconstruction
@@ -197,7 +197,7 @@ reconstruct_pattern_marks <- function(pattern,
       relocated$marks[[rp_b_current]] <- mark_a
 
       # calculate summary functions after relocation
-      kmmr_relocated <- spatstat.core::markcorr(relocated, correction = "Ripley",
+      kmmr_relocated <- spatstat.explore::markcorr(relocated, correction = "Ripley",
                                                 r = r)
 
       # energy after relocation

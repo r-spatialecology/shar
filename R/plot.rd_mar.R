@@ -84,7 +84,7 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
     name_unit <- spatstat.geom::unitname(x$observed)[[1]] # unit name for labels
 
     # calculate r
-    r <- seq(from = 0, to = spatstat.core::rmax.rule(W = x$observed$window,
+    r <- seq(from = 0, to = spatstat.explore::rmax.rule(W = x$observed$window,
                                                      lambda = spatstat.geom::intensity.ppp(x$observed)),
              length.out = 250)
 
@@ -95,7 +95,7 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
 
     result <- lapply(seq_along(pattern), function(x) {
 
-      mark_corr <- as.data.frame(spatstat.core::markcorr(pattern[[x]],
+      mark_corr <- as.data.frame(spatstat.explore::markcorr(pattern[[x]],
                                                          correction = "Ripley",
                                                          r = r))
 

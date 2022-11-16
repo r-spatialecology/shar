@@ -7,7 +7,7 @@
   "codeRepository": "https://r-spatialecology.github.io/shar/",
   "issueTracker": "https://github.com/r-spatialecology/shar/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -114,7 +114,7 @@
       "@type": "SoftwareApplication",
       "identifier": "spatstat",
       "name": "spatstat",
-      "version": ">= 2.0.0",
+      "version": ">= 2.0-0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -127,7 +127,7 @@
       "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
-      "version": ">= 2.1.0",
+      "version": ">= 3.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -173,17 +173,29 @@
     },
     "6": {
       "@type": "SoftwareApplication",
-      "identifier": "spatstat.core",
-      "name": "spatstat.core",
+      "identifier": "spatstat.explore",
+      "name": "spatstat.explore",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=spatstat.core"
+      "sameAs": "https://CRAN.R-project.org/package=spatstat.explore"
     },
     "7": {
+      "@type": "SoftwareApplication",
+      "identifier": "spatstat.model",
+      "name": "spatstat.model",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spatstat.model"
+    },
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "spatstat.geom",
       "name": "spatstat.geom",
@@ -195,7 +207,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=spatstat.geom"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "spatstat.random",
       "name": "spatstat.random",
@@ -207,12 +219,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=spatstat.random"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "terra",
       "name": "terra",
@@ -224,14 +236,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=terra"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1016.53KB",
+  "fileSize": "1005.108KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

@@ -149,7 +149,7 @@ reconstruct_pattern_homo <- function(pattern,
 
   # calculate r
   r <- seq(from = 0,
-           to = spatstat.core::rmax.rule(W = window, lambda = intensity),
+           to = spatstat.explore::rmax.rule(W = window, lambda = intensity),
            length.out = r_length)
 
   # create Poisson simulation data
@@ -159,9 +159,9 @@ reconstruct_pattern_homo <- function(pattern,
   # fast computation of summary functions
   if (comp_fast) {
 
-    gest_observed <- spatstat.core::Gest(pattern, correction = "none", r = r)
+    gest_observed <- spatstat.explore::Gest(pattern, correction = "none", r = r)
 
-    gest_simulated <- spatstat.core::Gest(simulated, correction = "none", r = r)
+    gest_simulated <- spatstat.explore::Gest(simulated, correction = "none", r = r)
 
     pcf_observed <- estimate_pcf_fast(pattern, correction = "none",
                                       method = "c", spar = 0.5, r = r)
@@ -172,14 +172,14 @@ reconstruct_pattern_homo <- function(pattern,
   # normal computation of summary functions
   } else {
 
-    gest_observed <- spatstat.core::Gest(X = pattern, correction = "han", r = r)
+    gest_observed <- spatstat.explore::Gest(X = pattern, correction = "han", r = r)
 
-    gest_simulated <- spatstat.core::Gest(X = simulated, correction = "han", r = r)
+    gest_simulated <- spatstat.explore::Gest(X = simulated, correction = "han", r = r)
 
-    pcf_observed <- spatstat.core::pcf.ppp(X = pattern, correction = "best",
+    pcf_observed <- spatstat.explore::pcf.ppp(X = pattern, correction = "best",
                                            divisor = "d", r = r)
 
-    pcf_simulated <- spatstat.core::pcf.ppp(X = simulated, correction = "best",
+    pcf_simulated <- spatstat.explore::pcf.ppp(X = simulated, correction = "best",
                                             divisor = "d", r = r)
 
   }
@@ -240,15 +240,15 @@ reconstruct_pattern_homo <- function(pattern,
       # calculate summary functions after relocation
       if (comp_fast) {
 
-        gest_relocated <- spatstat.core::Gest(relocated, correction = "none", r = r)
+        gest_relocated <- spatstat.explore::Gest(relocated, correction = "none", r = r)
 
         pcf_relocated <- estimate_pcf_fast(relocated, correction = "none",
                                            method = "c", spar = 0.5, r = r)
       } else {
 
-        gest_relocated <- spatstat.core::Gest(X = relocated, correction = "han", r = r)
+        gest_relocated <- spatstat.explore::Gest(X = relocated, correction = "han", r = r)
 
-        pcf_relocated <- spatstat.core::pcf.ppp(X = relocated, correction = "best",
+        pcf_relocated <- spatstat.explore::pcf.ppp(X = relocated, correction = "best",
                                                 divisor = "d", r = r)
 
       }
