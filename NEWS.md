@@ -1,3 +1,7 @@
+# shar 2.0.3
+* Improvements
+  * Allow fixed max r distance during pattern reconstruction
+
 # shar 2.0.2
 * Various
   * Update `spatstat` dependency

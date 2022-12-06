@@ -14,6 +14,8 @@
 #' did not decrease.
 #' @param r_length Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
 #' the summary functions are evaluated.
+#' @param r_max Double with maximum distance used during calculation of summary functions. If \code{NULL},
+#' will be estimated from data.
 #' @param return_input Logical if the original input data is returned.
 #' @param simplify Logical if only pattern will be returned if \code{n_random = 1}
 #' and \code{return_input = FALSE}.
@@ -70,6 +72,7 @@ reconstruct_pattern_marks <- function(pattern,
                                       no_change = Inf,
                                       annealing = 0.01,
                                       r_length = 250,
+                                      r_max = NULL,
                                       return_input = TRUE,
                                       simplify = FALSE,
                                       verbose = TRUE,
@@ -88,15 +91,6 @@ reconstruct_pattern_marks <- function(pattern,
     stop("'pattern' must be unmarked and 'marked_pattern' marked", call. = FALSE)
 
   }
-
-  # if (any(pattern$window$xrange != marked_pattern$window$xrange) ||
-  #     any(pattern$window$yrange != marked_pattern$window$yrange) ||
-  #     pattern$n != marked_pattern$n) {
-  #
-  #   stop("'pattern' and 'pattern' must have same window and number of points",
-  #        call. = FALSE)
-  #
-  # }
 
   # check if marks are numeric
   if (!inherits(x = marked_pattern$marks, what = "numeric")) {
@@ -120,11 +114,18 @@ reconstruct_pattern_marks <- function(pattern,
   names(iterations_list) <- names_randomization
   names(stop_criterion) <- names_randomization
 
-  # calculate r
-  r <- seq(from = 0,
-           to = spatstat.explore::rmax.rule(W = pattern$window,
-                                         lambda = spatstat.geom::intensity.ppp(pattern)),
-           length.out = r_length)
+  # calculate r from data
+  if (is.null(r_max)) {
+
+    r <- seq(from = 0, to = spatstat.explore::rmax.rule(W = pattern$window, lambda = spatstat.geom::intensity.ppp(pattern)),
+             length.out = r_length)
+
+    # use provided r_max
+  } else {
+
+    r <- seq(from = 0, to = r_max, length.out = r_length)
+
+  }
 
   # create random pattern
   simulated <- pattern

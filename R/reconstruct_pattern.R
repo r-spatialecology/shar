@@ -21,6 +21,8 @@
 #' The first number refers to Gest(r), the second number to pcf(r).
 #' @param r_length Integer with number of intervals from \code{r=0} to \code{r=rmax} for which
 #' the summary functions are evaluated.
+#' @param r_max Double with maximum distance used during calculation of summary functions. If \code{NULL},
+#' will be estimated from data.
 #' @param return_input Logical if the original input data is returned.
 #' @param simplify Logical if only pattern will be returned if \code{n_random=1}
 #' and \code{return_input=FALSE}.
@@ -100,6 +102,7 @@ reconstruct_pattern <- function(pattern, method = "homo",
                                 window = NULL,
                                 weights = c(0.5, 0.5),
                                 r_length = 250,
+                                r_max = NULL,
                                 return_input = TRUE,
                                 simplify = FALSE,
                                 verbose = TRUE,
@@ -112,7 +115,7 @@ reconstruct_pattern <- function(pattern, method = "homo",
                                                no_change = no_change, annealing = annealing,
                                                comp_fast = comp_fast, n_points = n_points,
                                                window = window, weights = weights,
-                                               r_length = r_length, return_input = return_input,
+                                               r_length = r_length, r_max = r_max, return_input = return_input,
                                                simplify = simplify, verbose = verbose,
                                                plot = plot)
 
@@ -120,9 +123,9 @@ reconstruct_pattern <- function(pattern, method = "homo",
 
   } else if (method == "cluster") {
 
-    if (verbose && (!is.null(n_points) || !is.null(window))) {
+    if (verbose && (!is.null(n_points) || !is.null(window) || !is.null(r_max))) {
 
-      warning("'n_points' and 'window' are not used for method='cluster'.", call. = FALSE)
+      warning("'n_points', 'window', or 'r_max' are not used for method='cluster'.", call. = FALSE)
 
     }
 
@@ -130,15 +133,15 @@ reconstruct_pattern <- function(pattern, method = "homo",
                                                   e_threshold = e_threshold, max_runs = max_runs,
                                                   no_change = no_change, annealing = annealing,
                                                   comp_fast = comp_fast, weights = weights,
-                                                  r_length = r_length, return_input = return_input,
+                                                  r_length = r_length, r_max = r_max, return_input = return_input,
                                                   simplify = simplify, verbose = verbose,
                                                   plot = plot)
 
   } else if (method == "hetero") {
 
-    if (verbose && (!is.null(n_points) || !is.null(window))) {
+    if (verbose && (!is.null(n_points) || !is.null(window) || !is.null(r_max))) {
 
-      warning("'n_points' and 'window' are not used for method='hetero'.", call. = FALSE)
+      warning("'n_points', 'window', or 'r_max' are not used for method='hetero'.", call. = FALSE)
 
     }
 
@@ -146,7 +149,7 @@ reconstruct_pattern <- function(pattern, method = "homo",
                                                  e_threshold = e_threshold, max_runs = max_runs,
                                                  no_change = no_change, annealing = annealing,
                                                  comp_fast = comp_fast, weights = weights,
-                                                 r_length = r_length, return_input = return_input,
+                                                 r_length = r_length, r_max = r_max, return_input = return_input,
                                                  simplify = simplify, verbose = verbose,
                                                  plot = plot)
 

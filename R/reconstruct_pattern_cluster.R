@@ -17,6 +17,8 @@
 #' The first number refers to Gest(r), the second number to pcf(r).
 #' @param r_length Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
 #' the summary functions are evaluated.
+#' @param r_max Double with maximum distance used during calculation of summary functions. If \code{NULL},
+#' will be estimated from data.
 #' @param return_input Logical if the original input data is returned.
 #' @param simplify Logical if only pattern will be returned if \code{n_random = 1}
 #' and \code{return_input = FALSE}.
@@ -54,6 +56,7 @@ reconstruct_pattern_cluster <- function(pattern,
                                         comp_fast = 1000,
                                         weights = c(0.5, 0.5),
                                         r_length = 250,
+                                        r_max = NULL,
                                         return_input = TRUE,
                                         simplify = FALSE,
                                         verbose = TRUE,
@@ -119,11 +122,18 @@ reconstruct_pattern_cluster <- function(pattern,
     }
   }
 
-  # calculate r
-  r <- seq(from = 0,
-           to = spatstat.explore::rmax.rule(W = pattern$window,
-                                         lambda = spatstat.geom::intensity.ppp(pattern)),
-           length.out = r_length)
+  # calculate r from data
+  if (is.null(r_max)) {
+
+    r <- seq(from = 0, to = spatstat.explore::rmax.rule(W = pattern$window, lambda = spatstat.geom::intensity.ppp(pattern)),
+             length.out = r_length)
+
+    # use provided r_max
+  } else {
+
+    r <- seq(from = 0, to = r_max, length.out = r_length)
+
+  }
 
   # start with fitted pattern
   # fit Thomas process
