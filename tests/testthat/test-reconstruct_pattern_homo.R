@@ -26,7 +26,7 @@ window_diff <- spatstat.geom::owin(xrange = c(0, 1100), yrange = c(0, 1250))
 
 pattern_recon_diff <- reconstruct_pattern_homo(pattern = species_a,
                                                n_points = n_points_diff,
-                                               window = window_diff,
+                                               window = window_diff, r_max = 350,
                                                n_random = 3, max_runs = 1,
                                                verbose = FALSE)
 
