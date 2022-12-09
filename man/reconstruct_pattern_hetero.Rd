@@ -14,6 +14,7 @@ reconstruct_pattern_hetero(
   comp_fast = 1000,
   weights = c(0.5, 0.5),
   r_length = 250,
+  r_max = NULL,
   return_input = TRUE,
   simplify = FALSE,
   verbose = TRUE,
@@ -44,6 +45,9 @@ The first number refers to Gest(r), the second number to pcf(r).}
 
 \item{r_length}{Integer with number of intervals from \code{r = 0} to \code{r = rmax} for which
 the summary functions are evaluated.}
+
+\item{r_max}{Double with maximum distance used during calculation of summary functions. If \code{NULL},
+will be estimated from data.}
 
 \item{return_input}{Logical if the original input data is returned.}
 
