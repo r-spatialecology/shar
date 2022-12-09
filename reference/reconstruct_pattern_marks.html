@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,6 +122,7 @@
 <span>  no_change <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  annealing <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  r_length <span class="op">=</span> <span class="fl">250</span>,</span>
+<span>  r_max <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  return_input <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  simplify <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -165,6 +166,11 @@ did not decrease.</p></dd>
 <dt>r_length</dt>
 <dd><p>Integer with number of intervals from <code>r = 0</code> to <code>r = rmax</code> for which
 the summary functions are evaluated.</p></dd>
+
+
+<dt>r_max</dt>
+<dd><p>Double with maximum distance used during calculation of summary functions. If <code>NULL</code>,
+will be estimated from data.</p></dd>
 
 
 <dt>return_input</dt>
