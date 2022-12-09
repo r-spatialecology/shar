@@ -11,7 +11,7 @@ Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@g
              person("Thomas", "Etherington", email = "teth001@aucklanduni.ac.nz",
              role = "ctb", comment = c(ORCID = "0000-0002-3187-075X")), 
              person("Janosch", "Heinermann", email = "janosch.heinermann@tu-dresden.de",
-             role = "ctb")
+             role = "ctb", comment = c(ORCID = "0000-0001-5080-8591"))
              )
 Maintainer: Maximilian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description:

@@ -32,7 +32,7 @@ Other contributors:
 \itemize{
   \item Zeke Marshall \email{ee18zm@leeds.ac.uk} (\href{https://orcid.org/0000-0001-9260-7827}{ORCID}) [contributor]
   \item Thomas Etherington \email{teth001@aucklanduni.ac.nz} (\href{https://orcid.org/0000-0002-3187-075X}{ORCID}) [contributor]
-  \item Janosch Heinermann \email{janosch.heinermann@tu-dresden.de} [contributor]
+  \item Janosch Heinermann \email{janosch.heinermann@tu-dresden.de} (\href{https://orcid.org/0000-0001-5080-8591}{ORCID}) [contributor]
 }
 
 }
