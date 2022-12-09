@@ -55,7 +55,8 @@
       "@type": "Person",
       "givenName": "Janosch",
       "familyName": "Heinermann",
-      "email": "janosch.heinermann@tu-dresden.de"
+      "email": "janosch.heinermann@tu-dresden.de",
+      "@id": "https://orcid.org/0000-0001-5080-8591"
     }
   ],
   "maintainer": [
@@ -249,7 +250,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1007.324KB",
+  "fileSize": "1007.422KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
