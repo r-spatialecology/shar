@@ -37,7 +37,9 @@ jobs:
           needs: website
 
       - name: Install getCRUCLdata
-        run: install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')
+        run: |
+          install.packages("hoardr")
+          install.packages('getCRUCLdata', repos = 'http://packages.ropensci.org', typ = 'source')
         shell: Rscript {0}
 
       - name: Build site
