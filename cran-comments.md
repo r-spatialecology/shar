@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md.
 
+## shar 2.0.3
+Improvements of existing functions
+
 ## shar 2.0.2
 Update `spatstat` dependency
 
