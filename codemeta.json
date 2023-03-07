@@ -7,7 +7,7 @@
   "codeRepository": "https://r-spatialecology.github.io/shar/",
   "issueTracker": "https://github.com/r-spatialecology/shar/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -50,6 +50,13 @@
       "familyName": "Etherington",
       "email": "teth001@aucklanduni.ac.nz",
       "@id": "https://orcid.org/0000-0002-3187-075X"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Janosch",
+      "familyName": "Heinermann",
+      "email": "janosch.heinermann@tu-dresden.de",
+      "@id": "https://orcid.org/0000-0001-5080-8591"
     }
   ],
   "maintainer": [
@@ -243,7 +250,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1005.108KB",
+  "fileSize": "1007.422KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

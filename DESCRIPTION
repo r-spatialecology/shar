@@ -1,7 +1,7 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 2.0.2
+Version: 2.0.3
 Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
@@ -9,7 +9,9 @@ Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@g
              person("Zeke", "Marshall", email = "ee18zm@leeds.ac.uk",
              role = "ctb", comment = c(ORCID = "0000-0001-9260-7827")), 
              person("Thomas", "Etherington", email = "teth001@aucklanduni.ac.nz",
-             role = "ctb", comment = c(ORCID = "0000-0002-3187-075X"))
+             role = "ctb", comment = c(ORCID = "0000-0002-3187-075X")), 
+             person("Janosch", "Heinermann", email = "janosch.heinermann@tu-dresden.de",
+             role = "ctb", comment = c(ORCID = "0000-0001-5080-8591"))
              )
 Maintainer: Maximilian H.K. Hesselbarth <mhk.hesselbarth@gmail.com>
 Description:
@@ -34,7 +36,7 @@ Imports:
     stats,
     terra,
     utils
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Suggests:
     covr,
     dplyr,

@@ -30,11 +30,11 @@ testthat::test_that("reconstruct_patternreturns warnings", {
                                                method = "cluster", n_points = 5,
                                                max_runs = 1),
 
-                           regexp = "'n_points' and 'window' are not used for method='cluster'.")
+                           regexp = "'n_points', 'window', or 'r_max' are not used for method='cluster'.")
 
   testthat::expect_warning(reconstruct_pattern(pattern = species_a, n_random = 3,
                                                method = "hetero", n_points = 5,
                                                max_runs = 1),
 
-                           regexp = "'n_points' and 'window' are not used for method='hetero'.")
+                           regexp = "'n_points', 'window', or 'r_max' are not used for method='hetero'.")
 })
