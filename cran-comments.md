@@ -1,6 +1,12 @@
-For details changes, please see NEWS.md.
+For details changes, please see NEWS.md
 
 ## shar 2.0.3
+This is a re-submission. The below error has now been fixed
+ 
+```
+Package CITATION file contains call(s) to old-style citEntry(). Please use bibentry() instead.
+```
+
 Improvements of existing functions
 
 ## shar 2.0.2

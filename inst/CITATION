@@ -1,7 +1,7 @@
 citHeader("To cite 'shar' in publications and acknowledge its use, please cite the following paper:")
 
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype  = "Article",
   title    = "shar: A R package to analyze species-habitat associations using point pattern analysis",
   author   = "Maximilian H.K. Hesselbarth",
   journal  = "Journal of Open Source Software",

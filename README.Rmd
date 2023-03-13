@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-Last updated: `r Sys.Date()`
+README Last updated: `r Sys.Date()`
 
 | CI | Development | CRAN | License |
 |----|-------------|------|---------|
