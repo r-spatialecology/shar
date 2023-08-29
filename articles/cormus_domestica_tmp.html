@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,7 +138,7 @@
                         <h4 data-toc-skip class="author">Zeke
 Marshall</h4>
             
-            <h4 data-toc-skip class="date">2023-03-13</h4>
+            <h4 data-toc-skip class="date">2023-08-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/cormus_domestica_tmp.Rmd" class="external-link"><code>vignettes/articles/cormus_domestica_tmp.Rmd</code></a></small>
       <div class="d-none name"><code>cormus_domestica_tmp.Rmd</code></div>
@@ -180,7 +180,7 @@ please run
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearthdata" class="external-link">rnaturalearthdata</a></span><span class="op">)</span> <span class="co"># For retrieving geographical data</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span> <span class="co"># For spatial data operations</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span> <span class="co"># For spatial point pattern analysis</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/terra/" class="external-link">terra</a></span><span class="op">)</span> <span class="co"># For spatial data operations</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span> <span class="co"># For spatial data operations</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span> <span class="co"># For species-habitat association analysis</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -337,16 +337,16 @@ other habitats classified by temperature.</p>
 <span></span>
 <span><span class="va">results</span></span>
 <span><span class="co">#&gt;    habitat     breaks count      lo      hi significance</span></span>
-<span><span class="co">#&gt; 1        1  [-20,-10)     1 8031.96 8289.56     negative</span></span>
-<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2637.92 2848.56     negative</span></span>
-<span><span class="co">#&gt; 3        3  [-7.5,-5)     6 2960.43 3123.91     negative</span></span>
-<span><span class="co">#&gt; 4        4  [-5,-2.5)   156 2808.08 3009.58     negative</span></span>
-<span><span class="co">#&gt; 5        5   [-2.5,0)  3113 2407.63 2577.66     positive</span></span>
-<span><span class="co">#&gt; 6        6    [0,2.5)  5010 1590.60 1791.08     positive</span></span>
-<span><span class="co">#&gt; 7        7    [2.5,5) 10725 1794.90 1929.47     positive</span></span>
-<span><span class="co">#&gt; 8        8    [5,7.5)  6693 1503.43 1664.57     positive</span></span>
-<span><span class="co">#&gt; 9        9   [7.5,10)  1609 1207.26 1338.73     positive</span></span>
-<span><span class="co">#&gt; 10      10    [10,20)    49 1471.44 1617.03     negative</span></span></code></pre></div>
+<span><span class="co">#&gt; 1        1  [-20,-10)     1 8034.18 8338.44     negative</span></span>
+<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2671.69 2826.73     negative</span></span>
+<span><span class="co">#&gt; 3        3  [-7.5,-5)     6 2958.00 3120.19     negative</span></span>
+<span><span class="co">#&gt; 4        4  [-5,-2.5)   156 2786.27 2992.21     negative</span></span>
+<span><span class="co">#&gt; 5        5   [-2.5,0)  3113 2409.63 2593.76     positive</span></span>
+<span><span class="co">#&gt; 6        6    [0,2.5)  5010 1600.16 1807.42     positive</span></span>
+<span><span class="co">#&gt; 7        7    [2.5,5) 10725 1814.62 1947.02     positive</span></span>
+<span><span class="co">#&gt; 8        8    [5,7.5)  6693 1517.63 1676.87     positive</span></span>
+<span><span class="co">#&gt; 9        9   [7.5,10)  1609 1211.23 1339.82     positive</span></span>
+<span><span class="co">#&gt; 10      10    [10,20)    49 1485.26 1607.84     negative</span></span></code></pre></div>
 <div class="figure">
 <img src="cormus_domestica_tmp_files/figure-html/result_plot-1.png" alt="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C" width="100%"><p class="caption">
 Figure 3 - The climatic niche of Cormus domestica, as defined by a
