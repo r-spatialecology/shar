@@ -314,12 +314,6 @@ reconstruct_pattern_homo <- function(pattern,
       # print progress
       if (verbose) {
 
-        if (!plot) {
-
-          Sys.sleep(0.01)
-
-        }
-
         message("\r> Progress: n_random: ", current_pattern, "/", n_random,
                 " || max_runs: ", floor(i / max_runs * 100), "%",
                 " || energy = ", round(energy_current, 5), "\t\t",
