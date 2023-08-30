@@ -1,6 +1,6 @@
-#' reconstruct_pattern_homo_update
+#' reconstruct_algorithm
 #'
-#' @description Pattern reconstruction for homogeneous pattern
+#' @description Pattern reconstruction (internal)
 #'
 #' @param pattern ppp object with pattern.
 #' @param n_random Integer with number of randomizations.
@@ -21,45 +21,25 @@
 #' @param verbose Logical if progress report is printed.
 #' @param plot Logical if pcf(r) function is plotted and updated during optimization.
 #'
-#' @return rd_pat
+#' @return list
 #'
-#' @examples
-#' \dontrun{
-#' pattern_recon_a <- reconstruct_pattern_homo_update(species_a, n_random = 19,
-#' max_runs = 1000)
-#'
-#' pattern_recon_b <- reconstruct_pattern_homo_update(species_a, n_points = 70,
-#' n_random = 19, max_runs = 1000)
-#' }
-#'
-#' @aliases reconstruct_pattern_homo_update
-#' @rdname reconstruct_pattern_homo_update
-#'
-#' @references
-#' Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated
-#' annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>
-#'
-#' Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point
-#' patterns. Computational Statistics and Data Analysis 51, 859–871.
-#' <https://doi.org/10.1016/j.csda.2005.09.007>
-#'
-#' Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in
-#' ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8
+#' @aliases reconstruct_algorithm
+#' @rdname reconstruct_algorithm
 #'
 #' @keywords internal
-reconstruct_internal <- function(pattern,
-                                 method,
-                                 n_random,
-                                 e_threshold,
-                                 max_runs,
-                                 no_change,
-                                 annealing,
-                                 weights,
-                                 r_length,
-                                 r_max,
-                                 stoyan,
-                                 verbose,
-                                 plot){
+reconstruct_algorithm <- function(pattern,
+                                  method,
+                                  n_random,
+                                  e_threshold,
+                                  max_runs,
+                                  no_change,
+                                  annealing,
+                                  weights,
+                                  r_length,
+                                  r_max,
+                                  stoyan,
+                                  verbose,
+                                  plot){
 
   # check if n_random is >= 1
   if (n_random < 1) {

@@ -103,11 +103,11 @@ reconstruct_pattern <- function(pattern, method = "homo",
   if (!method %in% c("homo", "hetero", "cluster")) stop("Method must be one of the following: 'homo', 'hetero', or 'cluster'.",
                                                         call. = FALSE)
 
-  reconstruction <- reconstruct_internal(pattern = pattern, method = method, n_random = n_random,
-                                         e_threshold = e_threshold, max_runs = max_runs,
-                                         no_change = no_change, annealing = annealing,
-                                         weights = weights, r_length = r_length, r_max = r_max,
-                                         stoyan = stoyan, verbose = verbose, plot = plot)
+  reconstruction <- reconstruct_algorithm(pattern = pattern, method = method, n_random = n_random,
+                                          e_threshold = e_threshold, max_runs = max_runs,
+                                          no_change = no_change, annealing = annealing,
+                                          weights = weights, r_length = r_length, r_max = r_max,
+                                          stoyan = stoyan, verbose = verbose, plot = plot)
 
   # set class of result
   class(reconstruction) <- "rd_pat"
