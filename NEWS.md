@@ -1,3 +1,11 @@
+# shar 2.1
+* Improvements
+  * Remove `comp_fast` argument
+  * Speed improvements of computation
+  * General updates to code structure 
+* Bugfixes
+  * Removed `n_points` and `window` argument from reconstruction due to methodological issues
+
 # shar 2.0.4
 * Improvements
   * Remove `Sys.sleep` for verbose reconstruction

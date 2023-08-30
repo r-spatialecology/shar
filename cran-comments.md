@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md
 
+## shar 2.1
+Speed improvments
+
 ## shar 2.0.4
 Small speed improvments
 
