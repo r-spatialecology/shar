@@ -88,14 +88,9 @@ usethis::use_data(species_a, overwrite = overwrite)
 
 usethis::use_data(species_b, overwrite = overwrite)
 
-# save random landscape data
-torus_trans <- pack_randomized(raster = torus_trans)
-usethis::use_data(torus_trans, overwrite = overwrite)
+# save interal data
+data_internal <- list(torus_trans = pack_randomized(raster = torus_trans),
+                      random_walk = pack_randomized(raster = random_walk),
+                      gamma_test = gamma_test, reconstruction = reconstruction)
 
-random_walk <- pack_randomized(raster = random_walk)
-usethis::use_data(random_walk, overwrite = overwrite)
-
-# save random point data
-usethis::use_data(gamma_test, overwrite = overwrite)
-
-usethis::use_data(reconstruction, overwrite = overwrite)
+usethis::use_data(data_internal, overwrite = overwrite, internal = TRUE)
