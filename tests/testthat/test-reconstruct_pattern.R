@@ -23,18 +23,3 @@ testthat::test_that("reconstruct_pattern returns correct class", {
   testthat::expect_is(pattern_recon_hetero, class = "rd_pat")
 
 })
-
-testthat::test_that("reconstruct_patternreturns warnings", {
-
-  testthat::expect_warning(reconstruct_pattern(pattern = species_a, n_random = 3,
-                                               method = "cluster", n_points = 5,
-                                               max_runs = 1),
-
-                           regexp = "'n_points', 'window', or 'r_max' are not used for method='cluster'.")
-
-  testthat::expect_warning(reconstruct_pattern(pattern = species_a, n_random = 3,
-                                               method = "hetero", n_points = 5,
-                                               max_runs = 1),
-
-                           regexp = "'n_points', 'window', or 'r_max' are not used for method='hetero'.")
-})

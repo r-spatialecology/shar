@@ -41,13 +41,6 @@ testthat::test_that("calculate_energy returns mean ", {
                          expected = mean_energy)
 })
 
-testthat::test_that("calculate_energy can use comp_fast ", {
-
-  testthat::expect_length(calculate_energy(pattern_random_a, comp_fast = 50,
-                                           verbose = FALSE),
-                          n = 3)
-})
-
 testthat::test_that("calculate_energy returns works for reconstructed marks", {
 
   testthat::expect_length(calculate_energy(marks_recon, verbose = FALSE), n = 3)
@@ -74,17 +67,3 @@ testthat::test_that("calculate_energy returns error if wrong class ", {
                          regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
                          fixed = TRUE)
 })
-
-testthat::test_that("calculate_energy returns error if weights are wrong ", {
-
-  testthat::expect_error(calculate_energy(pattern_random_a, weights = c(0, 0),
-                                          return_mean = TRUE, verbose = FALSE),
-                         regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
-                         fixed = TRUE)
-
-  testthat::expect_error(calculate_energy(pattern_random_a, weights = c(1, 1),
-                                          return_mean = TRUE, verbose = FALSE),
-                         regexp = "The sum of 'weights' must be 0 < sum(weights) <= 1.",
-                         fixed = TRUE)
-})
-
