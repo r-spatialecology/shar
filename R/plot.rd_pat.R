@@ -8,8 +8,6 @@
 #' @param n Integer with number or vector of ids of randomized pattern to plot.
 #' See Details section for more information.
 #' @param probs Vector with quantiles of randomized data used for envelope construction.
-#' @param comp_fast Integer with threshold at which summary functions are estimated
-#' in a computational fast way.
 #' @param ask Logical if the user is asked to press <RETURN> before second summary function
 #' is plotted (only used if \code{what = "sf"}).
 #' @param verbose Logical if progress report is printed.
@@ -18,9 +16,6 @@
 #' @details
 #' The function plots the pair correlation function and the nearest neighbour function of
 #' the observed pattern and the reconstructed patterns (as "simulation envelopes").
-#' For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
-#' correction is used and the pair correlation function is estimated based on Ripley's
-#' K-function. For more information see \code{\link{estimate_pcf_fast}}.
 #'
 #' It is also possible to plot n randomized patterns and the observed pattern
 #' using \code{what = "pp"}. If \code{n} is a single number, \code{n} randomized
@@ -47,7 +42,7 @@
 #' @rdname plot.rd_pat
 #'
 #' @export
-plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_fast = 1000,
+plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975),
                         ask = TRUE, verbose = TRUE, ...) {
 
   # check if class is correct
@@ -69,17 +64,6 @@ plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
 
   if (what == "sf") {
 
-    # check if number of points exceed comp_fast limit
-    if (x$observed$n > comp_fast) {
-
-      comp_fast <- TRUE
-
-    } else {
-
-      comp_fast <- FALSE
-
-    }
-
     name_unit <- spatstat.geom::unitname(x$observed)[[1]] # unit name for labels
 
     # calculate r
@@ -96,21 +80,10 @@ plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
     result <- lapply(seq_along(pattern), function(x) {
 
       # calculate summary functions
-      if (comp_fast) {
+      gest_result <- spatstat.explore::Gest(pattern[[x]], correction = "none", r = r)
 
-        gest_result <- spatstat.explore::Gest(pattern[[x]], correction = "none", r = r)
-
-        pcf_result <- estimate_pcf_fast(pattern[[x]], correction = "none",
-                                        method = "c", spar = 0.5, r = r)
-
-      } else {
-
-        gest_result <- spatstat.explore::Gest(pattern[[x]], correction = "han", r = r)
-
-        pcf_result <- spatstat.explore::pcf(pattern[[x]], divisor = "d",
-                                         correction = "best", r = r)
-
-      }
+      pcf_result <- spatstat.explore::pcf(pattern[[x]], divisor = "d",
+                                         correction = "none", r = r)
 
       gest_df <- as.data.frame(gest_result) # conver to df
 

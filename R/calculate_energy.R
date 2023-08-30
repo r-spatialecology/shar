@@ -6,18 +6,13 @@
 #' @param weights Vector with weights used to calculate energy.
 #' The first number refers to Gest(r), the second number to pcf(r).
 #' @param return_mean Logical if the mean energy is returned.
-#' @param comp_fast Integer with threshold at which summary functions are estimated
-#' in a computational fast way.
 #' @param verbose Logical if progress report is printed.
 #'
 #' @details
 #' The function calculates the mean energy (or deviation) between the observed
 #' pattern and all reconstructed patterns (for more information see Tscheschel &
 #' Stoyan (2006) or Wiegand & Moloney (2014)). The pair correlation function and the
-#' nearest neighbour distance function are used to describe the patterns. For large
-#' patterns \code{comp_fast = TRUE} decreases the computational demand, because no edge
-#' correction is used and the pair correlation function is estimated based on Ripley's
-#' K-function. For more information see \code{\link{estimate_pcf_fast}}.
+#' nearest neighbour distance function are used to describe the patterns.
 #'
 #' @seealso
 #' \code{\link{plot_energy}} \cr
@@ -54,9 +49,8 @@
 #'
 #' @export
 calculate_energy <- function(pattern,
-                             weights = c(0.5, 0.5),
+                             weights = c(1, 1),
                              return_mean = FALSE,
-                             comp_fast = 1000,
                              verbose = TRUE){
 
   # check if class is correct
@@ -83,7 +77,7 @@ calculate_energy <- function(pattern,
   # calculate r sequence
   r <- seq(from = 0,
            to = spatstat.explore::rmax.rule(W = pattern_observed$window,
-                                         lambda = spatstat.geom::intensity.ppp(pattern_observed)),
+                                            lambda = spatstat.geom::intensity.ppp(pattern_observed)),
            length.out = 250)
 
   if (inherits(x = pattern, what = "rd_pat")) {
@@ -96,71 +90,22 @@ calculate_energy <- function(pattern,
 
     } else {
 
-      # check if weights make sense
-      if (sum(weights) > 1 || sum(weights) == 0) {
-
-        stop("The sum of 'weights' must be 0 < sum(weights) <= 1.", call. = FALSE)
-
-      }
-
-      # check if number of points exceed comp_fast limit
-      if (pattern_observed$n > comp_fast) {
-
-        comp_fast <- TRUE
-
-      } else {
-
-        comp_fast <- FALSE
-
-      }
-
       # calculate summary functions for observed pattern
-      if (comp_fast) {
+      gest_observed <- spatstat.explore::Gest(X = pattern_observed,
+                                              correction = "none", r = r)
 
-        gest_observed <- spatstat.explore::Gest(X = pattern_observed, correction = "none",
-                                             r = r)
-
-        pcf_observed <- estimate_pcf_fast(pattern = pattern_observed,
-                                          correction = "none", method = "c",
-                                          spar = 0.5, r = r)
-
-      } else {
-
-        gest_observed <- spatstat.explore::Gest(X = pattern_observed,
-                                        correction = "han", r = r)
-
-        pcf_observed <- spatstat.explore::pcf(X = pattern_observed,
-                                      correction = "best", divisor = "d", r = r)
-
-      }
+      pcf_observed <- spatstat.explore::pcf(X = pattern_observed,
+                                            correction = "none", divisor = "d", r = r)
 
       # loop through all reconstructed patterns
       result <- vapply(seq_along(pattern_randomized), function(x) {
 
-        # fast computation of summary stats
-        if (comp_fast) {
-
-          gest_reconstruction <- spatstat.explore::Gest(X = pattern_randomized[[x]],
-                                                correction = "none",
-                                                r = r)
-
-          pcf_reconstruction <- estimate_pcf_fast(pattern = pattern_randomized[[x]],
-                                                  correction = "none", method = "c",
-                                                  spar = 0.5, r = r)
-
-        # normal computation of summary stats
-        } else {
-
-          gest_reconstruction <- spatstat.explore::Gest(X = pattern_randomized[[x]],
-                                                correction = "han",
-                                                r = r)
+        gest_reconstruction <- spatstat.explore::Gest(X = pattern_randomized[[x]],
+                                                      correction = "none", r = r)
 
           pcf_reconstruction <- spatstat.explore::pcf(X = pattern_randomized[[x]],
-                                              correction = "best",
-                                              divisor = "d",
-                                              r = r)
-
-        }
+                                                      correction = "none", divisor = "d",
+                                                      r = r)
 
         # difference between observed and reconstructed pattern
         energy <- (mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) * weights[[1]]) +

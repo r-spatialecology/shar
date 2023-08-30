@@ -6,9 +6,8 @@
 \usage{
 calculate_energy(
   pattern,
-  weights = c(0.5, 0.5),
+  weights = c(1, 1),
   return_mean = FALSE,
-  comp_fast = 1000,
   verbose = TRUE
 )
 }
@@ -19,9 +18,6 @@ calculate_energy(
 The first number refers to Gest(r), the second number to pcf(r).}
 
 \item{return_mean}{Logical if the mean energy is returned.}
-
-\item{comp_fast}{Integer with threshold at which summary functions are estimated
-in a computational fast way.}
 
 \item{verbose}{Logical if progress report is printed.}
 }
@@ -35,10 +31,7 @@ Calculate mean energy
 The function calculates the mean energy (or deviation) between the observed
 pattern and all reconstructed patterns (for more information see Tscheschel &
 Stoyan (2006) or Wiegand & Moloney (2014)). The pair correlation function and the
-nearest neighbour distance function are used to describe the patterns. For large
-patterns \code{comp_fast = TRUE} decreases the computational demand, because no edge
-correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see \code{\link{estimate_pcf_fast}}.
+nearest neighbour distance function are used to describe the patterns.
 }
 \examples{
 pattern_random <- fit_point_process(species_a, n_random = 19)
