@@ -5,6 +5,7 @@
   * General updates to code structure 
 * Bugfixes
   * Removed `n_points` and `window` argument from reconstruction due to methodological issues
+  * Bugfix related to wrap/unwrap raster and printing
 
 # shar 2.0.4
 * Improvements

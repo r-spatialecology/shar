@@ -29,11 +29,12 @@
 #' @export
 unpack_randomized <- function(raster) {
 
-  # wrap observerd raster
-  raster$observed <- terra::rast(raster$observed)
+  # check if observed is present
+  # unwrap observed raster
+  if (inherits(x = raster$observed, what = "PackedSpatRaster")) raster$observed <- terra::unwrap(raster$observed)
 
   # wrap all randomized raster
-  raster$randomized <- lapply(X = raster$randomized, FUN = terra::rast)
+  raster$randomized <- lapply(X = raster$randomized, FUN = terra::unwrap)
 
   return(raster)
 

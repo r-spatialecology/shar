@@ -29,8 +29,14 @@
 #' @export
 print.rd_ras <- function(x, ...) {
 
+  if (inherits(x = x$randomized[[1]], what = "PackedSpatRaster")) {
+
+    cat("Please use 'unpack_randomized()' to unwrap object.")
+
+  } else {
+
   # check if observed raster is included
-  if (!methods::is(x$observed, "SpatRaster")) {
+  if (!inherits(x = x$observed, what = "SpatRaster")) {
 
     number_raster_obs <- 0
 
@@ -58,4 +64,5 @@ print.rd_ras <- function(x, ...) {
              "Method: ", x$method, "\n",
              "Observed pattern: ", includes_observed, "\n",
              "Extent: ", extent_window, " (xmin, xmax, ymin, ymax) \n"), ...)
+  }
 }
