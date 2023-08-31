@@ -170,66 +170,10 @@
 <p>This also automatically installs all non-base <code>R</code> package dependencies, namely the following packages: <code>classInt</code>, <code>raster</code>, <code>spatstat.explore</code>, <code>spatstat.model</code>, <code>spatstat.geom</code>.</p>
 </div>
 <div class="section level2">
-<h2 id="how-to-use-shar">How to use shar<a class="anchor" aria-label="anchor" href="#how-to-use-shar"></a>
+<h2 id="how-to-use-shar">How to use <strong>shar</strong>
+<a class="anchor" aria-label="anchor" href="#how-to-use-shar"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></code></pre></div>
-<p><strong>shar</strong> comes with build-in example data sets. <code>species_a</code> and <code>species_b</code> are exemplary location of species, e.g. trees, as <code>ppp</code>-objects from the <code>spatstat</code> package. <code>landscape</code> contains exemplary continuous environmental data. However, all methods depend on discrete data. Therefore we need to classify the data first. However, all methods require “fully mapped data” in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span></code></pre></div>
-<p>There are two possibilities to randomize the environmental data, both described in Harms et al. (2001). The first shifts the habitat map in all 4 cardinal directions around a torus. The second one assigns the habitat values to an empty map using a random walk algorithm. Both functions return a list with randomized rasters and the observed one. For more information on the methods, please click <a href="https://r-spatialecology.github.io/shar/articles/articles/background.html">here</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">torus_trans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/translate_raster.html">translate_raster</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape_classified</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">random_walk</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/randomize_raster.html">randomize_raster</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="va">landscape_classified</span>, n_random <span class="op">=</span> <span class="fl">39</span><span class="op">)</span></span></code></pre></div>
-<p>To plot the randomized raster, you can use the plot function and specify the number of raster as as well as the color palette used for the discrete environmental data.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">col_palette</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#440154FF"</span>, <span class="st">"#3B528BFF"</span>, <span class="st">"#21908CFF"</span>, <span class="st">"#5DC863FF"</span>, <span class="st">"#FDE725FF"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">torus_trans</span>, n <span class="op">=</span> <span class="fl">3</span>, col <span class="op">=</span> <span class="va">col_palette</span><span class="op">)</span></span></code></pre></div>
-<p>To randomize the point pattern, either use the Gamma test described by Plotkin et al. (2000) or pattern reconstruction (Kirkpatrick et al. 1983; Tscheschel &amp; Stoyan 2006).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gamma_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fit_point_process.html">fit_point_process</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_b</span>, process <span class="op">=</span> <span class="st">"cluster"</span>, n_random <span class="op">=</span> <span class="fl">39</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># (this can takes some time)</span></span>
-<span><span class="va">reconstruction</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/reconstruct_pattern.html">reconstruct_pattern</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_b</span>, n_random <span class="op">=</span> <span class="fl">39</span>, e_threshold <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></code></pre></div>
-<p>Of course, there are several utility functions. For example, you can plot the summary function of the observed pattern and the simulation envelopes of randomized patterns (<code>what = "sf"</code>) or some randomized and the observed pattern (<code>what = "pp"</code>) using the plot function.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">reconstruction</span>, what <span class="op">=</span> <span class="st">"pp"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-plot-random_pattern-1.png" width="100%" height="100%" style="display: block; margin: auto;"></p>
-<p>Another utility function allows to calculate the differences between the observed pattern and the randomized patterns (also called energy using summary functions).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/calculate_energy.html">calculate_energy</a></span><span class="op">(</span><span class="va">reconstruction</span>, return_mean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">## [1] 0.04907375</span></span></code></pre></div>
-<p>The data was created that <code>species_a</code> has a negative association to habitat 4 and <code>species_b</code> has a positive association to habitat 5, which is reflected in the results.</p>
-<p>Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006). For example, a high amount of individual points in the positively associated habitat simultaneously mean that less individual points can be present in the other habitats.</p>
-<p>Furthermore, please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., <code><a href="reference/fit_point_process.html">fit_point_process()</a></code> vs. <code><a href="reference/translate_raster.html">translate_raster()</a></code>) and even for repetitions of the same approach. Thus, the exact <code>lo</code> and <code>hi</code> thresholds might be slightly different when re-running the examples. However, the counts of the observed data should be identical, and general results and trends should be similar.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">significance_level</span> <span class="op">&lt;-</span> <span class="fl">0.01</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_a</span>, raster <span class="op">=</span> <span class="va">torus_trans</span>, significance_level <span class="op">=</span> <span class="va">significance_level</span><span class="op">)</span></span>
-<span><span class="co">## &gt; Input: randomized raster</span></span>
-<span><span class="co">## &gt; Quantile thresholds: negative &lt; 0.005 || positive &gt; 0.995</span></span>
-<span><span class="co">##   habitat breaks count lo hi significance</span></span>
-<span><span class="co">## 1       1     NA    35 10 35         n.s.</span></span>
-<span><span class="co">## 2       2     NA    44 19 53         n.s.</span></span>
-<span><span class="co">## 3       3     NA    36 15 49         n.s.</span></span>
-<span><span class="co">## 4       4     NA     4 15 58     negative</span></span>
-<span><span class="co">## 5       5     NA    73 48 90         n.s.</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">reconstruction</span>, raster <span class="op">=</span> <span class="va">landscape_classified</span>, significance_level <span class="op">=</span> <span class="va">significance_level</span><span class="op">)</span></span>
-<span><span class="co">## &gt; Input: randomized pattern</span></span>
-<span><span class="co">## &gt; Quantile thresholds: negative &lt; 0.005 || positive &gt; 0.995</span></span>
-<span><span class="co">##   habitat breaks count    lo    hi significance</span></span>
-<span><span class="co">## 1       1     NA     6  2.19 13.43         n.s.</span></span>
-<span><span class="co">## 2       2     NA    18 17.57 55.86         n.s.</span></span>
-<span><span class="co">## 3       3     NA    18 33.19 58.00     negative</span></span>
-<span><span class="co">## 4       4     NA    21 35.38 54.81     negative</span></span>
-<span><span class="co">## 5       5     NA   129 37.38 84.10     positive</span></span></code></pre></div>
+<p>Please refer to <code>vignette("Get started")</code> to get an introduction to <strong>shar</strong>.</p>
 </div>
 <div class="section level2">
 <h2 id="contributing-and-code-of-conduct">Contributing and Code of Conduct<a class="anchor" aria-label="anchor" href="#contributing-and-code-of-conduct"></a>
@@ -237,18 +181,6 @@
 <p>Contributions to <strong>shar</strong> are highly welcomed and appreciated. This includes any form of feedback, bug reports, feature requests/suggestions, or general questions about the usage.</p>
 <p>Please note that the <strong>shar</strong> package is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <p>To contribute to this project, please see the <a href="CONTRIBUTING.html">Contributing guidelines</a>.</p>
-<div class="section level3">
-<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h3>
-<p>Baddeley, A., Rubak, E., Turner, R., 2015. Spatial point patterns: Methodology and applications with R. Chapman and Hall/CRC Press, London. ISBN 978-1-4822-1020-0</p>
-<p>Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x" class="external-link uri">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a></p>
-<p>Hijmans, R.J., 2022 terra: Spatial Data Analysis. R package version 1.6-7. <a href="https://CRAN.R-project.org/package=terra" class="external-link uri">https://CRAN.R-project.org/package=terra</a>.</p>
-<p>Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated annealing. Science 220, 671–680. <a href="https://doi.org/10.1126/science.220.4598.671" class="external-link uri">https://doi.org/10.1126/science.220.4598.671</a></p>
-<p>Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology 207, 81–99. <a href="https://doi.org/10.1006/jtbi.2000.2158" class="external-link uri">https://doi.org/10.1006/jtbi.2000.2158</a></p>
-<p>Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <a href="https://doi.org/10.1016/j.csda.2005.09.007" class="external-link uri">https://doi.org/10.1016/j.csda.2005.09.007</a></p>
-<p>Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8</p>
-<p>Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M., Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees in a Bornean rain forest plot. Journal of Vegetation Science 17, 559–566. <a href="https://doi.org/10.1111/j.1654-1103.2006.tb02479.x" class="external-link uri">https://doi.org/10.1111/j.1654-1103.2006.tb02479.x</a></p>
-</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="developers">
