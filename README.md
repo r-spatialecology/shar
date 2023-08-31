@@ -30,7 +30,7 @@ in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney
 [`terra`](https://rspatial.org/terra/) (Hijmans 2022) package.
 
 You can find more information and help using the corresponding
-[homepage](https://r-spatialecology.github.io/shar/index.html).
+[homepage](https://r-spatialecology.github.io/shar/).
 
 ## Installation
 
@@ -50,13 +50,14 @@ remotes::install_github("r-spatialecology/shar")
 ```
 
 This also automatically installs all non-base `R` package dependencies,
-namely the following packages: `classInt`, `raster`, `spatstat.explore`,
-`spatstat.model`, `spatstat.geom`.
+namely: `classInt`, `spatstat.explore`, `spatstat.geom`,
+`spatstat.model`, `spatstat.random`, and `terra`.
 
 ## How to use **shar**
 
-Please refer to `vignette("Get started")` to get an introduction to
-**shar**.
+Please refer to `vignette("Get started")` and the
+[homepage](https://r-spatialecology.github.io/shar/) to get an
+introduction to **shar**.
 
 ### Citation
 
