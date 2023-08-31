@@ -28,7 +28,7 @@ README Last updated: `r Sys.Date()`
 
 **S**pecies-**h**abitat **a**ssociations in **R** provides a toolset of functions in the `R` programming language to analyze species-habitat associations. Therefore, information about the location of the species (as a point pattern) and the environmental conditions (as a raster) is needed. In order to analyse the data for significant habitat associations either the location data or the environmental data is randomized *n*-times. Then, counts within the habitats are compared between the observed and the randomized data. Positive or negative associations are present if the observed counts are higher or lower than the randomized counts (using quantile thresholds). Methods are described in Plotkin et al. (2000), Harms et al. (2001) and Wiegand & Moloney (2014). **shar** is mainly based on the [`spatstat`](http://spatstat.org) (Baddeley et al. 2015) and [`terra`](https://rspatial.org/terra/) (Hijmans 2022) package.
 
-You can find more information and help using the corresponding [homepage](https://r-spatialecology.github.io/shar/index.html).
+You can find more information and help using the corresponding [homepage](https://r-spatialecology.github.io/shar/).
 
 ## Installation
 
@@ -45,11 +45,11 @@ And the development version from [GitHub](https://github.com/r-spatialecology/sh
 remotes::install_github("r-spatialecology/shar")
 ```
 
-This also automatically installs all non-base `R` package dependencies, namely the following packages: `classInt`, `raster`, `spatstat.explore`, `spatstat.model`, `spatstat.geom`.
+This also automatically installs all non-base `R` package dependencies, namely: `classInt`, `spatstat.explore`, `spatstat.geom`, `spatstat.model`, `spatstat.random`, and `terra`.
 
 ## How to use **shar**
 
-Please refer to `vignette("Get started")` to get an introduction to **shar**.
+Please refer to `vignette("Get started")` and the [homepage](https://r-spatialecology.github.io/shar/) to get an introduction to **shar**.
 
 ### Citation
 
