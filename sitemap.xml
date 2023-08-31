@@ -43,6 +43,9 @@
     <loc>https://r-spatialecology.github.io/shar/news/index.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/calc_gest.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/calculate_energy.html</loc>
   </url>
   <url>
@@ -55,16 +58,13 @@
     <loc>https://r-spatialecology.github.io/shar/reference/create_neighbourhood.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/estimate_pcf_fast.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/extract_points.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/fit_point_process.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/gamma_test.html</loc>
+    <loc>https://r-spatialecology.github.io/shar/reference/get_dist_pairs.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/index.html</loc>
@@ -100,28 +100,16 @@
     <loc>https://r-spatialecology.github.io/shar/reference/print.rd_ras.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/random_walk.html</loc>
+    <loc>https://r-spatialecology.github.io/shar/reference/randomize_raster.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/randomize_raster.html</loc>
+    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_algorithm.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_cluster.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_hetero.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_homo.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_marks.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruction.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/results_habitat_association.html</loc>
@@ -137,9 +125,6 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/species_b.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/torus_trans.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/translate_raster.html</loc>

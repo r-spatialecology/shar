@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,7 +138,7 @@
                         <h4 data-toc-skip class="author">Maximilian H.K.
 Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2023-08-29</h4>
+            <h4 data-toc-skip class="date">2023-08-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multiple_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multiple_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -164,11 +164,7 @@ straightforward using <code><a href="https://rdrr.io/r/base/lapply.html" class="
 <span></span>
 <span><span class="co"># reconstruct all patterns in list</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">list_pattern</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/reconstruct_pattern.html">reconstruct_pattern</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">x</span>, n_random <span class="op">=</span> <span class="fl">3</span>, </span>
-<span>                                                               max_runs <span class="op">=</span> <span class="fl">10</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Using number of points 'pattern'.</span></span>
-<span><span class="co">#&gt; &gt; Using window of 'pattern'.</span></span>
-<span><span class="co">#&gt; &gt; Using number of points 'pattern'.</span></span>
-<span><span class="co">#&gt; &gt; Using window of 'pattern'.</span></span></code></pre></div>
+<span>                                                               max_runs <span class="op">=</span> <span class="fl">10</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The result will be a nested list including all <em>m</em>
 randomization (including the observed pattern) of the <em>n</em>
 provided input patterns.</p>
@@ -178,11 +174,11 @@ provided input patterns.</p>
 <span>                                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.06827008   0.06878474   0.07064592 </span></span>
+<span><span class="co">#&gt;   0.15447658   0.12497770   0.09388762 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;    0.1971657    0.1975341    0.2085071</span></span></code></pre></div>
+<span><span class="co">#&gt;    0.3516412    0.3903034    0.3998759</span></span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the
 spatial characteristics and afterwards reconstruct the marks <em>m</em>
 times for each of the <em>n</em> spatial reconstructions.</p>
@@ -193,9 +189,7 @@ times. The observed pattern is not needed in this case, so you can put
 <code class="sourceCode R"><span><span class="co"># reconstruct spatial strucutre</span></span>
 <span><span class="va">reconstructed_pattern</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern.html">reconstruct_pattern</a></span><span class="op">(</span><span class="va">species_a</span>, n_random <span class="op">=</span> <span class="fl">3</span>, </span>
 <span>                                             max_runs <span class="op">=</span> <span class="fl">10</span>, return_input <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &gt; Using number of points 'pattern'.</span></span>
-<span><span class="co">#&gt; &gt; Using window of 'pattern'.</span></span></code></pre></div>
+<span>                                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>Secondly, to reconstruct the (numeric) marks of the observed pattern
 for each of the spatially reconstructed patterns, just use
 <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> in combination with
@@ -487,303 +481,6 @@ for each of the spatially reconstructed patterns, just use
 <span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
 <span></span>
 <span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
-<span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in (function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", :</span></span>
 <span><span class="co">#&gt; Selecting bandwidth *not* using 'weights'</span></span></code></pre></div>
 <p>Again, the result is a nested list with the same dimensions as
 provided input patterns and reconstructions.</p>
@@ -793,15 +490,15 @@ provided input patterns and reconstructions.</p>
 <span>                                                  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $randomized_1</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.03837675   0.03715254   0.04004500 </span></span>
+<span><span class="co">#&gt;   0.06533663   0.06151713   0.05177345 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_2</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.05522862   0.05846824   0.05377560 </span></span>
+<span><span class="co">#&gt;   0.04324051   0.05028235   0.04279258 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_3</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.03697974   0.02911890   0.02987775</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.04852004   0.04367825   0.04570979</span></span></code></pre></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>

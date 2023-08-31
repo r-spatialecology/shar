@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,15 +118,13 @@
 <span>  method <span class="op">=</span> <span class="st">"homo"</span>,</span>
 <span>  n_random <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  e_threshold <span class="op">=</span> <span class="fl">0.01</span>,</span>
-<span>  max_runs <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  <span class="va">max_runs</span>,</span>
 <span>  no_change <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  annealing <span class="op">=</span> <span class="fl">0.01</span>,</span>
-<span>  comp_fast <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  n_points <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  window <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
-<span>  r_length <span class="op">=</span> <span class="fl">250</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  r_length <span class="op">=</span> <span class="fl">255</span>,</span>
 <span>  r_max <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stoyan <span class="op">=</span> <span class="fl">0.15</span>,</span>
 <span>  return_input <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  simplify <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -168,19 +166,6 @@ stop if the energy does not decrease.</p></dd>
 did not decrease.</p></dd>
 
 
-<dt>comp_fast</dt>
-<dd><p>Integer with threshold at which summary functions are estimated
-in a computational fast way.</p></dd>
-
-
-<dt>n_points</dt>
-<dd><p>Integer with number of points to be simulated.</p></dd>
-
-
-<dt>window</dt>
-<dd><p>owin object with window of simulated pattern.</p></dd>
-
-
 <dt>weights</dt>
 <dd><p>Vector with weights used to calculate energy.
 The first number refers to Gest(r), the second number to pcf(r).</p></dd>
@@ -194,6 +179,10 @@ the summary functions are evaluated.</p></dd>
 <dt>r_max</dt>
 <dd><p>Double with maximum distance used during calculation of summary functions. If <code>NULL</code>,
 will be estimated from data.</p></dd>
+
+
+<dt>stoyan</dt>
+<dd><p>Coefficient for Stoyan's bandwidth selection rule.</p></dd>
 
 
 <dt>return_input</dt>
@@ -227,14 +216,11 @@ algorithm shifts a point to a new location and keeps the change only, if the
 deviation between the observed and the reconstructed pattern decreases.
 The pair correlation function and the nearest neighbour distance function are
 used to describe the patterns.</p>
-<p>For large patterns (<code>n &gt; comp_fast</code>) the pair correlation function can be estimated
-from Ripley's K-function without edge correction. This decreases the computational
-time. For more information see <code><a href="estimate_pcf_fast.html">estimate_pcf_fast</a></code>.</p>
 <p>The reconstruction can be stopped automatically if for n steps the energy does not
 decrease. The number of steps can be controlled by <code>no_change</code> and is set to
 <code>no_change = Inf</code> as default to never stop automatically.</p>
 <p>The weights must be 0 &lt; sum(weights) &lt;= 1. To weight both summary functions identical,
-use <code>weights = c(0.5, 0.5)</code>.</p>
+use <code>weights = c(1, 1)</code>.</p>
 <p><code>spatstat</code> sets <code>r_length</code> to 513 by default. However, a lower value decreases
 the computational time, while increasing the "bumpiness" of the summary function.</p>
 <p>The arguments <code>n_points</code> and <code>window</code> are used for <code>method="homo"</code> only.</p>
