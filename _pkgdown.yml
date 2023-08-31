@@ -10,10 +10,6 @@ reference:
       - species_a
       - species_b
       - landscape
-      - gamma_test
-      - reconstruction
-      - random_walk
-      - torus_trans
   - title: Randomize data
     contents:
       - fit_point_process
@@ -32,7 +28,6 @@ reference:
   - title: Various
     contents:
       - classify_habitats
-      - estimate_pcf_fast
       - list_to_randomized
       - pack_randomized
       - print.rd_mar

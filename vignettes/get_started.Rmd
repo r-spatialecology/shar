@@ -18,6 +18,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+#### Citation
+
+The **shar** package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the following paper.
+
+> Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811
+
+The get a BibTex entry, please use `citation("shar")`.
+
 ```{r import-libs, message = FALSE, warning = FALSE}
 library(shar)
 library(spatstat)
@@ -28,11 +36,15 @@ set.seed(42)
 
 ## Design
 
-The core of **shar** are functions to to simulate null model data by randomizing either the environmental data (i.e. raster data) or the locations of species (i.e. point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000) and Wiegand & Moloney (2014). The methods are not necessary complementary, but are rather different approaches for the same result.
+The core of **shar** are functions to to simulate null model data by randomizing either the environmental data (i.e., raster data) or the locations of species (i.e., point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000), and Wiegand & Moloney (2014). The methods are not necessary complementary, but are rather different approaches to achieve the same result.
+
+### Data 
+
+**shar** comes with build-in example data sets. `species_a` and `species_b` are exemplary locations of individuals, e.g., trees (as `ppp`-objects from the `spatstat` package); `landscape` contains exemplary continuous environmental data.
 
 ## Preprocessing of input data
 
-All functions are designed for discrete habitat classes. Following, in case only continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data such as the Fisher-Jenks algorithm (Fisher 1958, Jenks & Caspall 1971)
+All functions are designed for discrete habitat classes. Thus, if continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data, such as the Fisher-Jenks algorithm (Fisher 1958, Jenks & Caspall 1971)
 
 ```{r classify_habitats}
 landscape_discrete <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
@@ -40,9 +52,9 @@ landscape_discrete <- classify_habitats(raster = terra::rast(landscape), n = 5, 
 
 ## Randomize environmental data
 
-There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `n_random <- (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4` randomized rasters. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized rasters can be specified using the `n_random` argument.
+There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `n_random <- (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4` randomized raster. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized raster can be specified using the `n_random` argument.
 
-However, all methods require "fully mapped data" in a sense that NA cells of the environmental data are allowed only if simultaneously these areas cannot accommodate any locations of the point pattern (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no NA values are allowed at all.
+All methods require "fully mapped data" in a sense that `NA` cells of the environmental data are allowed only if these cells cannot accommodate any locations of individuals (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no `NA` values are allowed at all.
 
 ```{r randomize_raster, eval = FALSE}
 torus_trans <- translate_raster(raster = landscape_discrete)
@@ -50,9 +62,14 @@ torus_trans <- translate_raster(raster = landscape_discrete)
 random_walk <- randomize_raster(raster = landscape_discrete, n_random = 39)
 ```
 
+```{r randomize_raster_import, echo = FALSE, eval = TRUE}
+torus_trans <- unpack_randomized(raster = shar:::data_internal$torus_trans)
+random_walk <- unpack_randomized(raster = shar:::data_internal$random_walk)
+```
+
 ## Randomize location data
 
-To randomize the location data (i.e. the point pattern) either `fit_point_process()` or `reconstruct_pattern()` are available. The first fits either a Poisson process or a cluster process to the data. The difference to solutions from the `spatstat` package is that the number of points is always identical. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Tscheschel & Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the `n_random` argument. 
+To randomize the location data (i.e. the point pattern) either `fit_point_process()` or `reconstruct_pattern()` are available. The first fits a Poisson process or a cluster process to the data. The second functions reconstructs the spatial characteristics of the data using pattern reconstruction (Kirkpatrick et al. 1983; Tscheschel & Stoyan 2006). This is advantageous for point patterns not describable by simple point process models. For both function, the number of patterns can be specified by the `n_random` argument. 
 
 ```{r randomize_pp, eval = FALSE}
 gamma_test <- fit_point_process(pattern = species_b, process = "cluster", n_random = 39)
@@ -62,15 +79,16 @@ reconstruction <- reconstruct_pattern(pattern = species_b, n_random = 39,
                                       e_threshold = 0.05, method = "cluster")
 ``` 
 
+```{r randomize_import, echo = FALSE, eval = TRUE}
+gamma_test <- shar:::data_internal$gamma_test
+reconstruction <- shar:::data_internal$reconstruction
+```
+
 ## Analyse results
 
 The most important function to analyse results is `results_habitat_association()`. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data. 
 
-Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. However, the counts of the observed data should be identical, and general results and trends should be similar.
-
-```{r result_import, echo = FALSE, eval = TRUE}
-random_walk <- unpack_randomized(raster = random_walk)
-```
+Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples. However, the counts of the observed data should be identical, and general results and trends should be similar.
 
 ```{r results}
 results_habitat_association(pattern = species_a, raster = random_walk)
@@ -78,11 +96,21 @@ results_habitat_association(pattern = species_a, raster = random_walk)
 results_habitat_association(pattern = reconstruction, raster = landscape_discrete)
 ```
 
+The data was created that `species_a` has a negative association to habitat 4 and `species_b` has a positive association to habitat 5, which is reflected in the results. 
+
+Given the characteristics of the method, a positive association to one habitat inevitably leads to a negative association to at least one of the other habitats (and vice versa; Yamada et al. 2006). For example, a high amount of individual points in the positively associated habitat simultaneously mean that less individual points can be present in the other habitats.
+
+## Utility functions
+
 There is also the possibility to visualize the randomized data using the `plot()` function.
 
-```{r plotting, fig.align = "center", out.height = "100%", out.width = "100%", message = FALSE}
-plot(random_walk)
+```{r plot_tors, fig.align = "center", out.height = "50%", out.width = "50%", message = FALSE}
+col_palette <- c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
 
+plot(torus_trans)
+```
+
+```{r plot_recon, eval = FALSE}
 plot(reconstruction, ask = FALSE)
 ```
 
@@ -102,8 +130,12 @@ Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations
 
 Jenks, G.F., Caspall, F.C., 1971. Error in choroplethic maps: Definition, measurement, reduction. Annals of the Association of American Geographers 61, 217–244. <https://doi.org/10.1111/j.1467-8306.1971.tb00779.x>
 
+Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>
+
 Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V., Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization in tropical forests. Journal of Theoretical Biology 207, 81–99. <https://doi.org/10.1006/jtbi.2000.2158>
 
 Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point patterns. Computational Statistics and Data Analysis 51, 859–871. <https://doi.org/10.1016/j.csda.2005.09.007>
 
 Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8
+
+Yamada, T., Tomita, A., Itoh, A., Yamakura, T., Ohkubo, T., Kanzaki, M., Tan, S., Ashton, P.S., 2006. Habitat associations of Sterculiaceae trees in a Bornean rain forest plot. Journal of Vegetation Science 17, 559–566. <https://doi.org/10.1111/j.1654-1103.2006.tb02479.x>

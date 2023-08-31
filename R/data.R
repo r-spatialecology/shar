@@ -34,31 +34,3 @@
 #'
 #' @format A spatstat ppp object.
 "species_b"
-
-#' Gamma test
-#'
-#' Randomized data for species b using the gamma test.
-#'
-#' @format rd_pat object.
-"gamma_test"
-
-#' Reconstruction
-#'
-#' Randomized data for species b using pattern reconstruction.
-#'
-#' @format rd_pat object.
-"reconstruction"
-
-#' Torus trans
-#'
-#' Torus translation of the classified \code{landscape}.
-#'
-#' @format rd_ras object.
-"torus_trans"
-
-#' Random walk
-#'
-#' Randomization of the \code{landscape} using the habitat randomization algorithm.
-#'
-#' @format rd_ras object.
-"random_walk"

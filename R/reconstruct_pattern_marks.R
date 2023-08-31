@@ -99,60 +99,48 @@ reconstruct_pattern_marks <- function(pattern,
 
   }
 
-  # set names of randomization randomized_1 ... randomized_n
-  names_randomization <- paste0("randomized_", seq_len(n_random))
-
-  # create empty lists for results
-  energy_list <- vector("list", length = n_random)
-  iterations_list <- vector("list", length = n_random)
-  stop_criterion <- as.list(rep("max_runs", times = n_random))
-  result_list <- vector("list", length = n_random)
-
-  # set names
-  names(energy_list) <- names_randomization
-  names(result_list) <- names_randomization
-  names(iterations_list) <- names_randomization
-  names(stop_criterion) <- names_randomization
-
   # calculate r from data
   if (is.null(r_max)) {
 
     r <- seq(from = 0, to = spatstat.explore::rmax.rule(W = pattern$window, lambda = spatstat.geom::intensity.ppp(pattern)),
              length.out = r_length)
 
-    # use provided r_max
+  # use provided r_max
   } else {
 
     r <- seq(from = 0, to = r_max, length.out = r_length)
 
   }
 
-  # create random pattern
-  simulated <- pattern
+  # set names of randomization randomized_1 ... randomized_n
+  names_randomization <- paste0("randomized_", seq_len(n_random))
 
-  # assign shuffled marks to pattern
-  spatstat.geom::marks(simulated) <- sample(x = marked_pattern$marks, size = simulated$n,
-                                            replace = TRUE)
+  # create empty lists for results
+  energy_list <- vector("list", length = n_random)
+  iterations_list <- vector("list", length = n_random)
+  stop_criterion_list <- as.list(rep("max_runs", times = n_random))
+  result_list <- vector("list", length = n_random)
+
+  # set names
+  names(energy_list) <- names_randomization
+  names(iterations_list) <- names_randomization
+  names(stop_criterion_list) <- names_randomization
+  names(result_list) <- names_randomization
 
   # calculate summary functions
-  kmmr_observed <- spatstat.explore::markcorr(marked_pattern, correction = "Ripley",
-                                           r = r)
-
-  kmmr_simulated <- spatstat.explore::markcorr(simulated, correction = "Ripley",
-                                            r = r)
-
-  # energy before reconstruction
-  energy <- mean(abs(kmmr_observed[[3]] - kmmr_simulated[[3]]), na.rm = TRUE)
+  kmmr_observed <- spatstat.explore::markcorr(marked_pattern, correction = "none", r = r)
 
   # create n_random recondstructed patterns
-  for (current_pattern in seq_len(n_random)) {
+  for (i in seq_len(n_random)) {
 
-    # current simulated
-    simulated_current <- simulated
-    energy_current <- energy
+    # create random pattern
+    simulated <- pattern
 
-    # counter of iterations
-    iterations <- 0
+    # assign shuffled marks to pattern
+    spatstat.geom::marks(simulated) <- sample(x = marked_pattern$marks, size = simulated$n,
+                                              replace = TRUE)
+
+    energy <- Inf
 
     # counter if energy changed
     energy_counter <- 0
@@ -160,11 +148,6 @@ reconstruct_pattern_marks <- function(pattern,
     # df for energy
     energy_df <- data.frame(i = seq(from = 1, to = max_runs, by = 1),
                             energy = NA)
-
-    # get two random points to switch marks
-    rp_a <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
-
-    rp_b <- sample(x = seq_len(simulated_current$n), size = max_runs, replace = TRUE)
 
     # create random number for annealing prob
     if (annealing != 0) {
@@ -177,41 +160,46 @@ reconstruct_pattern_marks <- function(pattern,
 
     }
 
-    # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
-    for (i in seq_len(max_runs)) {
+    # get two random points to switch marks
+    rp_a <- sample(x = seq_len(simulated$n), size = max_runs, replace = TRUE)
 
-      relocated <- simulated_current # data for relocation
+    rp_b <- sample(x = seq_len(simulated$n), size = max_runs, replace = TRUE)
+
+    # pattern reconstruction algorithm (optimaztion of energy) - not longer than max_runs
+    for (j in seq_len(max_runs)) {
+
+      relocated <- simulated # data for relocation
 
       # current random points
-      rp_a_current <- rp_a[[i]]
+      a_current <- rp_a[[j]]
 
-      rp_b_current <- rp_b[[i]]
+      b_current <- rp_b[[j]]
 
       # get marks of the two random points
-      mark_a <- relocated$marks[[rp_a_current]]
+      mark_a <- relocated$marks[[a_current]]
 
-      mark_b <- relocated$marks[[rp_b_current]]
+      mark_b <- relocated$marks[[b_current]]
 
       # switch the marks of the two points
-      relocated$marks[[rp_a_current]] <- mark_b
+      relocated$marks[[a_current]] <- mark_b
 
-      relocated$marks[[rp_b_current]] <- mark_a
+      relocated$marks[[b_current]] <- mark_a
 
       # calculate summary functions after relocation
-      kmmr_relocated <- spatstat.explore::markcorr(relocated, correction = "Ripley",
-                                                r = r)
+      kmmr_relocated <- spatstat.explore::markcorr(relocated, correction = "none",
+                                                   r = r)
 
       # energy after relocation
       energy_relocated <- mean(abs(kmmr_observed[[3]] - kmmr_relocated[[3]]), na.rm = TRUE)
 
       # lower energy after relocation
-      if (energy_relocated < energy_current || random_annealing[i] < annealing) {
+      if (energy_relocated < energy || random_annealing[i] < annealing) {
 
         # keep relocated pattern
-        simulated_current <- relocated
+        simulated <- relocated
 
         # keep energy_relocated as energy
-        energy_current <- energy_relocated
+        energy <- energy_relocated
 
         # plot observed vs reconstructed
         if (plot) {
@@ -238,27 +226,25 @@ reconstruct_pattern_marks <- function(pattern,
 
       }
 
-      # count iterations
-      iterations <- iterations + 1
-
       # save energy in data frame
-      energy_df[iterations, 2] <- energy_current
+      energy_df[j, 2] <- energy
 
       # print progress
       if (verbose) {
 
-        message("\r> Progress: n_random: ", current_pattern, "/", n_random,
-                " || max_runs: ", floor(i / max_runs * 100), "%",
-                " || energy = ", round(energy_current, 5), "\t\t",
+        message("\r> Progress: n_random: ", i, "/", n_random,
+                " || max_runs: ", floor(j / max_runs * 100), "%",
+                " || energy = ", round(energy, 5), "\t\t",
                 appendLF = FALSE)
 
       }
 
       # exit loop if e threshold or no_change counter max is reached
-      if (energy_current <= e_threshold || energy_counter > no_change) {
+      if (energy <= e_threshold || energy_counter > no_change) {
 
         # set stop criterion due to energy
-        stop_criterion[[current_pattern]] <- "e_threshold/no_change"
+        stop_criterion_list[[i]] <- ifelse(test = energy <= e_threshold,
+                                           yes = "e_threshold", no = "no_change")
 
         break
 
@@ -272,23 +258,30 @@ reconstruct_pattern_marks <- function(pattern,
     }
 
     # remove NAs if stopped due to energy
-    if (stop_criterion[[current_pattern]] == "e_threshold/no_change") {
+    if (stop_criterion_list[[i]] %in% c("e_threshold", "no_change")) {
 
-      energy_df <- energy_df[1:iterations, ]
+      energy_df <- energy_df[1:j, ]
 
     }
 
     # save results in lists
-    energy_list[[current_pattern]] <- energy_df
-    iterations_list[[current_pattern]] <- iterations
-    result_list[[current_pattern]] <- simulated_current
+    energy_list[[i]] <- energy_df
+    iterations_list[[i]] <- j
+    result_list[[i]] <- simulated
+
+  }
+
+  # write result in new line if progress was printed
+  if (verbose) {
+
+    message("\r")
 
   }
 
   # combine to one list
   reconstruction <- list(randomized = result_list, observed = marked_pattern,
-                         method = "reconstruct_pattern_marks()",
-                         energy_df = energy_list, stop_criterion = stop_criterion,
+                         method = "marks",
+                         energy_df = energy_list, stop_criterion = stop_criterion_list,
                          iterations = iterations_list)
 
   # set class of returning object
@@ -328,13 +321,6 @@ reconstruct_pattern_marks <- function(pattern,
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
 
     }
-  }
-
-  # write result in new line if progress was printed
-  if (verbose) {
-
-    message("\r")
-
   }
 
   return(reconstruction)
