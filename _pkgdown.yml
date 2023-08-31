@@ -21,15 +21,15 @@ reference:
     contents:
       - calculate_energy
       - plot_energy
-      - plot.rd_mar
-      - plot.rd_pat
-      - plot.rd_ras
       - results_habitat_association
   - title: Various
     contents:
       - classify_habitats
       - list_to_randomized
       - pack_randomized
+      - plot.rd_mar
+      - plot.rd_pat
+      - plot.rd_ras
       - print.rd_mar
       - print.rd_pat
       - print.rd_ras

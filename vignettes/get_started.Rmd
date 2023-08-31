@@ -18,14 +18,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-#### Citation
-
-The **shar** package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the following paper.
-
-> Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811
-
-The get a BibTex entry, please use `citation("shar")`.
-
 ```{r import-libs, message = FALSE, warning = FALSE}
 library(shar)
 library(spatstat)
@@ -36,15 +28,15 @@ set.seed(42)
 
 ## Design
 
-The core of **shar** are functions to to simulate null model data by randomizing either the environmental data (i.e., raster data) or the locations of species (i.e., point pattern data). The null data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000), and Wiegand & Moloney (2014). The methods are not necessary complementary, but are rather different approaches to achieve the same result.
+The core of **shar** are functions to simulate null model data by randomizing either the environmental data (i.e., raster) or the locations of species (i.e., point pattern). The null model data is then used to analyse if significant species-habitat associations are present. Additionally, functions to visualize and analyse the results are available as well as some utility functions. The methods are mainly described in Harms et al. (2001), Plotkin et al. (2000), and Wiegand & Moloney (2014). The methods are not necessary complementary, but are rather different approaches to achieve the same result.
 
 ### Data 
 
-**shar** comes with build-in example data sets. `species_a` and `species_b` are exemplary locations of individuals, e.g., trees (as `ppp`-objects from the `spatstat` package); `landscape` contains exemplary continuous environmental data.
+**shar** comes with build-in example data sets. `species_a` and `species_b` are exemplary locations of individuals, e.g., tree locations wthin a forest study plot (as `ppp`-objects); `landscape` contains exemplary continuous environmental data (as `SpatRast`-object).
 
 ## Preprocessing of input data
 
-All functions are designed for discrete habitat classes. Thus, if continuous data is available, this has to be classified to discrete classes. `classify_habitats` provides several ways to classify the data, such as the Fisher-Jenks algorithm (Fisher 1958, Jenks & Caspall 1971)
+All functions are designed for discrete habitat classes. Thus, if continuous data is available, this has to be classified to discrete classes first. `classify_habitats` provides several ways to classify the data, such as the Fisher-Jenks algorithm (Fisher 1958, Jenks & Caspall 1971).
 
 ```{r classify_habitats}
 landscape_discrete <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
@@ -52,7 +44,7 @@ landscape_discrete <- classify_habitats(raster = terra::rast(landscape), n = 5, 
 
 ## Randomize environmental data
 
-There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `n_random <- (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4` randomized raster. The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized raster can be specified using the `n_random` argument.
+There are two functions to randomize the environmental data: `translate_raster()` and `randomize_raster()`. The first function is a torus translation of the raster, shifting the habitat map in all four cardinal directions. This is only possible for rectangular observation areas and results in `R (terra::nrow(terra::rast(landscape)) + 1) * (terra::ncol(terra::rast(landscape)) + 1)  - 4` randomized raster (based on number of rows and cols). The other function randomizes the environmental data using a random-walk algorithm. Here, the number of randomized raster can be specified using the `n_random` argument.
 
 All methods require "fully mapped data" in a sense that `NA` cells of the environmental data are allowed only if these cells cannot accommodate any locations of individuals (e.g., a water body within a forest area). This needs to be reflected in the observation window of the point pattern. For the torus translation method, no `NA` values are allowed at all.
 
@@ -86,9 +78,9 @@ reconstruction <- shar:::data_internal$reconstruction
 
 ## Analyse results
 
-The most important function to analyse results is `results_habitat_association()`. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The functions work for both, randomized environmental data or randomized location data. 
+The most important function to analyse results is `results_habitat_association()`. This function compares the observed data to the null model data and by that is able to show significant species-habitat associations. The function work for both, randomized environmental data or randomized location data. 
 
-Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`) and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples. However, the counts of the observed data should be identical, and general results and trends should be similar.
+Please be aware that due to the randomization of the null model data, results might slightly differ between different randomization approaches (e.g., `fit_point_process()` vs. `translate_raster()`), and even for repetitions of the same approach. Thus, the exact `lo` and `hi` thresholds might be slightly different when re-running the examples. However, the counts of the observed data should be identical, and general results and trends should be similar.
 
 ```{r results}
 results_habitat_association(pattern = species_a, raster = random_walk)
@@ -104,23 +96,25 @@ Given the characteristics of the method, a positive association to one habitat i
 
 There is also the possibility to visualize the randomized data using the `plot()` function.
 
-```{r plot_tors, fig.align = "center", out.height = "50%", out.width = "50%", message = FALSE}
-col_palette <- c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
-
-plot(torus_trans)
-```
-
 ```{r plot_recon, eval = FALSE}
 plot(reconstruction, ask = FALSE)
 ```
 
-For the randomized point pattern data, it is also possible to show the "difference" in terms of the energy (Tscheschel & Stoyan 2006) between the patterns.
+```{r plot_tors, fig.align = "center", out.height = "65%", out.width = "65%", message = FALSE}
+col_palette <- c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
 
-```{r energy, message = FALSE}
-calculate_energy(pattern = gamma_test, return_mean = TRUE)
-
-calculate_energy(pattern = reconstruction, return_mean = TRUE)
+plot(torus_trans, col = col_palette)
 ```
+
+There are many more functions, which can be found [here](https://r-spatialecology.github.io/shar/reference/index.html).
+
+### Citation
+
+The **shar** package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the following paper.
+
+> Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811
+
+The get a BibTex entry, please use `citation("shar")`.
 
 ### References
 
