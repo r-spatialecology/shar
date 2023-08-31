@@ -10,6 +10,9 @@ marks_sub <- spatstat.geom::subset.ppp(species_a, select = dbh)
 marks_recon <- reconstruct_pattern_marks(pattern_random_a$randomized[[1]], marks_sub,
                                          n_random = 3, max_runs = 10, verbose = FALSE)
 
+marks_recon_na <- marks_recon
+marks_recon_na$energy_df <- "NA"
+
 ################################################################################
 
 testthat::test_that("calculate_energy returns energy for all randomizations", {
@@ -44,6 +47,9 @@ testthat::test_that("calculate_energy returns works for reconstructed marks", {
 
   testthat::expect_equal(calculate_energy(marks_recon, return_mean = TRUE,
                                           verbose = FALSE), expected = mean_energy)
+
+  testthat::expect_length(calculate_energy(marks_recon_na, verbose = FALSE), n = 3)
+
   })
 
 testthat::test_that("calculate_energy returns error if observed not included", {

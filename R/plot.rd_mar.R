@@ -119,8 +119,7 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975),
     # specify quantums g(r)
     col_kmmr <- ifelse(test = result_observed[, 3] < result_randomized[, 2] |
                          result_observed[, 3] > result_randomized[, 3],
-                       yes =  "#1f78b4",
-                       no = "#b2df8a")
+                       yes =  "#1f78b4", no = "#b2df8a")
 
     # plot results
     graphics::plot(NULL, xlim = range(r), ylim = yrange,
@@ -179,8 +178,11 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975),
       # convert to dataframe
       current_pattern <- as.data.frame(subset_pattern[[i]])
 
+      current_pattern$marks <- ((current_pattern$marks - min(current_pattern$marks)) /
+        (max(current_pattern$marks) - min(current_pattern$marks)) * 1) + 0.25
+
       # plot points
-      graphics::plot(x = current_pattern$x, y = current_pattern$y,
+      graphics::plot(x = current_pattern$x, y = current_pattern$y, cex = current_pattern$marks,
                      type = "p", asp = 1, xlim = x_range, ylim = y_range, axes = FALSE,
                      main  = names_pattern[[i]], xlab = "", ylab = "")
 

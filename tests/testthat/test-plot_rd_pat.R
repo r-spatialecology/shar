@@ -33,6 +33,7 @@ testthat::test_that("plot returns error if observed is missing", {
 testthat::test_that("plot works for reconstructed marks", {
 
   testthat::expect_null(plot(marks_recon, verbose = FALSE))
+  testthat::expect_null(plot(marks_recon, what = "pp", verbose = FALSE))
 })
 
 testthat::test_that("plot returns error if what is wrong", {
