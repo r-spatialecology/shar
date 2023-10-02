@@ -1,6 +1,7 @@
 library(dplyr)
 library(NLMR)
 library(usethis)
+library(rgbif)
 library(sf)
 library(spatstat)
 library(terra)
@@ -75,9 +76,35 @@ gamma_test <- fit_point_process(pattern = species_b, n_random = n_random, proces
 reconstruction <- reconstruct_pattern(pattern = species_b, n_random = n_random,
                                       e_threshold = 0.05)
 
+
+#### Vignette Domestica
+
+#### gbif ####
+
+# Retrieve key for Cormus domestica
+key <- rgbif::name_backbone(name = 'Cormus domestica', kingdom = 'plants')
+
+# Establish region of interest
+roi <- c(xmin = -20, xmax = 45, ymin = 30, ymax = 73)
+roi_bbox <- sf::st_bbox(roi, crs = sf::st_crs("EPSG:4326"))
+roi_sfc <- sf::st_sfc(sf::st_point(c(roi[["xmin"]], roi[["ymin"]])),
+                      sf::st_point(c(roi[["xmax"]], roi[["ymax"]])),
+                      crs = "EPSG:4326")
+
+# Retrieve occurrences for the region of interest
+# 99,999; 10,000
+res <- rgbif::occ_search(taxonKey = as.numeric(key$usageKey), limit = 99999,
+                         geometry = roi_bbox)
+
+data_simp_precomp <- data.frame(id = res$data$key, lat = res$data$decimalLatitude,
+                                lon = res$data$decimalLongitude) %>%
+  dplyr::filter(!is.na(lat) | !is.na(lon))
+
+nrow(data_simp_precomp)
+
 #### Save data ####
 
-overwrite <- TRUE
+overwrite <- FALSE
 
 # save landscape
 landscape <- terra::wrap(landscape)
@@ -88,14 +115,10 @@ usethis::use_data(species_a, overwrite = overwrite)
 
 usethis::use_data(species_b, overwrite = overwrite)
 
-# save random landscape data
-torus_trans <- pack_randomized(raster = torus_trans)
-usethis::use_data(torus_trans, overwrite = overwrite)
+# save interal data
+data_internal <- list(torus_trans = pack_randomized(raster = torus_trans),
+                      random_walk = pack_randomized(raster = random_walk),
+                      gamma_test = gamma_test, reconstruction = reconstruction,
+                      data_gbif = data_simp_precomp)
 
-random_walk <- pack_randomized(raster = random_walk)
-usethis::use_data(random_walk, overwrite = overwrite)
-
-# save random point data
-usethis::use_data(gamma_test, overwrite = overwrite)
-
-usethis::use_data(reconstruction, overwrite = overwrite)
+usethis::use_data(data_internal, overwrite = overwrite, internal = TRUE)

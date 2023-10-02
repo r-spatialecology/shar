@@ -8,8 +8,6 @@
 #' @param n Integer with number or vector of ids of randomized pattern to plot.
 #' See Details section for more information.
 #' @param probs Vector with quantiles of randomized data used for envelope construction.
-#' @param comp_fast Integer with threshold at which summary functions are estimated
-#' in a computational fast way.
 #' @param ask Logical if the user is asked to press <RETURN> before second summary function
 #' is plotted (only used if \code{what = "sf"}).
 #' @param verbose Logical if progress report is printed.
@@ -18,9 +16,6 @@
 #' @details
 #' The function plots the pair correlation function and the nearest neighbour function of
 #' the observed pattern and the reconstructed patterns (as "simulation envelopes").
-#' For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
-#' correction is used and the pair correlation function is estimated based on Ripley's
-#' K-function. For more information see \code{\link{estimate_pcf_fast}}.
 #'
 #' It is also possible to plot n randomized patterns and the observed pattern
 #' using \code{what = "pp"}. If \code{n} is a single number, \code{n} randomized
@@ -48,7 +43,7 @@
 #' @rdname plot.rd_mar
 #'
 #' @export
-plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_fast = 1000,
+plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975),
                         ask = TRUE, verbose = TRUE, ...) {
 
   # check if class is correct
@@ -69,17 +64,6 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
                                                by = 1)), "observed")
 
   if (what == "sf") {
-
-    # check if number of points exceed comp_fast limit
-    if (x$observed$n > comp_fast) {
-
-      comp_fast <- TRUE
-
-    } else {
-
-      comp_fast <- FALSE
-
-    }
 
     name_unit <- spatstat.geom::unitname(x$observed)[[1]] # unit name for labels
 
@@ -135,8 +119,7 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
     # specify quantums g(r)
     col_kmmr <- ifelse(test = result_observed[, 3] < result_randomized[, 2] |
                          result_observed[, 3] > result_randomized[, 3],
-                       yes =  "#1f78b4",
-                       no = "#b2df8a")
+                       yes =  "#1f78b4", no = "#b2df8a")
 
     # plot results
     graphics::plot(NULL, xlim = range(r), ylim = yrange,
@@ -195,8 +178,11 @@ plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975), comp_
       # convert to dataframe
       current_pattern <- as.data.frame(subset_pattern[[i]])
 
+      current_pattern$marks <- ((current_pattern$marks - min(current_pattern$marks)) /
+        (max(current_pattern$marks) - min(current_pattern$marks)) * 1) + 0.25
+
       # plot points
-      graphics::plot(x = current_pattern$x, y = current_pattern$y,
+      graphics::plot(x = current_pattern$x, y = current_pattern$y, cex = current_pattern$marks,
                      type = "p", asp = 1, xlim = x_range, ylim = y_range, axes = FALSE,
                      main  = names_pattern[[i]], xlab = "", ylab = "")
 

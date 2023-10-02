@@ -81,7 +81,7 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
   if (inherits(x = raster, what = "rd_ras")) {
 
     # check if randomized and observed is present
-    if (!methods::is(raster$observed, "SpatRaster")) {
+    if (!inherits(x = raster$observed, what = "SpatRaster")) {
 
       stop("The observed raster needs to be included in the input 'raster'.",
            call. = FALSE)

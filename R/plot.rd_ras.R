@@ -42,7 +42,7 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
   }
 
   # check if observed is present
-  if (!methods::is(x$observed, "SpatRaster")) {
+  if (!inherits(x = x$observed, what = "SpatRaster")) {
 
     stop("Input must include 'observed' raster.", call. = FALSE)
 

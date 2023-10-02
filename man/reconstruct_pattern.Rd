@@ -9,15 +9,13 @@ reconstruct_pattern(
   method = "homo",
   n_random = 1,
   e_threshold = 0.01,
-  max_runs = 1000,
+  max_runs,
   no_change = Inf,
   annealing = 0.01,
-  comp_fast = 1000,
-  n_points = NULL,
-  window = NULL,
-  weights = c(0.5, 0.5),
-  r_length = 250,
+  weights = c(1, 1),
+  r_length = 255,
   r_max = NULL,
+  stoyan = 0.15,
   return_input = TRUE,
   simplify = FALSE,
   verbose = TRUE,
@@ -43,13 +41,6 @@ stop if the energy does not decrease.}
 \item{annealing}{Double with probability to keep relocated point even if energy
 did not decrease.}
 
-\item{comp_fast}{Integer with threshold at which summary functions are estimated
-in a computational fast way.}
-
-\item{n_points}{Integer with number of points to be simulated.}
-
-\item{window}{owin object with window of simulated pattern.}
-
 \item{weights}{Vector with weights used to calculate energy.
 The first number refers to Gest(r), the second number to pcf(r).}
 
@@ -58,6 +49,8 @@ the summary functions are evaluated.}
 
 \item{r_max}{Double with maximum distance used during calculation of summary functions. If \code{NULL},
 will be estimated from data.}
+
+\item{stoyan}{Coefficient for Stoyan's bandwidth selection rule.}
 
 \item{return_input}{Logical if the original input data is returned.}
 
@@ -82,16 +75,12 @@ deviation between the observed and the reconstructed pattern decreases.
 The pair correlation function and the nearest neighbour distance function are
 used to describe the patterns.
 
-For large patterns (\code{n > comp_fast}) the pair correlation function can be estimated
-from Ripley's K-function without edge correction. This decreases the computational
-time. For more information see \code{\link{estimate_pcf_fast}}.
-
 The reconstruction can be stopped automatically if for n steps the energy does not
 decrease. The number of steps can be controlled by \code{no_change} and is set to
 \code{no_change = Inf} as default to never stop automatically.
 
 The weights must be 0 < sum(weights) <= 1. To weight both summary functions identical,
-use \code{weights = c(0.5, 0.5)}.
+use \code{weights = c(1, 1)}.
 
 \code{spatstat} sets \code{r_length} to 513 by default. However, a lower value decreases
 the computational time, while increasing the "bumpiness" of the summary function.

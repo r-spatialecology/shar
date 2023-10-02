@@ -1,7 +1,10 @@
 For details changes, please see NEWS.md
 
+## shar 2.1
+Speed improvements
+
 ## shar 2.0.4
-Small speed improvments
+Small speed improvements
 
 ## shar 2.0.3
 This is a re-submission. The below error has now been fixed

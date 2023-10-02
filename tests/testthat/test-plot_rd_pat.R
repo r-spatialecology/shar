@@ -30,14 +30,10 @@ testthat::test_that("plot returns error if observed is missing", {
                          fixed = TRUE)
 })
 
-testthat::test_that("plot uses comp_fast", {
-
-  testthat::expect_null(plot(pattern_random, comp_fast = 50, verbose = FALSE, ask = FALSE))
-})
-
 testthat::test_that("plot works for reconstructed marks", {
 
   testthat::expect_null(plot(marks_recon, verbose = FALSE))
+  testthat::expect_null(plot(marks_recon, what = "pp", verbose = FALSE))
 })
 
 testthat::test_that("plot returns error if what is wrong", {

@@ -9,7 +9,6 @@
   what = "sf",
   n = NULL,
   probs = c(0.025, 0.975),
-  comp_fast = 1000,
   ask = TRUE,
   verbose = TRUE,
   ...
@@ -25,9 +24,6 @@
 See Details section for more information.}
 
 \item{probs}{Vector with quantiles of randomized data used for envelope construction.}
-
-\item{comp_fast}{Integer with threshold at which summary functions are estimated
-in a computational fast way.}
 
 \item{ask}{Logical if the user is asked to press <RETURN> before second summary function
 is plotted (only used if \code{what = "sf"}).}
@@ -45,9 +41,6 @@ Plot method for rd_pat object
 \details{
 The function plots the pair correlation function and the nearest neighbour function of
 the observed pattern and the reconstructed patterns (as "simulation envelopes").
-For large patterns \code{comp_fast = TRUE} decreases the computational demand because no edge
-correction is used and the pair correlation function is estimated based on Ripley's
-K-function. For more information see \code{\link{estimate_pcf_fast}}.
 
 It is also possible to plot n randomized patterns and the observed pattern
 using \code{what = "pp"}. If \code{n} is a single number, \code{n} randomized

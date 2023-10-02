@@ -62,7 +62,7 @@ To retrieve species occurrence data the `R` package `rgbif` (Chamberlain & Boett
 
 ```{r gbif, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
 # Load bundled GBIF occurrence data 
-data_simp <- shar:::data_simp_precomp
+data_simp <- shar:::data_internal$data_gbif
 ```
 
 ```{r roi, echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
