@@ -95,13 +95,14 @@ testthat::test_that("reconstruct_pattern returns errors", {
 
 testthat::test_that("reconstruct_pattern returns warnings", {
 
-  testthat::expect_warning(reconstruct_pattern(pattern = species_a,
-                                               n_random = 2, max_runs = 1,
-                                               return_input = FALSE, simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern(pattern = species_a, n_random = 2,
+                                               max_runs = 1, return_input = FALSE,
+                                               simplify = TRUE, verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
-  testthat::expect_warning(reconstruct_pattern(pattern = species_a,
-                                               n_random = 1, max_runs = 1,
-                                               simplify = TRUE),
+  testthat::expect_warning(reconstruct_pattern(pattern = species_a, n_random = 1,
+                                               max_runs = 1, simplify = TRUE,
+                                               verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 })
+
