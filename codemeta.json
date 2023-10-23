@@ -7,7 +7,7 @@
   "codeRepository": "https://r-spatialecology.github.io/shar/",
   "issueTracker": "https://github.com/r-spatialecology/shar/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.1",
+  "version": "2.1.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -192,18 +192,6 @@
     },
     "7": {
       "@type": "SoftwareApplication",
-      "identifier": "spatstat.model",
-      "name": "spatstat.model",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=spatstat.model"
-    },
-    "8": {
-      "@type": "SoftwareApplication",
       "identifier": "spatstat.geom",
       "name": "spatstat.geom",
       "provider": {
@@ -213,6 +201,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=spatstat.geom"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "spatstat.model",
+      "name": "spatstat.model",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spatstat.model"
     },
     "9": {
       "@type": "SoftwareApplication",
@@ -250,7 +250,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "723.822KB",
+  "fileSize": "1021.596KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
