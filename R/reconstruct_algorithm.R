@@ -43,9 +43,7 @@ reconstruct_algorithm <- function(pattern,
 
   # check if n_random is >= 1
   if (n_random < 1) {
-
     stop("n_random must be >= 1.", call. = FALSE)
-
   }
 
   # unmark pattern
@@ -53,16 +51,18 @@ reconstruct_algorithm <- function(pattern,
 
     pattern <- spatstat.geom::unmark(pattern)
 
-    if (verbose) {
-      warning("Unmarked provided input pattern. For marked pattern, see reconstruct_pattern_marks().",
-              call. = FALSE)
+    if (verbose) message("Unmarking provided input pattern. For marked pattern, see reconstruct_pattern_marks().")
 
-    }
   }
 
   # grab window and number of points
   n_points <- pattern$n
   window <- pattern$window
+
+  # check if pattern is emtpy
+  if (n_points == 0){
+    stop("The observed pattern contains no points", call. = FALSE)
+  }
 
   # calculate intensity
   lambda <- n_points / spatstat.geom::area(window)
@@ -168,6 +168,9 @@ reconstruct_algorithm <- function(pattern,
 
       }
     }
+
+    # check if simulated is empty
+    if (simulated$n == 0) stop("The simulated pattern contains no points.", call. = FALSE)
 
     # energy before reconstruction
     energy <- Inf

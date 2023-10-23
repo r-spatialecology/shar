@@ -1,4 +1,4 @@
-testthat::context("test-reconstruct_pattern")
+# testthat::context("test-reconstruct_pattern")
 
 # normal reconstruction
 pattern_recon_homo <- reconstruct_pattern(pattern = species_a, n_random = 3,
@@ -24,15 +24,17 @@ pattern_recon_simple <- reconstruct_pattern(pattern = species_a, n_random = 1,
                                             max_runs = 1, simplify = TRUE, return_input = FALSE,
                                             verbose = FALSE)
 
+pattern_empty <- spatstat.geom::ppp()
+
 ################################################################################
 
 testthat::test_that("reconstruct_pattern returns correct class", {
 
-  testthat::expect_is(pattern_recon_homo, class = "rd_pat")
+  testthat::expect_s3_class(pattern_recon_homo, class = "rd_pat")
 
-  testthat::expect_is(pattern_recon_cluster, class = "rd_pat")
+  testthat::expect_s3_class(pattern_recon_cluster, class = "rd_pat")
 
-  testthat::expect_is(pattern_recon_hetero, class = "rd_pat")
+  testthat::expect_s3_class(pattern_recon_hetero, class = "rd_pat")
 
 })
 
@@ -77,14 +79,18 @@ testthat::test_that("Reconstruction stops if e_threshold is reached", {
 
 testthat::test_that("simplify works for reconstruct_pattern", {
 
-  testthat::expect_is(pattern_recon_simple, "ppp")
+  testthat::expect_s3_class(pattern_recon_simple, "ppp")
 })
 
-testthat::test_that("reconstruct_pattern returns error if n_random < 1", {
+testthat::test_that("reconstruct_pattern returns errors", {
 
   testthat::expect_error(reconstruct_pattern(pattern = species_a, n_random = -5,
                                              verbose = FALSE),
                          regexp = "n_random must be >= 1.")
+
+  testthat::expect_error(reconstruct_pattern(pattern = pattern_empty, n_random = 199),
+                         regexp = "The observed pattern contains no points.")
+
 })
 
 testthat::test_that("reconstruct_pattern returns warnings", {
