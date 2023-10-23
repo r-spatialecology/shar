@@ -1,8 +1,10 @@
-testthat::context("test-list_to_randomized")
+# testthat::context("test-list_to_randomized")
 
 pattern_random <- lapply(X = 1:3, function(i) {
   fit_point_process(pattern = species_b, n_random = 1,
-                    return_input = FALSE, simplify = TRUE, verbose = FALSE)})
+                    return_input = FALSE, simplify = TRUE,
+                    verbose = FALSE)
+  })
 
 pattern_conv <- list_to_randomized(list = pattern_random,
                                          observed = species_b)

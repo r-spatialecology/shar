@@ -1,6 +1,7 @@
-testthat::context("test-plot_rd_ras")
+# testthat::context("test-plot_rd_ras")
 
-landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
+landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5,
+                                          style = "fisher")
 
 raster_random <- translate_raster(raster = landscape_classified,
                                   steps_x = 1:2, steps_y = 1:1, verbose = FALSE)
@@ -36,20 +37,17 @@ testthat::test_that("plot returns plot if n vector is specified", {
 testthat::test_that("plot returns error if observed is missing", {
 
   testthat::expect_error(plot(raster_random_ni, verbose = FALSE),
-                         regexp = "Input must include 'observed' raster.",
-                         fixed = TRUE)
+                         regexp = "Input must include 'observed' raster.")
 })
 
 testthat::test_that("plot returns error if wrong id are selected ", {
 
   testthat::expect_error(plot(raster_random, n = c(100, 101, 102), verbose = FALSE),
-                         regexp = "Please provide at least on valid ID for n.",
-                         fixed = TRUE)
+                         regexp = "Please provide at least on valid ID for n.")
 })
 
 testthat::test_that("plot returns warning if more than 10 classes are present", {
 
   testthat::expect_warning(plot(raster_random_cont),
-                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
-                           fixed = TRUE)
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 })

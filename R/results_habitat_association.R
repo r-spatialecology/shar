@@ -67,7 +67,7 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
 
   }
 
-  if (significance_level < 0.01 || significance_level > 0.1 && verbose) {
+  if (significance_level < 0.01 || significance_level > 0.1) {
 
     warning("Make sure 'signifcance_level' is meaningful (e.g. 'significance_level = 0.05').",
             call. = FALSE)
@@ -100,24 +100,14 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
     same_extent <- terra::ext(raster$observed) == terra::ext(pattern$window$xrange,
                                                              pattern$window$yrange)
 
-    # error if extent is not identical
-    if (!same_extent) {
-
-      warning("Extent of 'pattern' and 'raster' are not identical.", call. = FALSE)
-
-    }
-
     habitats <- table(terra::values(raster$observed, mat = FALSE), useNA = "no") # get table of habitats
 
     # print warning if more than 25 classes are present
-    if (verbose) {
+    if (length(habitats) > 25) {
 
-      if (length(habitats) > 25) {
+      warning("The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.",
+              call. = FALSE)
 
-        warning("The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.",
-                call. = FALSE)
-
-      }
     }
 
     # print quantiles
@@ -166,13 +156,6 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
     same_extent <- terra::ext(raster) == terra::ext(pattern$observed$window$xrange,
                                                     pattern$observed$window$yrange)
 
-    # error if extent is not identical
-    if (!same_extent) {
-
-      warning("Extent of 'pattern' and 'raster' are not identical.", call. = FALSE)
-
-    }
-
     # warning if NA are present
     if (anyNA(terra::values(raster, mat = FALSE))) {
 
@@ -183,14 +166,10 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
     habitats <- table(terra::values(raster, mat = FALSE), useNA = "no") # get table of habitats
 
     # print warning if more than 25 classes are present
-    if (verbose) {
+    if (length(habitats) > 25) {
 
-      if (length(habitats) > 25) {
-
-        warning("The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.",
-                call. = FALSE)
-
-      }
+      warning("The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.",
+              call. = FALSE)
     }
 
     # print quantiles
@@ -214,6 +193,13 @@ results_habitat_association <- function(pattern, raster, significance_level = 0.
       extract_points(raster = raster, pattern = current_pattern)
 
     })
+  }
+
+  # error if extent is not identical
+  if (!same_extent) {
+
+    warning("Extent of 'pattern' and 'raster' are not identical.", call. = FALSE)
+
   }
 
   # repeat each name as often as number of habitats

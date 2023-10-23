@@ -1,4 +1,4 @@
-testthat::context("test-extract_points")
+# testthat::context("test-extract_points")
 
 landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 

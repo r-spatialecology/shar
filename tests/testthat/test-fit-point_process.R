@@ -1,4 +1,4 @@
-testthat::context("test-fit_point_process")
+# testthat::context("test-fit_point_process")
 
 # normal
 pattern_random <- fit_point_process(pattern = species_b, n_random = 3,
@@ -62,32 +62,29 @@ testthat::test_that("Input pattern can not be returned for fit_point_process", {
 
 testthat::test_that("simplify works for fit_point_process", {
 
-  testthat::expect_is(pattern_random_simple, "ppp")
+  testthat::expect_s3_class(pattern_random_simple, "ppp")
 })
 
 testthat::test_that("fit_point_process returns errors", {
 
   testthat::expect_error(fit_point_process(pattern = species_b, n_random = -10,
                                            verbose = FALSE),
-                         regexp = "n_random must be >= 1.",
-                         fixed = TRUE)
+                         regexp = "n_random must be >= 1.")
 
-  testthat::expect_error(fit_point_process(pattern = species_b, n_random = 19,
-                                           process = "not_valid", verbose = FALSE),
-                         regexp = "Please select either 'poisson' or 'cluster'.",
-                         fixed = TRUE)
+  testthat::expect_error(fit_point_process(pattern = species_b,
+                                           n_random = 19, process = "not_valid",
+                                           verbose = FALSE),
+                         regexp = "Please select either 'poisson' or 'cluster'.")
 })
 
 testthat::test_that("fit_point_process returns warnings", {
 
-  testthat::expect_warning(fit_point_process(pattern = species_a, n_random = 3,
-                                             return_input = FALSE, simplify = TRUE),
-                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
-                           fixed = TRUE)
+  testthat::expect_warning(fit_point_process(pattern = species_a,
+                                             n_random = 3, return_input = FALSE,
+                                             simplify = TRUE, verbose = FALSE),
+                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
-  testthat::expect_warning(fit_point_process(pattern = species_a, n_random = 1,
-                                             simplify = TRUE),
-                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
-                           fixed = TRUE)
+  testthat::expect_warning(fit_point_process(pattern = species_a,
+                                             n_random = 1, simplify = TRUE, verbose = FALSE),
+                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 })
-

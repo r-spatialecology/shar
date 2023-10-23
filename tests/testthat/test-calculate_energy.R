@@ -1,6 +1,7 @@
-testthat::context("test-calculate_energy")
+# testthat::context("test-calculate_energy")
 
-pattern_random_a <- fit_point_process(pattern = species_a, n_random = 3, verbose = FALSE)
+pattern_random_a <- fit_point_process(pattern = species_a, n_random = 3,
+                                      verbose = FALSE)
 
 pattern_random_b <- fit_point_process(pattern = species_b, n_random = 3,
                                       return_input = FALSE, verbose = FALSE)
@@ -55,13 +56,11 @@ testthat::test_that("calculate_energy returns works for reconstructed marks", {
 testthat::test_that("calculate_energy returns error if observed not included", {
 
   testthat::expect_error(calculate_energy(pattern_random_b, verbose = FALSE),
-                         regexp = "Input must include 'observed' pattern.",
-                         fixed = TRUE)
+                         regexp = "Input must include 'observed' pattern.")
 })
 
 testthat::test_that("calculate_energy returns error if wrong class ", {
 
   testthat::expect_error(calculate_energy(list(species_a, species_b), verbose = FALSE),
-                         regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.",
-                         fixed = TRUE)
+                         regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.")
 })

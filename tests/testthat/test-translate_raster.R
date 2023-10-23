@@ -1,4 +1,4 @@
-testthat::context("test-translate_raster")
+# testthat::context("test-translate_raster")
 
 # n_random <- (terra::nrow(terra::rast(landscape)) + 1) *
 #   terra::ncol(terra::rast(landscape)) + 1)  - 4
@@ -63,8 +63,7 @@ testthat::test_that("Providing steps is working for translate_raster", {
 
 testthat::test_that("simplify is working for translate_raster", {
 
-  testthat::expect_is(landscape_random_simple,
-                      class = "SpatRaster")
+  testthat::expect_s4_class(landscape_random_simple, class = "SpatRaster")
 })
 
 testthat::test_that("Warning if more than 10 classes are present for translate_raster", {

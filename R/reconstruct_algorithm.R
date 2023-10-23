@@ -61,7 +61,7 @@ reconstruct_algorithm <- function(pattern,
 
   # check if pattern is emtpy
   if (n_points == 0){
-    stop("The observed pattern contains no points", call. = FALSE)
+    stop("The observed pattern contains no points.", call. = FALSE)
   }
 
   # calculate intensity

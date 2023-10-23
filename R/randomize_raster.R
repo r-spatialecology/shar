@@ -68,14 +68,10 @@ randomize_raster <- function(raster,
   habitats <- sort(table(terra::values(raster, mat = FALSE))) # get table of habitats
 
   # print warning if more than 10 classes are present
-  if (verbose) {
-
-    if (length(habitats) > 10) {
+  if (length(habitats) > 10) {
 
       warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
               call. = FALSE)
-
-    }
   }
 
   n_cells <- sum(habitats) # number of cells
@@ -206,7 +202,7 @@ randomize_raster <- function(raster,
     if (simplify) {
 
       # not possible if more than one raster is present
-      if (n_random > 1 && verbose) {
+      if (n_random > 1) {
 
         warning("'simplify = TRUE' not possible for 'n_random > 1'.",
                 call. = FALSE)
@@ -223,7 +219,7 @@ randomize_raster <- function(raster,
   } else {
 
     # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
-    if (simplify && verbose) {
+    if (simplify) {
 
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
 

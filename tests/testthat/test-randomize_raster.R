@@ -1,4 +1,4 @@
-testthat::context("test-randomize_raster")
+# testthat::context("test-randomize_raster")
 
 landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 
@@ -21,7 +21,7 @@ landscape_wrong[1:50] <- NA
 
 testthat::test_that("Output is as long as n_random for randomize_raster", {
 
-  testthat::expect_is(landscape_random, class = "rd_ras")
+  testthat::expect_s3_class(landscape_random, class = "rd_ras")
 
   testthat::expect_length(landscape_random$randomized, n = 1)
 })
@@ -46,32 +46,27 @@ testthat::test_that("Input raster can not be returned for randomize_raster", {
 
 testthat::test_that("simplify works for randomize_raster", {
 
-  testthat::expect_is(raster_random_simple, "SpatRaster")
+  testthat::expect_s4_class(raster_random_simple, "SpatRaster")
 })
 
 testthat::test_that("randomize_raster returns error of n_random < 1", {
 
   testthat::expect_error(randomize_raster(raster = landscape_classified, n_random = 0,
-                                          verbose = FALSE),
-                         regexp = "n_random must be >= 1.",
-                         fixed = TRUE)
+                                          verbose = FALSE), regexp = "n_random must be >= 1.")
 })
 
 testthat::test_that("randomize_raster returns all warnings", {
 
   testthat::expect_warning(randomize_raster(raster = landscape_classified, n_random = 1,
                                             simplify = TRUE),
-                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.",
-                           fixed = TRUE)
+                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 
   testthat::expect_warning(randomize_raster(raster = landscape_classified, n_random = 2,
                                             simplify = TRUE, return_input = FALSE),
-                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.",
-                           fixed = TRUE)
+                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
   testthat::expect_warning(randomize_raster(raster = terra::rast(landscape), n_random = 1),
-                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.",
-                           fixed = TRUE)
+                           regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 })
 
 testthat::test_that("Warning if NA are present", {

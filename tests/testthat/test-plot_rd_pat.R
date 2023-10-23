@@ -1,4 +1,4 @@
-testthat::context("test-plot_rd_pat")
+# testthat::context("test-plot_rd_pat")
 
 pattern_random <- fit_point_process(species_a, n_random = 3, verbose = FALSE)
 
@@ -26,8 +26,7 @@ testthat::test_that("plot returns plot", {
 testthat::test_that("plot returns error if observed is missing", {
 
   testthat::expect_error(plot(pattern_random_ni, verbose = FALSE),
-                         regexp = "Input must include 'observed' pattern.",
-                         fixed = TRUE)
+                         regexp = "Input must include 'observed' pattern.")
 })
 
 testthat::test_that("plot works for reconstructed marks", {
@@ -39,6 +38,5 @@ testthat::test_that("plot works for reconstructed marks", {
 testthat::test_that("plot returns error if what is wrong", {
 
   testthat::expect_error(plot(pattern_random, what = "wrong", verbose = FALSE),
-                         regexp = "Please select either what = 'sf' or what = 'pp'.",
-                         fixed = TRUE)
+                         regexp = "Please select either what = 'sf' or what = 'pp'.")
 })

@@ -28,9 +28,7 @@
 #' @rdname print.rd_mar
 #'
 #' @export
-print.rd_mar <- function(x,
-                         digits = 4,
-                         ...) {
+print.rd_mar <- function(x, digits = 4, ...) {
 
   # set length observed pattern to 0 and
   # return warning that energy can't be calculated
