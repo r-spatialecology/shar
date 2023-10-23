@@ -1,4 +1,4 @@
-testthat::context("test-create_neighbourhood")
+# testthat::context("test-create_neighbourhood")
 
 mat <- matrix(1, nrow = 10, ncol = 10)
 
@@ -27,6 +27,5 @@ testthat::test_that("create_neighbourhood returns right dimension for directions
 testthat::test_that("create_neighbourhood returns error", {
 
   testthat::expect_error(create_neighbourhood(cell_id, mat, directions = 12),
-                         regexp = "'directions must be 'directions = 4' or 'directions = 8'.",
-                         fixed = TRUE)
+                         regexp = "'directions must be 'directions = 4' or 'directions = 8'.")
 })

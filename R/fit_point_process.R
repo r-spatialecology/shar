@@ -55,12 +55,8 @@ fit_point_process <- function(pattern,
 
     pattern <- spatstat.geom::unmark(pattern)
 
-    if (verbose) {
+    if (verbose) message("Unmarking provided input pattern.")
 
-      warning("Unmarked provided input pattern.",
-              call. = FALSE)
-
-    }
   }
 
   if (process == "poisson") {
@@ -158,7 +154,7 @@ fit_point_process <- function(pattern,
     if (simplify) {
 
       # not possible if more than one pattern is present
-      if (n_random > 1 && verbose) {
+      if (n_random > 1) {
 
         warning("'simplify = TRUE' not possible for 'n_random > 1'.",
                 call. = FALSE)
@@ -175,7 +171,7 @@ fit_point_process <- function(pattern,
   } else {
 
     # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
-    if (simplify && verbose) {
+    if (simplify) {
 
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
 

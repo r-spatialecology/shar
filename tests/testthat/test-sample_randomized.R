@@ -1,4 +1,4 @@
-testthat::context("test-plot_rd_pat")
+# testthat::context("test-plot_rd_pat")
 
 pattern_random <- fit_point_process(species_a, n_random = 9, verbose = FALSE)
 

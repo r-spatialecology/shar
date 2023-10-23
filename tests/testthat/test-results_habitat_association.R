@@ -1,4 +1,4 @@
-testthat::context("test-results_habitat_association")
+# testthat::context("test-results_habitat_association")
 
 set.seed(42)
 
@@ -80,20 +80,20 @@ testthat::test_that("results_habitat_association returns breaks", {
 testthat::test_that("results_habitat_association returns warning if significance_threshold is not meaningful", {
 
   testthat::expect_warning(results_habitat_association(raster = landscape_classified$raster,
-                                                       pattern = random_a,
-                                                       significance_level = 0.75),
+                                                       pattern = random_a, significance_level = 0.75,
+                                                       verbose = FALSE),
                            regexp = "Make sure 'signifcance_level' is meaningful (e.g. 'significance_level = 0.05').",
                            fixed = TRUE)
 })
 
 testthat::test_that("results_habitat_association returns warning if more than 25 classes are present", {
 
-  testthat::expect_warning(results_habitat_association(raster = terra::rast(landscape),
-                                                       pattern = random_a),
+  testthat::expect_warning(results_habitat_association(raster = terra::rast(landscape), pattern = random_a,
+                                                       verbose = FALSE),
                            regexp = "The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.")
 
-  testthat::expect_warning(results_habitat_association(raster = raster_random_cont,
-                                                       pattern = species_a),
+  testthat::expect_warning(results_habitat_association(raster = raster_random_cont, pattern = species_a,
+                                                       verbose = FALSE),
                            regexp = "The raster has more than 25 classes. You can ignore this warning if your raster data is discrete.")
 })
 

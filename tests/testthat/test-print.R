@@ -1,4 +1,4 @@
-testthat::context("test-print")
+# testthat::context("test-print")
 
 pattern_reconstruction <- reconstruct_pattern(pattern = species_a, n_random = 3, max_runs = 1,
                                               verbose = FALSE)

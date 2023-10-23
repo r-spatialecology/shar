@@ -80,23 +80,21 @@ reconstruct_pattern_marks <- function(pattern,
 
   # check if n_random is >= 1
   if (!n_random >= 1) {
-
     stop("n_random must be >= 1.", call. = FALSE)
-
   }
 
   # check if pattern is marked
   if (spatstat.geom::is.marked(pattern) || !spatstat.geom::is.marked(marked_pattern)) {
-
     stop("'pattern' must be unmarked and 'marked_pattern' marked", call. = FALSE)
-
   }
 
   # check if marks are numeric
   if (!inherits(x = marked_pattern$marks, what = "numeric")) {
-
     stop("marks must be 'numeric'", call. = FALSE)
+  }
 
+  if (pattern$n == 0 ||  marked_pattern$n == 0){
+    stop("At least one of the observed patterns contain no points.", call. = FALSE)
   }
 
   # calculate r from data
@@ -297,7 +295,7 @@ reconstruct_pattern_marks <- function(pattern,
     if (simplify) {
 
       # not possible if more than one pattern is present
-      if (n_random > 1 && verbose) {
+      if (n_random > 1) {
 
         warning("'simplify = TRUE' not possible for 'n_random > 1'.",
                 call. = FALSE)
@@ -316,7 +314,7 @@ reconstruct_pattern_marks <- function(pattern,
   } else {
 
     # return warning if simply = TRUE because not possible if return_input = TRUE (only verbose = TRUE)
-    if (simplify && verbose) {
+    if (simplify) {
 
       warning("'simplify = TRUE' not possible for 'return_input = TRUE'.", call. = FALSE)
 

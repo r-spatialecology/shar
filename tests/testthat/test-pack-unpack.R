@@ -1,4 +1,4 @@
-testthat::context("test-pack_randomized")
+# testthat::context("test-pack_randomized")
 
 landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 landscape_classified[terra::values(landscape_classified) != 1] <- 2
@@ -20,7 +20,7 @@ testthat::test_that("pack_randomized wraps raster", {
 
 })
 
-testthat::context("test-pack_randomized")
+# testthat::context("test-pack_randomized")
 
 y <- unpack_randomized(raster = x)
 y_ni <- unpack_randomized(raster = x_ni)

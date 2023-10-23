@@ -52,14 +52,9 @@ sample_randomized <- function(randomized, n = NULL, verbose = TRUE) {
       # check if less than 3 randomized elements are present
       n <- ifelse(test = n_randomized < 4, yes = n_randomized, no = 3)
 
-      # print message
-      if (verbose) {
-
-        # return warning
-        warning("n larger than number of randomize eleements. Setting n = ", n, ".",
-                call. = FALSE)
-
-        }
+      # return warning
+      warning("n larger than number of randomize eleements. Setting n = ", n, ".",
+              call. = FALSE)
     }
 
     # sample elements
@@ -82,11 +77,8 @@ sample_randomized <- function(randomized, n = NULL, verbose = TRUE) {
       }
 
       # return warning that some ids were removed
-      if (verbose) {
+      warning("Using only IDs that are present in randomized data.", call. = FALSE)
 
-        warning("Using only IDs that are present in randomized data.", call. = FALSE)
-
-      }
     }
 
     # sample elements

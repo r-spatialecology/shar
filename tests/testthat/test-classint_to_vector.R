@@ -1,4 +1,4 @@
-testthat::context("test-classint_to_vector")
+# testthat::context("test-classint_to_vector")
 
 x <- classInt::classIntervals(var = stats::runif(n = 100), style = "fisher", n = 5)
 

@@ -1,4 +1,4 @@
-testthat::context("test-classify_habitats")
+# testthat::context("test-classify_habitats")
 
 landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 

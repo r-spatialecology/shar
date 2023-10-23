@@ -1,3 +1,6 @@
+# shar 2.1.1
+* Bugfixes (thanks to @baddstats)
+
 # shar 2.1
 * Improvements
   * Remove `comp_fast` argument

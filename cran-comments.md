@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md
 
+## shar 2.1.1
+Minor bug fixes
+
 ## shar 2.1
 Speed improvements
 
@@ -86,14 +89,3 @@ which is together alreadyv more than 10 min which is the CRAN threshold for a pa
   running tests for arch 'x64' ... [164s] OK
 
 * Renamed package from `SHAR` to `shar`
-
-## Test environments
-* macOS-latest,   R: 'release'
-* windows-latest, R: 'release'
-* ubuntu-latest,  R: 'release'
-
-## R CMD check results
-0 errors | 0 warnings | 0 note
-
-## Reverse dependencies
-There are currently no reverse dependencies.
