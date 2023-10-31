@@ -48,6 +48,6 @@ testthat::test_that("plot returns error if wrong id are selected ", {
 
 testthat::test_that("plot returns warning if more than 10 classes are present", {
 
-  testthat::expect_warning(plot(raster_random_cont),
+  testthat::expect_warning(plot(raster_random_cont, n = 1),
                            regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 })

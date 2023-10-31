@@ -105,4 +105,3 @@ testthat::test_that("reconstruct_pattern returns warnings", {
                                                verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 })
-
