@@ -1,11 +1,13 @@
 Type: Package
 Package: shar
 Title: Species-Habitat Associations
-Version: 2.1.1
+Version: 2.2
 Authors@R: c(person("Maximilian H.K.", "Hesselbarth", email = "mhk.hesselbarth@gmail.com",
              role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1125-9918")),
              person("Marco", "Sciaini", email = "marco.sciaini@posteo.net",
              role = "aut", comment = c(ORCID = "0000-0002-3042-5435")), 
+             person("Chris", "Wudel", email = "chris.wudel@tu-dresden.de",
+             role = "aut", comment = c(ORCID = "0000-0003-0446-4665")), 
              person("Zeke", "Marshall", email = "ee18zm@leeds.ac.uk",
              role = "ctb", comment = c(ORCID = "0000-0001-9260-7827")), 
              person("Thomas", "Etherington", email = "teth001@aucklanduni.ac.nz",
