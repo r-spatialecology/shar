@@ -208,22 +208,22 @@ reconstruct_pattern_multi <- function(marked_pattern,
 
                                          # Calculation of the Dk(r)-function, if this is to be taken into account for the energy calculation.
                                          Dk = {
-                                           nnd_ <- as.matrix(nndist(x, y, k=k))
-                                           apply(nnd_, 2, function(z) cumsum(hist(z[z <= rmax], breaks = c(-Inf, r), plot = FALSE) $ count) / length(z))
+                                           nnd_ <- as.matrix(spatstat.geom::nndist(x, y, k=k))
+                                           apply(nnd_, 2, function(z) cumsum(graphics::hist(z[z <= rmax], breaks = c(-Inf, r), plot = FALSE) $ count) / length(z))
                                          },
                                          # Calculation of the K(r)-function, if this is to be taken into account for the energy calculation.
                                          K = {
-                                           kest<-Kest(ppp(x,y,window=owin(xr,yr)), rmax=rmax, correction="none")# , breaks = c(-Inf, r)
+                                           kest<-spatstat.explore::Kest(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), rmax=rmax, correction="none")# , breaks = c(-Inf, r)
                                            kest$un
                                          },
                                          # Calculation of the pcf(r)-function (spherical contact distribution), if this is to be taken into account for the energy calculation.
                                          pcf = {
-                                           pcfest<-pcf(ppp(x,y,window=owin(xr,yr)), r=c(0,r), kernel=kernel_arg, divisor=divisor, bw=bw, correction="none")
+                                           pcfest<-spatstat.explore::pcf(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), r=c(0,r), kernel=kernel_arg, divisor=divisor, bw=bw, correction="none")
                                            pcfest$un
                                          },
                                          # Calculation of the Hs(r)-function (pair correlation function), if this is to be taken into account for the energy calculation.
                                          Hs = {
-                                           hest<-Hest(ppp(x,y,window=owin(xr,yr)), correction="none") #, breaks = c(-Inf, r)
+                                           hest<-spatstat.explore::Hest(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), correction="none") #, breaks = c(-Inf, r)
                                            hest$raw
                                          },
                                          stop("unknown statistic")
@@ -335,15 +335,6 @@ reconstruct_pattern_multi <- function(marked_pattern,
       )
     }
   )
-
-# If separate summary statistics (Dk, K, Hs, pcf) are to be included in the energy calculation, the "spatstat" package is loaded here and an error message is displayed if it is not installed.
-  if (length(w_statistics)) {
-    if("spatstat" %in% rownames(utils::installed.packages()) == FALSE) {
-      stop("the package 'spatstat' must be installed on your computer for the
-           application if the w_statistics option is used.", call. = FALSE)
-    }
-    require (spatstat)
-  }
 
 # Determination of the weightings of the mark correlation functions.
   fn        <- list()
