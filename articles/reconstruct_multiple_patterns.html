@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="How to reconstruct multiple patterns">
 <meta property="og:description" content="shar">
@@ -138,7 +138,7 @@
                         <h4 data-toc-skip class="author">Maximilian H.K.
 Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2023-11-17</h4>
+            <h4 data-toc-skip class="date">2023-11-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multiple_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multiple_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multiple_patterns.Rmd</code></div>
@@ -174,11 +174,11 @@ provided input patterns.</p>
 <span>                                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.09268874   0.13157481   0.12045968 </span></span>
+<span><span class="co">#&gt;   0.13798226   0.09778471   0.09909787 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;    0.3898080    0.3905790    0.3784757</span></span></code></pre></div>
+<span><span class="co">#&gt;    0.3951915    0.3142554    0.4313180</span></span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the
 spatial characteristics and afterwards reconstruct the marks <em>m</em>
 times for each of the <em>n</em> spatial reconstructions.</p>
@@ -212,15 +212,15 @@ provided input patterns and reconstructions.</p>
 <span>                                                  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $randomized_1</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.05368535   0.04127821   0.03283515 </span></span>
+<span><span class="co">#&gt;   0.05996896   0.05583108   0.05001633 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_2</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.05827264   0.04545326   0.02672975 </span></span>
+<span><span class="co">#&gt;   0.05173388   0.04708934   0.03953492 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_3</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.05352873   0.05740417   0.05690885</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.05179245   0.05338098   0.03864351</span></span></code></pre></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
