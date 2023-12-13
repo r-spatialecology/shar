@@ -166,91 +166,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
 # Loop to perform multiple reconstructions.
   for (t in seq_len(n_repetitions)) {
 
-    # Definition of the product-moment function for calculating the contribution of a point at the coordinates x, y with marking.
-    calc_moments <- function(fn, p, exclude=NULL, x, y, mark, kernel, rmax_bw, r) {
-      d2           <- (p$x-x)^2 + (p$y-y)^2
-      use          <-  d2 <= rmax_bw^2
-      use[exclude] <- FALSE
-      z            <- crossprod(p$mark[use, , drop = FALSE],
-                                outer(sqrt(d2[use]), r, function(d, r) kernel(r, d)))
-      z[fn$i, , drop = FALSE] * mark[fn$j] + z[fn$j, , drop = FALSE] * mark[fn$i]
-    }
-
-    # Definition of the calc_moments_full function to calculate the calc_moments function for the whole pattern.
-    calc_moments_full <- function(fn, p, kernel, rmax_bw, r) {
-      f <- 0
-      for (i in seq_len(nrow(p))) {
-        f <- f + calc_moments(fn, p, i:nrow(p), p$x[i], p$y[i], p$mark[i, ],
-                              kernel, rmax_bw, r)
-      }
-      rownames(f) <- paste(names(fn$i), names(fn$j), sep = ":")
-      f
-    }
-
-    # Function for the transformation of variables to dummy variables and back
-    to_dummy <- function(f) {
-      x <- matrix(0, length(f), nlevels(f), dimnames=list(names(f), levels(f)))
-      x[cbind(seq_along(f), as.integer(f))] <- 1
-      x
-    }
-    from_dummy <- function(x, levels=colnames(x)) {
-      f <- as.integer(x %*% seq_along(levels))
-      levels(f) <- levels
-      class(f) <- "factor"
-      f
-    }
-
-    # Compute optional spatial statistics using the spatstat package.
-    compute_statistics <- function(x, y, k, xr, yr) {
-      stat <- names(w_statistics)
-      names(stat) <- stat
-      lapply(stat, function(name) switch(name,
-
-                                         # Calculation of the Dk(r)-function, if this is to be taken into account for the energy calculation.
-                                         Dk = {
-                                           nnd_ <- as.matrix(spatstat.geom::nndist(x, y, k=k))
-                                           apply(nnd_, 2, function(z) cumsum(graphics::hist(z[z <= rmax], breaks = c(-Inf, r), plot = FALSE) $ count) / length(z))
-                                         },
-                                         # Calculation of the K(r)-function, if this is to be taken into account for the energy calculation.
-                                         K = {
-                                           kest<-spatstat.explore::Kest(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), rmax=rmax, correction="none")# , breaks = c(-Inf, r)
-                                           kest$un
-                                         },
-                                         # Calculation of the pcf(r)-function (spherical contact distribution), if this is to be taken into account for the energy calculation.
-                                         pcf = {
-                                           pcfest<-spatstat.explore::pcf(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), r=c(0,r), kernel=kernel_arg, divisor=divisor, bw=bw, correction="none")
-                                           pcfest$un
-                                         },
-                                         # Calculation of the Hs(r)-function (pair correlation function), if this is to be taken into account for the energy calculation.
-                                         Hs = {
-                                           hest<-spatstat.explore::Hest(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), correction="none") #, breaks = c(-Inf, r)
-                                           hest$raw
-                                         },
-                                         stop("unknown statistic")
-      ))
-    }
-
-    # Defining the Energy_fun function to calculate the "energy" of the pattern (where a lower energy indicates a better match).
-    energy_fun <- function(f, f0, statistics, f_, f0_, statistics_) {
-      result <- c(
-        f = sum(fn$w * rowMeans(abs(
-          f / nrow(p) -
-            f_ / nrow(p_)
-        )^Lp)),
-        f0 = sum(fn$w0 * abs(
-          f0 / nrow(p) -
-            f0_ / nrow(p_)
-        )^Lp),
-        if (length(w_statistics))
-          sapply(seq_along(w_statistics), function(i) w_statistics[i] *
-                   mean(abs(statistics[[i]] - statistics_[[i]])^Lp, na.rm = TRUE),
-                 USE.NAMES=FALSE
-          )
-      )
-      c(energy = sum(result), result)
-    }
-
-# Load the reference point pattern as a data frame with the components x, y, mark, where x, y are the coordinates of the point and mark is a matrix representing the marks or their dummy values.
+  # Load the reference point pattern as a data frame with the components x, y, mark, where x, y are the coordinates of the point and mark is a matrix representing the marks or their dummy values.
   p_ <- data.frame(
           x = marked_pattern$x,
           y = marked_pattern$y)
@@ -285,56 +201,12 @@ reconstruct_pattern_multi <- function(marked_pattern,
 
 # Definition of parameters for the estimation of correlation functions.
   rmin    <- rmax / rcount
-  r       <- seq(rmin, rmax, , rcount)
+  r       <- seq(rmin, rmax, , rcount) # MH: Is rcount by or length.out argument?
 
 # Calculation of the kernels.
-  kernel <- switch(kernel_arg,
-    epanechnikov = {
-      a <- bw * sqrt(5)
-      rmax_bw <- rmax + a
-      switch(divisor,
-        {
-          rmax_bw <- sqrt(rmax^2 + a/pi)
-          function(r, d) pmax.int(0, 1 - ((r^2-d^2)*pi/a)^2) * 0.75/a
-        },
-        none = function(r, d) pmax.int(0, 1 - ((r-d)/a)^2) * 0.75/a,
-        r = function(r, d) pmax.int(0, 1 - ((r-d)/a)^2) * 0.75/(a*2*pi*r),
-        d = function(r, d) pmax.int(0, 1 - ((r-d)/a)^2) * 0.75/(a*2*pi*d)
-      )
-    },
-    rectangular =, box = {
-      a <- bw * sqrt(3)
-      rmax_bw <- rmax + a
-      switch(divisor,
-        {
-          rmax_bw <- sqrt(rmax^2 + a/pi)
-          function(r, d) stats::dunif((r^2-d^2)*pi,-a,+a)
-        },
-        none = function(r, d) stats::dunif(r,d-a,d+a),
-        r = function(r, d) stats::dunif(r,d-a,d+a)/(2*pi*r),
-        d = function(r, d) stats::dunif(r,d-a,d+a)/(2*pi*d)
-      )
-    },
-    gaussian = {
-      rmax_bw <- Inf
-      switch(divisor,
-        function(r, d) stats::dnorm((r^2-d^2)*pi,0,sd=bw),
-        none = function(r, d) stats::dnorm(r,d,sd = bw),
-        r = function(r, d) stats::dnorm(r,d,sd = bw)/ (2*pi*r),
-        d = function(r, d) stats::dnorm(r,d,sd = bw)/ (2*pi*d)
-      )
-    },
-
-    cumulative = {
-      rmax_bw <- rmax
-      switch(divisor,
-        function(r, d) as.numeric(d <= r),
-        none = function(r, d) as.numeric(d <= r),
-        r = function(r, d) (d <= r) / (2*pi*r),
-        d = function(r, d) (d <= r) / (2*pi*d)
-      )
-    }
-  )
+  sel_kernel <- select_kernel(kernel_arg, bw, rmax, divisor)
+  kernel <- as.function(sel_kernel[[1]])
+  rmax_bw <- as.numeric(sel_kernel[[2]])
 
 # Determination of the weightings of the mark correlation functions.
   fn        <- list()
@@ -355,7 +227,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
   names(fn$i) <- marknames[fn$i]
   names(fn$j) <- marknames[fn$j]
 
-# Defines the initial state of the new ponit pattern.
+  # Defines the initial state of the new ponit pattern.
   n <- nrow(p_)
   xwr <- obs_window$xrange
   ywr <- obs_window$yrange
@@ -371,11 +243,11 @@ reconstruct_pattern_multi <- function(marked_pattern,
   f_         <- calc_moments_full(fn, p_, kernel, rmax_bw, r)
   f0_        <- colSums(p_$mark[, fn$i] * p_$mark[, fn$j])
   names(f0_) <- rownames(f_)
-  statistics_<- compute_statistics(p_$x, p_$y, k, xr, yr)
+  statistics_<- compute_statistics(p_$x, p_$y, k, xr, yr, w_statistics)
   f          <- calc_moments_full(fn, p, kernel, rmax_bw, r)
   f0         <- colSums(p$mark[, fn$i] * p$mark[, fn$j])
   names(f0)  <- rownames(f)
-  statistics <- compute_statistics(p$x, p$y, k, xwr, ywr)
+  statistics <- compute_statistics(p$x, p$y, k, xwr, ywr, w_statistics)
 
 # Prepare the graphical output.
   if(show_graphic == TRUE) {
@@ -393,7 +265,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
   }
 
 # Show warning if certain distances between pairs of trees are not present.
-  energy  <- energy_fun(f, f0, statistics, f_, f0_, statistics_)["energy"]
+  energy  <- Energy_fun(f, f0, statistics, f_, f0_, statistics_, fn, p, p_, Lp, w_statistics)["energy"]
 
 # Prepares variables for the storage of progress.
   energy_launch            <- as.vector(energy)
@@ -471,7 +343,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
                                        kernel, rmax_bw, r) +
                calc_moments(fn, p, i, x, y, mdiff, kernel, rmax_bw, r)
              f0.new<- f0
-             statistics.new <- compute_statistics(replace(p$x, i, x), replace(p$y, i, y), k, xwr, ywr)
+             statistics.new <- compute_statistics(replace(p$x, i, x), replace(p$y, i, y), k, xwr, ywr, w_statistics)
              },
 
            # Swaps the coordinates of two randomly drawn points from the new point pattern, applied in xx% of the trap.
@@ -555,7 +427,8 @@ reconstruct_pattern_multi <- function(marked_pattern,
            stop("undefined case")
            )
 # calculates the energy
-    Energy <- energy_fun(f.new, f0.new, statistics.new, f_, f0_, statistics_)
+    Energy <- Energy_fun(f.new, f0.new, statistics.new, f_, f0_, statistics_, fn, p, p_, Lp, w_statistics)
+
     energy.new<-Energy[["energy"]]
 
 # Sets the currently calculated energy as the new reference value if it is less than the previous energy.
