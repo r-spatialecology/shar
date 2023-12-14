@@ -17,7 +17,7 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: false
+      fail-fast: TRUE
       matrix:
         config:
           - {os: macOS-latest, r: 'release'}
@@ -46,4 +46,5 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          upload-snapshots: true
+          args: 'c("--as-cran")'
+          error-on: '"note"'
