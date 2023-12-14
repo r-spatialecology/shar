@@ -1,9 +1,10 @@
-#' reconstruct_pattern_multi_trait_marks
+#' reconstruct_pattern_multi
 #'
 #' @description Pattern reconstruction of a pattern marked by multiple traits.
 #'
 #' @param marked_pattern ppp  object with marked pattern. See Details section
 #' for more information.
+#' @param xr,yr Add description
 #' @param n_repetitions Integer representing the number of simulations to be
 #' performed.
 #' @param max_steps Maximum number simulation steps.
@@ -100,7 +101,7 @@
 #'   marked_pattern$marks$dbh..mm.<-marked_pattern$marks$dbh..mm.*0.001
 #'
 #' # Reconstruction function
-#' reconstruction <- Multi_trait_point_pattern_reconstruction(
+#' reconstruction <- reconstruct_pattern_multi(
 #'   marked_pattern, n_repetitions = 1, max_steps = 100000, no_changes = 5,
 #'   rcount = 250, rmax = 25, issue = 1000, divisor = "r",
 #'   kernel_arg = "epanechnikov", timing = TRUE, energy_evaluation = TRUE,
@@ -113,17 +114,16 @@
 #' )
 #' }
 #'
-#' @aliases reconstruct_pattern_multi_trait_marks
-#' @rdname reconstruct_pattern_multi_trait_marks
+#' @aliases reconstruct_pattern_multi
+#' @rdname reconstruct_pattern_multi
 #'
 #' @references
+#' Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated
+#' annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>
+#'
 #' Tscheschel, A., Stoyan, D., 2006. Statistical reconstruction of random point
 #' patterns. Computational Statistics and Data Analysis 51, 859–871.
 #' <https://doi.org/10.1016/j.csda.2005.09.007>
-#'
-#' Wiegand, T., He, F., & Hubbell, S. P. (2013). A systematic comparison of
-#' summary characteristics for quantifying point patterns in ecology. Ecography, 36, 92–103.
-#' https://doi.org/10.1111/j.1600- 0587.2012.07361.x
 #'
 #' Wiegand, T., Moloney, K.A., 2014. Handbook of spatial point-pattern analysis in
 #' ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8
@@ -133,32 +133,29 @@
 #' https://doi.org/10.1111/2041-210X.14206
 #'
 #' @export
-reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
-                                                  xr = marked_pattern$window$xrange,
-                                                  yr = marked_pattern$window$yrange,
-                                                  obs_window = owin(c(xr),c(yr)),
-                                                  n_repetitions     = 1,
-                                                  max_steps         = 10000,
-                                                  no_changes        = 5,
-                                                  rcount            = 250,
-                                                  rmax              = 25,
-                                                  issue             = 1000 ,
-                                                  divisor           = "r",
-                                                  kernel_arg        = "epanechnikov",
-                                                  timing            = FALSE,
-                                                  energy_evaluation = FALSE,
-                                                  show_graphic      = FALSE,
-                                                  Lp                = 1,
-                                                  bw                = if (divisor %in% c("r","d")) 0.5 else 5,
-                                                  sd                = "step",
-                                                  steps_tol         = 1000,
-                                                  tol               = 1e-4,
-                                                  w_markcorr        = c(d_d=1, all=1, d_all=1, all_all=1, d_d0=1, all0=1, d_all0=1, all_all0=1),
-                                                  prob_of_actions   = c(move_coordinate = 0.4, switch_coords = 0.1, exchange_mark_one = 0.1, exchange_mark_two = 0.1, pick_mark_one = 0.2, pick_mark_two = 0.1),
-                                                  k                 = 1,
-                                                  w_statistics      = c()
-                                                  )
-{
+reconstruct_pattern_multi <- function(marked_pattern,
+                                      xr = marked_pattern$window$xrange,
+                                      yr = marked_pattern$window$yrange,
+                                      n_repetitions = 1,
+                                      max_steps = 10000,
+                                      no_changes = 5,
+                                      rcount = 250,
+                                      rmax = 25,
+                                      issue = 1000 ,
+                                      divisor = "r",
+                                      kernel_arg = "epanechnikov",
+                                      timing = FALSE,
+                                      energy_evaluation = FALSE,
+                                      show_graphic = FALSE,
+                                      Lp = 1,
+                                      bw = if (divisor %in% c("r","d")) 0.5 else 5,
+                                      sd = "step",
+                                      steps_tol = 1000,
+                                      tol = 1e-4,
+                                      w_markcorr = c(d_d=1, all=1, d_all=1, all_all=1, d_d0=1, all0=1, d_all0=1, all_all0=1),
+                                      prob_of_actions = c(move_coordinate = 0.4, switch_coords = 0.1, exchange_mark_one = 0.1, exchange_mark_two = 0.1, pick_mark_one = 0.2, pick_mark_two = 0.1),
+                                      k = 1,
+                                      w_statistics= c()) {
 
 # If several reconstructions are to be carried out, a list is created here in which the results are then saved continuously.
   if(n_repetitions > 1) {
@@ -169,14 +166,14 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
 # Loop to perform multiple reconstructions.
   for (t in seq_len(n_repetitions)) {
 
-# Load the reference point pattern as a data frame with the components x, y, mark, where x, y are the coordinates of the point and mark is a matrix representing the marks or their dummy values.
+  # Load the reference point pattern as a data frame with the components x, y, mark, where x, y are the coordinates of the point and mark is a matrix representing the marks or their dummy values.
   p_ <- data.frame(
           x = marked_pattern$x,
           y = marked_pattern$y)
 
   p_$mark <- cbind(`1`= 1,
                    diameter = marked_pattern$marks[[1]],
-                   to.dummy(marked_pattern$marks[[2]]))
+                   to_dummy(marked_pattern$marks[[2]]))
 
   marknames <- colnames(p_$mark)
   diameter  <- 2
@@ -187,12 +184,12 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
     stop("'marked_pattern' must be marked", call. = FALSE)
   }
 
-  if (class(marked_pattern[["marks"]][[1]]) != "numeric") {
+  if (!inherits(marked_pattern[["marks"]][[1]], "numeric")) {
     stop("mark one must be 'numeric', an example would be the DBH
          (Diameter at breast height).", call. = FALSE)
   }
 
-  if (class(marked_pattern[["marks"]][[2]]) != "factor") {
+  if (!inherits(marked_pattern[["marks"]][[2]], "factor")) {
     stop("mark two must be a 'factor', an example would be the tree species.",
          call. = FALSE)
   }
@@ -204,21 +201,12 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
 
 # Definition of parameters for the estimation of correlation functions.
   rmin    <- rmax / rcount
-  r       <- seq(rmin, rmax, , rcount)
+  r       <- seq(rmin, rmax, , rcount) # MH: Is rcount by or length.out argument?
 
 # Calculation of the kernels.
   sel_kernel <- select_kernel(kernel_arg, bw, rmax, divisor)
   kernel <- as.function(sel_kernel[[1]])
   rmax_bw <- as.numeric(sel_kernel[[2]])
-
-# If separate summary statistics (Dk, K, Hs, pcf) are to be included in the energy calculation, the "spatstat" package is loaded here and an error message is displayed if it is not installed.
-  if (length(w_statistics)) {
-    if("spatstat" %in% rownames(installed.packages()) == FALSE) {
-      stop("the package 'spatstat' must be installed on your computer for the
-           application if the w_statistics option is used.", call. = FALSE)
-    }
-    require (spatstat)
-  }
 
 # Determination of the weightings of the mark correlation functions.
   fn        <- list()
@@ -239,15 +227,15 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
   names(fn$i) <- marknames[fn$i]
   names(fn$j) <- marknames[fn$j]
 
-# Defines the initial state of the new ponit pattern.
+  # Defines the initial state of the new ponit pattern.
   n <- nrow(p_)
   xwr <- obs_window$xrange
   ywr <- obs_window$yrange
   p <- p_[sample.int(nrow(p_),ceiling(nrow(p_)*((diff(xwr)*diff(ywr))/(diff(xr)*diff(yr)))),TRUE), ]# rpois
-  p$x <- runif(nrow(p), xwr[1], xwr[2])
-  p$y <- runif(nrow(p), ywr[1], ywr[2])
-  p$mark[, diameter] <- quantile(p_$mark[, diameter],
-                                 probs = runif(nrow(p), 0, 1), type = 4)
+  p$x <- stats::runif(nrow(p), xwr[1], xwr[2])
+  p$y <- stats::runif(nrow(p), ywr[1], ywr[2])
+  p$mark[, diameter] <- stats::quantile(p_$mark[, diameter],
+                                 probs = stats::runif(nrow(p), 0, 1), type = 4)
   p$mark[, species] <- p_$mark[, species, drop = FALSE][
     sample.int(nrow(p_), nrow(p), replace = TRUE),, drop = FALSE]
 
@@ -263,17 +251,17 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
 
 # Prepare the graphical output.
   if(show_graphic == TRUE) {
-    par(mfrow = 1:2)
-    num_species <- from.dummy (p_$mark[, species, drop = FALSE])
+    graphics::par(mfrow = 1:2)
+    num_species <- from_dummy(p_$mark[, species, drop = FALSE])
     plot(y~x, p_,  pch=19, col= 2L + as.integer(num_species), cex = 1.3 + 4 * mark[, diameter], xlim = xr,
          ylim = yr, xaxs ="i", yaxs ="i", main ="Reference", xlab ="x [m]",
          ylab ="y [m]")
-    text(p_$x, p_$y, as.integer(num_species), cex=0.7)
+    graphics::text(p_$x, p_$y, as.integer(num_species), cex=0.7)
 
-    plot(y~x, p, type = "n",
+    graphics::plot(y~x, p, type = "n",
          xlim = xwr, ylim = ywr, xaxs = "i", yaxs = "i", main = "Reconstructed",
          xlab = "x [m]", ylab = "y [m]")
-    clip(xwr[1], xwr[2], ywr[1], ywr[2])
+    graphics::clip(xwr[1], xwr[2], ywr[1], ywr[2])
   }
 
 # Show warning if certain distances between pairs of trees are not present.
@@ -300,11 +288,11 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
 # Updating the graphical output of all "issue" steps.
     if (step %% issue  == 0) {
       if(show_graphic == TRUE) {
-        rect(xwr[1], ywr[1], xwr[2], ywr[2], col="white")
-        num_species <- from.dummy (p$mark[, species, drop = FALSE])
+        graphics::rect(xwr[1], ywr[1], xwr[2], ywr[2], col="white")
+        num_species <- from_dummy(p$mark[, species, drop = FALSE])
 
-        points(y~x, p, pch = 19, col = 2L + as.integer(num_species), cex = 1.3 + 4 * mark[, diameter])
-        text(p$x, p$y, as.integer(num_species), cex = 0.7)
+        graphics::points(y~x, p, pch = 19, col = 2L + as.integer(num_species), cex = 1.3 + 4 * mark[, diameter])
+        graphics::text(p$x, p$y, as.integer(num_species), cex = 0.7)
       }
 
 # Generates text output with the current calculated values (for example the energy), this is updated every "issue" simulation step.
@@ -314,7 +302,7 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
               energy_improvement, "\t\t\r", appendLF = FALSE)
 
       Sys.sleep(0)
-      flush.console()
+      utils::flush.console()
     }
 # the next code block aborts the reconstruction if the energy decreases by less than tol in "no_changes" intervals of steps_tol simulation steps.
     if (step %% steps_tol  == 0) {
@@ -348,8 +336,8 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
            move_coordinate = {
              i     <- sample.int(nrow(p), 1, replace = TRUE)
              s     <- if(sd=="step") nrow(p) * 1 / step else sd
-             x     <- rnorm(1, p$x[i], diff(xwr) * s) %% xwr[2]
-             y     <- rnorm(1, p$y[i], diff(ywr) * s) %% ywr[2]
+             x     <- stats::rnorm(1, p$x[i], diff(xwr) * s) %% xwr[2]
+             y     <- stats::rnorm(1, p$y[i], diff(ywr) * s) %% ywr[2]
              mdiff <- p$mark[i, ]
              f.new <- f - calc_moments(fn, p, i, p$x[i], p$y[i], mdiff,
                                        kernel, rmax_bw, r) +
@@ -415,7 +403,7 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
            pick_mark_one = {
              i     <- sample.int(nrow(p), 1, replace = TRUE)
              m     <- p$mark[i, ]
-             m[diameter] <-quantile(p_$mark[,diameter],probs = runif(1,0,1),
+             m[diameter] <- stats::quantile(p_$mark[,diameter],probs = stats::runif(1,0,1),
                                     type = 4)
              mdiff <- m - p$mark[i, ]
              f.new <- f + calc_moments(fn, p, i, p$x[i], p$y[i], mdiff,
@@ -440,6 +428,7 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
            )
 # calculates the energy
     Energy <- Energy_fun(f.new, f0.new, statistics.new, f_, f0_, statistics_, fn, p, p_, Lp, w_statistics)
+
     energy.new<-Energy[["energy"]]
 
 # Sets the currently calculated energy as the new reference value if it is less than the previous energy.
@@ -487,8 +476,8 @@ reconstruct_pattern_multi_trait_marks <- function(marked_pattern,
   message("\n")
 
   # Saves all results Transfers them to the "reconstruction" list.
-  p_$species <- from.dummy(p_$mark[, species, drop = FALSE])
-  p$species  <- from.dummy(p$mark[, species, drop = FALSE])
+  p_$species <- from_dummy(p_$mark[, species, drop = FALSE])
+  p$species  <- from_dummy(p$mark[, species, drop = FALSE])
   method            <- "Reconstruction of a homogeneous point pattern"
   Parameter_setting <- list(n_repetitions=n_repetitions, max_steps=max_steps,
                             no_changes=no_changes, rcount=rcount, rmax=rmax,

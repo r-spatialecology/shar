@@ -4,7 +4,7 @@
 #' generated with the \code{NLMR::nlm_fbm()} algorithm.
 #'
 #' @format A SpatRaster object.
-#' @source Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
+#' @source Simulated neutral landscape model with R. <https://github.com/ropensci/NLMR/>
 "landscape"
 
 #' Species a

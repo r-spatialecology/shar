@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md
 
+# shar 2.2 
+Added new functions
+
 ## shar 2.1.1
 Minor bug fixes
 
