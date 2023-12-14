@@ -46,6 +46,9 @@
     <loc>https://r-spatialecology.github.io/shar/reference/calc_gest.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/calc_moments.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/calculate_energy.html</loc>
   </url>
   <url>
@@ -55,7 +58,16 @@
     <loc>https://r-spatialecology.github.io/shar/reference/classint_to_vector.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/compute_statistics.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/create_neighbourhood.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/dummy_transf.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/energy_fun.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/extract_points.html</loc>
@@ -112,10 +124,16 @@
     <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_marks.html</loc>
   </url>
   <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_multi.html</loc>
+  </url>
+  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/results_habitat_association.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/sample_randomized.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/select_kernel.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/shar.html</loc>
