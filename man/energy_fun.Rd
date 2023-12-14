@@ -30,16 +30,6 @@ the new point pattern.}
 \item{statistics}{Results of the compute_statistics function for the
 new point pattern (calculation of optional spatial statistics).}
 
-\item{f_}{Result of the calc_moments_full function which represents
-product-moment contribution of a point at coordinates x, y with marks,
-for the whole reference point pattern.}
-
-\item{f0_}{Column sums of the weights of the brand correlation functions of
-the reference point pattern.}
-
-\item{statistics_}{Results of the compute_statistics function for the
-reference point pattern (calculation of optional spatial statistics).}
-
 \item{fn}{Determination of the weightings of the mark correlation functions.}
 
 \item{p}{Defines the initial state of the new ponit pattern.}
@@ -47,22 +37,19 @@ reference point pattern (calculation of optional spatial statistics).}
 \item{p_}{Reference point pattern.}
 
 \item{Lp}{Distance measure for the calculation of the energy function
-(Lp distance, 1 ≤ p < ∞).}
+(Lp distance, 1 <= p <Inf).}
 
-\item{w_statistics}{ector of named weights for optional spatial statistics
-from the ‘spatstat’package to be included in the energy calculation.This may
+\item{w_statistics}{Vector of named weights for optional spatial statistics
+from the \code{spatstat} package to be included in the energy calculation.This may
 include Dk, K, Hs, pcf.}
 }
 \value{
 vector
 }
 \description{
-energy_fun (internal)
+Energy function
 }
 \details{
-Defining the Energy_fun function to calculate the "energy" of the pattern
-(where a lower energy indicates a better match).
-
 Defining the Energy_fun function to calculate the "energy" of the pattern
 (where a lower energy indicates a better match).
 }

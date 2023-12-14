@@ -4,27 +4,37 @@
 \alias{compute_statistics}
 \title{compute_statistics}
 \usage{
-compute_statistics(x, y, k, xr, yr, w_statistics)
+compute_statistics(
+  x,
+  y,
+  k,
+  xr,
+  yr,
+  w_statistics,
+  bw,
+  divisor,
+  kernel_arg,
+  rmax
+)
 }
 \arguments{
-\item{x}{x Coordinate of the points from the reference point pattern.}
+\item{x, y}{x and y coordinates of the points from the reference point pattern.}
 
-\item{y}{y Coordinate of the points from the reference point pattern.}
+\item{k}{Vector of values k; used only if Dk is included in w_statistics below.}
 
-\item{k}{Vector of values k; used only if Dk is included in w_statistics
-elow.}
+\item{xr, yr}{x and y extension of the observation window (start, end).}
 
-\item{xr}{x extension of the observation window (start, end)}
+\item{w_statistics}{vector of named weights for optional spatial statistics
+from the \code{spatstat} package to be included in the energy calculation. This may
+include Dk, K, Hs, pcf.}
 
-\item{yr}{y extension of the observation window (start, end)}
-
-\item{w_statistics}{}
+\item{bw, divisor, kernel_arg, rmax}{Several parameters related to summary function.}
 }
 \value{
 list
 }
 \description{
-compute_statistics (internal)
+Compute summary statistics
 }
 \details{
 Compute optional spatial statistics using the spatstat package.

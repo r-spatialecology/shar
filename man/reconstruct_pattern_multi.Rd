@@ -10,7 +10,7 @@ reconstruct_pattern_multi(
   yr = marked_pattern$window$yrange,
   n_repetitions = 1,
   max_steps = 10000,
-  no_changes = 5,
+  no_change = 5,
   rcount = 250,
   rmax = 25,
   issue = 1000,
@@ -18,7 +18,7 @@ reconstruct_pattern_multi(
   kernel_arg = "epanechnikov",
   timing = FALSE,
   energy_evaluation = FALSE,
-  show_graphic = FALSE,
+  plot = FALSE,
   Lp = 1,
   bw = if (divisor \%in\% c("r", "d")) 0.5 else 5,
   sd = "step",
@@ -36,70 +36,66 @@ reconstruct_pattern_multi(
 \item{marked_pattern}{ppp  object with marked pattern. See Details section
 for more information.}
 
-\item{xr, yr}{Add description}
+\item{xr, yr}{Maximum extent in x and y direction of observation window.}
 
 \item{n_repetitions}{Integer representing the number of simulations to be
 performed.}
 
 \item{max_steps}{Maximum number simulation steps.}
 
-\item{no_changes}{Integer representing the number of iterations
-(per 1000 simulation steps)
-after which the reconstruction is terminated if the energy does not decrease.}
+\item{no_change}{Integer representing the number of iterations
+(per 1000 simulation steps) after which the reconstruction is terminated if the
+energy does not decrease.}
 
 \item{rcount}{Integer representing the number of intervals for which the
 summary statistics are evaluated.}
 
-\item{rmax}{Maximum distance [m] at which the summary statistics are
+\item{rmax}{Maximum distance [m] up to which the summary statistics are
 evaluated.}
 
 \item{issue}{Integer that determines after how many simulations steps an
 output occurs.}
 
-\item{divisor}{Divisor in the smoothing kernel, d or r.}
+\item{divisor}{Choice of divisor in the estimation formula: either "r" or "d".}
 
 \item{kernel_arg}{The kernel used to calculate the energy, possible kernels
 can be: Gaussian, Epanechnikov, Rectangular, Cumulative.}
 
-\item{timing}{Logical value: The computation timeis measured if this is TRUE}
+\item{timing}{Logical value: The computation time is measured if this is TRUE.}
 
 \item{energy_evaluation}{Logical value: If this is TRUE, the procedure stores
 the energy shares of the total energy per simulation step.}
 
-\item{show_graphic}{Logical value: If this is TRUE, the procedure records the
-point pattern during optimisation and updated}
+\item{plot}{Logical value: If this is TRUE, the procedure records the
+point pattern during optimization and updated.}
 
 \item{Lp}{Distance measure for the calculation of the energy function
-(Lp distance, 1 ≤ p < ∞).}
+(Lp distance, 1 <= p < Inf).}
 
 \item{bw}{Bandwidth [m] with which the kernels are scaled, so that this is
 the standard deviation of the smoothing kernel.}
 
-\item{sd}{This is the standard deviation [m] used in the move_coordinate
-action.}
+\item{sd}{This is the standard deviation [m] used in the move_coordinate action.}
 
 \item{steps_tol}{After the value steps_tol it is checked whether the energy
 change is smaller than tol.}
 
-\item{tol}{Tolerance: stops the procedure of energy more than 1 − tol
-times no_changes.}
+\item{tol}{Stops the procedure of energy if more than 1 - tol times no changes.}
 
-\item{w_markcorr}{Vector of possible weightings of individual mcf's.
-\code{c(1, 1, 1, 1, 1, 1, 1, 1)}}
+\item{w_markcorr}{Vector of possible weightings of individual mcf's. (Default: all equal).}
 
 \item{prob_of_actions}{Vector of probabilities for the actions performed.
 \code{c(move_coordinate = 0.4, switch_coords = 0.1, exchange_mark_one = 0.1,
-exchange_mark_two = 0.1, pick_mark_one = 0.2, pick_mark_two = 0.1)}}
+exchange_mark_two = 0.1, pick_mark_one = 0.2, pick_mark_two = 0.1)}.}
 
-\item{k}{Vector of values k; used only if Dk is included in w_statistics
-elow.}
+\item{k}{Vector of values k; used only if Dk is included in w_statistics.}
 
 \item{w_statistics}{vector of named weights for optional spatial statistics
-from the ‘spatstat’package to be included in the energy calculation.This may
+from the \code{spatstat} package to be included in the energy calculation. This may
 include Dk, K, Hs, pcf.}
 }
 \value{
-rd_mar
+list
 }
 \description{
 Pattern reconstruction of a pattern marked by multiple traits.
@@ -124,11 +120,7 @@ difference between the observed and reconstructed pattern decreases
 
 This method is currently only suitable for homogeneous point patterns.
 
-A comprehensive description of the method can be
-found in Wudel et al. (2023). Future developments will involve considering
-more than two markers, expanding and reducing the observation window under
-using an Edge Correction. Additionally, data input will be automatically
-detected.
+A comprehensive description of the method can be found in Wudel et al. (2023).
 }
 \examples{
 \dontrun{
@@ -142,7 +134,6 @@ detected.
   species <- as.factor(c("A","B"))
   species <- sample(species, N, replace = TRUE)
   diameter <- runif(N, 1, 40)
-  plot(x,y, col = species, pch = 19, cex = diameter*0.02)
   random <- data.frame(x, y, diameter/ 0.1,species)
   colnames(random) <- c("x", "y", "dbh [mm]", "Tree species")
 
@@ -153,16 +144,15 @@ detected.
 
 # Reconstruction function
 reconstruction <- reconstruct_pattern_multi(
-  marked_pattern, n_repetitions = 1, max_steps = 100000, no_changes = 5,
+  marked_pattern, n_repetitions = 1, max_steps = 100000, no_change = 5,
   rcount = 250, rmax = 25, issue = 1000, divisor = "r",
   kernel_arg = "epanechnikov", timing = TRUE, energy_evaluation = TRUE,
-  show_graphic = TRUE, Lp = 1, bw = 0.5, sd = "step", steps_tol = 1000,
+  plot = FALSE, Lp = 1, bw = 0.5, sd = "step", steps_tol = 1000,
   tol = 1e-4, w_markcorr = c(d_d=1, all=1, d_all=1, all_all=1, d_d0=1,
   all0=1, d_all0=1, all_all0=1), prob_of_actions = c(move_coordinate = 0.4,
   switch_coords = 0.1, exchange_mark_one = 0.1, exchange_mark_two = 0.1,
   pick_mark_one = 0.2, pick_mark_two = 0.1),
-  k = 1, w_statistics = c()
-)
+  k = 1, w_statistics = c())
 }
 
 }

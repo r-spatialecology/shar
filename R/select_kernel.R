@@ -1,6 +1,6 @@
 #' select_kernel
 #'
-#' @description select_kernel (internal)
+#' @description Kernel selection
 #'
 #' @param kernel_arg  Parameter of the function
 #' reconstruct_pattern_multi_trait_marks, specifies the kernel to be used to
@@ -15,7 +15,7 @@
 #' Returns the function of the selected kernel, which is then used to
 #' calculate the kernel.
 #'
-#' @return function
+#' @return list
 #'
 #' @aliases select_kernel
 #' @rdname select_kernel
@@ -59,7 +59,6 @@ select_kernel <- function(kernel_arg, bw, rmax, divisor) {
         d = function(r, d) stats::dnorm(r,d,sd = bw)/ (2*pi*d)
       )
     },
-
     cumulative = {
       rmax_bw <- rmax
       switch(divisor,
@@ -70,7 +69,7 @@ select_kernel <- function(kernel_arg, bw, rmax, divisor) {
       )
     }
   )
-  sel_kernel <- list(kernel, rmax_bw)
+  list(kernel, rmax_bw)
 }
 
 

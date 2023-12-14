@@ -20,10 +20,10 @@ standard deviation of the smoothing kernel.}
 \item{divisor}{Divisor in the smoothing kernel, d or r.}
 }
 \value{
-function
+list
 }
 \description{
-select_kernel (internal)
+Kernel selection
 }
 \details{
 Returns the function of the selected kernel, which is then used to

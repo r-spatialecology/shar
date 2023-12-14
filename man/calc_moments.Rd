@@ -11,28 +11,25 @@ calc_moments(fn, p, exclude = NULL, x, y, mark, kernel, rmax_bw, r)
 
 \item{p}{Defines the initial state of the new ponit pattern.}
 
-\item{exclude}{}
+\item{exclude}{Vector indicating which values not to use.}
 
-\item{x}{x Coordinate of the points from the reference point pattern.}
-
-\item{y}{y Coordinate of the points from the reference point pattern.}
+\item{x, y}{x and y coordinates of the points from the reference point pattern.}
 
 \item{mark}{Marks the currently viewed point pattern.}
 
-\item{kernel}{Result of the kernel calculation, calculated with the
-calc_kernels function.}
+\item{kernel}{Result of the kernel calculation, calculated with the calc_kernels function.}
 
 \item{rmax_bw}{Maximum distance at which the summary statistics are
 evaluated + Bandwidth with which the kernels are scaled, so that this is the
- standard deviation of the smoothing kernel.}
+standard deviation of the smoothing kernel.}
 
-\item{r}{is a sequence from rmin to rmax in rcount steps.}
+\item{r}{Sequence from rmin to rmax in rcount steps.}
 }
 \value{
 matrix
 }
 \description{
-calc_moments (internal)
+Calculate moments
 }
 \details{
 Definition of the product-moment function for calculating the contribution

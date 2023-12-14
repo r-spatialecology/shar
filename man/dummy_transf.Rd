@@ -16,7 +16,7 @@ for the whole point pattern.}
 matrix
 }
 \description{
-dummy_transf (internal)
+Tranfsorm to dummy variables
 }
 \details{
 Function for the transformation of variables to dummy variables and back
