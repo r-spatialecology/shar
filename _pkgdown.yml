@@ -16,6 +16,7 @@ reference:
       - randomize_raster
       - reconstruct_pattern
       - reconstruct_pattern_marks
+      - reconstruct_pattern_multi
       - translate_raster
   - title: Analyse results
     contents:
