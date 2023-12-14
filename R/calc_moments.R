@@ -24,12 +24,7 @@
 #' @aliases calc_moments
 #' @rdname calc_moments
 #'
-#' @aliases reconstruct_algorithm
-#' @rdname reconstruct_algorithm
-#'
 #' @keywords internal
-#'
-#'
 calc_moments <- function(fn,
                          p,
                          exclude=NULL,

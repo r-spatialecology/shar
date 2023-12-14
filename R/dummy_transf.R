@@ -16,13 +16,13 @@
 #'
 #' @keywords internal
 #'
-to.dummy <- function(f) {
+to_dummy <- function(f) {
   x <- matrix(0, length(f), nlevels(f), dimnames=list(names(f), levels(f)))
   x[cbind(seq_along(f), as.integer(f))] <- 1
   x
   }
 
-from.dummy <- function(x, levels=colnames(x)) {
+from_dummy <- function(x, levels=colnames(x)) {
   f <- as.integer(x %*% seq_along(levels))
   levels(f) <- levels
   class(f) <- "factor"

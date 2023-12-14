@@ -43,20 +43,20 @@ select_kernel <- function(kernel_arg, bw, rmax, divisor) {
       switch(divisor,
         {
           rmax_bw <- sqrt(rmax^2 + a/pi)
-          function(r, d) dunif((r^2-d^2)*pi,-a,+a)
+          function(r, d) stats::dunif((r^2-d^2)*pi,-a,+a)
         },
-        none = function(r, d) dunif(r,d-a,d+a),
-        r = function(r, d) dunif(r,d-a,d+a)/(2*pi*r),
-        d = function(r, d) dunif(r,d-a,d+a)/(2*pi*d)
+        none = function(r, d) stats::dunif(r,d-a,d+a),
+        r = function(r, d) stats::dunif(r,d-a,d+a)/(2*pi*r),
+        d = function(r, d) stats::dunif(r,d-a,d+a)/(2*pi*d)
       )
     },
     gaussian = {
       rmax_bw <- Inf
       switch(divisor,
-        function(r, d) dnorm((r^2-d^2)*pi,0,sd=bw),
-        none = function(r, d) dnorm(r,d,sd = bw),
-        r = function(r, d) dnorm(r,d,sd = bw)/ (2*pi*r),
-        d = function(r, d) dnorm(r,d,sd = bw)/ (2*pi*d)
+        function(r, d) stats::dnorm((r^2-d^2)*pi,0,sd=bw),
+        none = function(r, d) stats::dnorm(r,d,sd = bw),
+        r = function(r, d) stats::dnorm(r,d,sd = bw)/ (2*pi*r),
+        d = function(r, d) stats::dnorm(r,d,sd = bw)/ (2*pi*d)
       )
     },
 

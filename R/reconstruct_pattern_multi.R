@@ -252,7 +252,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
 # Prepare the graphical output.
   if(show_graphic == TRUE) {
     graphics::par(mfrow = 1:2)
-    num_species <- from_dummy (p_$mark[, species, drop = FALSE])
+    num_species <- from_dummy(p_$mark[, species, drop = FALSE])
     plot(y~x, p_,  pch=19, col= 2L + as.integer(num_species), cex = 1.3 + 4 * mark[, diameter], xlim = xr,
          ylim = yr, xaxs ="i", yaxs ="i", main ="Reference", xlab ="x [m]",
          ylab ="y [m]")
@@ -289,7 +289,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
     if (step %% issue  == 0) {
       if(show_graphic == TRUE) {
         graphics::rect(xwr[1], ywr[1], xwr[2], ywr[2], col="white")
-        num_species <- from_dummy (p$mark[, species, drop = FALSE])
+        num_species <- from_dummy(p$mark[, species, drop = FALSE])
 
         graphics::points(y~x, p, pch = 19, col = 2L + as.integer(num_species), cex = 1.3 + 4 * mark[, diameter])
         graphics::text(p$x, p$y, as.integer(num_species), cex = 0.7)
