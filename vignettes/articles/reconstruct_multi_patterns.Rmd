@@ -1,0 +1,17 @@
+---
+title: "Multi-trait point pattern reconstruction of plant ecosystems"
+author: ""
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to reconstruct multiple patterns}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+...Work-in progress...
+
+If you want more information about multi-trait point pattern reconstruction, please refer to the [corresponding paper](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.14206
+).
