@@ -78,4 +78,3 @@ testthat::test_that("list_to_randomized works with results_habitat_associations"
   testthat::expect_s3_class(object = res_b, class = "data.frame")
 
 })
-

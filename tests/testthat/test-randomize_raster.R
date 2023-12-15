@@ -58,19 +58,20 @@ testthat::test_that("randomize_raster returns error of n_random < 1", {
 testthat::test_that("randomize_raster returns all warnings", {
 
   testthat::expect_warning(randomize_raster(raster = landscape_classified, n_random = 1,
-                                            simplify = TRUE),
+                                            simplify = TRUE, verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
 
   testthat::expect_warning(randomize_raster(raster = landscape_classified, n_random = 2,
-                                            simplify = TRUE, return_input = FALSE),
+                                            simplify = TRUE, return_input = FALSE, verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
 
-  testthat::expect_warning(randomize_raster(raster = terra::rast(landscape), n_random = 1),
+  testthat::expect_warning(randomize_raster(raster = terra::rast(landscape), n_random = 1,
+                                            verbose = FALSE),
                            regexp = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 })
 
 testthat::test_that("Warning if NA are present", {
 
-  testthat::expect_warning(randomize_raster(raster = landscape_wrong, n_random = 1),
+  testthat::expect_warning(randomize_raster(raster = landscape_wrong, n_random = 1, verbose = FALSE),
                          regexp = "NA values present. Please make sure the observation window of the point pattern reflects this.")
 })

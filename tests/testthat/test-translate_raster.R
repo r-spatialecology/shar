@@ -68,13 +68,14 @@ testthat::test_that("simplify is working for translate_raster", {
 
 testthat::test_that("Warning if more than 10 classes are present for translate_raster", {
 
-  testthat::expect_warning(translate_raster(raster = terra::rast(landscape), steps_x = 5, steps_y = 5),
+  testthat::expect_warning(translate_raster(raster = terra::rast(landscape), steps_x = 5, steps_y = 5,
+                                            verbose = FALSE),
                            regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
 })
 
 testthat::test_that("Stop if NA are present", {
 
   testthat::expect_error(translate_raster(raster = landscape_wrong, steps_x = 5, steps_y = 5),
-                         regexp = "NA values are not allowed for 'translate_raster()'.",
-                         fixed = TRUE)
+                         regexp = "NA values are not allowed for 'translate_raster\\()'.")
 })
+
