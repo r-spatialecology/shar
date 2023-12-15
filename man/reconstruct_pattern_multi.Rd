@@ -29,7 +29,8 @@ reconstruct_pattern_multi(
   prob_of_actions = c(move_coordinate = 0.4, switch_coords = 0.1, exchange_mark_one =
     0.1, exchange_mark_two = 0.1, pick_mark_one = 0.2, pick_mark_two = 0.1),
   k = 1,
-  w_statistics = c()
+  w_statistics = c(),
+  verbose = TRUE
 )
 }
 \arguments{
@@ -93,6 +94,8 @@ exchange_mark_two = 0.1, pick_mark_one = 0.2, pick_mark_two = 0.1)}.}
 \item{w_statistics}{vector of named weights for optional spatial statistics
 from the \code{spatstat} package to be included in the energy calculation. This may
 include Dk, K, Hs, pcf.}
+
+\item{verbose}{Logical if progress report is printed.}
 }
 \value{
 list
@@ -126,33 +129,22 @@ A comprehensive description of the method can be found in Wudel et al. (2023).
 \dontrun{
 
 # Random example data set
-  xr <- 500
-  yr <- 1000
-  N <- 400
-  y <- runif(N, min = 0, max = yr)
-  x <- runif(N, min = 0, max = xr)
-  species <- as.factor(c("A","B"))
-  species <- sample(species, N, replace = TRUE)
-  diameter <- runif(N, 1, 40)
-  random <- data.frame(x, y, diameter/ 0.1,species)
-  colnames(random) <- c("x", "y", "dbh [mm]", "Tree species")
+xr <- 500
+yr <- 1000
+N <- 400
+y <- runif(N, min = 0, max = yr)
+x <- runif(N, min = 0, max = xr)
 
-# Conversion to a ppp object and conversion of the metric mark to metres.
-  w <- owin(c(0, 500), c(0, 1000))
-  marked_pattern <- as.ppp(data.frame(random), W = w)
-  marked_pattern$marks$dbh..mm.<-marked_pattern$marks$dbh..mm.*0.001
+species <- sample(c("A","B"), N, replace = TRUE)
+diameter <- runif(N, 0.1, 0.4)
+
+random <- data.frame(x = x, y = y, dbh = diameter, species = factor(species))
+
+marked_pattern <- spatstat.geom::as.ppp(random, W = spatstat.geom::owin(c(0, xr), c(0, yr)))
 
 # Reconstruction function
-reconstruction <- reconstruct_pattern_multi(
-  marked_pattern, n_repetitions = 1, max_steps = 100000, no_change = 5,
-  rcount = 250, rmax = 25, issue = 1000, divisor = "r",
-  kernel_arg = "epanechnikov", timing = TRUE, energy_evaluation = TRUE,
-  plot = FALSE, Lp = 1, bw = 0.5, sd = "step", steps_tol = 1000,
-  tol = 1e-4, w_markcorr = c(d_d=1, all=1, d_all=1, all_all=1, d_d0=1,
-  all0=1, d_all0=1, all_all0=1), prob_of_actions = c(move_coordinate = 0.4,
-  switch_coords = 0.1, exchange_mark_one = 0.1, exchange_mark_two = 0.1,
-  pick_mark_one = 0.2, pick_mark_two = 0.1),
-  k = 1, w_statistics = c())
+reconstruction <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 19,
+max_steps = 10000)
 }
 
 }

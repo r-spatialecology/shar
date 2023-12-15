@@ -41,6 +41,7 @@
 #' @param w_statistics  vector of named weights for optional spatial statistics
 #' from the \code{spatstat} package to be included in the energy calculation. This may
 #' include Dk, K, Hs, pcf.
+#' @param verbose Logical if progress report is printed.
 #'
 #' @details
 #' A novel approach carries out a pattern reconstruction of marked dot patterns
@@ -134,7 +135,8 @@ reconstruct_pattern_multi <- function(marked_pattern,
                                       w_markcorr = c(d_d=1, all=1, d_all=1, all_all=1, d_d0=1, all0=1, d_all0=1, all_all0=1),
                                       prob_of_actions = c(move_coordinate = 0.4, switch_coords = 0.1, exchange_mark_one = 0.1, exchange_mark_two = 0.1, pick_mark_one = 0.2, pick_mark_two = 0.1),
                                       k = 1,
-                                      w_statistics= c()) {
+                                      w_statistics= c(),
+                                      verbose = TRUE) {
 
   # If several reconstructions are to be carried out, a list is created here in
   # which the results are then saved continuously.
@@ -232,7 +234,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
     statistics <- compute_statistics(p$x, p$y, k, xwr, ywr, w_statistics)
 
     # Prepare the graphical output.
-    if(plot == TRUE) {
+    if(plot) {
       graphics::par(mfrow = 1:2)
       num_species <- from_dummy(p_$mark[, species, drop = FALSE])
       graphics::plot(y~x, p_, pch=19, col= 2L + as.integer(num_species),
@@ -269,7 +271,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
 
       # Updating the graphical output of all "issue" steps.
       if (step %% issue  == 0) {
-        if(plot == TRUE) {
+        if(plot) {
           graphics::rect(xwr[1], ywr[1], xwr[2], ywr[2], col="white")
           num_species <- from_dummy(p$mark[, species, drop = FALSE])
 
@@ -277,14 +279,15 @@ reconstruct_pattern_multi <- function(marked_pattern,
           graphics::text(p$x, p$y, as.integer(num_species), cex = 0.7)
         }
 
-        # Generates text output with the current calculated values (for example the energy), this is updated every "issue" simulation step.
-        message("> Progress:", if(n_repetitions > 1) names_reconstruction[[t]], " || iterations: ", step,
-                " || Simulation progress: ", floor(step/max_steps * 100), "%",
-                " || energy = ", round(energy, 5), " || energy improvement = ",
-                energy_improvement, "\t\t\r", appendLF = FALSE)
+        if (verbose) {
+          # Generates text output with the current calculated values (for example the energy), this is updated every "issue" simulation step.
+          message("\r> Progress: ", if(n_repetitions > 1) names_reconstruction[[t]], " || iterations: ", step,
+                  " || Simulation progress: ", floor(step/max_steps * 100), "%",
+                  " || energy = ", round(energy, 5), " || energy improvement = ",
+                  energy_improvement, "\t\t\r", appendLF = FALSE)
 
-        Sys.sleep(0)
-        utils::flush.console()
+          Sys.sleep(0)
+        }
       }
 
       # the next code block aborts the reconstruction if the energy decreases by less than tol in "no_change" intervals of steps_tol simulation steps.
@@ -292,8 +295,9 @@ reconstruct_pattern_multi <- function(marked_pattern,
         if(energy > no_change_energy * (1-tol)) {
           no_change_counter <- no_change_counter + 1L
           if(no_change_counter == no_change) {
-            message("the simulation was terminated, because the energy did not
-                    decrease in ", no_change * issue, " simulation steps.")
+            if (verbose) {
+              message("the simulation was terminated, because the energy did not decrease in ", no_change * issue, " simulation steps.")
+            }
             stop_criterion <- "no_change"
             break
           }
@@ -455,7 +459,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
     # End of reconstruction loop.
     }) -> process.time
 
-    message("\n")
+    if (verbose) message("\n")
 
     # Saves all results Transfers them to the "reconstruction" list.
     p_$species <- from_dummy(p_$mark[, species, drop = FALSE])
