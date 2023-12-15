@@ -1,10 +1,10 @@
 ---
-title: "How to reconstruct multiple patterns"
+title: "How to reconstruct several patterns"
 author: "Maximilian H.K. Hesselbarth"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{How to reconstruct multiple patterns}
+  %\VignetteIndexEntry{How to reconstruct several patterns}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
