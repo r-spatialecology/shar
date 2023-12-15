@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-README Last updated: 2023-12-14
+README Last updated: 2023-12-15
 
 | CI                                                                                                                                                                                   | Development                                                                                                                | CRAN                                                                                                                    | License                                                                                                                                              |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -69,7 +69,7 @@ or acknowledge its use in publications, please cite the following paper.
 > Open Source Software, 6(67), 3811.
 > <https://doi.org/10.21105/joss.03811>.
 
-If you use the `reconstruct_pattern_multi` function, please also cite.
+If you use the `reconstruct_pattern_multi()` function, please also cite.
 
 > Wudel C., Schlicht R., Berger U. (2023). Multi-trait point pattern
 > reconstruction of plant ecosystems. Methods in Ecology and Evolution,
