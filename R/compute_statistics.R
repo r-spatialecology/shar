@@ -38,7 +38,7 @@ compute_statistics <- function(x, y, k, xr, yr, w_statistics, bw, divisor, kerne
 
     # Calculation of the pcf(r)-function (spherical contact distribution), if this is to be taken into account for the energy calculation.
     pcf = {
-      pcfest<-spatstat.explore::pcf(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), r=c(0,r), kernel=kernel_arg, divisor=divisor, bw=bw, correction="none")
+      pcfest<-spatstat.explore::pcf.ppp(spatstat.geom::ppp(x,y,window=spatstat.geom::owin(xr,yr)), r=c(0,r), kernel=kernel_arg, divisor=divisor, bw=bw, correction="none")
       pcfest$un
     },
     # Calculation of the Hs(r)-function (pair correlation function), if this is to be taken into account for the energy calculation.
