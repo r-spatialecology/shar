@@ -154,6 +154,156 @@
 <p>If you want more information about multi-trait point pattern
 reconstruction, please refer to the <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.14206" class="external-link">corresponding
 paper</a>.</p>
+<p>If you wish to include several marks simultaneously in a
+reconstruction, you can use the following code. The libraries used must
+first be loaded.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span></span></code></pre></div>
+<p>The next step is to load the point pattern, here is an example of a
+random point pattern with several marks to show the structure of the
+data used.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">xr</span> <span class="op">&lt;-</span> <span class="fl">500</span></span>
+<span><span class="va">yr</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">400</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="va">yr</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="va">xr</span><span class="op">)</span></span>
+<span><span class="va">species</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>,<span class="st">"B"</span><span class="op">)</span>, <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">diameter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">0.1</span>, <span class="fl">0.4</span><span class="op">)</span></span>
+<span><span class="va">random</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, dbh <span class="op">=</span> <span class="va">diameter</span>, species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">marked_pattern</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/as.ppp.html" class="external-link">as.ppp</a></span><span class="op">(</span><span class="va">random</span>, W <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/spatstat.geom/man/owin.html" class="external-link">owin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">xr</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">yr</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>    </span></code></pre></div>
+<p>The point pattern must contain the following data An x and y
+coordinate, a metric mark (in metres) and a nominal mark defined as a
+factor. The order must be respected. Now the reconstruction with several
+marks can be started with the following code. Note that the maximum
+number of iterations has been set to max_steps = 10000 to keep the
+computation time for this example to a minimum. For an application, this
+value should be increased according to the number of points in the
+pattern.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reconstruction</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span></span>
+<span><span class="va">marked_pattern</span>, </span>
+<span>n_repetitions <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>max_steps <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+&gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.11564 || energy improvement = 0      
+
+&gt; Progress:  || iterations: 1000 || Simulation progress: 10% || energy = 0.00115 || energy improvement = 259        
+
+&gt; Progress:  || iterations: 2000 || Simulation progress: 20% || energy = 0.00096 || energy improvement = 378        
+
+&gt; Progress:  || iterations: 3000 || Simulation progress: 30% || energy = 0.00092 || energy improvement = 447        
+
+&gt; Progress:  || iterations: 4000 || Simulation progress: 40% || energy = 0.00091 || energy improvement = 502        
+
+&gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 9e-04 || energy improvement = 555      
+
+&gt; Progress:  || iterations: 6000 || Simulation progress: 60% || energy = 9e-04 || energy improvement = 589      
+
+&gt; Progress:  || iterations: 7000 || Simulation progress: 70% || energy = 0.00089 || energy improvement = 629        
+
+&gt; Progress:  || iterations: 8000 || Simulation progress: 80% || energy = 0.00089 || energy improvement = 662        
+
+&gt; Progress:  || iterations: 9000 || Simulation progress: 90% || energy = 0.00089 || energy improvement = 692        
+
+&gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 0.00089 || energy improvement = 718      </code></pre>
+<p>As a result, you will receive a list containing a variety of
+information, for example, the reference pattern, the reconstructed
+pattern, the number of successful actions, the energy development and
+much more. If you wish to perform several reconstructions of the same
+reference pattern, you must increase n_repetitions to the desired
+number.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reconstruction_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span></span>
+<span><span class="va">marked_pattern</span>, </span>
+<span>n_repetitions <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>max_steps <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+&gt; Progress: reconstruction_1 || iterations: 0 || Simulation progress: 0% || energy = 0.07393 || energy improvement = 0      
+
+&gt; Progress: reconstruction_1 || iterations: 1000 || Simulation progress: 10% || energy = 0.00042 || energy improvement = 263        
+
+&gt; Progress: reconstruction_1 || iterations: 2000 || Simulation progress: 20% || energy = 0.00036 || energy improvement = 345        
+
+&gt; Progress: reconstruction_1 || iterations: 3000 || Simulation progress: 30% || energy = 0.00034 || energy improvement = 415        
+
+&gt; Progress: reconstruction_1 || iterations: 4000 || Simulation progress: 40% || energy = 0.00034 || energy improvement = 461        
+
+&gt; Progress: reconstruction_1 || iterations: 5000 || Simulation progress: 50% || energy = 0.00033 || energy improvement = 500        
+
+&gt; Progress: reconstruction_1 || iterations: 6000 || Simulation progress: 60% || energy = 0.00033 || energy improvement = 536        
+
+&gt; Progress: reconstruction_1 || iterations: 7000 || Simulation progress: 70% || energy = 0.00032 || energy improvement = 573        
+
+&gt; Progress: reconstruction_1 || iterations: 8000 || Simulation progress: 80% || energy = 0.00032 || energy improvement = 601        
+
+&gt; Progress: reconstruction_1 || iterations: 9000 || Simulation progress: 90% || energy = 0.00032 || energy improvement = 627        
+
+&gt; Progress: reconstruction_1 || iterations: 10000 || Simulation progress: 100% || energy = 0.00032 || energy improvement = 646      
+## 
+## 
+&gt; Progress: reconstruction_2 || iterations: 0 || Simulation progress: 0% || energy = 0.13267 || energy improvement = 0      
+
+&gt; Progress: reconstruction_2 || iterations: 1000 || Simulation progress: 10% || energy = 0.00039 || energy improvement = 267        
+
+&gt; Progress: reconstruction_2 || iterations: 2000 || Simulation progress: 20% || energy = 0.00031 || energy improvement = 356        
+
+&gt; Progress: reconstruction_2 || iterations: 3000 || Simulation progress: 30% || energy = 3e-04 || energy improvement = 403      
+
+&gt; Progress: reconstruction_2 || iterations: 4000 || Simulation progress: 40% || energy = 0.00029 || energy improvement = 452        
+
+&gt; Progress: reconstruction_2 || iterations: 5000 || Simulation progress: 50% || energy = 0.00029 || energy improvement = 481        
+
+&gt; Progress: reconstruction_2 || iterations: 6000 || Simulation progress: 60% || energy = 0.00029 || energy improvement = 521        
+
+&gt; Progress: reconstruction_2 || iterations: 7000 || Simulation progress: 70% || energy = 0.00029 || energy improvement = 546        
+
+&gt; Progress: reconstruction_2 || iterations: 8000 || Simulation progress: 80% || energy = 0.00029 || energy improvement = 564        
+
+&gt; Progress: reconstruction_2 || iterations: 9000 || Simulation progress: 90% || energy = 0.00028 || energy improvement = 585        
+
+&gt; Progress: reconstruction_2 || iterations: 10000 || Simulation progress: 100% || energy = 0.00028 || energy improvement = 610      </code></pre>
+<p>To activate a visualisation of the reconstruction that shows the
+changes in the pattern at the relevant time, you must proceed as
+follows.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reconstruction_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span></span>
+<span><span class="va">marked_pattern</span>, </span>
+<span>n_repetitions <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>max_steps <span class="op">=</span> <span class="fl">10000</span>, </span>
+<span>plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code>## 
+&gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.09024 || energy improvement = 0      
+
+&gt; Progress:  || iterations: 1000 || Simulation progress: 10% || energy = 0.00062 || energy improvement = 258        
+
+&gt; Progress:  || iterations: 2000 || Simulation progress: 20% || energy = 0.00048 || energy improvement = 357        
+
+&gt; Progress:  || iterations: 3000 || Simulation progress: 30% || energy = 0.00046 || energy improvement = 414        
+
+&gt; Progress:  || iterations: 4000 || Simulation progress: 40% || energy = 0.00039 || energy improvement = 470        
+
+&gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 0.00037 || energy improvement = 521        
+
+&gt; Progress:  || iterations: 6000 || Simulation progress: 60% || energy = 0.00036 || energy improvement = 563        
+
+&gt; Progress:  || iterations: 7000 || Simulation progress: 70% || energy = 0.00036 || energy improvement = 591        
+
+&gt; Progress:  || iterations: 8000 || Simulation progress: 80% || energy = 0.00033 || energy improvement = 624        
+
+&gt; Progress:  || iterations: 9000 || Simulation progress: 90% || energy = 0.00033 || energy improvement = 665        
+
+&gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 0.00033 || energy improvement = 695      </code></pre>
+<p><img src="reconstruct_multi_patterns_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p>Finally, you can use the following function to view different summary
+statistics of the reference pattern (black line) compared to the
+reconstructed pattern (grey line). For this, however, the listed
+libraries must be loaded additionally.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">reconstruction</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Progress in the creation of the figures: 100%</span></span></code></pre>
+<p><img src="reconstruct_multi_patterns_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
