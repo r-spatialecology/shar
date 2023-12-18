@@ -31,6 +31,7 @@ reference:
       - plot.rd_mar
       - plot.rd_pat
       - plot.rd_ras
+      - plot.rd_multi
       - print.rd_mar
       - print.rd_pat
       - print.rd_ras
