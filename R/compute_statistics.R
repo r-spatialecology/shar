@@ -27,7 +27,7 @@ compute_statistics <- function(x, y, k, xr, yr, w_statistics, bw, divisor, kerne
     # Calculation of the Dk(r)-function, if this is to be taken into account for the energy calculation.
     Dk = {
       nnd_ <- as.matrix(spatstat.geom::nndist(x, y, k=k))
-      apply(nnd_, 2, function(z) cumsum(graphics::hist(z[z <= rmax], breaks = c(-Inf, r), plot = FALSE) $ count) / length(z))
+      apply(nnd_, 2, function(z) cumsum(graphics::hist(z[z <= rmax], breaks = c(-Inf, rmax), plot = FALSE) $ count) / length(z))
     },
 
     # Calculation of the K(r)-function, if this is to be taken into account for the energy calculation.

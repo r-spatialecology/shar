@@ -231,7 +231,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
     f          <- calc_moments_full(fn, p, kernel, rmax_bw, r)
     f0         <- colSums(p$mark[, fn$i] * p$mark[, fn$j])
     names(f0)  <- rownames(f)
-    statistics <- compute_statistics(p$x, p$y, k, xwr, ywr, w_statistics)
+    statistics <- compute_statistics(p$x, p$y, k, xwr, ywr, w_statistics, bw, divisor, kernel_arg, rmax)
 
     # Prepare the graphical output.
     if(plot) {
