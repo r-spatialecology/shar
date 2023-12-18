@@ -2,20 +2,25 @@
 #'
 #' @description plot_sum_stat
 #'
-#' @param reconstruction Result list of the dot pattern reconstruction with
+#' @param x rd_multi Object created with \code{reconstruct_pattern_multi}.
 #' multiple marks.
+#' @param verbose Logical if progress should be printed.
+#' @param ... Currently not used
 #'
 #' @details
 #' Calculates and visualises various summary statistics for the results of
 #' multi-marks point pattern reconstruction.
 #'
-#' @return ggplot object
+#' @seealso
+#' \code{\link{reconstruct_pattern_multi}}
 #'
-#' @aliases plot_sum_stat
-#' @rdname plot_sum_stat
+#' @return void
+#'
+#' @aliases plot.rd_multi
+#' @rdname plot.rd_multi
 #'
 #' @export
-plot_sum_stat <- function(reconstruction) {
+plot.rd_multi <- function(x, verbose = TRUE, ...) {
 
   # Data import from the results of point pattern reconstruction.
   k_func_recon <- list()
@@ -27,34 +32,34 @@ plot_sum_stat <- function(reconstruction) {
   divisor    <- "r"
   kernel_arg <- "epanechnikov"
 
-  if(nchar(names(reconstruction[1])) == 9){
+  if(nchar(names(x[1])) == 9){
 
     n_repetitions     <- 1
-    rmax              <- as.numeric(reconstruction$Parameter_setting$rmax)
-    rcount            <- as.numeric(reconstruction$Parameter_setting$rcount)
-    rpresented        <- min(c(as.numeric(reconstruction$window[2]),as.numeric(reconstruction$window[4])))
+    rmax              <- as.numeric(x$Parameter_setting$rmax)
+    rcount            <- as.numeric(x$Parameter_setting$rcount)
+    rpresented        <- min(c(as.numeric(x$window[2]),as.numeric(x$window[4])))
     r                 <- seq(rmin, if(rpresented >= rmax*2 ){rmax*2}else{rpresented}, length.out = rcount)
-    bw                <- as.numeric(reconstruction$Parameter_setting$bw)
+    bw                <- as.numeric(x$Parameter_setting$bw)
 
-    ppp_reference <- spatstat.geom::as.ppp(reconstruction$reference, reconstruction$window)
-    reconstruction    <- list(reconstruction)
+    ppp_reference <- spatstat.geom::as.ppp(x$reference, x$window)
+    x    <- list(x)
   } else {
 
-    n_repetitions     <- reconstruction[[1]]$Parameter_setting$n_repetitions
-    rmax              <- as.numeric(reconstruction[[n_repetitions]]$Parameter_setting$rmax)
-    rpresented        <- min(c(as.numeric(reconstruction[[n_repetitions]]$window[2]),as.numeric(reconstruction[[n_repetitions]]$window[4])))
-    rcount            <- as.numeric(reconstruction[[n_repetitions]]$Parameter_setting$rcount)
+    n_repetitions     <- x[[1]]$Parameter_setting$n_repetitions
+    rmax              <- as.numeric(x[[n_repetitions]]$Parameter_setting$rmax)
+    rpresented        <- min(c(as.numeric(x[[n_repetitions]]$window[2]),as.numeric(x[[n_repetitions]]$window[4])))
+    rcount            <- as.numeric(x[[n_repetitions]]$Parameter_setting$rcount)
     r                 <- seq(rmin, if(rpresented <= rmax*2 ){rmax*2}else{rpresented}, length.out = rcount)
-    bw                <- as.numeric(reconstruction[[n_repetitions]]$Parameter_setting$bw)
+    bw                <- as.numeric(x[[n_repetitions]]$Parameter_setting$bw)
 
-    ppp_reference <- spatstat.geom::as.ppp(reconstruction$reconstruction_1$reference, reconstruction$reconstruction_1$window)
+    ppp_reference <- spatstat.geom::as.ppp(x$reconstruction_1$reference, x$reconstruction_1$window)
   }
 
   for (i in seq_len(n_repetitions)) {
 
-    message("Progress in the creation of the figures: ", i/n_repetitions*100,"%\t\t\r", appendLF = FALSE)
+    if (verbose) message("Progress in the creation of the figures: ", round(i/n_repetitions*100),"%\t\t\r", appendLF = FALSE)
 
-    ppp_reconstructed <- spatstat.geom::as.ppp(reconstruction[[i]][[2]], reconstruction[[i]][[3]])
+    ppp_reconstructed <- spatstat.geom::as.ppp(x[[i]][[2]], x[[i]][[3]])
 
     pcf_func <-spatstat.explore::pcf.ppp(ppp_reconstructed, bw = bw, kernel=kernel_arg,
                                          correction = "none", divisor = divisor, r = r)
@@ -167,5 +172,7 @@ plot_sum_stat <- function(reconstruction) {
   graphics::abline(v = rmax, lty = "dotted", col = "grey")
 
   graphics::par(mfrow = c(1, 1))
+
+  invisible()
 
 }

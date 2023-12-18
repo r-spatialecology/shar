@@ -1,7 +1,6 @@
 # shar 2.2
 * Improvements
-  * Added a new function `reconstruct_pattern_multi()` including several internal functions
-  * Added new function `plot_sum_stat()`
+  * Added a new function `reconstruct_pattern_multi()` including several internal functions and methods
   
 # shar 2.1.1
 * Bugfixes (thanks to @baddstats)

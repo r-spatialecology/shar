@@ -84,5 +84,5 @@ of the reference pattern (black line) compared to the reconstructed pattern
 additionally.
 
 ```{r}
-plot_sum_stat(reconstruction)
+plot(reconstruction)
 ```

@@ -70,7 +70,7 @@
 #' \code{\link{reconstruct_pattern}} \cr
 #' \code{\link{reconstruct_pattern_marks}}
 #'
-#' @return list
+#' @return rd_multi
 #'
 #' @examples
 #' \dontrun{
@@ -528,8 +528,10 @@ reconstruct_pattern_multi <- function(marked_pattern,
   }
 
   if(n_repetitions > 1) {
+    class(reconstruction_list) <- "rd_multi"
     return(reconstruction_list)
   } else {
+    class(reconstruction) <- "rd_multi"
     return(reconstruction)
   }
 }

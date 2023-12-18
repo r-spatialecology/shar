@@ -98,7 +98,7 @@ include Dk, K, Hs, pcf.}
 \item{verbose}{Logical if progress report is printed.}
 }
 \value{
-list
+rd_multi
 }
 \description{
 Pattern reconstruction of a pattern marked by multiple traits.
