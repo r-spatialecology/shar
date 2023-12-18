@@ -227,11 +227,11 @@ reconstruct_pattern_multi <- function(marked_pattern,
     f_         <- calc_moments_full(fn, p_, kernel, rmax_bw, r)
     f0_        <- colSums(p_$mark[, fn$i] * p_$mark[, fn$j])
     names(f0_) <- rownames(f_)
-    statistics_<- compute_statistics(p_$x, p_$y, k, xr, yr, w_statistics, bw, divisor, kernel_arg, rmax)
+    statistics_<- compute_statistics(p_$x, p_$y, k, xr, yr, w_statistics, bw, divisor, kernel_arg, r)
     f          <- calc_moments_full(fn, p, kernel, rmax_bw, r)
     f0         <- colSums(p$mark[, fn$i] * p$mark[, fn$j])
     names(f0)  <- rownames(f)
-    statistics <- compute_statistics(p$x, p$y, k, xwr, ywr, w_statistics, bw, divisor, kernel_arg, rmax)
+    statistics <- compute_statistics(p$x, p$y, k, xwr, ywr, w_statistics, bw, divisor, kernel_arg, r)
 
     # Prepare the graphical output.
     if(plot) {
@@ -329,7 +329,7 @@ reconstruct_pattern_multi <- function(marked_pattern,
                                     kernel, rmax_bw, r) +
             calc_moments(fn, p, i, x, y, mdiff, kernel, rmax_bw, r)
           f0.new <- f0
-          statistics.new <- compute_statistics(replace(p$x, i, x), replace(p$y, i, y), k, xwr, ywr, w_statistics)
+          statistics.new <- compute_statistics(replace(p$x, i, x), replace(p$y, i, y), k, xwr, ywr, w_statistics, bw, divisor, kernel_arg, r)
         },
         # Swaps the coordinates of two randomly drawn points from the new point pattern, applied in xx% of the trap.
         switch_coords = {
