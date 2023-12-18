@@ -4,18 +4,7 @@
 \alias{compute_statistics}
 \title{compute_statistics}
 \usage{
-compute_statistics(
-  x,
-  y,
-  k,
-  xr,
-  yr,
-  w_statistics,
-  bw,
-  divisor,
-  kernel_arg,
-  rmax
-)
+compute_statistics(x, y, k, xr, yr, w_statistics, bw, divisor, kernel_arg, r)
 }
 \arguments{
 \item{x, y}{x and y coordinates of the points from the reference point pattern.}
@@ -28,7 +17,7 @@ compute_statistics(
 from the \code{spatstat} package to be included in the energy calculation. This may
 include Dk, K, Hs, pcf.}
 
-\item{bw, divisor, kernel_arg, rmax}{Several parameters related to summary function.}
+\item{bw, divisor, kernel_arg, r}{Several parameters related to summary function.}
 }
 \value{
 list
