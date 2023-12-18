@@ -19,7 +19,7 @@ If you want more information about multi-trait point pattern reconstruction, ple
 If you wish to include several marks simultaneously in a reconstruction, you can
 use the following code. The libraries used must first be loaded.
 
-```{r}
+```{r message = FALSE, warning = FALSE}
 library(shar)
 library(spatstat)
 ```
@@ -84,12 +84,5 @@ of the reference pattern (black line) compared to the reconstructed pattern
 additionally.
 
 ```{r}
-library(ggplot2)
-library(reshape)
-
 plot_sum_stat(reconstruction)
 ```
-
-
-
-

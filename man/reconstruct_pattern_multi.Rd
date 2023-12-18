@@ -143,7 +143,7 @@ random <- data.frame(x = x, y = y, dbh = diameter, species = factor(species))
 marked_pattern <- spatstat.geom::as.ppp(random, W = spatstat.geom::owin(c(0, xr), c(0, yr)))
 
 # Reconstruction function
-reconstruction <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 19,
+reconstruction <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 2,
 max_steps = 10000)
 }
 
