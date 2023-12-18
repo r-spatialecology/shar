@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.rd_multi.R
 \name{plot.rd_multi}
 \alias{plot.rd_multi}
-\title{plot_sum_stat}
+\title{plot.rd_multi}
 \usage{
 \method{plot}{rd_multi}(x, verbose = TRUE, ...)
 }
@@ -18,7 +18,7 @@ multiple marks.}
 void
 }
 \description{
-plot_sum_stat
+Plot method for rd_multi object
 }
 \details{
 Calculates and visualises various summary statistics for the results of

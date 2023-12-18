@@ -1,6 +1,6 @@
-#' plot_sum_stat
+#' plot.rd_multi
 #'
-#' @description plot_sum_stat
+#' @description Plot method for rd_multi object
 #'
 #' @param x rd_multi Object created with \code{reconstruct_pattern_multi}.
 #' multiple marks.
