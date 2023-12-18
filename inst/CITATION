@@ -19,7 +19,7 @@ c(
     year    = "2023",
     volume  = "14",
     pages   = "2668–2679",
-    doi     = "https://doi.org/10.1111/2041-210X.14206",
+    doi     = "10.1111/2041-210X.14206",
     header  = "If you use the 'reconstruct_pattern_multi()' function, please also cite:"
   )
 )
