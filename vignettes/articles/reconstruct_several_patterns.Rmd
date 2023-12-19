@@ -18,7 +18,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code. Please be aware that the maximum number of iterations was set to `max_runs = 10` to keep the computational time low for this example. For an applied case, this value should be increased.
+In case you want to reconstruct several patterns at once (e.g. for different points in time if repeated censuses are available), you can use the following code. 
+
+> Please note that the maximum number of iterations has been set to `max_runs = 1000` and `n_random = 3` to keep computational time low for this example. For real-world applications, it is advisable to raise these values. Additionally, we set `verbose = FALSE` in the vignette to minimize printed output. We recommend using the default setting `verbose = TRUE` when executing the code to view progress reports.
 
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(shar)
@@ -34,7 +36,7 @@ list_pattern <- list(species_a, species_b)
 
 # reconstruct all patterns in list
 result <- lapply(list_pattern, function(x) reconstruct_pattern(pattern = x, n_random = 3, 
-                                                               max_runs = 10, verbose = FALSE))
+                                                               max_runs = 1000, verbose = FALSE))
 
 ```
 
@@ -53,7 +55,7 @@ Firstly, reconstruct only the spatial characteristics *n* times. The observed pa
 ```{r reconstruct-pattern}
 # reconstruct spatial strucutre
 reconstructed_pattern <- reconstruct_pattern(species_a, n_random = 3, 
-                                             max_runs = 10, return_input = FALSE,
+                                             max_runs = 1000, return_input = FALSE,
                                              verbose = FALSE)
 ```
 
@@ -67,7 +69,7 @@ species_a_marks <- subset(species_a, select = dbh)
 result_marks <- lapply(reconstructed_pattern$randomized, 
                        function(x) reconstruct_pattern_marks(pattern = x, 
                                                              marked_pattern = species_a_marks, 
-                                                             max_runs = 10,
+                                                             max_runs = 1000,
                                                              n_random = 3, verbose = FALSE))
 ```
 
