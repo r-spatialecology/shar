@@ -127,7 +127,7 @@ plot.rd_multi <- function(x, verbose = TRUE, ...) {
   colnames(species_markcorr_all)[1] <- c("Reference_mark_species")
   colnames(species_markcorr_all)[length(species_markcorr_all)] <- c("r")
 
-  graphics::par(mfrow = c(2, 2))
+  graphics::par(mfrow = c(2, 2), mar = c(4.0, 4.0, 1.5, 0.5)) # bltr
 
   # plot Kest
   graphics::plot(NULL, xlim = range(r), ylim = range(c(k_func_all$Reference,
@@ -139,7 +139,7 @@ plot.rd_multi <- function(x, verbose = TRUE, ...) {
   graphics::abline(v = rmax, lty = "dotted", col = "grey")
 
   graphics::legend(x = "topleft", legend = c("Reference", "Reconstructed"),
-                   lty = c(2, 1), inset = 0.015)
+                   lty = c(2, 1), bty = "n", cex = 0.8, ncol = 2)
 
   # plot pcf
   graphics::plot(NULL, xlim = range(r), ylim = range(c(pcf_func_all$Reference,
@@ -171,7 +171,7 @@ plot.rd_multi <- function(x, verbose = TRUE, ...) {
   graphics::lines(x = species_markcorr_all$r, y = species_markcorr_all$species_markcorr_func_recon_mean)
   graphics::abline(v = rmax, lty = "dotted", col = "grey")
 
-  graphics::par(mfrow = c(1, 1))
+  graphics::par(mfrow = c(1, 1), c(5.1, 4.1, 4.1, 2.1))
 
   invisible()
 

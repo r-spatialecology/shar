@@ -23,7 +23,7 @@ library(shar)
 library(spatstat)
 ```
 
-> Please note that the maximum number of iterations has been set to `max_steps = 10000` and `n_repetitions = 1`/`n_repetitions = 3` to keep computational time low for this example. For real-world applications, it is advisable to raise these values. Additionally, we set `verbose = FALSE` in the vignette to minimize printed output. We recommend using the default setting `verbose = TRUE` when executing the code to view progress reports.
+> Please note that the maximum number of iterations has been set to `max_steps = 10000` and `n_repetitions = 1`/`n_repetitions = 3` to keep computational time low for this example. For real-world applications, it is advisable to raise these values.
 
 The next step is to load the point pattern, here is an example of a random point pattern with several marks to show the structure of the data used.
 
@@ -42,25 +42,22 @@ marked_pattern <- as.ppp(random, W = owin(c(0, xr), c(0, yr)))
 The point pattern must contain the following data An x and y coordinate, a metric mark (in metres) and a nominal mark defined as a factor. The order must be respected. Now the reconstruction with several marks can be started with the following code. Note that the maximum number of iterations has been set to max_steps = 10000 to keep the computation time for this example to a minimum. For an application, this value should be increased according to the number of points in the pattern.
 
 ```{r}
-reconstruction <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 1, max_steps = 10000, 
-                                            verbose = FALSE)
+reconstruction <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 1, max_steps = 10000)
 ```
 
 As a result, you will receive a list containing a variety of information, for example, the reference pattern, the reconstructed pattern, the number of successful actions, the energy development and much more. If you wish to perform several reconstructions of the same reference pattern, you must increase n_repetitions to the desired number.
 
 ```{r}
-reconstruction_2 <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 3, max_steps = 10000, 
-                                              verbose = FALSE)
+reconstruction_2 <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 3, max_steps = 10000)
 ```
 
 To activate a visualisation of the reconstruction that shows the changes in the pattern at the relevant time, you must proceed as follows.
 
 ```{r}
-reconstruction_3 <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 1, max_steps = 10000, plot = TRUE, 
-                                              verbose = FALSE)
+reconstruction_3 <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 1, max_steps = 10000, plot = TRUE)
 ```
 
-Finally, you can use the following function to view different summary statistics of the reference pattern (black line) compared to the reconstructed pattern (grey line).  For this, however, the listed libraries must be loaded additionally.
+Finally, you can use the `plot()` function to view different summary statistics of the reference pattern (dashed line) compared to the reconstructed pattern (solid line).
 
 ```{r}
 plot(reconstruction)
