@@ -171,7 +171,7 @@ plot.rd_multi <- function(x, verbose = TRUE, ...) {
   graphics::lines(x = species_markcorr_all$r, y = species_markcorr_all$species_markcorr_func_recon_mean)
   graphics::abline(v = rmax, lty = "dotted", col = "grey")
 
-  graphics::par(mfrow = c(1, 1), c(5.1, 4.1, 4.1, 2.1))
+  graphics::par(mfrow = c(1, 1), mar = c(5.1, 4.1, 4.1, 2.1))
 
   invisible()
 
