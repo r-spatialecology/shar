@@ -142,7 +142,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Multi-trait point pattern reconstruction of plant ecosystems</h1>
                         <h4 data-toc-skip class="author"></h4>
             
-            <h4 data-toc-skip class="date">2023-12-18</h4>
+            <h4 data-toc-skip class="date">2023-12-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multi_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multi_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multi_patterns.Rmd</code></div>
@@ -160,6 +160,16 @@ first be loaded.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span></span></code></pre></div>
+<blockquote>
+<p>Please note that the maximum number of iterations has been set to
+<code>max_steps = 10000</code> and
+<code>n_repetitions = 1</code>/<code>n_repetitions = 3</code> to keep
+computational time low for this example. For real-world applications, it
+is advisable to raise these values. Additionally, we set
+<code>verbose = FALSE</code> in the vignette to minimize printed output.
+We recommend using the default setting <code>verbose = TRUE</code> when
+executing the code to view progress reports.</p>
+</blockquote>
 <p>The next step is to load the point pattern, here is an example of a
 random point pattern with several marks to show the structure of the
 data used.</p>
@@ -182,125 +192,29 @@ computation time for this example to a minimum. For an application, this
 value should be increased according to the number of points in the
 pattern.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reconstruction</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span></span>
-<span><span class="va">marked_pattern</span>, </span>
-<span>n_repetitions <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>max_steps <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-&gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.02043 || energy improvement = 0      
-
-&gt; Progress:  || iterations: 1000 || Simulation progress: 10% || energy = 0.00045 || energy improvement = 236        
-
-&gt; Progress:  || iterations: 2000 || Simulation progress: 20% || energy = 0.00032 || energy improvement = 339        
-
-&gt; Progress:  || iterations: 3000 || Simulation progress: 30% || energy = 0.00028 || energy improvement = 407        
-
-&gt; Progress:  || iterations: 4000 || Simulation progress: 40% || energy = 0.00028 || energy improvement = 454        
-
-&gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 0.00027 || energy improvement = 493        
-
-&gt; Progress:  || iterations: 6000 || Simulation progress: 60% || energy = 0.00026 || energy improvement = 539        
-
-&gt; Progress:  || iterations: 7000 || Simulation progress: 70% || energy = 0.00025 || energy improvement = 587        
-
-&gt; Progress:  || iterations: 8000 || Simulation progress: 80% || energy = 0.00025 || energy improvement = 628        
-
-&gt; Progress:  || iterations: 9000 || Simulation progress: 90% || energy = 0.00025 || energy improvement = 657        
-
-&gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 0.00025 || energy improvement = 682      </code></pre>
+<code class="sourceCode R"><span><span class="va">reconstruction</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span><span class="va">marked_pattern</span>, n_repetitions <span class="op">=</span> <span class="fl">1</span>, max_steps <span class="op">=</span> <span class="fl">10000</span>, </span>
+<span>                                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>As a result, you will receive a list containing a variety of
 information, for example, the reference pattern, the reconstructed
 pattern, the number of successful actions, the energy development and
 much more. If you wish to perform several reconstructions of the same
 reference pattern, you must increase n_repetitions to the desired
 number.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reconstruction_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span></span>
-<span><span class="va">marked_pattern</span>, </span>
-<span>n_repetitions <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>max_steps <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-&gt; Progress: reconstruction_1 || iterations: 0 || Simulation progress: 0% || energy = 0.00309 || energy improvement = 0      
-
-&gt; Progress: reconstruction_1 || iterations: 1000 || Simulation progress: 10% || energy = 0.00038 || energy improvement = 221        
-
-&gt; Progress: reconstruction_1 || iterations: 2000 || Simulation progress: 20% || energy = 0.00031 || energy improvement = 308        
-
-&gt; Progress: reconstruction_1 || iterations: 3000 || Simulation progress: 30% || energy = 0.00027 || energy improvement = 381        
-
-&gt; Progress: reconstruction_1 || iterations: 4000 || Simulation progress: 40% || energy = 0.00024 || energy improvement = 437        
-
-&gt; Progress: reconstruction_1 || iterations: 5000 || Simulation progress: 50% || energy = 0.00023 || energy improvement = 487        
-
-&gt; Progress: reconstruction_1 || iterations: 6000 || Simulation progress: 60% || energy = 0.00022 || energy improvement = 528        
-
-&gt; Progress: reconstruction_1 || iterations: 7000 || Simulation progress: 70% || energy = 0.00022 || energy improvement = 562        
-
-&gt; Progress: reconstruction_1 || iterations: 8000 || Simulation progress: 80% || energy = 0.00022 || energy improvement = 592        
-
-&gt; Progress: reconstruction_1 || iterations: 9000 || Simulation progress: 90% || energy = 0.00021 || energy improvement = 615        
-
-&gt; Progress: reconstruction_1 || iterations: 10000 || Simulation progress: 100% || energy = 2e-04 || energy improvement = 646        
-## 
-## 
-&gt; Progress: reconstruction_2 || iterations: 0 || Simulation progress: 0% || energy = 0.03411 || energy improvement = 0      
-
-&gt; Progress: reconstruction_2 || iterations: 1000 || Simulation progress: 10% || energy = 0.00049 || energy improvement = 225        
-
-&gt; Progress: reconstruction_2 || iterations: 2000 || Simulation progress: 20% || energy = 0.00036 || energy improvement = 332        
-
-&gt; Progress: reconstruction_2 || iterations: 3000 || Simulation progress: 30% || energy = 0.00029 || energy improvement = 406        
-
-&gt; Progress: reconstruction_2 || iterations: 4000 || Simulation progress: 40% || energy = 0.00026 || energy improvement = 464        
-
-&gt; Progress: reconstruction_2 || iterations: 5000 || Simulation progress: 50% || energy = 0.00025 || energy improvement = 507        
-
-&gt; Progress: reconstruction_2 || iterations: 6000 || Simulation progress: 60% || energy = 0.00024 || energy improvement = 550        
-
-&gt; Progress: reconstruction_2 || iterations: 7000 || Simulation progress: 70% || energy = 0.00024 || energy improvement = 603        
-
-&gt; Progress: reconstruction_2 || iterations: 8000 || Simulation progress: 80% || energy = 0.00023 || energy improvement = 635        
-
-&gt; Progress: reconstruction_2 || iterations: 9000 || Simulation progress: 90% || energy = 0.00023 || energy improvement = 659        
-
-&gt; Progress: reconstruction_2 || iterations: 10000 || Simulation progress: 100% || energy = 0.00023 || energy improvement = 686      </code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reconstruction_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span><span class="va">marked_pattern</span>, n_repetitions <span class="op">=</span> <span class="fl">3</span>, max_steps <span class="op">=</span> <span class="fl">10000</span>, </span>
+<span>                                              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>To activate a visualisation of the reconstruction that shows the
 changes in the pattern at the relevant time, you must proceed as
 follows.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">reconstruction_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span></span>
-<span><span class="va">marked_pattern</span>, </span>
-<span>n_repetitions <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>max_steps <span class="op">=</span> <span class="fl">10000</span>, </span>
-<span>plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-&gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.23334 || energy improvement = 0      
-
-&gt; Progress:  || iterations: 1000 || Simulation progress: 10% || energy = 0.00057 || energy improvement = 303        
-
-&gt; Progress:  || iterations: 2000 || Simulation progress: 20% || energy = 0.00047 || energy improvement = 404        
-
-&gt; Progress:  || iterations: 3000 || Simulation progress: 30% || energy = 0.00044 || energy improvement = 479        
-
-&gt; Progress:  || iterations: 4000 || Simulation progress: 40% || energy = 0.00043 || energy improvement = 538        
-
-&gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 0.00041 || energy improvement = 590        
-
-&gt; Progress:  || iterations: 6000 || Simulation progress: 60% || energy = 0.00041 || energy improvement = 632        
-
-&gt; Progress:  || iterations: 7000 || Simulation progress: 70% || energy = 4e-04 || energy improvement = 669      
-
-&gt; Progress:  || iterations: 8000 || Simulation progress: 80% || energy = 4e-04 || energy improvement = 695      
-
-&gt; Progress:  || iterations: 9000 || Simulation progress: 90% || energy = 4e-04 || energy improvement = 726      
-
-&gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 4e-04 || energy improvement = 752        </code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reconstruction_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span><span class="va">marked_pattern</span>, n_repetitions <span class="op">=</span> <span class="fl">1</span>, max_steps <span class="op">=</span> <span class="fl">10000</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                                              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reconstruct_multi_patterns_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>Finally, you can use the following function to view different summary
 statistics of the reference pattern (black line) compared to the
 reconstructed pattern (grey line). For this, however, the listed
 libraries must be loaded additionally.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">reconstruction</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Progress in the creation of the figures: 100%</span></span></code></pre>
 <p><img src="reconstruct_multi_patterns_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>

@@ -143,7 +143,7 @@
                         <h4 data-toc-skip class="author">Maximilian H.K.
 Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2023-12-18</h4>
+            <h4 data-toc-skip class="date">2023-12-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_several_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_several_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_several_patterns.Rmd</code></div>
@@ -153,10 +153,16 @@ Hesselbarth</h4>
     
 <p>In case you want to reconstruct several patterns at once (e.g. for
 different points in time if repeated censuses are available), you can
-use the following code. Please be aware that the maximum number of
-iterations was set to <code>max_runs = 10</code> to keep the
-computational time low for this example. For an applied case, this value
-should be increased.</p>
+use the following code.</p>
+<blockquote>
+<p>Please note that the maximum number of iterations has been set to
+<code>max_runs = 1000</code> and <code>n_random = 3</code> to keep
+computational time low for this example. For real-world applications, it
+is advisable to raise these values. Additionally, we set
+<code>verbose = FALSE</code> in the vignette to minimize printed output.
+We recommend using the default setting <code>verbose = TRUE</code> when
+executing the code to view progress reports.</p>
+</blockquote>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatialecology.github.io/shar/">shar</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span></span>
@@ -169,7 +175,7 @@ straightforward using <code><a href="https://rdrr.io/r/base/lapply.html" class="
 <span></span>
 <span><span class="co"># reconstruct all patterns in list</span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">list_pattern</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/reconstruct_pattern.html">reconstruct_pattern</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">x</span>, n_random <span class="op">=</span> <span class="fl">3</span>, </span>
-<span>                                                               max_runs <span class="op">=</span> <span class="fl">10</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>                                                               max_runs <span class="op">=</span> <span class="fl">1000</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The result will be a nested list including all <em>m</em>
 randomization (including the observed pattern) of the <em>n</em>
 provided input patterns.</p>
@@ -179,11 +185,11 @@ provided input patterns.</p>
 <span>                                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.10748161   0.13147970   0.09486042 </span></span>
+<span><span class="co">#&gt;   0.01952920   0.02149906   0.02738492 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;    0.4193829    0.3397141    0.3138627</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.03538283   0.02697177   0.02971776</span></span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the
 spatial characteristics and afterwards reconstruct the marks <em>m</em>
 times for each of the <em>n</em> spatial reconstructions.</p>
@@ -193,7 +199,7 @@ times. The observed pattern is not needed in this case, so you can put
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># reconstruct spatial strucutre</span></span>
 <span><span class="va">reconstructed_pattern</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern.html">reconstruct_pattern</a></span><span class="op">(</span><span class="va">species_a</span>, n_random <span class="op">=</span> <span class="fl">3</span>, </span>
-<span>                                             max_runs <span class="op">=</span> <span class="fl">10</span>, return_input <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                                             max_runs <span class="op">=</span> <span class="fl">1000</span>, return_input <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>Secondly, to reconstruct the (numeric) marks of the observed pattern
 for each of the spatially reconstructed patterns, just use
@@ -207,7 +213,7 @@ for each of the spatially reconstructed patterns, just use
 <span><span class="va">result_marks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">reconstructed_pattern</span><span class="op">$</span><span class="va">randomized</span>, </span>
 <span>                       <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/reconstruct_pattern_marks.html">reconstruct_pattern_marks</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">x</span>, </span>
 <span>                                                             marked_pattern <span class="op">=</span> <span class="va">species_a_marks</span>, </span>
-<span>                                                             max_runs <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>                                                             max_runs <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                                                             n_random <span class="op">=</span> <span class="fl">3</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Again, the result is a nested list with the same dimensions as
 provided input patterns and reconstructions.</p>
@@ -217,15 +223,15 @@ provided input patterns and reconstructions.</p>
 <span>                                                  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $randomized_1</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.05775809   0.03794838   0.03659857 </span></span>
+<span><span class="co">#&gt;  0.009954407  0.009945565  0.009429147 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_2</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.06768069   0.03801366   0.03186559 </span></span>
+<span><span class="co">#&gt;  0.009152493  0.009967954  0.009472371 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_3</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.03342309   0.04501525   0.05372869</span></span></code></pre></div>
+<span><span class="co">#&gt;  0.008541683  0.009720450  0.009813832</span></span></code></pre></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
