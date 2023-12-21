@@ -94,8 +94,7 @@ calculate_energy <- function(pattern,
       gest_observed <- spatstat.explore::Gest(X = pattern_observed,
                                               correction = "none", r = r)
 
-      pcf_observed <- spatstat.explore::pcf(X = pattern_observed,
-                                            correction = "none", divisor = "d", r = r)
+      pcf_observed <- spatstat.explore::pcf.ppp(X = pattern_observed, correction = "none", divisor = "d", r = r)
 
       # loop through all reconstructed patterns
       result <- vapply(seq_along(pattern_randomized), function(x) {
@@ -103,9 +102,9 @@ calculate_energy <- function(pattern,
         gest_reconstruction <- spatstat.explore::Gest(X = pattern_randomized[[x]],
                                                       correction = "none", r = r)
 
-          pcf_reconstruction <- spatstat.explore::pcf(X = pattern_randomized[[x]],
-                                                      correction = "none", divisor = "d",
-                                                      r = r)
+          pcf_reconstruction <- spatstat.explore::pcf.ppp(X = pattern_randomized[[x]],
+                                                          correction = "none", divisor = "d",
+                                                          r = r)
 
         # difference between observed and reconstructed pattern
         energy <- (mean(abs(gest_observed[[3]] - gest_reconstruction[[3]]), na.rm = TRUE) * weights[[1]]) +

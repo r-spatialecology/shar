@@ -104,13 +104,13 @@ testthat::test_that("All warnings are returned for reconstruct_pattern_marks", {
   testthat::expect_warning(reconstruct_pattern_marks(pattern = pattern_recon,
                                                      marked_pattern = marks_sub,
                                                      n_random = 2, max_runs = 1,
-                                                     return_input = FALSE,
-                                                     simplify = TRUE),
+                                                     return_input = FALSE, simplify = TRUE,
+                                                     verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'n_random > 1'")
 
   testthat::expect_warning(reconstruct_pattern_marks(pattern = pattern_recon,
                                                      marked_pattern = marks_sub,
                                                      n_random = 1, max_runs = 1,
-                                                     simplify = TRUE),
+                                                     simplify = TRUE, verbose = FALSE),
                            regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'")
 })

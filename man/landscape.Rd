@@ -8,7 +8,7 @@
 A SpatRaster object.
 }
 \source{
-Simulated neutral landscape model with R. https://github.com/ropensci/NLMR/
+Simulated neutral landscape model with R. <https://github.com/ropensci/NLMR/>
 }
 \usage{
 landscape

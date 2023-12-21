@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-README Last updated: 2023-08-31
+README Last updated: 2023-12-15
 
 | CI                                                                                                                                                                                   | Development                                                                                                                | CRAN                                                                                                                    | License                                                                                                                                              |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -67,7 +67,13 @@ or acknowledge its use in publications, please cite the following paper.
 > Hesselbarth, M.H.K., (2021). shar: A R package to analyze
 > species-habitat associations using point pattern analysis. Journal of
 > Open Source Software, 6(67), 3811.
-> <https://doi.org/10.21105/joss.03811>
+> <https://doi.org/10.21105/joss.03811>.
+
+If you use the `reconstruct_pattern_multi()` function, please also cite.
+
+> Wudel C., Schlicht R., Berger U. (2023). Multi-trait point pattern
+> reconstruction of plant ecosystems. Methods in Ecology and Evolution,
+> 14, 2668–2679. <https://doi.org/10.1111/2041-210X.14206>.
 
 The get a BibTex entry, please use `citation("shar")`.
 

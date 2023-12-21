@@ -17,7 +17,7 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: false
+      fail-fast: FALSE
       matrix:
         config:
           - {os: macOS-latest, r: 'release'}

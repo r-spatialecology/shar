@@ -82,8 +82,7 @@ plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975),
       # calculate summary functions
       gest_result <- spatstat.explore::Gest(pattern[[x]], correction = "none", r = r)
 
-      pcf_result <- spatstat.explore::pcf(pattern[[x]], divisor = "d",
-                                         correction = "none", r = r)
+      pcf_result <- spatstat.explore::pcf.ppp(pattern[[x]], divisor = "d", correction = "none", r = r)
 
       gest_df <- as.data.frame(gest_result) # conver to df
 

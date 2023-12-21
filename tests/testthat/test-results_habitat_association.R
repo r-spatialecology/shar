@@ -82,8 +82,7 @@ testthat::test_that("results_habitat_association returns warning if significance
   testthat::expect_warning(results_habitat_association(raster = landscape_classified$raster,
                                                        pattern = random_a, significance_level = 0.75,
                                                        verbose = FALSE),
-                           regexp = "Make sure 'signifcance_level' is meaningful (e.g. 'significance_level = 0.05').",
-                           fixed = TRUE)
+                           regexp = "Make sure 'signifcance_level' is meaningful \\(e.g. 'significance_level = 0.05'\\).")
 })
 
 testthat::test_that("results_habitat_association returns warning if more than 25 classes are present", {

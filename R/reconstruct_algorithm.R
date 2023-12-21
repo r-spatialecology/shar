@@ -60,9 +60,7 @@ reconstruct_algorithm <- function(pattern,
   window <- pattern$window
 
   # check if pattern is emtpy
-  if (n_points == 0){
-    stop("The observed pattern contains no points.", call. = FALSE)
-  }
+  if (n_points == 0) stop("The observed pattern contains no points.", call. = FALSE)
 
   # calculate intensity
   lambda <- n_points / spatstat.geom::area(window)
@@ -145,23 +143,27 @@ reconstruct_algorithm <- function(pattern,
                                                  window = window, verbose = FALSE)
 
       # remove points because more points in simulated
-      if (n_points <= simulated$n) {
+      if (n_points < simulated$n) {
 
         # difference between patterns
         difference <- simulated$n - n_points
+
         # id of points to remove
         remove_points <- sample(x = seq_len(simulated$n), size = difference)
+
         # remove points
         simulated <- simulated[-remove_points]
 
-        # add points because less points in simulated
-      } else {
+      # add points because less points in simulated
+      } else if (n_points > simulated$n) {
 
         # difference between patterns
         difference <- n_points - simulated$n
+
         # create missing points
         missing_points <- spatstat.random::runifpoint(n = difference, nsim = 1, drop = TRUE,
                                                       win = pattern$window, warn = FALSE)
+
         # add missing points to simulated
         simulated <- spatstat.geom::superimpose.ppp(simulated, missing_points,
                                                     W = pattern$window, check = FALSE)
@@ -171,6 +173,9 @@ reconstruct_algorithm <- function(pattern,
 
     # check if simulated is empty
     if (simulated$n == 0) stop("The simulated pattern contains no points.", call. = FALSE)
+
+    # check if simulated has same points as observed
+    if (n_points != simulated$n) stop("The simulated pattern contains the same amount as observed pattern.", call. = FALSE)
 
     # energy before reconstruction
     energy <- Inf

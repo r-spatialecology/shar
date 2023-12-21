@@ -16,6 +16,7 @@ reference:
       - randomize_raster
       - reconstruct_pattern
       - reconstruct_pattern_marks
+      - reconstruct_pattern_multi
       - translate_raster
   - title: Analyse results
     contents:
@@ -30,6 +31,7 @@ reference:
       - plot.rd_mar
       - plot.rd_pat
       - plot.rd_ras
+      - plot.rd_multi
       - print.rd_mar
       - print.rd_pat
       - print.rd_ras
@@ -59,12 +61,15 @@ navbar:
       icon: fa-graduation-cap
       text: "More"
       menu:
-        - text: "Reconstruct multiple pattern"
-          icon: fa-book
-          href: articles/reconstruct_multiple_patterns.html
         - text: "Parallelization"
           icon: fa-book
           href: articles/parallelization.html
+        - text: "Reconstruct several patterns"
+          icon: fa-book
+          href: articles/reconstruct_several_patterns.html
+        - text: "Multi-trait pattern reconstruction"
+          icon: fa-book
+          href: articles/reconstruct_multi_patterns.html
         - text: "Analysing the climatic niche of Cormus domestica"
           icon: fa-book
           href: articles/cormus_domestica_tmp.html

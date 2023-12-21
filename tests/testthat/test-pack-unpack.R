@@ -3,12 +3,12 @@
 landscape_classified <- classify_habitats(terra::rast(landscape), n = 5, style = "fisher")
 landscape_classified[terra::values(landscape_classified) != 1] <- 2
 
-landscape_random <- randomize_raster(landscape_classified, n_random = 2)
-landscape_ni <- randomize_raster(landscape_classified, n_random = 2, return_input = FALSE)
+landscape_random <- randomize_raster(landscape_classified, n_random = 2, verbose = FALSE)
+landscape_ni <- randomize_raster(landscape_classified, n_random = 2,
+                                 return_input = FALSE, verbose = FALSE)
 
 x <- pack_randomized(raster = landscape_random)
 x_ni <- pack_randomized(raster = landscape_random)
-
 
 ################################################################################
 

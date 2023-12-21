@@ -8,14 +8,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-We try to maintain a list of publications that have used the **shar** package. If you have used **shar** in your own work, we would love to hear from you. Please [open an issue on GitHub](https://github.com/r-spatialecology/shar/issues) or [drop us an e-mail](mailto:mhk.hesselbarth@gmail.com) so we can add your work to this list.
-
 The **shar** package is part of our academic work. To cite the package or acknowledge its use in publications, please cite the following paper.
 
 > Hesselbarth, M.H.K., (2021). shar: A R package to analyze species-habitat associations using point pattern analysis. Journal of Open Source Software, 6(67), 3811. https://doi.org/10.21105/joss.03811
+
+If you use the `reconstruct_pattern_multi()` function, please also cite.
+
+> Wudel C., Schlicht R., Berger U. (2023). Multi-trait point pattern reconstruction of plant ecosystems. Methods in Ecology and Evolution, 14, 2668–2679. <https://doi.org/10.1111/2041-210X.14206>.
 
 The get a BibTex entry, please use `citation("shar")`.
 
 ## A list of publications
 
-...Work-in-Progress...
+To see all papers that already used **landscapemetrics**, please [click here](https://scholar.google.com/scholar?cites=1225822175035945633&as_sdt=2005&sciodt=0,5&hl=en)

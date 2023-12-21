@@ -7,7 +7,7 @@ pattern_random <- lapply(X = 1:3, function(i) {
   })
 
 pattern_conv <- list_to_randomized(list = pattern_random,
-                                         observed = species_b)
+                                   observed = species_b)
 
 landscape_classified <- classify_habitats(raster = terra::rast(landscape),
                                           n = 3, style = "fisher")
@@ -67,9 +67,11 @@ testthat::test_that("list_to_randomized returns errors", {
 
 testthat::test_that("list_to_randomized works with results_habitat_associations", {
 
-  res_a <- results_habitat_association(pattern = pattern_conv, raster = landscape_classified)
+  res_a <- results_habitat_association(pattern = pattern_conv, raster = landscape_classified,
+                                       verbose = FALSE)
 
-  res_b <- results_habitat_association(pattern = species_b, raster = raster_conv)
+  res_b <- results_habitat_association(pattern = species_b, raster = raster_conv,
+                                       verbose = FALSE)
 
   testthat::expect_s3_class(object = res_a, class = "data.frame")
 

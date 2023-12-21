@@ -50,14 +50,6 @@ plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
 
   habitats <- sort(table(terra::values(x$observed), useNA = "no")) # get table of habitats
 
-  # print warning if more than 10 classes are present
-  if (length(habitats) > 10) {
-
-    warning("The raster has more than 10 classes. Please make sure discrete classes are provided.",
-            call. = FALSE)
-
-  }
-
   # get randomized pattern
   subset_raster <- sample_randomized(randomized = x$randomized, n = n,
                                      verbose = verbose)
