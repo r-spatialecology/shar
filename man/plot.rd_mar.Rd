@@ -57,7 +57,6 @@ n_random = 19, max_runs = 1000)
 plot(marks_recon)
 }
 
-
 }
 \seealso{
 \code{\link{reconstruct_pattern}} \cr

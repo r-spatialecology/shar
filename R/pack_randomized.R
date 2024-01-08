@@ -21,9 +21,6 @@
 #' x <- pack_randomized(raster = landscape_random)
 #' }
 #'
-#' @aliases pack_randomized
-#' @rdname pack_randomized
-#'
 #' @export
 pack_randomized <- function(raster) {
 

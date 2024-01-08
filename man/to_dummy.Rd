@@ -2,7 +2,6 @@
 % Please edit documentation in R/dummy_transf.R
 \name{to_dummy}
 \alias{to_dummy}
-\alias{dummy_transf}
 \title{dummy_transf}
 \usage{
 to_dummy(f)

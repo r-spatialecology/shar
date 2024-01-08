@@ -36,9 +36,6 @@
 #' species_a_random <- fit_point_process(species_a, n_random = 199)
 #' results_habitat_association(pattern = species_a_random, raster = landscape_classified)
 #'
-#' @aliases results_habitat_association
-#' @rdname results_habitat_association
-#'
 #' @references
 #' Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of
 #' trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959.

@@ -16,9 +16,6 @@
 #'
 #' @return void
 #'
-#' @aliases plot.rd_multi
-#' @rdname plot.rd_multi
-#'
 #' @export
 plot.rd_multi <- function(x, verbose = TRUE, ...) {
 

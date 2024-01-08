@@ -19,9 +19,6 @@
 #' extract_points(raster = landscape_classified, pattern = species_b)
 #' }
 #'
-#' @aliases extract_points
-#' @rdname extract_points
-#'
 #' @keywords internal
 extract_points <- function(raster, pattern){
 

@@ -11,9 +11,6 @@
 #'
 #' @return matrix
 #'
-#' @aliases dummy_transf
-#' @rdname dummy_transf
-#'
 #' @keywords internal
 to_dummy <- function(f) {
   x <- matrix(0, length(f), nlevels(f), dimnames=list(names(f), levels(f)))

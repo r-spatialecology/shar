@@ -27,9 +27,6 @@
 #' list_to_randomized(list = fit_list, observed = species_a)
 #' }
 #'
-#' @aliases list_to_randomized
-#' @rdname list_to_randomized
-#'
 #' @export
 list_to_randomized <- function(list, observed = NULL) {
 

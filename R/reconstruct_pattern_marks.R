@@ -49,9 +49,6 @@
 #' n_random = 19, max_runs = 1000)
 #' }
 #'
-#' @aliases reconstruct_pattern_marks
-#' @rdname reconstruct_pattern_marks
-#'
 #' @references
 #' Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated
 #' annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>

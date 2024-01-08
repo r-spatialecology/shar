@@ -23,9 +23,6 @@
 #' print(landscape_random)
 #' }
 #'
-#' @aliases print.rd_ras
-#' @rdname print.rd_ras
-#'
 #' @export
 print.rd_ras <- function(x, ...) {
 

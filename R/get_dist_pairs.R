@@ -13,9 +13,6 @@
 #'
 #' @return matrix
 #'
-#' @aliases get_dist_pairs
-#' @rdname get_dist_pairs
-#'
 #' @keywords internal
 get_dist_pairs <- function(X, rmax){
 

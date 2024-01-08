@@ -28,9 +28,6 @@
 #' plot(landscape_random)
 #' }
 #'
-#' @aliases plot.rd_ras
-#' @rdname plot.rd_ras
-#'
 #' @export
 plot.rd_ras <- function(x, n = NULL, col, verbose = TRUE, nrow, ncol, ...) {
 

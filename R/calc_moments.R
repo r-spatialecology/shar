@@ -19,9 +19,6 @@
 #'
 #' @return matrix
 #'
-#' @aliases calc_moments
-#' @rdname calc_moments
-#'
 #' @keywords internal
 calc_moments <- function(fn,
                          p,

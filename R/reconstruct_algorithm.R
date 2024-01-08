@@ -23,9 +23,6 @@
 #'
 #' @return list
 #'
-#' @aliases reconstruct_algorithm
-#' @rdname reconstruct_algorithm
-#'
 #' @keywords internal
 reconstruct_algorithm <- function(pattern,
                                   method,

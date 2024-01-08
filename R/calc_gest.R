@@ -14,9 +14,6 @@
 #'
 #' @return data.frame
 #'
-#' @aliases calc_gest
-#' @rdname calc_gest
-#'
 #' @keywords internal
 calc_gest <- function(dist, r, n_points){
 

@@ -18,9 +18,6 @@
 #' sample_randomized(randomized = reconstruction$randomized, n = c(5, 10, 15))
 #' }
 #'
-#' @aliases sample_randomized
-#' @rdname sample_randomized
-#'
 #' @keywords internal
 sample_randomized <- function(randomized, n = NULL, verbose = TRUE) {
 

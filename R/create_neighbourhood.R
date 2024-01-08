@@ -22,9 +22,6 @@
 #' create_neighbourhood(cell_id, mat)
 #' }
 #'
-#' @aliases create_neighbourhood
-#' @rdname create_neighbourhood
-#'
 #' @keywords internal
 create_neighbourhood <- function(cells, matrix, directions = 4) {
 

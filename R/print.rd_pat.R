@@ -25,9 +25,6 @@
 #' print(pattern_recon)
 #' }
 #'
-#' @aliases print.rd_pat
-#' @rdname print.rd_pat
-#'
 #' @export
 print.rd_pat <- function(x,
                          digits = 4,
