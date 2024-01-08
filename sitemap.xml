@@ -67,9 +67,6 @@
     <loc>https://r-spatialecology.github.io/shar/reference/create_neighbourhood.html</loc>
   </url>
   <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/dummy_transf.html</loc>
-  </url>
-  <url>
     <loc>https://r-spatialecology.github.io/shar/reference/energy_fun.html</loc>
   </url>
   <url>
@@ -149,6 +146,9 @@
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/species_b.html</loc>
+  </url>
+  <url>
+    <loc>https://r-spatialecology.github.io/shar/reference/to_dummy.html</loc>
   </url>
   <url>
     <loc>https://r-spatialecology.github.io/shar/reference/translate_raster.html</loc>
