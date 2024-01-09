@@ -38,10 +38,6 @@
 #' plot(marks_recon)
 #' }
 #'
-#'
-#' @aliases plot.rd_mar
-#' @rdname plot.rd_mar
-#'
 #' @export
 plot.rd_mar <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975),
                         ask = TRUE, verbose = TRUE, ...) {

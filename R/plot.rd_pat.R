@@ -38,9 +38,6 @@
 #' plot(pattern_recon)
 #' }
 #'
-#' @aliases plot.rd_pat
-#' @rdname plot.rd_pat
-#'
 #' @export
 plot.rd_pat <- function(x, what = "sf", n = NULL, probs = c(0.025, 0.975),
                         ask = TRUE, verbose = TRUE, ...) {

@@ -27,9 +27,6 @@
 #' landscape_classified <- classify_habitats(terra::rast(landscape), style = "fixed",
 #' fixedBreaks = c(0, 0.25, 0.75, 1.0), return_breaks = TRUE)
 #'
-#' @aliases classify_habitats
-#' @rdname classify_habitats
-#'
 #' @references
 #' Armstrong, M.P., Xiao, N., Bennett, D.A., 2003. Using genetic algorithms to create
 #' multicriteria class intervals for choropleth maps. Annals of the Association of

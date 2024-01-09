@@ -17,9 +17,6 @@
 #'
 #' @return list
 #'
-#' @aliases select_kernel
-#' @rdname select_kernel
-#'
 #' @keywords internal
 #'
 select_kernel <- function(kernel_arg, bw, rmax, divisor) {

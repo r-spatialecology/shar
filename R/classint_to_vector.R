@@ -16,9 +16,6 @@
 #' classint_to_vector(x = landscape_classified$breaks, digits = 4)
 #' }
 #'
-#' @aliases classint_to_vector
-#' @rdname classint_to_vector
-#'
 #' @keywords internal
 classint_to_vector <- function(x, digits = NULL) {
 

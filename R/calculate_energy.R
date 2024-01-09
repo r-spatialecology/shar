@@ -33,9 +33,6 @@
 #' calculate_energy(marks_recon, return_mean = FALSE)
 #' }
 #'
-#' @aliases calculate_energy
-#' @rdname calculate_energy
-#'
 #' @references
 #' Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated
 #' annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>

@@ -24,9 +24,6 @@
 #'
 #' @return vector
 #'
-#' @aliases energy_fun
-#' @rdname energy_fun
-#'
 #' @keywords internal
 #'
 Energy_fun <- function(f, f0, statistics, f_, f0_, statistics_, fn, p, p_, Lp, w_statistics) {

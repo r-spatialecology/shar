@@ -15,9 +15,6 @@
 #'
 #' @return list
 #'
-#' @aliases compute_statistics
-#' @rdname compute_statistics
-#'
 #' @keywords internal
 compute_statistics <- function(x, y, k, xr, yr, w_statistics, bw, divisor, kernel_arg, r) {
 

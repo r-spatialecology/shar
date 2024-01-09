@@ -32,9 +32,6 @@
 #' steps_x = 1:10, steps_y = 1:5)
 #' }
 #'
-#' @aliases translate_raster
-#' @rdname translate_raster
-#'
 #' @references
 #' Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations
 #' of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959.

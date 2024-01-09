@@ -2,7 +2,6 @@
 % Please edit documentation in R/energy_fun.R
 \name{Energy_fun}
 \alias{Energy_fun}
-\alias{energy_fun}
 \title{energy_fun}
 \usage{
 Energy_fun(

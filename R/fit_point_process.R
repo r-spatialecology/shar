@@ -22,9 +22,6 @@
 #' @examples
 #' pattern_fitted <- fit_point_process(pattern = species_a, n_random = 39)
 #'
-#' @aliases fit_point_process
-#' @rdname fit_point_process
-#'
 #' @references
 #' Plotkin, J.B., Potts, M.D., Leslie, N., Manokaran, N., LaFrankie, J.V.,
 #' Ashton, P.S., 2000. Species-area curves, spatial aggregation, and habitat specialization

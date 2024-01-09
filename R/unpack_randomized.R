@@ -23,9 +23,6 @@
 #' y <- unpack_randomized(raster = y)
 #' }
 #'
-#' @aliases unpack_randomized
-#' @rdname unpack_randomized
-#'
 #' @export
 unpack_randomized <- function(raster) {
 

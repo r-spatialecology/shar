@@ -1,3 +1,7 @@
+# shar 2.2.1
+* Improvements
+  * Simplify roxygen2 docs
+
 # shar 2.2
 * Improvements
   * Added a new function `reconstruct_pattern_multi()` including several internal functions and methods

@@ -28,9 +28,6 @@
 #' plot_energy(marks_recon)
 #' }
 #'
-#' @aliases plot_energy
-#' @rdname plot_energy
-#'
 #' @export
 plot_energy <- function(pattern,
                         col = NULL){
