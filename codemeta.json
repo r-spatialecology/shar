@@ -7,7 +7,7 @@
   "codeRepository": "https://r-spatialecology.github.io/shar/",
   "issueTracker": "https://github.com/r-spatialecology/shar/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.2.1",
+  "version": "2.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -257,7 +257,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1078.108KB",
+  "fileSize": "1074.155KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
