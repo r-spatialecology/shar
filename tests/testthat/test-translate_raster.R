@@ -1,4 +1,4 @@
-# testthat::context("test-translate_raster")
+# context("test-translate_raster")
 
 # n_random <- (terra::nrow(terra::rast(landscape)) + 1) *
 #   terra::ncol(terra::rast(landscape)) + 1)  - 4
@@ -28,22 +28,21 @@ landscape_wrong[1:50] <- NA
 
 ################################################################################
 
-testthat::test_that("Output is a long as n_random for translate_raster", {
+test_that("Output is a long as n_random for translate_raster", {
 
-  testthat::expect_length(landscape_random$randomized,
-                          n = 2597)
+  expect_length(landscape_random$randomized, n = 2597)
+
 })
 
-testthat::test_that("Output includes randomizations and original pattern for translate_raster", {
+test_that("Output includes randomizations and original pattern for translate_raster", {
 
-  testthat::expect_named(landscape_random$randomized,
-                         expected = paste0("randomized_", 1:2597))
+  expect_named(landscape_random$randomized, expected = paste0("randomized_", 1:2597))
 
-  testthat::expect_equal(landscape_random$observed,
-                         expected = landscape_classified)
+  expect_equal(landscape_random$observed, expected = landscape_classified)
+
 })
 
-testthat::test_that("Input raster can not be returned for translate_raster", {
+test_that("Input raster can not be returned for translate_raster", {
 
   check <- vapply(X = landscape_random_steps$randomized, FUN = function(x) {
 
@@ -52,30 +51,33 @@ testthat::test_that("Input raster can not be returned for translate_raster", {
     all(terra::values(landscape_diff) == 0)
   }, FUN.VALUE = logical(1))
 
-  testthat::expect_false(all(check))
+  expect_false(all(check))
+
 })
 
-testthat::test_that("Providing steps is working for translate_raster", {
+test_that("Providing steps is working for translate_raster", {
 
-  testthat::expect_length(landscape_random_steps$randomized,
-                          n = 9)
+  expect_length(landscape_random_steps$randomized, n = 9)
+
 })
 
-testthat::test_that("simplify is working for translate_raster", {
+test_that("simplify is working for translate_raster", {
 
-  testthat::expect_s4_class(landscape_random_simple, class = "SpatRaster")
+  expect_s4_class(landscape_random_simple, class = "SpatRaster")
+
 })
 
-testthat::test_that("Warning if more than 10 classes are present for translate_raster", {
+test_that("Warning if more than 10 classes are present for translate_raster", {
 
-  testthat::expect_warning(translate_raster(raster = terra::rast(landscape), steps_x = 5, steps_y = 5,
-                                            verbose = FALSE),
-                           regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
+  expect_warning(translate_raster(raster = terra::rast(landscape), steps_x = 5, steps_y = 5,
+                                  verbose = FALSE),
+                 regexp  = "The raster has more than 10 classes. Please make sure discrete classes are provided.")
+
 })
 
-testthat::test_that("Stop if NA are present", {
+test_that("Stop if NA are present", {
 
-  testthat::expect_error(translate_raster(raster = landscape_wrong, steps_x = 5, steps_y = 5),
-                         regexp = "NA values are not allowed for 'translate_raster\\()'.")
+  expect_error(translate_raster(raster = landscape_wrong, steps_x = 5, steps_y = 5),
+               regexp = "NA values are not allowed for 'translate_raster\\()'.")
+
 })
-

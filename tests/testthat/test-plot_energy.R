@@ -1,4 +1,4 @@
-# testthat::context("test-plot_energy")
+# context("test-plot_energy")
 
 pattern_reconstruction <- reconstruct_pattern(pattern = species_a,
                                               n_random = 3, max_runs = 100,
@@ -9,22 +9,25 @@ pattern_fitted <- fit_point_process(pattern = species_a, n_random = 3,
 
 ################################################################################
 
-testthat::test_that("plot_energy returns plot", {
+test_that("plot_energy returns plot", {
 
-  testthat::expect_null(plot_energy(pattern_reconstruction))
+  expect_null(plot_energy(pattern_reconstruction))
+
 })
 
-testthat::test_that("plot_energy uses colours", {
+test_that("plot_energy uses colours", {
 
-  testthat::expect_null(plot_energy(pattern_reconstruction,
+  expect_null(plot_energy(pattern_reconstruction,
                                     col = c("blue", "green", "red")))
+
 })
 
-testthat::test_that("plot_energy returns error", {
+test_that("plot_energy returns error", {
 
-  testthat::expect_error(plot_energy(pattern = 1:10),
-                         regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.")
+  expect_error(plot_energy(pattern = 1:10),
+               regexp = "Class of 'pattern' must be 'rd_pat' or 'rd_mar'.")
 
-  testthat::expect_error(plot_energy(pattern_fitted),
-                         regexp = "There is no 'energy_df' slot. Please use pattern reconstruction for valid input data.")
+  expect_error(plot_energy(pattern_fitted),
+               regexp = "There is no 'energy_df' slot. Please use pattern reconstruction for valid input data.")
+
 })

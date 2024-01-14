@@ -1,4 +1,4 @@
-# testthat::context("test-reconstruct_pattern_marks")
+# context("test-reconstruct_pattern_marks")
 
 pattern_recon <- reconstruct_pattern(species_a, n_random = 1, return_input = FALSE,
                                      simplify = TRUE, max_runs = 1,
@@ -29,88 +29,82 @@ pattern_recon_empty <- pattern_recon[-c(1:pattern_recon$n)]
 
 ################################################################################
 
-testthat::test_that("Output is a long as n_random for reconstruct_pattern_marks", {
+test_that("Output is a long as n_random for reconstruct_pattern_marks", {
 
-  testthat::expect_s3_class(marks_recon, class = "rd_mar")
+  expect_s3_class(marks_recon, class = "rd_mar")
 
-  testthat::expect_type(marks_recon$randomized, type = "list")
+  expect_type(marks_recon$randomized, type = "list")
 
-  testthat::expect_length(marks_recon$randomized, n = 3)
+  expect_length(marks_recon$randomized, n = 3)
+
 })
 
-testthat::test_that("Output includes randomizations and original pattern for reconstruct_pattern_marks", {
+test_that("Output includes randomizations and original pattern for reconstruct_pattern_marks", {
 
-  testthat::expect_named(marks_recon$randomized,
-                         expected = paste0("randomized_", c(1:3)))
+  expect_named(marks_recon$randomized, expected = paste0("randomized_", c(1:3)))
 
-  testthat::expect_equal(marks_recon$observed, expected = marks_sub)
+  expect_equal(marks_recon$observed, expected = marks_sub)
+
 })
 
-testthat::test_that("Input pattern can not be returned for reconstruct_pattern_marks", {
+test_that("Input pattern can not be returned for reconstruct_pattern_marks", {
 
-  testthat::expect_equal(object = marks_recon_ni$observed,
-                         expected = "NA")
+  expect_true(object = is.na(marks_recon_ni$observed))
+
 })
 
-testthat::test_that("Only pattern can be returned for simplify = TRUE", {
+test_that("Only pattern can be returned for simplify = TRUE", {
 
-  testthat::expect_s3_class(marks_recon_simple, "ppp")
+  expect_s3_class(marks_recon_simple, "ppp")
+
 })
 
-testthat::test_that("Reconstruction stops if e_threshold is reached", {
+test_that("Reconstruction stops if e_threshold is reached", {
 
   energy <- calculate_energy(marks_recon_energy, verbose = FALSE)
 
-  testthat::expect_true(all(energy < 0.1 & energy > 0.01))
+  expect_true(all(energy < 0.1 & energy > 0.01))
 
-  testthat::expect_true(all(marks_recon_energy$stop_criterion %in% c("e_threshold", "no_change")))
-})
-
-testthat::test_that("All errors are returned for reconstruct_pattern_marks", {
-
-  testthat::expect_error(reconstruct_pattern_marks(pattern = pattern_recon,
-                                                   marked_pattern = marks_sub,
-                                                   n_random = -5, max_runs = 1,
-                                                   verbose = FALSE),
-                         regexp = "n_random must be >= 1.")
-
-  testthat::expect_error(reconstruct_pattern_marks(pattern = pattern_recon,
-                                                   marked_pattern = pattern_recon,
-                                                   n_random = 3, max_runs = 1,
-                                                   verbose = FALSE),
-                         regexp = "'pattern' must be unmarked and 'marked_pattern' marked")
-
-  testthat::expect_error(reconstruct_pattern_marks(pattern = marks_sub,
-                                                   marked_pattern = marks_sub,
-                                                   n_random = 3, max_runs = 1,
-                                                   verbose = FALSE),
-                         regexp = "'pattern' must be unmarked and 'marked_pattern' marked")
-
-  testthat::expect_error(reconstruct_pattern_marks(pattern = pattern_recon,
-                                                   marked_pattern = spatstat.geom::subset.ppp(species_a,
-                                                                                              select = status),
-                                                         n_random = 3, max_runs = 1),
-                         regexp = "marks must be 'numeric'")
-
-  testthat::expect_error(reconstruct_pattern_marks(pattern = pattern_recon_empty,
-                                                   marked_pattern = marks_sub,
-                                                   verbose = FALSE),
-                         regexp = "At least one of the observed patterns contain no points.")
+  expect_true(all(marks_recon_energy$stop_criterion %in% c("e_threshold", "no_change")))
 
 })
 
-testthat::test_that("All warnings are returned for reconstruct_pattern_marks", {
+test_that("All errors are returned for reconstruct_pattern_marks", {
 
-  testthat::expect_warning(reconstruct_pattern_marks(pattern = pattern_recon,
-                                                     marked_pattern = marks_sub,
-                                                     n_random = 2, max_runs = 1,
-                                                     return_input = FALSE, simplify = TRUE,
-                                                     verbose = FALSE),
-                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'")
+  expect_error(reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = marks_sub,
+                                         n_random = -5, max_runs = 1, verbose = FALSE),
+               regexp = "n_random must be >= 1.")
 
-  testthat::expect_warning(reconstruct_pattern_marks(pattern = pattern_recon,
-                                                     marked_pattern = marks_sub,
-                                                     n_random = 1, max_runs = 1,
-                                                     simplify = TRUE, verbose = FALSE),
-                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'")
+  expect_error(reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = pattern_recon,
+                                         n_random = 3, max_runs = 1, verbose = FALSE),
+               regexp = "'pattern' must be unmarked and 'marked_pattern' marked")
+
+  expect_error(reconstruct_pattern_marks(pattern = marks_sub, marked_pattern = marks_sub,
+                                         n_random = 3, max_runs = 1, verbose = FALSE),
+               regexp = "'pattern' must be unmarked and 'marked_pattern' marked")
+
+  expect_error(reconstruct_pattern_marks(pattern = pattern_recon,
+                                         marked_pattern = spatstat.geom::subset.ppp(species_a,
+                                                                                    select = status),
+                                         n_random = 3, max_runs = 1),
+               regexp = "marks must be 'numeric'")
+
+  expect_error(reconstruct_pattern_marks(pattern = pattern_recon_empty, marked_pattern = marks_sub,
+                                         verbose = FALSE),
+               regexp = "At least one of the observed patterns contain no points.")
+
+})
+
+test_that("All warnings are returned for reconstruct_pattern_marks", {
+
+  expect_warning(reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = marks_sub,
+                                           n_random = 2, max_runs = 1, return_input = FALSE,
+                                           simplify = TRUE, verbose = FALSE),
+                 regexp = "'simplify = TRUE' not possible for 'n_random > 1'")
+
+  expect_warning(reconstruct_pattern_marks(pattern = pattern_recon, marked_pattern = marks_sub,
+                                           n_random = 1, max_runs = 1, simplify = TRUE,
+                                           verbose = FALSE),
+                 regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'")
+
 })

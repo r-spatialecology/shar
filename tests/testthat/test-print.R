@@ -1,4 +1,4 @@
-# testthat::context("test-print")
+# context("test-print")
 
 pattern_reconstruction <- reconstruct_pattern(pattern = species_a, n_random = 3, max_runs = 1,
                                               verbose = FALSE)
@@ -22,18 +22,21 @@ landscape_random <- translate_raster(raster = landscape_classified,
 
 ################################################################################
 
-testthat::test_that("print.rd_pat works", {
+test_that("print.rd_pat works", {
 
-  testthat::expect_output(print(pattern_reconstruction))
-  testthat::expect_output(print(pattern_fitted))
+  expect_output(print(pattern_reconstruction))
+  expect_output(print(pattern_fitted))
+
 })
 
-testthat::test_that("print.rd_mar works", {
+test_that("print.rd_mar works", {
 
-  testthat::expect_output(print(marks_reconstruction))
+  expect_output(print(marks_reconstruction))
+
 })
 
-testthat::test_that("print.rd_ras works", {
+test_that("print.rd_ras works", {
 
-  testthat::expect_output(print(landscape_random))
+  expect_output(print(landscape_random))
+
 })
