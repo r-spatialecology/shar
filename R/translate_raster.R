@@ -159,7 +159,7 @@ translate_raster <- function(raster, steps_x = NULL, steps_y = NULL,
   if (!return_input) {
 
     # set observed to NA
-    randomization$observed <- "NA"
+    randomization$observed <- NA
 
     # check if output should be simplified
     if (simplify) {

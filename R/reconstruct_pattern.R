@@ -81,20 +81,11 @@
 #' ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8
 #'
 #' @export
-reconstruct_pattern <- function(pattern, method = "homo",
-                                n_random = 1,
-                                e_threshold = 0.01,
-                                max_runs,
-                                no_change = Inf,
-                                annealing = 0.01,
-                                weights = c(1, 1),
-                                r_length = 255,
-                                r_max = NULL,
-                                stoyan = 0.15,
-                                return_input = TRUE,
-                                simplify = FALSE,
-                                verbose = TRUE,
-                                plot = FALSE) {
+reconstruct_pattern <- function(pattern, method = "homo", n_random = 1, e_threshold = 0.01,
+                                max_runs = 10000, no_change = Inf, annealing = 0.01,
+                                weights = c(1, 1), r_length = 255, r_max = NULL,
+                                stoyan = 0.15, return_input = TRUE, simplify = FALSE,
+                                verbose = TRUE, plot = FALSE) {
 
   # check if correct method is selected
   if (!method %in% c("homo", "hetero", "cluster")) stop("Method must be one of the following: 'homo', 'hetero', or 'cluster'.",
@@ -113,7 +104,7 @@ reconstruct_pattern <- function(pattern, method = "homo",
   if (!return_input) {
 
     # set observed to NA
-    reconstruction$observed <- "NA"
+    reconstruction$observed <- NA
 
     # check if output should be simplified
     if (simplify) {

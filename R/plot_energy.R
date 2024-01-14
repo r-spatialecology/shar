@@ -39,7 +39,7 @@ plot_energy <- function(pattern,
 
   }
 
-  if (all(pattern$energy_df == "NA")) {
+  if (!is.list(pattern$energy_df)) {
 
     stop("There is no 'energy_df' slot. Please use pattern reconstruction for valid input data.",
          call. = FALSE)

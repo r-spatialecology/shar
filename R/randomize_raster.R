@@ -193,7 +193,7 @@ randomize_raster <- function(raster,
   if (!return_input) {
 
     # set observed to NA
-    randomization$observed <- "NA"
+    randomization$observed <- NA
 
     # check if output should be simplified
     if (simplify) {

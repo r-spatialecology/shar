@@ -1,3 +1,10 @@
+# shar 2.3
+* Improvements
+  * Option to return fitted parameters during `fit_point_process`
+  * Using `NA` instead of "NA"
+* Various
+  * Iterations and stopping criterion are vectors instead of list during `reconstruct_algorithm`
+
 # shar 2.2.1
 * Improvements
   * Simplify roxygen2 docs
