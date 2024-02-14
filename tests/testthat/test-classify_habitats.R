@@ -1,4 +1,4 @@
-# testthat::context("test-classify_habitats")
+# context("test-classify_habitats")
 
 landscape_classified <- classify_habitats(raster = terra::rast(landscape), n = 5, style = "fisher")
 
@@ -8,21 +8,23 @@ landscape_classified_brks <- classify_habitats(raster = terra::rast(landscape),
 
 ################################################################################
 
-testthat::test_that("classify_habitats returns n classes", {
+test_that("classify_habitats returns n classes", {
 
   present_classes <- length(unique(terra::values(landscape_classified)))
 
-  testthat::expect_equal(present_classes, expected = 5)
+  expect_equal(present_classes, expected = 5)
+
 })
 
-testthat::test_that("classify_habitats useses breaks and returns them", {
+test_that("classify_habitats useses breaks and returns them", {
 
-  testthat::expect_type(object = landscape_classified_brks, type = "list")
+  expect_type(object = landscape_classified_brks, type = "list")
 
-  testthat::expect_equal(object = landscape_classified_brks$breaks$brks,
-                         expected = c(0, 0.25, 0.75, 1.0))
+  expect_equal(object = landscape_classified_brks$breaks$brks,
+               expected = c(0, 0.25, 0.75, 1.0))
 
   present_classes <- length(unique(terra::values(landscape_classified_brks$raster)))
 
-  testthat::expect_equal(present_classes, expected = 3)
+  expect_equal(present_classes, expected = 3)
+
 })

@@ -1,4 +1,4 @@
-# testthat::context("test-plot_rd_pat")
+# context("test-plot_rd_pat")
 
 pattern_random <- fit_point_process(species_a, n_random = 3, verbose = FALSE)
 
@@ -16,27 +16,31 @@ marks_recon <- reconstruct_pattern_marks(pattern = pattern_random_marks,
 
 ################################################################################
 
-testthat::test_that("plot returns plot", {
+test_that("plot returns plot", {
 
-  testthat::expect_null(plot(pattern_random, verbose = FALSE, ask = FALSE))
+  expect_null(plot(pattern_random, verbose = FALSE, ask = FALSE))
 
-  testthat::expect_null(plot(pattern_random, what = "pp", verbose = FALSE))
+  expect_null(plot(pattern_random, what = "pp", verbose = FALSE))
+
 })
 
-testthat::test_that("plot returns error if observed is missing", {
+test_that("plot returns error if observed is missing", {
 
-  testthat::expect_error(plot(pattern_random_ni, verbose = FALSE),
-                         regexp = "Input must include 'observed' pattern.")
+  expect_error(plot(pattern_random_ni, verbose = FALSE),
+               regexp = "Input must include 'observed' pattern.")
+
 })
 
-testthat::test_that("plot works for reconstructed marks", {
+test_that("plot works for reconstructed marks", {
 
-  testthat::expect_null(plot(marks_recon, verbose = FALSE))
-  testthat::expect_null(plot(marks_recon, what = "pp", verbose = FALSE))
+  expect_null(plot(marks_recon, verbose = FALSE))
+  expect_null(plot(marks_recon, what = "pp", verbose = FALSE))
+
 })
 
-testthat::test_that("plot returns error if what is wrong", {
+test_that("plot returns error if what is wrong", {
 
-  testthat::expect_error(plot(pattern_random, what = "wrong", verbose = FALSE),
-                         regexp = "Please select either what = 'sf' or what = 'pp'.")
+  expect_error(plot(pattern_random, what = "wrong", verbose = FALSE),
+               regexp = "Please select either what = 'sf' or what = 'pp'.")
+
 })

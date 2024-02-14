@@ -8,6 +8,7 @@ fit_point_process(
   pattern,
   n_random = 1,
   process = "poisson",
+  return_para = FALSE,
   return_input = TRUE,
   simplify = FALSE,
   verbose = TRUE
@@ -20,6 +21,8 @@ fit_point_process(
 
 \item{process}{Character specifying which point process model to use.
 Either \code{"poisson"} or \code{"cluster"}.}
+
+\item{return_para}{Logical if fitted parameters should be returned.}
 
 \item{return_input}{Logical if the original input data is returned.}
 

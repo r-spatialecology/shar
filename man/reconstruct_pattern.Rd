@@ -9,7 +9,7 @@ reconstruct_pattern(
   method = "homo",
   n_random = 1,
   e_threshold = 0.01,
-  max_runs,
+  max_runs = 10000,
   no_change = Inf,
   annealing = 0.01,
   weights = c(1, 1),

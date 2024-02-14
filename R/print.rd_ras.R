@@ -37,7 +37,7 @@ print.rd_ras <- function(x, ...) {
 
     number_raster_obs <- 0
 
-    includes_observed <- "NA"
+    includes_observed <- NA
 
   # observed pattern is present
   } else {

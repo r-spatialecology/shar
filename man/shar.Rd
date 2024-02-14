@@ -2,8 +2,8 @@
 % Please edit documentation in R/shar-package.R
 \docType{package}
 \name{shar}
-\alias{shar}
 \alias{shar-package}
+\alias{shar}
 \title{Package description}
 \description{
 Analyse species-habitat associations in R. Therefore, information about the

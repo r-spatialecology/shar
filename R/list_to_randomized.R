@@ -64,20 +64,15 @@ list_to_randomized <- function(list, observed = NULL) {
   # return observed if present or NA if not
   if (is.null(observed)) {
 
-    observed <- "NA"
+    observed <- NA
 
   }
 
   # set names
   names(list) <- paste0("randomized_", seq_along(list))
 
-  # create empty iterations list
-  iterations_list <- as.list(rep(NA, times = length(list)))
-
   # combine to one list
-  result <- list(randomized = list, observed = observed,
-                 method = "list_to_randomized()", energy_df = "NA",
-                 stop_criterion = "NA", iterations = iterations_list)
+  result <- list(randomized = list, observed = observed, method = "list_to_randomized()")
 
   class(result) <- result_class
 

@@ -1,4 +1,4 @@
-# testthat::context("test-plot_rd_multi")
+# context("test-plot_rd_multi")
 
 # create random data
 xr <- 500
@@ -26,9 +26,9 @@ multi_recon_simple <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 
 
 ################################################################################
 
-testthat::test_that("plot returns plot", {
+test_that("plot returns plot", {
 
-  testthat::expect_null(plot(multi_recon, verbose = FALSE))
-  testthat::expect_null(plot(multi_recon_simple, verbose = FALSE))
+  expect_null(plot(multi_recon, verbose = FALSE))
+  expect_null(plot(multi_recon_simple, verbose = FALSE))
 
 })

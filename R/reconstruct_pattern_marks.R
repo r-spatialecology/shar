@@ -112,14 +112,14 @@ reconstruct_pattern_marks <- function(pattern,
 
   # create empty lists for results
   energy_list <- vector("list", length = n_random)
-  iterations_list <- vector("list", length = n_random)
-  stop_criterion_list <- as.list(rep("max_runs", times = n_random))
+  iterations_vec <- vector("numeric", length = n_random)
+  stop_criterion_vec <- rep("max_runs", times = n_random)
   result_list <- vector("list", length = n_random)
 
   # set names
   names(energy_list) <- names_randomization
-  names(iterations_list) <- names_randomization
-  names(stop_criterion_list) <- names_randomization
+  names(iterations_vec) <- names_randomization
+  names(stop_criterion_vec) <- names_randomization
   names(result_list) <- names_randomization
 
   # calculate summary functions
@@ -238,8 +238,8 @@ reconstruct_pattern_marks <- function(pattern,
       if (energy <= e_threshold || energy_counter > no_change) {
 
         # set stop criterion due to energy
-        stop_criterion_list[[i]] <- ifelse(test = energy <= e_threshold,
-                                           yes = "e_threshold", no = "no_change")
+        stop_criterion_vec[i] <- ifelse(test = energy <= e_threshold,
+                                        yes = "e_threshold", no = "no_change")
 
         break
 
@@ -253,7 +253,7 @@ reconstruct_pattern_marks <- function(pattern,
     }
 
     # remove NAs if stopped due to energy
-    if (stop_criterion_list[[i]] %in% c("e_threshold", "no_change")) {
+    if (stop_criterion_vec[i] %in% c("e_threshold", "no_change")) {
 
       energy_df <- energy_df[1:j, ]
 
@@ -261,7 +261,7 @@ reconstruct_pattern_marks <- function(pattern,
 
     # save results in lists
     energy_list[[i]] <- energy_df
-    iterations_list[[i]] <- j
+    iterations_vec[i] <- j
     result_list[[i]] <- simulated
 
   }
@@ -275,9 +275,8 @@ reconstruct_pattern_marks <- function(pattern,
 
   # combine to one list
   reconstruction <- list(randomized = result_list, observed = marked_pattern,
-                         method = "marks",
-                         energy_df = energy_list, stop_criterion = stop_criterion_list,
-                         iterations = iterations_list)
+                         method = "marks", energy_df = energy_list,
+                         stop_criterion = stop_criterion_vec, iterations = iterations_vec)
 
   # set class of returning object
   class(reconstruction) <- "rd_mar"
@@ -286,7 +285,7 @@ reconstruct_pattern_marks <- function(pattern,
   if (!return_input) {
 
     # set observed to NA
-    reconstruction$observed <- "NA"
+    reconstruction$observed <- NA
 
     # check if output should be simplified
     if (simplify) {

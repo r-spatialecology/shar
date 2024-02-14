@@ -6,6 +6,7 @@
 #' @param n_random Integer with number of randomizations.
 #' @param process Character specifying which point process model to use.
 #' Either \code{"poisson"} or \code{"cluster"}.
+#' @param return_para Logical if fitted parameters should be returned.
 #' @param return_input Logical if the original input data is returned.
 #' @param simplify Logical if only pattern will be returned if \code{n_random = 1}
 #' and \code{return_input = FALSE}.
@@ -32,11 +33,8 @@
 #' ecology. Chapman and Hall/CRC Press, Boca Raton. ISBN 978-1-4200-8254-8
 #'
 #' @export
-fit_point_process <- function(pattern,
-                              n_random = 1, process = "poisson",
-                              return_input = TRUE,
-                              simplify = FALSE,
-                              verbose = TRUE){
+fit_point_process <- function(pattern, n_random = 1, process = "poisson", return_para = FALSE,
+                              return_input = TRUE, simplify = FALSE, verbose = TRUE){
 
   # check if n_random is >= 1
   if (!n_random >= 1) {
@@ -44,8 +42,6 @@ fit_point_process <- function(pattern,
     stop("n_random must be >= 1.", call. = FALSE)
 
   }
-
-  iterations_list <- as.list(rep(NA, times = n_random))
 
   # unmark pattern
   if (spatstat.geom::is.marked(pattern)) {
@@ -72,6 +68,16 @@ fit_point_process <- function(pattern,
 
     })
 
+    # calc parameters
+    if (return_para) {
+
+      number_points <- pattern$n
+      lambda <- spatstat.geom::intensity(pattern)
+
+      param_vec <- c(number_points = number_points,lambda = lambda)
+
+    }
+
   } else if (process == "cluster") {
 
     # fit cluster process
@@ -80,6 +86,18 @@ fit_point_process <- function(pattern,
                                            statargs = list(divisor = "d",
                                                            correction = "best"),
                                            method = "mincon", improve.type = "none")
+
+    # calc parameters
+    if (return_para) {
+
+      number_parents <- fitted_process$clustpar[["kappa"]] * spatstat.geom::area(pattern$window)
+      number_points <- fitted_process$mu
+      cluster_area <- fitted_process$clustpar[["scale"]] ^ 2 * pi
+
+      param_vec <- c(number_parents = number_parents, number_points = number_points,
+                     cluster_area = cluster_area)
+
+    }
 
     result <- lapply(seq_len(n_random), function(x) {
 
@@ -130,13 +148,20 @@ fit_point_process <- function(pattern,
 
   }
 
+  # set param to NA
+  if (!return_para) param_vec <- NA
+
   # set names
   names(result) <- paste0("randomized_", seq_len(n_random))
 
   # combine to one list
-  result <- list(randomized = result, observed = pattern,
-                 method = "fit_point_process()", energy_df = "NA",
-                 stop_criterion = "NA", iterations = iterations_list)
+  result <- list(randomized = result, observed = pattern, method = "fit_point_process()",
+                 energy_df = NA, stop_criterion = NA, iterations = NA, param = param_vec)
+
+  # add param
+  if (return_para) {
+    result$param <- param_vec
+  }
 
   # set class of result
   class(result) <- "rd_pat"
@@ -145,7 +170,7 @@ fit_point_process <- function(pattern,
   if (!return_input) {
 
     # set observed to NA
-    result$observed <- "NA"
+    result$observed <- NA
 
     # check if output should be simplified
     if (simplify) {

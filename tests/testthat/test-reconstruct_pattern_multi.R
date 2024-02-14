@@ -1,4 +1,4 @@
-# testthat::context("test-reconstruct_pattern_multi")
+# context("test-reconstruct_pattern_multi")
 
 # create random data
 xr <- 500
@@ -30,33 +30,37 @@ multi_recon_fun <- reconstruct_pattern_multi(marked_pattern, n_repetitions = 1, 
 
 ################################################################################
 
-testthat::test_that("Output is a long as n_random for reconstruct_pattern_multi", {
+test_that("Output is a long as n_random for reconstruct_pattern_multi", {
 
-  testthat::expect_type(multi_recon, type = "list")
+  expect_type(multi_recon, type = "list")
 
-  testthat::expect_length(multi_recon, n = 3)
+  expect_length(multi_recon, n = 3)
+
 })
 
-testthat::test_that("Output includes randomizations and original pattern for reconstruct_pattern_multi", {
+test_that("Output includes randomizations and original pattern for reconstruct_pattern_multi", {
 
-  testthat::expect_true(all(sapply(multi_recon, function(i) i$reference == random)))
+  expect_true(all(sapply(multi_recon, function(i) i$reference == random)))
 
-  testthat::expect_true(all(sapply(multi_recon, function(i) nrow(i$reconstructed) == N)))
+  expect_true(all(sapply(multi_recon, function(i) nrow(i$reconstructed) == N)))
+
 })
 
 
-testthat::test_that("Only one pattern returned for n = 1", {
+test_that("Only one pattern returned for n = 1", {
 
-  testthat::expect_length(multi_recon_simple, n = 14)
+  expect_length(multi_recon_simple, n = 14)
+
 })
 
-testthat::test_that("Energy decresead for for reconstruct_pattern_multi", {
+test_that("Energy decresead for for reconstruct_pattern_multi", {
 
-  testthat::expect_lt(object = multi_recon_simple$energy_current,
-                      expected = multi_recon_simple$energy_launch)
+  expect_lt(object = multi_recon_simple$energy_current,
+            expected = multi_recon_simple$energy_launch)
+
 })
 
-testthat::test_that("Test additional arguments of reconstruct_pattern_multi", {
+test_that("Test additional arguments of reconstruct_pattern_multi", {
 
   expect_equal(object = multi_recon_fun$Parameter_setting$w_statistics,
                expected = c("Dk" = 1, "K" = 0.5, "Hs" = 0.5, "pcf" = 1))

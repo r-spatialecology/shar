@@ -1,4 +1,4 @@
-# testthat::context("test-reconstruct_pattern")
+# context("test-reconstruct_pattern")
 
 # normal reconstruction
 pattern_recon_homo <- reconstruct_pattern(pattern = species_a, n_random = 3,
@@ -28,80 +28,80 @@ pattern_empty <- spatstat.geom::ppp()
 
 ################################################################################
 
-testthat::test_that("reconstruct_pattern returns correct class", {
+test_that("reconstruct_pattern returns correct class", {
 
-  testthat::expect_s3_class(pattern_recon_homo, class = "rd_pat")
+  expect_s3_class(pattern_recon_homo, class = "rd_pat")
 
-  testthat::expect_s3_class(pattern_recon_cluster, class = "rd_pat")
+  expect_s3_class(pattern_recon_cluster, class = "rd_pat")
 
-  testthat::expect_s3_class(pattern_recon_hetero, class = "rd_pat")
+  expect_s3_class(pattern_recon_hetero, class = "rd_pat")
 
 })
 
-testthat::test_that("Output is a long as n_random for reconstruct_pattern", {
+test_that("Output is a long as n_random for reconstruct_pattern", {
 
-  testthat::expect_type(pattern_recon_homo$randomized, type = "list")
+  expect_type(pattern_recon_homo$randomized, type = "list")
 
-  testthat::expect_length(pattern_recon_homo$randomized, n = 3)
+  expect_length(pattern_recon_homo$randomized, n = 3)
+
 })
 
-testthat::test_that("Output includes randomizations and original pattern for reconstruct_pattern", {
+test_that("Output includes randomizations and original pattern for reconstruct_pattern", {
 
-  testthat::expect_named(pattern_recon_homo$randomized,
-                         expected = paste0("randomized_", c(1:3)))
+  expect_named(pattern_recon_homo$randomized, expected = paste0("randomized_", c(1:3)))
 
-  testthat::expect_equal(pattern_recon_homo$observed,
-                         expected = spatstat.geom::unmark(species_a))
+  expect_equal(pattern_recon_homo$observed, expected = spatstat.geom::unmark(species_a))
+
 })
 
-testthat::test_that("Reconstructed patterns have same number of points", {
+test_that("Reconstructed patterns have same number of points", {
 
-  testthat::expect_true(all(vapply(pattern_recon_homo$randomized,
-                                   FUN.VALUE = logical(1),
-                                   function(x) x$n == species_a$n)))
+  expect_true(all(vapply(pattern_recon_homo$randomized, FUN.VALUE = logical(1),
+                         function(x) x$n == species_a$n)))
+
 })
 
-testthat::test_that("Input pattern can not be returned for reconstruct_pattern", {
+test_that("Input pattern can not be returned for reconstruct_pattern", {
 
-  testthat::expect_equal(object = pattern_recon_ni$observed,
-                         expected = "NA")
+  expect_true(object = is.na(pattern_recon_ni$observed))
+
 })
 
-testthat::test_that("Reconstruction stops if e_threshold is reached", {
+test_that("Reconstruction stops if e_threshold is reached", {
 
   energy <- calculate_energy(pattern_recon_energy, verbose = FALSE)
 
-  testthat::expect_true(object = all(energy < 0.1))
+  expect_true(object = all(energy < 0.1))
 
-  testthat::expect_true(all(pattern_recon_energy$stop_criterion == "e_threshold"))
-
-})
-
-testthat::test_that("simplify works for reconstruct_pattern", {
-
-  testthat::expect_s3_class(pattern_recon_simple, "ppp")
-})
-
-testthat::test_that("reconstruct_pattern returns errors", {
-
-  testthat::expect_error(reconstruct_pattern(pattern = species_a, n_random = -5,
-                                             verbose = FALSE),
-                         regexp = "n_random must be >= 1.")
-
-  testthat::expect_error(reconstruct_pattern(pattern = pattern_empty, n_random = 199),
-                         regexp = "The observed pattern contains no points.")
+  expect_true(all(pattern_recon_energy$stop_criterion == "e_threshold"))
 
 })
 
-testthat::test_that("reconstruct_pattern returns warnings", {
+test_that("simplify works for reconstruct_pattern", {
 
-  testthat::expect_warning(reconstruct_pattern(pattern = species_a, n_random = 2,
-                                               max_runs = 1, return_input = FALSE,
-                                               simplify = TRUE, verbose = FALSE),
-                           regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
+  expect_s3_class(pattern_recon_simple, "ppp")
 
-  testthat::expect_warning(reconstruct_pattern(pattern = species_a, n_random = 1,
-                                               max_runs = 1, simplify = TRUE,
-                                               verbose = FALSE),
-                           regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
+})
+
+test_that("reconstruct_pattern returns errors", {
+
+  expect_error(reconstruct_pattern(pattern = species_a, n_random = -5, verbose = FALSE),
+               regexp = "n_random must be >= 1.")
+
+  expect_error(reconstruct_pattern(pattern = pattern_empty, n_random = 199),
+               regexp = "The observed pattern contains no points.")
+
+})
+
+test_that("reconstruct_pattern returns warnings", {
+
+  expect_warning(reconstruct_pattern(pattern = species_a, n_random = 2, max_runs = 1,
+                                     return_input = FALSE, simplify = TRUE,
+                                     verbose = FALSE),
+                 regexp = "'simplify = TRUE' not possible for 'n_random > 1'.")
+
+  expect_warning(reconstruct_pattern(pattern = species_a, n_random = 1, max_runs = 1,
+                                     simplify = TRUE, verbose = FALSE),
+                 regexp = "'simplify = TRUE' not possible for 'return_input = TRUE'.")
+
 })

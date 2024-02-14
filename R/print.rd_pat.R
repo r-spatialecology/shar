@@ -36,7 +36,7 @@ print.rd_pat <- function(x,
 
     number_patterns_obs <- 0
 
-    includes_observed <- "NA"
+    includes_observed <- NA
 
   # observed pattern is present
   } else {
@@ -55,7 +55,7 @@ print.rd_pat <- function(x,
   number_patterns <- length(x$randomized) + number_patterns_obs
 
   # calculate mean iterations
-  mean_iterations <- round(mean(unlist(x$iterations)), digits = digits)
+  mean_iterations <- round(mean(x$iterations), digits = digits)
 
   # count stop criterions
   stop_criterion <- tryCatch(expr = table(do.call(c, x$stop_criterion), useNA = "ifany"),
@@ -77,7 +77,7 @@ print.rd_pat <- function(x,
 
   } else {
 
-    mean_energy <- "NA"
+    mean_energy <- NA
 
   }
 
