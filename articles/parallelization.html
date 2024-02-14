@@ -143,7 +143,7 @@
                         <h4 data-toc-skip class="author">Maximilian H.K.
 Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2024-01-14</h4>
+            <h4 data-toc-skip class="date">2024-02-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/parallelization.Rmd" class="external-link"><code>vignettes/articles/parallelization.Rmd</code></a></small>
       <div class="d-none name"><code>parallelization.Rmd</code></div>
@@ -196,7 +196,7 @@ package.</p>
 <p>Lastly, the created objects can be used to analyse if species-habitat
 associations are present as usual.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_habitats.html">classify_habitats</a></span><span class="op">(</span>raster <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/results_habitat_association.html">results_habitat_association</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">fitted_rd</span>, raster <span class="op">=</span> <span class="va">landscape_classified</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Input: randomized pattern</span></span>

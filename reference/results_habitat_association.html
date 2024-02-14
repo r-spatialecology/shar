@@ -192,7 +192,7 @@ in tropical forests. Journal of Theoretical Biology 207, 81–99.
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="classify_habitats.html">classify_habitats</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">landscape_classified</span> <span class="op">&lt;-</span> <span class="fu"><a href="classify_habitats.html">classify_habitats</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">landscape</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">5</span>, style <span class="op">=</span> <span class="st">"fisher"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">species_a_random</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_point_process.html">fit_point_process</a></span><span class="op">(</span><span class="va">species_a</span>, n_random <span class="op">=</span> <span class="fl">199</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Unmarking provided input pattern.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Progress: n_random: 1/199		</span>
@@ -398,12 +398,12 @@ in tropical forests. Journal of Theoretical Biology 207, 81–99.
 <span class="r-in"><span><span class="fu">results_habitat_association</span><span class="op">(</span>pattern <span class="op">=</span> <span class="va">species_a_random</span>, raster <span class="op">=</span> <span class="va">landscape_classified</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Input: randomized pattern</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> &gt; Quantile thresholds: negative &lt; 0.025 || positive &gt; 0.975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   habitat breaks count    lo    hi significance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1     NA    35 11.00 28.00     positive</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2     NA    44 25.00 45.05         n.s.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3     NA    36 22.95 41.05         n.s.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4     NA     4 28.00 51.00     negative</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5     NA    73 52.90 80.00         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   habitat breaks count    lo hi significance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1     NA    35 12.00 26     positive</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2     NA    44 25.00 44         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3     NA    36 22.95 41         n.s.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       4     NA     4 29.00 52     negative</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       5     NA    73 54.00 80         n.s.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

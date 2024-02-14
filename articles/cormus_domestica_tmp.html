@@ -143,7 +143,7 @@
                         <h4 data-toc-skip class="author">Zeke
 Marshall</h4>
             
-            <h4 data-toc-skip class="date">2024-01-14</h4>
+            <h4 data-toc-skip class="date">2024-02-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/cormus_domestica_tmp.Rmd" class="external-link"><code>vignettes/articles/cormus_domestica_tmp.Rmd</code></a></small>
       <div class="d-none name"><code>cormus_domestica_tmp.Rmd</code></div>
@@ -182,7 +182,7 @@ please run
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span> <span class="co"># For composing multiple plots</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rgbif" class="external-link">rgbif</a></span><span class="op">)</span> <span class="co"># For retrieving species occurrence data</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rnaturalearth/" class="external-link">rnaturalearth</a></span><span class="op">)</span> <span class="co"># For retrieving geographical data</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearthdata" class="external-link">rnaturalearthdata</a></span><span class="op">)</span> <span class="co"># For retrieving geographical data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rnaturalearthdata/" class="external-link">rnaturalearthdata</a></span><span class="op">)</span> <span class="co"># For retrieving geographical data</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span> <span class="co"># For spatial data operations</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://spatstat.org/" class="external-link">spatstat</a></span><span class="op">)</span> <span class="co"># For spatial point pattern analysis</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span> <span class="co"># For spatial data operations</span></span>
@@ -270,10 +270,10 @@ achieved by setting the lower and upper bounds of these ranges in the
 function. Figure 1 displays the unclassified and classified habitat.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Crop tmp raster</span></span>
-<span><span class="va">tmp_raster_eur</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/crop.html" class="external-link">crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster</span>, y <span class="op">=</span> <span class="va">roi</span><span class="op">)</span></span>
+<span><span class="va">tmp_raster_eur</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/crop.html" class="external-link">crop</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster</span>, y <span class="op">=</span> <span class="va">roi</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Project raster to EPSG:3395</span></span>
-<span><span class="va">tmp_raster_eur_3395</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/project.html" class="external-link">project</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster_eur</span>, y <span class="op">=</span> <span class="st">"EPSG:3395"</span>, </span>
+<span><span class="va">tmp_raster_eur_3395</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/project.html" class="external-link">project</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">tmp_raster_eur</span>, y <span class="op">=</span> <span class="st">"EPSG:3395"</span>, </span>
 <span>                                      method <span class="op">=</span> <span class="st">"bilinear"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Classify landscape</span></span>
@@ -342,16 +342,16 @@ other habitats classified by temperature.</p>
 <span></span>
 <span><span class="va">results</span></span>
 <span><span class="co">#&gt;    habitat     breaks count      lo      hi significance</span></span>
-<span><span class="co">#&gt; 1        1  [-20,-10)     1 8934.35 9181.20     negative</span></span>
-<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2886.07 3152.47     negative</span></span>
-<span><span class="co">#&gt; 3        3  [-7.5,-5)    11 3237.44 3387.82     negative</span></span>
-<span><span class="co">#&gt; 4        4  [-5,-2.5)   162 3126.16 3352.38     negative</span></span>
-<span><span class="co">#&gt; 5        5   [-2.5,0)  3744 2703.00 2849.66     positive</span></span>
-<span><span class="co">#&gt; 6        6    [0,2.5)  5703 1748.06 1962.68     positive</span></span>
-<span><span class="co">#&gt; 7        7    [2.5,5) 11802 2014.45 2156.92     positive</span></span>
-<span><span class="co">#&gt; 8        8    [5,7.5)  7102 1700.90 1829.22     positive</span></span>
-<span><span class="co">#&gt; 9        9   [7.5,10)  1719 1333.89 1504.28     positive</span></span>
-<span><span class="co">#&gt; 10      10    [10,20)    57 1636.81 1777.11     negative</span></span></code></pre></div>
+<span><span class="co">#&gt; 1        1  [-20,-10)     1 8966.72 9200.32     negative</span></span>
+<span><span class="co">#&gt; 2        2 [-10,-7.5)     0 2994.36 3158.75     negative</span></span>
+<span><span class="co">#&gt; 3        3  [-7.5,-5)    11 3242.27 3426.47     negative</span></span>
+<span><span class="co">#&gt; 4        4  [-5,-2.5)   162 3095.21 3334.00     negative</span></span>
+<span><span class="co">#&gt; 5        5   [-2.5,0)  3744 2655.81 2827.46     positive</span></span>
+<span><span class="co">#&gt; 6        6    [0,2.5)  5703 1778.81 1905.74     positive</span></span>
+<span><span class="co">#&gt; 7        7    [2.5,5) 11802 2029.36 2147.82     positive</span></span>
+<span><span class="co">#&gt; 8        8    [5,7.5)  7102 1659.13 1852.03     positive</span></span>
+<span><span class="co">#&gt; 9        9   [7.5,10)  1719 1317.78 1467.92     positive</span></span>
+<span><span class="co">#&gt; 10      10    [10,20)    57 1644.99 1823.58     negative</span></span></code></pre></div>
 <div class="figure">
 <img src="cormus_domestica_tmp_files/figure-html/result_plot-1.png" alt="Figure 3 - The climatic niche of Cormus domestica, as defined by a positive association with a mean January temperature of -2.5C - 10C" width="100%"><p class="caption">
 Figure 3 - The climatic niche of Cormus domestica, as defined by a

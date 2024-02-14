@@ -143,7 +143,7 @@
                         <h4 data-toc-skip class="author">Maximilian H.K.
 Hesselbarth</h4>
             
-            <h4 data-toc-skip class="date">2024-01-14</h4>
+            <h4 data-toc-skip class="date">2024-02-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_several_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_several_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_several_patterns.Rmd</code></div>
@@ -185,11 +185,11 @@ provided input patterns.</p>
 <span>                                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.02195596   0.02072790   0.02796729 </span></span>
+<span><span class="co">#&gt;   0.02574094   0.02309670   0.02650751 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;   0.03501808   0.02698190   0.04689293</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.02988484   0.02859145   0.03441818</span></span></code></pre></div>
 <p>Another possible would be to first reconstruct <em>n</em> times the
 spatial characteristics and afterwards reconstruct the marks <em>m</em>
 times for each of the <em>n</em> spatial reconstructions.</p>
@@ -207,7 +207,7 @@ for each of the spatially reconstructed patterns, just use
 <code><a href="../reference/reconstruct_pattern_marks.html">reconstruct_pattern_marks()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get only selected marks of input (numeric marks)</span></span>
-<span><span class="va">species_a_marks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">species_a</span>, select <span class="op">=</span> <span class="va">dbh</span><span class="op">)</span></span>
+<span><span class="va">species_a_marks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">species_a</span>, select <span class="op">=</span> <span class="va">dbh</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># reconstruct marks 3 times for each input pattern</span></span>
 <span><span class="va">result_marks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">reconstructed_pattern</span><span class="op">$</span><span class="va">randomized</span>, </span>
@@ -223,15 +223,15 @@ provided input patterns and reconstructions.</p>
 <span>                                                  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $randomized_1</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;  0.009341773  0.009465706  0.009541756 </span></span>
+<span><span class="co">#&gt;  0.009940422  0.009731770  0.009289946 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_2</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;  0.009969790  0.009687276  0.009397570 </span></span>
+<span><span class="co">#&gt;  0.009512759  0.009997555  0.009918242 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $randomized_3</span></span>
 <span><span class="co">#&gt; randomized_1 randomized_2 randomized_3 </span></span>
-<span><span class="co">#&gt;  0.009987668  0.009972542  0.009885166</span></span></code></pre></div>
+<span><span class="co">#&gt;  0.009818034  0.009845693  0.009750485</span></span></code></pre></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
 </div>
