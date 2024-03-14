@@ -7,13 +7,13 @@
   "codeRepository": "https://r-spatialecology.github.io/shar/",
   "issueTracker": "https://github.com/r-spatialecology/shar/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.3",
+  "version": "2.3.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
+  "runtimePlatform": "R version 4.3.3 (2024-02-29)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -257,7 +257,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1074.155KB",
+  "fileSize": "1074.197KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
