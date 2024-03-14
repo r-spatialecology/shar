@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,7 +142,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Multi-trait point pattern reconstruction of plant ecosystems</h1>
                         <h4 data-toc-skip class="author"></h4>
             
-            <h4 data-toc-skip class="date">2024-02-15</h4>
+            <h4 data-toc-skip class="date">2024-03-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatialecology/shar/blob/HEAD/vignettes/articles/reconstruct_multi_patterns.Rmd" class="external-link"><code>vignettes/articles/reconstruct_multi_patterns.Rmd</code></a></small>
       <div class="d-none name"><code>reconstruct_multi_patterns.Rmd</code></div>
@@ -190,12 +190,7 @@ value should be increased according to the number of points in the
 pattern.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">reconstruction</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span><span class="va">marked_pattern</span>, n_repetitions <span class="op">=</span> <span class="fl">1</span>, max_steps <span class="op">=</span> <span class="fl">10000</span>, issue <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-&gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.02839 || energy improvement = 0      
-
-&gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 0.00027 || energy improvement = 436        
-
-&gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 0.00025 || energy improvement = 618      </code></pre>
+<pre><code><span><span class="co">## &gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.09895 || energy improvement = 0       &gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 0.00093 || energy improvement = 540        &gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 0.00074 || energy improvement = 774      </span></span></code></pre>
 <p>As a result, you will receive a list containing a variety of
 information, for example, the reference pattern, the reconstructed
 pattern, the number of successful actions, the energy development and
@@ -204,37 +199,17 @@ reference pattern, you must increase n_repetitions to the desired
 number.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">reconstruction_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span><span class="va">marked_pattern</span>, n_repetitions <span class="op">=</span> <span class="fl">3</span>, max_steps <span class="op">=</span> <span class="fl">10000</span>, issue <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-&gt; Progress: reconstruction_1 || iterations: 0 || Simulation progress: 0% || energy = 0.17506 || energy improvement = 0      
-
-&gt; Progress: reconstruction_1 || iterations: 5000 || Simulation progress: 50% || energy = 0.00073 || energy improvement = 520        
-
-&gt; Progress: reconstruction_1 || iterations: 10000 || Simulation progress: 100% || energy = 0.00071 || energy improvement = 693      
-## 
-## 
-&gt; Progress: reconstruction_2 || iterations: 0 || Simulation progress: 0% || energy = 0.03012 || energy improvement = 0      
-
-&gt; Progress: reconstruction_2 || iterations: 5000 || Simulation progress: 50% || energy = 0.00044 || energy improvement = 476        
-
-&gt; Progress: reconstruction_2 || iterations: 10000 || Simulation progress: 100% || energy = 0.00043 || energy improvement = 635      
-## 
-## 
-&gt; Progress: reconstruction_3 || iterations: 0 || Simulation progress: 0% || energy = 0.09547 || energy improvement = 0      
-
-&gt; Progress: reconstruction_3 || iterations: 5000 || Simulation progress: 50% || energy = 0.00029 || energy improvement = 481        
-
-&gt; Progress: reconstruction_3 || iterations: 10000 || Simulation progress: 100% || energy = 0.00028 || energy improvement = 633      </code></pre>
+<pre><code><span><span class="co">## &gt; Progress: reconstruction_1 || iterations: 0 || Simulation progress: 0% || energy = 0.16823 || energy improvement = 0       &gt; Progress: reconstruction_1 || iterations: 5000 || Simulation progress: 50% || energy = 0.00041 || energy improvement = 601        &gt; Progress: reconstruction_1 || iterations: 10000 || Simulation progress: 100% || energy = 3e-04 || energy improvement = 862        </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## &gt; Progress: reconstruction_2 || iterations: 0 || Simulation progress: 0% || energy = 0.12931 || energy improvement = 0       &gt; Progress: reconstruction_2 || iterations: 5000 || Simulation progress: 50% || energy = 0.00095 || energy improvement = 560        &gt; Progress: reconstruction_2 || iterations: 10000 || Simulation progress: 100% || energy = 0.00083 || energy improvement = 771      </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## &gt; Progress: reconstruction_3 || iterations: 0 || Simulation progress: 0% || energy = 0.15156 || energy improvement = 0       &gt; Progress: reconstruction_3 || iterations: 5000 || Simulation progress: 50% || energy = 0.00046 || energy improvement = 621        &gt; Progress: reconstruction_3 || iterations: 10000 || Simulation progress: 100% || energy = 0.00042 || energy improvement = 856      </span></span></code></pre>
 <p>To activate a visualisation of the reconstruction that shows the
 changes in the pattern at the relevant time, you must proceed as
 follows.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">reconstruction_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reconstruct_pattern_multi.html">reconstruct_pattern_multi</a></span><span class="op">(</span><span class="va">marked_pattern</span>, n_repetitions <span class="op">=</span> <span class="fl">1</span>, max_steps <span class="op">=</span> <span class="fl">10000</span>, issue <span class="op">=</span> <span class="fl">5000</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code>## 
-&gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.14054 || energy improvement = 0      
-
-&gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 5e-04 || energy improvement = 541      
-
-&gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 0.00048 || energy improvement = 707      </code></pre>
+<pre><code><span><span class="co">## &gt; Progress:  || iterations: 0 || Simulation progress: 0% || energy = 0.04245 || energy improvement = 0       &gt; Progress:  || iterations: 5000 || Simulation progress: 50% || energy = 0.00062 || energy improvement = 515        &gt; Progress:  || iterations: 10000 || Simulation progress: 100% || energy = 0.00061 || energy improvement = 667      </span></span></code></pre>
 <p><img src="reconstruct_multi_patterns_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <p>Finally, you can use the <code><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot()</a></code> function to view
 different summary statistics of the reference pattern (dashed line)
