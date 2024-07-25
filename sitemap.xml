@@ -1,159 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/404.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/background.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/cormus_domestica_tmp.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/get_started.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/parallelization.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/publication_record.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/reconstruct_multi_patterns.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/articles/reconstruct_several_patterns.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/calc_gest.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/calc_moments.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/calculate_energy.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/classify_habitats.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/classint_to_vector.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/compute_statistics.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/create_neighbourhood.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/energy_fun.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/extract_points.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/fit_point_process.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/get_dist_pairs.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/landscape.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/list_to_randomized.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/pack_randomized.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/plot.rd_mar.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/plot.rd_multi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/plot.rd_pat.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/plot.rd_ras.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/plot_energy.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/print.rd_mar.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/print.rd_pat.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/print.rd_ras.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/randomize_raster.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_algorithm.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_marks.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_multi.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/results_habitat_association.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/sample_randomized.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/select_kernel.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/shar.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/species_a.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/species_b.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/to_dummy.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/translate_raster.html</loc>
-  </url>
-  <url>
-    <loc>https://r-spatialecology.github.io/shar/reference/unpack_randomized.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://r-spatialecology.github.io/shar/404.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/CONTRIBUTING.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/LICENSE.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/background.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/cormus_domestica_tmp.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/get_started.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/parallelization.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/publication_record.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/reconstruct_multi_patterns.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/articles/reconstruct_several_patterns.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/authors.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/news/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/calc_gest.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/calc_moments.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/calculate_energy.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/classify_habitats.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/classint_to_vector.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/compute_statistics.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/create_neighbourhood.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/energy_fun.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/extract_points.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/fit_point_process.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/get_dist_pairs.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/index.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/landscape.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/list_to_randomized.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/pack_randomized.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/plot.rd_mar.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/plot.rd_multi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/plot.rd_pat.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/plot.rd_ras.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/plot_energy.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/print.rd_mar.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/print.rd_pat.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/print.rd_ras.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/randomize_raster.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/reconstruct_algorithm.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_marks.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/reconstruct_pattern_multi.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/results_habitat_association.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/sample_randomized.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/select_kernel.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/shar.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/species_a.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/species_b.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/to_dummy.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/translate_raster.html</loc></url>
+<url><loc>https://r-spatialecology.github.io/shar/reference/unpack_randomized.html</loc></url>
 </urlset>
+

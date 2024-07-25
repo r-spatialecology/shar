@@ -1,16 +1,15 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  background: background.html
-  cormus_domestica_tmp: cormus_domestica_tmp.html
-  parallelization: parallelization.html
-  publication_record: publication_record.html
-  reconstruct_multi_patterns: reconstruct_multi_patterns.html
-  reconstruct_several_patterns: reconstruct_several_patterns.html
+  articles/background: background.html
+  articles/cormus_domestica_tmp: cormus_domestica_tmp.html
   get_started: get_started.html
-last_built: 2024-03-14T09:39Z
+  articles/parallelization: parallelization.html
+  articles/publication_record: publication_record.html
+  articles/reconstruct_multi_patterns: reconstruct_multi_patterns.html
+  articles/reconstruct_several_patterns: reconstruct_several_patterns.html
+last_built: 2024-07-25T11:37Z
 urls:
   reference: https://r-spatialecology.github.io/shar/reference
   article: https://r-spatialecology.github.io/shar/articles
-
