@@ -15,8 +15,8 @@
 #' nearest neighbour distance function are used to describe the patterns.
 #'
 #' @seealso
-#' \code{\link{plot_energy}} \cr
-#' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{plot_energy}},
+#' \code{\link{reconstruct_pattern}},
 #' \code{\link{fit_point_process}}
 #'
 #' @return vector

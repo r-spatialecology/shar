@@ -17,7 +17,7 @@
 #' of classes, fixed breaks, etc.).
 #'
 #' @seealso
-#' \code{\link{classIntervals}}
+#' \code{\link[classInt]{classIntervals}}
 #'
 #' @return SpatRaster
 #'

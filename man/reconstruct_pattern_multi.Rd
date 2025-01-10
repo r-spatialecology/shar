@@ -164,7 +164,7 @@ reconstruction of plant ecosystems. Methods in Ecology and Evolution, 14, 2668â€
 https://doi.org/10.1111/2041-210X.14206
 }
 \seealso{
-\code{\link{fit_point_process}} \cr
-\code{\link{reconstruct_pattern}} \cr
+\code{\link{fit_point_process}},
+\code{\link{reconstruct_pattern}},
 \code{\link{reconstruct_pattern_marks}}
 }

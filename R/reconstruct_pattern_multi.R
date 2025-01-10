@@ -66,8 +66,8 @@
 #' A comprehensive description of the method can be found in Wudel et al. (2023).
 #'
 #' @seealso
-#' \code{\link{fit_point_process}} \cr
-#' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{fit_point_process}},
+#' \code{\link{reconstruct_pattern}},
 #' \code{\link{reconstruct_pattern_marks}}
 #'
 #' @return rd_multi

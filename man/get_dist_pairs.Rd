@@ -21,6 +21,6 @@ Distance between points
 Returns matrix with point pairs and distances between them.
 }
 \seealso{
-\code{\link{pcf.ppp}}
+\code{\link[spatstat.explore]{pcf.ppp}}
 }
 \keyword{internal}

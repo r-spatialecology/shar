@@ -16,7 +16,7 @@
 #' will be plotted. \code{col, nrow, ncol} are passed to \code{plot}.
 #'
 #' @seealso
-#' \code{\link{randomize_raster}} \cr
+#' \code{\link{randomize_raster}},
 #' \code{\link{translate_raster}}
 #'
 #' @return void

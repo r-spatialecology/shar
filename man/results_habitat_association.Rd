@@ -65,6 +65,6 @@ in tropical forests. Journal of Theoretical Biology 207, 81–99.
 <https://doi.org/10.1006/jtbi.2000.2158>
 }
 \seealso{
-\code{\link{reconstruct_pattern}} \cr
+\code{\link{reconstruct_pattern}},
 \code{\link{fit_point_process}}
 }

@@ -59,7 +59,7 @@
 #' }
 #'
 #' @seealso
-#' \code{\link{calculate_energy}} \cr
+#' \code{\link{calculate_energy}},
 #' \code{\link{reconstruct_pattern_marks}}
 #'
 #' @return rd_pat
