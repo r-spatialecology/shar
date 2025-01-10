@@ -1,5 +1,8 @@
 For details changes, please see NEWS.md
 
+# shar 2.3.1
+Minor improvements
+
 # shar 2.3
 Adding new arguments
 

@@ -1,3 +1,7 @@
+# shar 2.3.1
+* Various
+  * Update Docs
+
 # shar 2.3
 * Improvements
   * Option to return fitted parameters during `fit_point_process`

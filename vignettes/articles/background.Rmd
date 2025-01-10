@@ -15,6 +15,8 @@ There are mainly two methods that can be found in the literature to analyse such
 
 All methods compare the abundance within a habitat between the observed data and the randomized null model data. If the count is below or above a pre-set threshold (e.g. the 2.5th and 97.5th quantiles), negative or positive associations, respectively, are present.
 
+In general, the performance of the methods is comparable, however, they have advantages and disadvantages related to them - mainly based on the available data (Hesselbarth & Wiegand, 2024).
+
 ```{r overview-methods, echo = FALSE, out.height = "100%", out.width = "100%", fig.align = "center"}
 knitr::include_graphics("methods_overview.png")
 ```
@@ -58,6 +60,9 @@ Comita, L.S., Condit, R., Hubbell, S.P., 2007. Developmental changes in habitat 
 Garzon-Lopez, C.X., Jansen, P.A., Bohlman, S.A., Ordonez, A., Olff, H., 2014. Effects of sampling scale on patterns of habitat association in tropical trees. Journal of Vegetation Science 25, 349–362. <https://doi.org/10.1111/jvs.12090>
 
 Harms, K.E., Condit, R., Hubbell, S.P., Foster, R.B., 2001. Habitat associations of trees and shrubs in a 50-ha neotropical forest plot. Journal of Ecology 89, 947–959. <https://doi.org/10.1111/j.1365-2745.2001.00615.x>
+
+Hesselbarth, M.H.K., Wiegand, K., 2024. A simulation study comparing common methods for analyzing species–habitat associations of plants. Journal of Vegetation Science 35, e13243. <https://doi.org/10.1111/jvs.13243>
+
 
 Kirkpatrick, S., Gelatt, C.D.Jr., Vecchi, M.P., 1983. Optimization by simulated annealing. Science 220, 671–680. <https://doi.org/10.1126/science.220.4598.671>
 
