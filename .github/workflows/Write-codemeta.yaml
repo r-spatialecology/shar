@@ -2,7 +2,7 @@
 
 on:
   push:
-    branches: [main, development]
+    branches: [main]
     paths: ['DESCRIPTION']
   workflow_dispatch:
 
