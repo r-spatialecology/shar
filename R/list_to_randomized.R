@@ -13,8 +13,8 @@
 #' For more information, please see the "Parallelization" article.
 #'
 #' @seealso
-#' \code{\link{randomize_raster}} \cr
-#' \code{\link{translate_raster}} \cr
+#' \code{\link{randomize_raster}},
+#' \code{\link{translate_raster}},
 #' \code{\link{reconstruct_pattern}}
 #'
 #' @return rd_pat, rd_ras

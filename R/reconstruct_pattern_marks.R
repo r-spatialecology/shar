@@ -35,7 +35,7 @@
 #' the computational time while increasing the "bumpiness" of the summary function.
 #'
 #' @seealso
-#' \code{\link{fit_point_process}} \cr
+#' \code{\link{fit_point_process}},
 #' \code{\link{reconstruct_pattern}}
 #'
 #' @return rd_mar

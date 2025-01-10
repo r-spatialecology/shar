@@ -31,5 +31,5 @@ y <- unpack_randomized(raster = y)
 }
 \seealso{
 \code{\link{pack_randomized}}
-\code{\link{wrap}}
+\code{\link[terra]{wrap}}
 }

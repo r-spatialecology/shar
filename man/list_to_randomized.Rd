@@ -34,7 +34,7 @@ list_to_randomized(list = fit_list, observed = species_a)
 
 }
 \seealso{
-\code{\link{randomize_raster}} \cr
-\code{\link{translate_raster}} \cr
+\code{\link{randomize_raster}},
+\code{\link{translate_raster}},
 \code{\link{reconstruct_pattern}}
 }

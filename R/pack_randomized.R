@@ -9,8 +9,8 @@
 #' all raster objects and prepares them for saving first. For further details, see \code{wrap}.
 #'
 #' @seealso
-#' \code{\link{unpack_randomized}}
-#' \code{\link{wrap}}
+#' \code{\link{unpack_randomized}},
+#' \code{\link[terra]{wrap}}
 #'
 #' @return rd_ras
 #'

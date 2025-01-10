@@ -28,6 +28,6 @@ x <- pack_randomized(raster = landscape_random)
 
 }
 \seealso{
-\code{\link{unpack_randomized}}
-\code{\link{wrap}}
+\code{\link{unpack_randomized}},
+\code{\link[terra]{wrap}}
 }

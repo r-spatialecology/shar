@@ -23,7 +23,7 @@
 #' will be plotted.
 #'
 #' @seealso
-#' \code{\link{reconstruct_pattern}} \cr
+#' \code{\link{reconstruct_pattern}},
 #' \code{\link{fit_point_process}}
 #'
 #' @return void

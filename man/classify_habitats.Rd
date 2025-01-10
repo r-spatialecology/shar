@@ -63,5 +63,5 @@ Wand, M. P., 1995. Data-based choice of histogram binwidth. The American
 Statistician 51, 59-64. <https://doi.org/10.1080/00031305.1997.10473591>
 }
 \seealso{
-\code{\link{classIntervals}}
+\code{\link[classInt]{classIntervals}}
 }

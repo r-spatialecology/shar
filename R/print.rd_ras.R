@@ -10,7 +10,7 @@
 #' \code{\link{translate_raster}}.
 #'
 #' @seealso
-#' \code{\link{randomize_raster}} \cr
+#' \code{\link{randomize_raster}},
 #' \code{\link{translate_raster}}
 #'
 #' @return void

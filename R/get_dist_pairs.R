@@ -9,7 +9,7 @@
 #' Returns matrix with point pairs and distances between them.
 #'
 #' @seealso
-#' \code{\link{pcf.ppp}}
+#' \code{\link[spatstat.explore]{pcf.ppp}}
 #'
 #' @return matrix
 #'
