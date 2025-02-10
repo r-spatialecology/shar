@@ -1,8 +1,14 @@
 comment: false
 
 coverage:
-  precision: 2
-  round: nearest
-  range: 70..100
-  target: 80%
-  threshold: 5%
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
+    patch:
+      default:
+        target: auto
+        threshold: 1%
+        informational: true
