@@ -3,7 +3,7 @@
 
 # **shar** \| **S**pecies **h**abitat **a**ssociations in **R** <img src="man/figures/logo.png" align="right" alt="" width="150" />
 
-README Last updated: 2025-02-10
+README Last updated: 2025-02-11
 
 <!-- badges: start -->
 
