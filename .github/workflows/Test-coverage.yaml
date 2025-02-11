@@ -14,6 +14,7 @@ permissions: read-all
 
 jobs:
   test-coverage:
+    if: "!contains(github.event.commits[0].message, '[skip-ci]')"
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
