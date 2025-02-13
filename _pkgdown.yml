@@ -73,12 +73,12 @@ navbar:
         - text: "Analysing the climatic niche of Cormus domestica"
           icon: fa-book
           href: articles/cormus_domestica_tmp.html
-        - text: "Publication Record"
-          icon: fa-file-text-o
-          href: articles/publication_record.html
         - text: "JOSS Publication"
           icon: fa-file-text-o
           href: https://doi.org/10.21105/joss.03811
+        - text: "Publication Record"
+          icon: fa-file-text-o
+          href: articles/publication_record.html
 
     news:
       icon: fa-newspaper-o
