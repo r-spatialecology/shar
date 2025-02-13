@@ -20,4 +20,4 @@ The get a BibTex entry, please use `citation("shar")`.
 
 ## A list of publications
 
-To see all papers that already used **landscapemetrics**, please [click here](https://scholar.google.com/scholar?cites=1225822175035945633&as_sdt=2005&sciodt=0,5&hl=en)
+To see all papers that already used **shar**, please [click here](https://scholar.google.com/scholar?cites=1225822175035945633&as_sdt=2005&sciodt=0,5&hl=en)
