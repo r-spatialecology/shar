@@ -10,7 +10,7 @@ Please note that the **shar** project is released with a [Contributor Code of Co
 
 ### Ask a question :interrobang:
 
-Browse the [documentation](https://r-spatialecology.github.io/shar/) to see if you can find a solution. Still stuck? Open an [issue on GitHub](https://github.com/r-spatialecology/shar/issues) on GitHub. We'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
+Browse the [documentation](https://r-spatialecology.github.io/shar/) to see if you can find a solution. Still stuck? Open an [issue on GitHub](https://github.com/r-spatialecology/shar/issues). We'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
 
 Want to ask a question in private? Contact the package maintainer by [mhk.hesselbarth\<at\>gmail.com](mailto:mhk.hesselbarth@gmail.com).
 
